@@ -1,0 +1,12 @@
+{
+  "name": "Remix: v4 .FlyAsh Logistics Pro",
+  "description": "A comprehensive Wave-style transportation and accounting automation system for Fly Ash logistics, featuring role-based access, vehicle health diagnostics, and dedicated odometer tracking.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
