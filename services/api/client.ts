@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 import { safeStorage } from '@/lib/storage';
 
 const TOKEN_STORAGE_KEY = 'flyash_auth_token';
-export const API_BASE = 'http://localhost:3001/api';
+export const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 export class ApiError extends Error {
   readonly status: number;
