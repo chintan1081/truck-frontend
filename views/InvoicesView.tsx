@@ -1051,7 +1051,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                 <p className="text-[9px] text-slate-400 font-bold">Site: {o.projectSite || 'N/A'}</p>
                              </td>
                              <td className="p-2 border-r border-slate-100 text-center text-slate-600">{sacCode}</td>
-                             <td className="p-2 border-r border-slate-100 text-right font-black">{o.quantity.toFixed(3)} MT</td>
+                             <td className="p-2 border-r border-slate-100 text-right font-black">{Number(o.quantity).toFixed(3)} MT</td>
                              <td className="p-2 border-r border-slate-100 text-right font-bold">₹ {o.ratePerMT.toLocaleString()}</td>
                              <td className="p-2 border-r border-slate-100 text-right leading-none">
                                 <p className="font-bold">₹ {lineGst.toLocaleString()}</p>
@@ -2697,7 +2697,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                           <p className="text-[9px] text-slate-400 font-bold">Site: {o.projectSite}</p>
                                         </td>
                                         <td className="p-2 border-r border-slate-100 text-center text-slate-600">{inv.sacCode}</td>
-                                        <td className="p-2 border-r border-slate-100 text-right font-bold">{o.quantity.toFixed(3)} MT</td>
+                                        <td className="p-2 border-r border-slate-100 text-right font-bold">{Number(o.quantity).toFixed(3)} MT</td>
                                         <td className="p-2 border-r border-slate-100 text-right font-bold">₹{o.ratePerMT.toLocaleString()}</td>
                                         <td className="p-2 border-r border-slate-100 text-right leading-none">
                                           <p className="font-bold">₹{(o.quantity * o.ratePerMT * (inv.gstRate / 100)).toLocaleString()}</p>

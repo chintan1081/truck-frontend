@@ -1617,7 +1617,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                                 )?.hsnCode || "26219000"}
                               </td>
                               <td className="p-2 align-top text-right font-bold">
-                                {order.quantity.toFixed(2)}
+                                {Number(order.quantity).toFixed(2)}
                               </td>
                               <td className="p-2 align-top text-right font-mono">
                                 ₹{order.ratePerMT.toLocaleString()}
@@ -2112,7 +2112,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                           MTS
                         </td>
                         <td className="p-1.5 text-right pt-2 font-black">
-                          {selectedOrderForChallan.quantity.toFixed(2)}
+                          {Number(selectedOrderForChallan.quantity).toFixed(2)}
                         </td>
                       </tr>
                       {[...Array(12)].map((_, i) => (
@@ -2135,7 +2135,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                           Total Quantity
                         </td>
                         <td className="p-2 text-right">
-                          {selectedOrderForChallan.quantity.toFixed(2)}
+                          {Number(selectedOrderForChallan.quantity).toFixed(2)}
                         </td>
                       </tr>
                     </tfoot>

@@ -783,7 +783,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                          <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-emerald-200 transition-all">
                             <div>
                                <p className="t-label mb-1">Total Fuel Vol.</p>
-                               <h3 className="text-4xl font-black text-slate-900 tracking-tighter">{(fuelTransactions.reduce((acc, ft) => acc + ft.quantity, 0) / 1000).toFixed(1)}k</h3>
+                               <h3 className="text-4xl font-black text-slate-900 tracking-tighter">{(fuelTransactions.reduce((acc, ft) => acc + Number(ft.quantity), 0) / 1000).toFixed(1)}k</h3>
                             </div>
                             <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
                                <Droplet size={28} />
