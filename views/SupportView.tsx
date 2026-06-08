@@ -1,18 +1,8 @@
 
 import React, { useState } from 'react';
-import { 
-  Headphones, 
-  MessageSquare, 
-  Mail, 
-  Phone, 
-  ExternalLink, 
-  Search, 
-  ChevronDown, 
-  ChevronUp,
-  FileText,
-  LifeBuoy,
-  ShieldCheck,
-  Zap
+import {
+  Headphones, MessageSquare, Mail, Phone, ExternalLink,
+  Search, ChevronDown, ChevronUp, FileText, LifeBuoy, ShieldCheck, Zap,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -21,228 +11,176 @@ const SupportView: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqs = [
-    {
-      question: "How do I update my company details?",
-      answer: "You can update your company details including name, logo, and contact information in the 'Settings' section. Only users with the Admin role can access these settings."
-    },
-    {
-      question: "Can I bulk export invoices for multiple clients?",
-      answer: "Yes, in the 'Billing Hub', you can select multiple invoices and use the bulk actions to preview or download a consolidated report."
-    },
-    {
-      question: "How is the 'Round Off' calculated in invoices?",
-      answer: "The system automatically rounds off the total amount to the nearest whole number. You can see the manual round-off and auto round-off components in the invoice preview."
-    },
-    {
-      question: "Where can I manage truck maintenance expenses?",
-      answer: "Go to 'Fleet Finance' and select the 'Maintenance' tab. There you can log and track all repairs, services, and periodic maintenance for each asset in your fleet."
-    },
-    {
-      question: "What is the 'Plant Hub' used for?",
-      answer: "Plant Hub is designed to manage interactions at loading points (Power Plants). It tracks plant advances, pool entries, and loading status for your trucks."
-    }
+    { question: 'How do I update my company details?', answer: "Navigate to Settings. Only Admin-role users can update the company name, logo, and contact information." },
+    { question: 'Can I bulk export invoices for multiple clients?', answer: "Yes — in Billing Hub, select multiple invoices and use the bulk actions to preview or download a consolidated report." },
+    { question: "How is 'Round Off' calculated in invoices?", answer: "The system rounds the total to the nearest whole number. Manual and auto round-off are shown separately in the invoice preview." },
+    { question: 'Where can I manage truck maintenance expenses?', answer: "Go to Fleet Finance → Maintenance tab. You can log repairs, services, and periodic maintenance per asset." },
+    { question: "What is the Plant Hub used for?", answer: "Plant Hub manages loading-point interactions — plant advances, pool entries, and loading status for your fleet." },
   ];
 
-  const filteredFaqs = faqs.filter(faq => 
-    faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredFaqs = faqs.filter(f =>
+    f.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    f.answer.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const STATUS_ITEMS = [
+    { label: 'Billing Engine',   status: 'Operational',      dot: 'bg-emerald-500', text: 'badge-green' },
+    { label: 'GPS Tracking',     status: 'Operational',      dot: 'bg-emerald-500', text: 'badge-green' },
+    { label: 'Accounting PDF',   status: 'Operational',      dot: 'bg-emerald-500', text: 'badge-green' },
+    { label: 'Mobile Portal',    status: 'Live Updates',     dot: 'bg-blue-500',    text: 'badge-blue' },
+  ];
+
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Hero Header */}
-      <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-900 text-white p-12 shadow-2xl">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-600/20 to-transparent pointer-events-none" />
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex-1 space-y-6 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full font-black text-xs uppercase tracking-widest border border-blue-500/30">
-              <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+    <div className="page-root page-stack-lg max-w-6xl animate-fade-up">
+
+      {/* Hero */}
+      <div className="relative overflow-hidden bg-[#1C1917] rounded-2xl p-10 text-white shadow-lg">
+        <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-blue-600/15 to-transparent pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+          <div className="flex-1 space-y-5">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/15 text-blue-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
+              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
               Support Active 24/7
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-none">
-              How can we <span className="text-blue-500">help you</span> today?
+            </span>
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-tight">
+              How can we <span className="text-blue-400">help you</span> today?
             </h1>
-            <p className="text-slate-400 font-medium text-lg max-w-xl mx-auto md:mx-0">
-              Get expert assistance for your FlyAsh Logistics Pro operations. Search our documentation or connect with a specialist.
+            <p className="text-white/50 text-sm font-medium leading-relaxed max-w-md">
+              Get expert assistance for your FlyAsh Pro operations. Search our docs or connect with a specialist.
             </p>
-            <div className="relative max-w-lg mx-auto md:mx-0">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
-              <input 
-                type="text" 
-                placeholder="Search for help, features, or tutorials..." 
-                className="w-full bg-slate-800/50 border border-slate-700 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-bold"
+            <div className="relative max-w-md">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" size={16} />
+              <input
+                type="text"
+                placeholder="Search help, features, tutorials…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white/8 border border-white/12 rounded-xl py-3 pl-10 pr-4 text-white text-sm font-medium placeholder:text-white/30 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/15 transition-all"
               />
             </div>
           </div>
-          <div className="relative hidden lg:block">
-            <div className="w-64 h-64 bg-blue-600 rounded-[3rem] rotate-6 flex items-center justify-center shadow-2xl shadow-blue-500/50">
-              <Headphones size={120} className="text-white -rotate-6" />
-            </div>
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-slate-800 rounded-3xl flex items-center justify-center shadow-xl border border-slate-700">
-              <MessageSquare size={40} className="text-blue-400" />
-            </div>
+          <div className="hidden lg:flex items-center justify-center w-36 h-36 bg-blue-600 rounded-2xl shadow-xl shadow-blue-900/40 rotate-3 shrink-0">
+            <Headphones size={64} className="text-white -rotate-3" strokeWidth={1.5} />
           </div>
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group">
-          <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
-            <Mail size={28} />
+      {/* Contact Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { icon: Mail,  title: 'Email Support',   body: 'Response within 2 hours for critical technical issues and portal access.', cta: 'help@flyashpro.com', color: 'text-indigo-600 bg-indigo-50', hover: 'hover:border-indigo-200' },
+          { icon: Phone, title: 'Priority Call',   body: 'Direct line for fleet owners and dispatch managers for urgent routing.', cta: '+91 98765 43210', color: 'text-emerald-600 bg-emerald-50', hover: 'hover:border-emerald-200' },
+          { icon: Zap,   title: 'Live Chat',        body: 'Instant messaging for drivers and plant staff using the mobile portal.', cta: 'Start Session', color: 'text-amber-600 bg-amber-50', hover: 'hover:border-amber-200' },
+        ].map(({ icon: Icon, title, body, cta, color, hover }) => (
+          <div key={title} className={`card card-pad hover:shadow-md transition-all cursor-pointer group ${hover}`}>
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${color} group-hover:scale-105 transition-transform`}>
+              <Icon size={22} strokeWidth={1.8} />
+            </div>
+            <h3 className="text-base font-black text-[#1C1917] mb-1.5">{title}</h3>
+            <p className="t-body text-sm leading-relaxed mb-4">{body}</p>
+            <span className={`text-xs font-black flex items-center gap-1.5 ${color.split(' ')[0]}`}>
+              {cta} <ExternalLink size={12} />
+            </span>
           </div>
-          <h3 className="text-xl font-black text-slate-900 mb-2">Email Support</h3>
-          <p className="text-slate-500 font-medium mb-4 text-sm leading-relaxed">Response within 2 hours for critical technical issues and portal access.</p>
-          <span className="text-indigo-600 font-black text-xs uppercase tracking-widest flex items-center gap-2">
-            help@flyashpro.com <ExternalLink size={14} />
-          </span>
-        </div>
-
-        <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group">
-          <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
-            <Phone size={28} />
-          </div>
-          <h3 className="text-xl font-black text-slate-900 mb-2">Priority Call</h3>
-          <p className="text-slate-500 font-medium mb-4 text-sm leading-relaxed">Direct line for fleet owners and dispatch managers for urgent routing needs.</p>
-          <span className="text-emerald-600 font-black text-xs uppercase tracking-widest flex items-center gap-2">
-            +91 98765 43210 <ExternalLink size={14} />
-          </span>
-        </div>
-
-        <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group">
-          <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-sm">
-            <Zap size={28} />
-          </div>
-          <h3 className="text-xl font-black text-slate-900 mb-2">Live Chat</h3>
-          <p className="text-slate-500 font-medium mb-4 text-sm leading-relaxed">Instant messaging for drivers and plant staff using the mobile portal.</p>
-          <span className="text-orange-600 font-black text-xs uppercase tracking-widest flex items-center gap-2">
-            START SESSION <ExternalLink size={14} />
-          </span>
-        </div>
+        ))}
       </div>
 
-      {/* FAQ Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-2 space-y-6 text-center lg:text-left">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {filteredFaqs.length > 0 ? (
-              filteredFaqs.map((faq, index) => (
-                <div 
-                  key={index} 
-                  className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm"
+      {/* FAQ + Status */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* FAQ */}
+        <div className="lg:col-span-2 space-y-4">
+          <h2 className="page-title">Frequently Asked Questions</h2>
+          <div className="space-y-2">
+            {filteredFaqs.length > 0 ? filteredFaqs.map((faq, i) => (
+              <div key={i} className="card overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-[#FAFAF8] transition-all"
                 >
-                  <button 
-                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-all group"
-                  >
-                    <span className="font-bold text-slate-900">{faq.question}</span>
-                    {openFaq === index ? (
-                      <ChevronUp size={20} className="text-blue-600" />
-                    ) : (
-                      <ChevronDown size={20} className="text-slate-400 group-hover:text-blue-600" />
-                    )}
-                  </button>
-                  <AnimatePresence>
-                    {openFaq === index && (
-                      <motion.div 
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="px-6 pb-5 text-slate-600 font-medium leading-relaxed italic"
-                      >
-                        {faq.answer}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))
-            ) : (
-              <div className="p-12 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200">
-                <FileText size={48} className="mx-auto text-slate-300 mb-4" />
-                <p className="text-slate-500 font-bold">No matching results for "{searchQuery}"</p>
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="mt-4 text-blue-600 font-black text-sm uppercase tracking-widest"
-                >
-                  Clear Search
+                  <span className="text-sm font-bold text-[#1C1917] pr-4">{faq.question}</span>
+                  {openFaq === i
+                    ? <ChevronUp size={16} className="text-blue-600 shrink-0" />
+                    : <ChevronDown size={16} className="text-[#A8A29E] shrink-0" />
+                  }
                 </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 pb-4 text-sm text-[#57534E] leading-relaxed border-t border-[#F0EEE9] pt-3">{faq.answer}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )) : (
+              <div className="card">
+                <div className="empty-state">
+                  <div className="empty-state-icon"><FileText size={20} className="text-[#A8A29E]" /></div>
+                  <p className="empty-state-title">No results for "{searchQuery}"</p>
+                  <button onClick={() => setSearchQuery('')} className="btn btn-ghost btn-sm">Clear Search</button>
+                </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className="space-y-6">
-          <h3 className="text-xl font-black text-slate-900 tracking-tight">System Status</h3>
-          <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-50 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="font-bold text-slate-700">Billing Engine</span>
+        {/* System Status */}
+        <div className="space-y-4">
+          <h3 className="section-title">System Status</h3>
+          <div className="card card-pad space-y-3">
+            {STATUS_ITEMS.map(({ label, status, dot, text }) => (
+              <div key={label} className="flex items-center justify-between py-2 border-b border-[#F0EEE9] last:border-0">
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-2 h-2 rounded-full ${dot}`} />
+                  <span className="text-sm font-semibold text-[#1C1917]">{label}</span>
+                </div>
+                <span className={`badge ${text}`}>{status}</span>
               </div>
-              <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase">Operational</span>
-            </div>
-            <div className="flex items-center justify-between border-b border-slate-50 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="font-bold text-slate-700">GPS Tracking</span>
-              </div>
-              <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase">Operational</span>
-            </div>
-            <div className="flex items-center justify-between border-b border-slate-50 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="font-bold text-slate-700">Accounting PDF</span>
-              </div>
-              <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase">Operational</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                <span className="font-bold text-slate-700">Mobile Portal</span>
-              </div>
-              <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase">Regular Updates</span>
-            </div>
-            
+            ))}
+
             <div className="pt-2">
-              <div className="bg-slate-900 p-6 rounded-2xl relative overflow-hidden group">
+              <div className="bg-[#1C1917] p-4 rounded-xl relative overflow-hidden group">
                 <div className="relative z-10">
-                  <p className="text-white font-black text-lg mb-1 italic">V2.4.0</p>
-                  <p className="text-slate-400 text-xs font-medium mb-4">Latest Professional Release</p>
-                  <div className="flex items-center gap-2 text-blue-400 font-black text-[10px] uppercase tracking-widest cursor-pointer group-hover:gap-3 transition-all">
-                    View Changelog <ExternalLink size={12} />
+                  <p className="text-white font-black text-base">v2.4.0</p>
+                  <p className="text-white/40 text-xs font-medium mt-0.5 mb-3">Latest Professional Release</p>
+                  <div className="flex items-center gap-1.5 text-blue-400 text-[10px] font-black uppercase tracking-widest cursor-pointer">
+                    View Changelog <ExternalLink size={11} />
                   </div>
                 </div>
-                <Zap size={80} className="absolute -bottom-4 -right-4 text-white/5 -rotate-12 group-hover:rotate-0 transition-transform" />
+                <Zap size={60} className="absolute -bottom-3 -right-3 text-white/5 -rotate-12 group-hover:rotate-0 transition-transform" />
               </div>
             </div>
           </div>
         </div>
+
       </div>
 
-      {/* Footer Support Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-slate-200">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-white rounded-2xl border border-slate-100 flex items-center justify-center shadow-sm">
-            <ShieldCheck size={24} className="text-blue-600" />
+      {/* Footer */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-[#E7E5E0]">
+        {[
+          { icon: ShieldCheck, title: 'Security Verified',       body: 'All sessions are encrypted and monitored for your safety.' },
+          { icon: LifeBuoy,    title: 'Help Documentation',      body: 'Access detailed manuals for every professional feature.' },
+        ].map(({ icon: Icon, title, body }) => (
+          <div key={title} className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white rounded-xl border border-[#E7E5E0] flex items-center justify-center shadow-sm shrink-0">
+              <Icon size={20} className="text-blue-600" strokeWidth={1.8} />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-[#1C1917]">{title}</p>
+              <p className="t-caption">{body}</p>
+            </div>
           </div>
-          <div>
-            <h4 className="font-black text-slate-900">Security Verified</h4>
-            <p className="text-slate-500 text-xs font-medium">All sessions are encrypted and monitored for your safety.</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 lg:justify-end">
-          <div className="w-12 h-12 bg-white rounded-2xl border border-slate-100 flex items-center justify-center shadow-sm">
-            <LifeBuoy size={24} className="text-blue-600" />
-          </div>
-          <div className="text-left">
-            <h4 className="font-black text-slate-900">Help Documentations</h4>
-            <p className="text-slate-500 text-xs font-medium">Access detailed manuals for every professional feature.</p>
-          </div>
-        </div>
+        ))}
       </div>
+
     </div>
   );
 };

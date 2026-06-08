@@ -299,12 +299,12 @@ const ReportsView: React.FC<ReportsViewProps> = ({
           </h2>
           <p className="text-slate-500 font-medium mt-1">Multi-dimensional operational intelligence and compliance auditing.</p>
         </div>
-        <div className="flex bg-white/60 backdrop-blur-xl p-1.5 rounded-[2.5rem] border border-slate-200 shadow-xl overflow-x-auto no-scrollbar">
+        <div className="flex bg-white/60 backdrop-blur-xl p-1.5 rounded-2xl border border-slate-200 shadow-xl overflow-x-auto no-scrollbar">
           {(['trips', 'revenue', 'expenses', 'payroll', 'invoices', 'fleet', 'brokers', 'planthub', 'orders', 'automated'] as const).map(tab => (
             <button 
               key={tab}
               onClick={() => setActiveReport(tab)}
-              className={`px-8 py-3 rounded-[2rem] text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap flex items-center gap-2 ${activeReport === tab ? 'bg-slate-900 text-white shadow-2xl scale-105' : 'text-slate-400 hover:text-slate-600 hover:bg-white/80'}`}
+              className={`px-8 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap flex items-center gap-2 ${activeReport === tab ? 'bg-slate-900 text-white shadow-2xl scale-105' : 'text-slate-400 hover:text-slate-600 hover:bg-white/80'}`}
             >
               {activeReport === tab && <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />}
               {tab === 'fleet' ? 'Fleet Finance' : tab === 'brokers' ? 'Brokerage' : tab === 'planthub' ? 'Plant Hub' : tab === 'orders' ? 'Orders' : tab === 'automated' ? 'Auto Reports' : tab}
@@ -314,16 +314,16 @@ const ReportsView: React.FC<ReportsViewProps> = ({
       </div>
 
       {/* Analytical Hub Container */}
-      <div className="bg-white rounded-[4rem] border-2 border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden flex flex-col min-h-[90vh]">
+      <div className="bg-white rounded-[4rem] border-2 border-slate-100 shadow-md overflow-hidden flex flex-col min-h-[90vh]">
         
         {/* Advanced 10-Filter Panel */}
-        <div className="px-12 py-10 bg-slate-50/50 border-b border-slate-100">
+        <div className="px-12 py-10 bg-[#F5F4F0]/50 border-b border-slate-100">
            <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
                  <SlidersHorizontal size={20} className="text-blue-600" />
                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-[0.25em]">Parametric Filter Matrix (10 Criteria)</h3>
               </div>
-              <button className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition-colors">
+              <button className="flex items-center gap-2 t-label hover:text-blue-600 transition-colors">
                  <Zap size={14} /> Clear All Filters
               </button>
            </div>
@@ -543,8 +543,8 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                    />
                 </div>
 
-                <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
-                   <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                   <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-[#F5F4F0]/30">
                       <div className="flex items-center gap-3">
                          <FileText size={20} className="text-blue-600" />
                          <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Lifetime Advance Ledger (Credits)</h4>
@@ -565,19 +565,19 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                    <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse">
                          <thead>
-                            <tr className="bg-slate-50/50">
-                               <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</th>
-                               <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Source Station</th>
-                               <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Responsible Employee</th>
-                               <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Reference No</th>
-                               <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Credit Amount</th>
+                            <tr className="bg-[#F5F4F0]/50">
+                               <th className="px-10 py-5 t-label">Date</th>
+                               <th className="px-10 py-5 t-label">Source Station</th>
+                               <th className="px-10 py-5 t-label">Responsible Employee</th>
+                               <th className="px-10 py-5 t-label">Reference No</th>
+                               <th className="px-10 py-5 t-label text-right">Credit Amount</th>
                             </tr>
                          </thead>
                          <tbody className="divide-y divide-slate-50">
                             {pool.filter(p => !filterState.planthub.search || p.referenceNo.toLowerCase().includes(filterState.planthub.search.toLowerCase())).map((p) => {
                                const station = sites.find(s => s.id === p.stationId);
                                return (
-                                  <tr key={p.id} className="hover:bg-slate-50/80 transition-colors group">
+                                  <tr key={p.id} className="hover:bg-[#F5F4F0]/80 transition-colors group">
                                      <td className="px-10 py-5 text-[11px] font-bold text-slate-600">{p.date}</td>
                                      <td className="px-10 py-5 text-[11px] font-black text-slate-900">{station?.name || 'Unknown'}</td>
                                      <td className="px-10 py-5 text-[11px] font-bold text-slate-600">{p.employeeName || 'N/A'}</td>
@@ -739,7 +739,7 @@ const ReportsView: React.FC<ReportsViewProps> = ({
              <div className="space-y-16 animate-in fade-in slide-in-from-bottom-5 duration-700">
                 <div className="flex items-center justify-between">
                    <div>
-                      <h3 className="text-3xl font-black text-slate-900 tracking-tighter">Automated Performance Recap</h3>
+                      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tighter">Automated Performance Recap</h3>
                       <p className="text-slate-500 font-medium">Consolidated view of {filterState.automated.type.toLowerCase()} metrics from {automatedIntelligence.startDate.toLocaleDateString()} to {automatedIntelligence.endDate.toLocaleDateString()}</p>
                    </div>
                    <div className="flex gap-4">
@@ -788,8 +788,8 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                   <div className="col-span-2 bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col h-[500px]">
-                      <div className="p-10 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
+                   <div className="col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col h-[500px]">
+                      <div className="p-10 border-b border-slate-50 flex items-center justify-between bg-[#F5F4F0]/30">
                          <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
                             <TruckIcon size={18} className="text-blue-600"/> Top Asset Utilization
                          </h4>
@@ -797,11 +797,11 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                       </div>
                       <div className="flex-1 overflow-y-auto no-scrollbar">
                          <table className="w-full text-left">
-                            <thead className="sticky top-0 bg-slate-50 z-10">
+                            <thead className="sticky top-0 bg-[#F5F4F0] z-10">
                                <tr>
-                                  <th className="px-10 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Truck Number</th>
-                                  <th className="px-10 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Trips</th>
-                                  <th className="px-10 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Tonnage (MT)</th>
+                                  <th className="px-10 py-4 t-label">Truck Number</th>
+                                  <th className="px-10 py-4 t-label">Trips</th>
+                                  <th className="px-10 py-4 t-label text-right">Tonnage (MT)</th>
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -817,7 +817,7 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                       </div>
                    </div>
 
-                   <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm flex flex-col p-10 h-[500px]">
+                   <div className="bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col p-10 h-[500px]">
                       <div className="flex items-center gap-3 mb-8">
                          <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center font-black">
                             <User size={20}/>
@@ -829,7 +829,7 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                       </div>
                       <div className="space-y-6 flex-1">
                          {automatedIntelligence.driverPerfs.map((d, i) => (
-                            <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 transition-all">
+                            <div key={i} className="flex items-center justify-between p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 hover:border-blue-200 transition-all">
                                <div className="flex items-center gap-3">
                                   <div className="text-xs font-black text-slate-300">#0{i+1}</div>
                                   <div>
@@ -895,8 +895,8 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                </div>
 
                {/* Broker Transaction Ledger */}
-               <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
-                  <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
+               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-[#F5F4F0]/30">
                      <div className="flex items-center gap-3">
                         <FileText size={20} className="text-blue-600" />
                         <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Brokerage Transaction Ledger</h4>
@@ -912,18 +912,18 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                   <div className="overflow-x-auto">
                      <table className="w-full text-left border-collapse">
                         <thead>
-                           <tr className="bg-slate-50/50">
-                              <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</th>
-                              <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Broker</th>
-                              <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Client / Site</th>
-                              <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Weight (MT)</th>
-                              <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Comm/MT</th>
-                              <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Comm</th>
+                           <tr className="bg-[#F5F4F0]/50">
+                              <th className="px-10 py-5 t-label">Date</th>
+                              <th className="px-10 py-5 t-label">Broker</th>
+                              <th className="px-10 py-5 t-label">Client / Site</th>
+                              <th className="px-10 py-5 t-label">Weight (MT)</th>
+                              <th className="px-10 py-5 t-label text-right">Comm/MT</th>
+                              <th className="px-10 py-5 t-label text-right">Total Comm</th>
                            </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                            {brokerAnalytics.brokerOrders.slice(0, 10).map((order) => (
-                              <tr key={order.id} className="hover:bg-slate-50/80 transition-colors group">
+                              <tr key={order.id} className="hover:bg-[#F5F4F0]/80 transition-colors group">
                                  <td className="px-10 py-5 text-[11px] font-bold text-slate-600">{order.pickupDate}</td>
                                  <td className="px-10 py-5">
                                     <div className="flex items-center gap-2">
@@ -951,7 +951,7 @@ const ReportsView: React.FC<ReportsViewProps> = ({
                         </tbody>
                      </table>
                   </div>
-                  <div className="px-10 py-6 bg-slate-50/30 border-t border-slate-50 flex items-center justify-between">
+                  <div className="px-10 py-6 bg-[#F5F4F0]/30 border-t border-slate-50 flex items-center justify-between">
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Showing last 10 transactions</p>
                      <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">View Full Ledger</button>
                   </div>
@@ -960,7 +960,7 @@ const ReportsView: React.FC<ReportsViewProps> = ({
            )}
 
            {/* Additional sections for Payroll, Invoices, Fleet would follow similar patterns with unique charts */}
-           <div className="bg-slate-900 rounded-[3rem] p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+           <div className="bg-slate-900 rounded-2xl p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="absolute top-0 right-0 p-12 opacity-5 rotate-12"><Globe size={240}/></div>
               <div className="relative z-10 max-w-xl">
                  <h4 className="text-3xl font-black tracking-tighter mb-4">Export Strategic Dataset</h4>
@@ -991,7 +991,7 @@ const FilterInput: React.FC<{ label: string, type: string, value: any, onChange:
       type={type} 
       value={value} 
       onChange={(e) => onChange(e.target.value)}
-      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[11px] font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 outline-none transition-all shadow-sm"
+      className="w-full bg-white border border-[#E7E5E0] rounded-xl px-3 py-2 text-[11px] font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 outline-none transition-all shadow-sm"
     />
   </div>
 );
@@ -1002,7 +1002,7 @@ const FilterSelect: React.FC<{ label: string, options: string[], value: string, 
     <select 
       value={value} 
       onChange={(e) => onChange(e.target.value)}
-      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[11px] font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 outline-none transition-all shadow-sm"
+      className="w-full bg-white border border-[#E7E5E0] rounded-xl px-3 py-2 text-[11px] font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 outline-none transition-all shadow-sm"
     >
       {options.map(opt => <option key={opt} value={opt}>{opt.replace('_', ' ')}</option>)}
     </select>
@@ -1013,7 +1013,7 @@ const ChartBox: React.FC<{ title: string, icon: any, children: React.ReactNode }
   <div className="bg-white p-10 rounded-[3.5rem] border-2 border-slate-50 shadow-sm flex flex-col group hover:shadow-xl hover:border-blue-100 transition-all duration-500 h-[450px]">
     <div className="flex items-center justify-between mb-8">
        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
+          <div className="w-12 h-12 rounded-2xl bg-[#F5F4F0] text-slate-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
              <Icon size={20} />
           </div>
           <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{title}</h4>
@@ -1037,13 +1037,13 @@ const ReportStat: React.FC<{ label: string, value: string | number, icon: any, c
       red: 'bg-red-50 text-red-600'
    };
    return (
-      <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm flex flex-col gap-6 group hover:-translate-y-2 transition-all cursor-default">
-         <div className={`w-16 h-16 rounded-3xl flex items-center justify-center shadow-inner ${colors[color]}`}>
+      <div className="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-6 group hover:-translate-y-2 transition-all cursor-default">
+         <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner ${colors[color]}`}>
             <Icon size={28} />
          </div>
          <div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em]">{label}</p>
-            <p className="text-3xl font-black text-slate-900 mt-1 tracking-tighter">{value}</p>
+            <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-1 tracking-tighter">{value}</p>
          </div>
       </div>
    );

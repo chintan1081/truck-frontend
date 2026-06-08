@@ -178,7 +178,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
     <div className="max-w-4xl pb-20 space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Application Settings</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Application Settings</h2>
           <p className="text-slate-500 font-medium mt-1">Configure your company identity and system guardrails.</p>
         </div>
         <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-2xl border border-blue-100 animate-pulse">
@@ -190,8 +190,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column - System Controls */}
         <div className="lg:col-span-5 space-y-8">
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-8 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-8 border-b border-slate-50 bg-[#F5F4F0]/50 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center shadow-sm shadow-amber-50">
                   <Zap size={24} />
@@ -234,7 +234,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
             </div>
           </div>
 
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
             <h3 className="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
               <SettingsIcon size={20} className="text-blue-500" /> General Prefs
             </h3>
@@ -250,8 +250,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
         <div className="lg:col-span-7 space-y-8">
 
           {/* Profile Photo Card */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-8 border-b border-slate-50 bg-slate-50/50 flex items-center gap-4">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-8 border-b border-slate-50 bg-[#F5F4F0]/50 flex items-center gap-4">
               <div className="w-12 h-12 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center shadow-sm shadow-violet-50">
                 <User size={24} />
               </div>
@@ -261,7 +261,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
               </div>
             </div>
             <div className="p-8 flex items-center gap-6">
-              <div className="w-24 h-24 rounded-full border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden shrink-0">
+              <div className="w-24 h-24 rounded-full border-2 border-dashed border-slate-200 bg-[#F5F4F0] flex items-center justify-center overflow-hidden shrink-0">
                 {currentUser?.profilePhoto ? (
                   <img src={currentUser.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
@@ -288,8 +288,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
             </div>
           </div>
 
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-8 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-8 border-b border-slate-50 bg-[#F5F4F0]/50 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shadow-sm shadow-blue-50">
                   <Building2 size={24} />
@@ -304,7 +304,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
             <div className="p-8 space-y-6">
               {/* Logo Upload Simulation */}
               <div className="flex items-center gap-6">
-                <div className="w-24 h-24 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center text-slate-400 group hover:border-blue-300 hover:bg-blue-50 transition-all cursor-pointer relative overflow-hidden">
+                <div className="w-24 h-24 bg-[#F5F4F0] border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-400 group hover:border-blue-300 hover:bg-blue-50 transition-all cursor-pointer relative overflow-hidden">
                   {settings.companyLogo ? (
                     <img src={settings.companyLogo} alt="Company Logo" className="w-full h-full object-cover" />
                   ) : (
@@ -331,14 +331,14 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                     placeholder="Or enter logo URL..."
                     value={settings.companyLogo || ''}
                     onChange={e => handleUpdateCompany('companyLogo', e.target.value)}
-                    className="w-full px-4 py-2 mt-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-4 py-2 mt-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                   />
                 </div>
               </div>
 
               {/* Owner Signature Upload */}
-              <div className="flex items-center gap-6 p-6 bg-slate-50/50 border border-slate-100 rounded-3xl">
-                <div className="w-24 h-24 bg-white border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center text-slate-400 group hover:border-indigo-300 hover:bg-indigo-50 transition-all cursor-pointer relative overflow-hidden">
+              <div className="flex items-center gap-6 p-6 bg-[#F5F4F0]/50 border border-slate-100 rounded-2xl">
+                <div className="w-24 h-24 bg-white border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-400 group hover:border-indigo-300 hover:bg-indigo-50 transition-all cursor-pointer relative overflow-hidden">
                   {settings.companySignature ? (
                     <img src={settings.companySignature} alt="Owner Signature" className="w-full h-full object-contain" />
                   ) : (
@@ -375,7 +375,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Company Full Name</label>
+                  <label className="t-label px-1">Company Full Name</label>
                   <div className="relative">
                     <Building2 size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input 
@@ -383,13 +383,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       value={settings.companyName || ''}
                       onChange={e => handleUpdateCompany('companyName', e.target.value)}
                       placeholder="e.g. FlyAsh Logistics Pro Ltd."
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">GST Number (Optional)</label>
+                  <label className="t-label px-1">GST Number (Optional)</label>
                   <div className="relative">
                     <FileText size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input 
@@ -397,13 +397,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       value={settings.companyGst || ''}
                       onChange={e => handleUpdateCompany('companyGst', e.target.value)}
                       placeholder="27AAAAA0000A1Z5"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Email Address</label>
+                  <label className="t-label px-1">Email Address</label>
                   <div className="relative">
                     <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input 
@@ -411,13 +411,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       value={settings.companyEmail || ''}
                       onChange={e => handleUpdateCompany('companyEmail', e.target.value)}
                       placeholder="contact@flyashpro.com"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Contact Number</label>
+                  <label className="t-label px-1">Contact Number</label>
                   <div className="relative">
                     <Phone size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input 
@@ -425,13 +425,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       value={settings.companyContact || ''}
                       onChange={e => handleUpdateCompany('companyContact', e.target.value)}
                       placeholder="+91 98765 43210"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5 md:col-span-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Business Number</label>
+                  <label className="t-label px-1">WhatsApp Business Number</label>
                   <div className="relative">
                     <MessageCircle size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
                     <input 
@@ -439,13 +439,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       value={settings.companyWhatsapp || ''}
                       onChange={e => handleUpdateCompany('companyWhatsapp', e.target.value)}
                       placeholder="+91 98765 43210"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5 md:col-span-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Full Business Address</label>
+                  <label className="t-label px-1">Full Business Address</label>
                   <div className="relative">
                     <MapPin size={16} className="absolute left-4 top-4 text-slate-400" />
                     <textarea 
@@ -453,7 +453,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       onChange={e => handleUpdateCompany('companyAddress', e.target.value)}
                       placeholder="123 Logistics Park, FlyAsh Hub, Industrial Area, State - Zip"
                       rows={3}
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none resize-none"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none resize-none"
                     />
                   </div>
                 </div>
@@ -461,7 +461,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
 
               {/* Services Section */}
               <div className="space-y-4">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Our Services</label>
+                <label className="t-label px-1">Our Services</label>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                     <Globe size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -471,12 +471,12 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       onChange={e => setNewService(e.target.value)}
                       onKeyPress={e => e.key === 'Enter' && addService()}
                       placeholder="Add a service (e.g. Industrial FlyAsh Transport)"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10"
+                      className="w-full pl-11 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10"
                     />
                   </div>
                   <button 
                     onClick={addService}
-                    className="p-3.5 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+                    className="p-3.5 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20"
                   >
                     <Plus size={20} />
                   </button>
@@ -500,8 +500,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
           </div>
 
           {/* Bank Details Section */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
-            <div className="p-8 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+            <div className="p-8 border-b border-slate-50 bg-[#F5F4F0]/50 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm shadow-indigo-50">
                   <CreditCard size={24} />
@@ -529,7 +529,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
 
             <div className="p-8">
               {isAddingBank && (
-                <div className="mb-8 p-6 bg-slate-50 rounded-3xl border border-indigo-100 animate-in zoom-in-95 duration-300">
+                <div className="mb-8 p-6 bg-[#F5F4F0] rounded-2xl border border-indigo-100 animate-in zoom-in-95 duration-300">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">Bank Name*</label>
@@ -596,7 +596,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                           value={newBank.upiId || ''}
                           onChange={e => setNewBank({ ...newBank, upiId: e.target.value })}
                           placeholder="username@okaxis"
-                          className="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none"
+                          className="w-full pl-11 pr-4 py-2.5 bg-white border border-[#E7E5E0] rounded-xl text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none"
                         />
                       </div>
                     </div>
@@ -612,13 +612,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(!settings.bankDetails || settings.bankDetails.length === 0) && !isAddingBank && (
-                  <div className="md:col-span-2 py-12 text-center border-2 border-dashed border-slate-100 rounded-[2.5rem] bg-slate-50/50">
+                  <div className="md:col-span-2 py-12 text-center border-2 border-dashed border-slate-100 rounded-2xl bg-[#F5F4F0]/50">
                     <IndianRupee size={48} className="mx-auto text-slate-200 mb-4" />
                     <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No settlement banks added yet</p>
                   </div>
                 )}
                 {settings.bankDetails?.map((bank) => (
-                  <div key={bank.id} className="relative p-6 bg-slate-50 rounded-3xl border border-slate-100 group hover:border-indigo-200 hover:bg-white transition-all shadow-sm hover:shadow-md">
+                  <div key={bank.id} className="relative p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 group hover:border-indigo-200 hover:bg-white transition-all shadow-sm hover:shadow-md">
                     <div className="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
                       <button 
                         onClick={() => handleEditBank(bank)}
@@ -673,7 +673,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
 };
 
 const SettingsItem: React.FC<{ icon: any, label: string, description: string, active?: boolean }> = ({ icon: Icon, label, description, active }) => (
-  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-100 hover:bg-white transition-all cursor-pointer group">
+  <div className="flex items-center justify-between p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 hover:border-blue-100 hover:bg-white transition-all cursor-pointer group">
     <div className="flex items-center gap-4">
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${active ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-400'}`}>
         <Icon size={20} />

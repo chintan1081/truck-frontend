@@ -475,13 +475,13 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
       {/* Header & Tabs */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm shadow-slate-200/50">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-white p-8 rounded-2xl border border-slate-100 shadow-sm shadow-slate-200/50">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2.5 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-200 rotate-3">
+            <div className="p-2.5 bg-blue-600 rounded-2xl text-white shadow-md shadow-blue-500/20 rotate-3">
               <Fuel size={24} />
             </div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Fuel Management</h1>
+            <h1 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Fuel Management</h1>
           </div>
           <p className="text-slate-500 font-bold ml-14">Track, manage and optimize fleet energy consumption</p>
         </div>
@@ -515,12 +515,12 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
            {/* Site Selector & Quick Stats */}
            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               <div className="lg:col-span-1 space-y-6">
-                <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                    <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Select Fuel Site</h3>
                    <div className="space-y-2">
                       <button 
                         onClick={() => setSelectedSiteId(null)}
-                        className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${!selectedSiteId ? 'bg-blue-600 text-white shadow-lg shadow-blue-100 font-black' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 font-bold'}`}
+                        className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${!selectedSiteId ? 'bg-blue-600 text-white shadow-lg shadow-blue-100 font-black' : 'bg-[#F5F4F0] text-slate-600 hover:bg-slate-100 font-bold'}`}
                       >
                          <span className="text-sm">Global Overview</span>
                          <ArrowUpRight size={16} />
@@ -529,7 +529,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                         <button 
                           key={site.id}
                           onClick={() => setSelectedSiteId(site.id)}
-                          className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${selectedSiteId === site.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-100 font-black' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 font-bold'}`}
+                          className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${selectedSiteId === site.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-100 font-black' : 'bg-[#F5F4F0] text-slate-600 hover:bg-slate-100 font-bold'}`}
                         >
                            <span className="text-sm truncate pr-2">{site.companyName}</span>
                            <MapPin size={16} className={selectedSiteId === site.id ? 'text-blue-100' : 'text-slate-300'} />
@@ -539,7 +539,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                 </div>
 
                 {!selectedSiteId && (
-                  <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-[2rem] text-white shadow-xl relative overflow-hidden group">
+                  <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl text-white shadow-xl relative overflow-hidden group">
                      <Fuel size={120} className="absolute -right-10 -bottom-10 text-white/5 rotate-12 transition-transform group-hover:scale-110" />
                      <div className="relative z-10">
                         <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
@@ -558,17 +558,17 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
               <div className="lg:col-span-3 space-y-8">
                  {/* Current Context Details */}
                  {selectedSiteId ? (
-                   <div className="space-y-8">
+                   <div className="page-stack-lg">
                       {/* Site Details Card */}
-                      <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm relative overflow-hidden">
+                      <div className="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
                          <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-50/50 to-transparent pointer-events-none" />
                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
                             <div className="flex items-center gap-6">
-                               <div className="w-20 h-20 bg-blue-600 text-white rounded-[2rem] flex items-center justify-center shadow-xl shadow-blue-200">
+                               <div className="w-20 h-20 bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-md shadow-blue-500/20">
                                   <MapPin size={40} />
                                </div>
                                <div>
-                                  <h3 className="text-3xl font-black text-slate-900">{fuelSites.find(s => s.id === selectedSiteId)?.companyName}</h3>
+                                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{fuelSites.find(s => s.id === selectedSiteId)?.companyName}</h3>
                                   <div className="flex flex-wrap items-center gap-4 mt-2">
                                      <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase border border-blue-100">Partner Site</span>
                                      <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -587,7 +587,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                  href={fuelSites.find(s => s.id === selectedSiteId)?.googleMapLink} 
                                  target="_blank" 
                                  rel="noreferrer"
-                                 className="w-14 h-14 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                                 className="w-14 h-14 bg-[#F5F4F0] text-slate-400 rounded-2xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all shadow-sm"
                                >
                                   <ExternalLink size={24} />
                                </a>
@@ -620,14 +620,14 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
                       {/* Site Metrics */}
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm group hover:border-blue-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm group hover:border-blue-200 transition-all">
                             <div className="flex items-center justify-between mb-6">
                                <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:scale-110 transition-transform">
                                   <Droplet size={24} />
                                </div>
                                <span className="text-[10px] font-black text-emerald-500 bg-emerald-50 px-2 py-1 rounded-lg uppercase tracking-widest leading-none">+12% vs LY</span>
                             </div>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Supply (Liters)</p>
+                            <p className="t-label mb-1">Total Supply (Liters)</p>
                             <h3 className="text-4xl font-black text-slate-900 tracking-tighter">
                                {fuelTransactions
                                  .filter(ft => ft.siteId === selectedSiteId)
@@ -635,19 +635,19 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                  .toLocaleString()}
                             </h3>
                          </div>
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm group hover:border-indigo-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm group hover:border-indigo-200 transition-all">
                             <div className="flex items-center justify-between mb-6">
                                <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:scale-110 transition-transform">
                                   <Truck size={24} />
                                </div>
                                <span className="text-[10px] font-black text-indigo-500 bg-indigo-50 px-2 py-1 rounded-lg uppercase tracking-widest leading-none">Active Fleet</span>
                             </div>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Vehicles Refueled</p>
+                            <p className="t-label mb-1">Vehicles Refueled</p>
                             <h3 className="text-4xl font-black text-slate-900 tracking-tighter">
                                {new Set(fuelTransactions.filter(ft => ft.siteId === selectedSiteId).map(ft => ft.truckId)).size}
                             </h3>
                          </div>
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm group hover:border-red-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm group hover:border-red-200 transition-all">
                             <div className="flex items-center justify-between mb-6">
                                <div className="p-3 bg-red-50 text-red-600 rounded-2xl group-hover:scale-110 transition-transform">
                                   <AlertCircle size={24} />
@@ -659,7 +659,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                  Settle Dues
                                </button>
                             </div>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Outstanding Balance</p>
+                            <p className="t-label mb-1">Outstanding Balance</p>
                             <h3 className="text-4xl font-black text-red-600 tracking-tighter">
                                ₹{siteAccountStats.find(s => s.id === selectedSiteId)?.outstanding.toLocaleString()}
                             </h3>
@@ -667,7 +667,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                       </div>
 
                       {/* Site Transaction Log */}
-                      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
+                      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                          <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between">
                             <div>
                                <h3 className="text-xl font-black text-slate-900 tracking-tight">Recent Dispatch Activity</h3>
@@ -677,7 +677,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                <div className="relative">
                                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                                   <input 
-                                    className="pl-9 pr-4 py-2 bg-slate-50 border-none rounded-xl text-[10px] font-bold focus:ring-2 focus:ring-blue-500/10 outline-none w-48"
+                                    className="pl-9 pr-4 py-2 bg-[#F5F4F0] border-none rounded-xl text-[10px] font-bold focus:ring-2 focus:ring-blue-500/10 outline-none w-48"
                                     placeholder="Filter by Truck No."
                                   />
                                </div>
@@ -685,15 +685,15 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                          </div>
                          <div className="overflow-x-auto">
                             <table className="w-full">
-                               <thead className="bg-slate-50/50">
+                               <thead className="bg-[#F5F4F0]/50">
                                   <tr>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Reference No.</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Time & Date</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Vehicle Dispatch</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Staff Record</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Quantity</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Vehicle Level</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                                     <th className="px-10 py-5 text-left t-label">Reference No.</th>
+                                     <th className="px-10 py-5 text-left t-label">Time & Date</th>
+                                     <th className="px-10 py-5 text-left t-label">Vehicle Dispatch</th>
+                                     <th className="px-10 py-5 text-left t-label">Staff Record</th>
+                                     <th className="px-10 py-5 text-left t-label">Quantity</th>
+                                     <th className="px-10 py-5 text-left t-label">Vehicle Level</th>
+                                     <th className="px-10 py-5 text-left t-label">Status</th>
                                   </tr>
                                </thead>
                                <tbody className="divide-y divide-slate-50">
@@ -702,7 +702,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                     .map(ft => {
                                       const truck = trucks.find(t => t.id === ft.truckId);
                                       return (
-                                        <tr key={ft.id} className="hover:bg-slate-50 transition-colors group cursor-pointer" onClick={() => {setSlipTxn(ft); setShowSlipModal(true);}}>
+                                        <tr key={ft.id} className="hover:bg-[#F5F4F0] transition-colors group cursor-pointer" onClick={() => {setSlipTxn(ft); setShowSlipModal(true);}}>
                                            <td className="px-10 py-6">
                                               <span className="text-xs font-black text-slate-900 bg-slate-100 px-3 py-1.5 rounded-xl uppercase tracking-tighter">#{ft.id.split('-')[1]}</span>
                                            </td>
@@ -771,36 +771,36 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                    /* GLOBAL OVERVIEW */
                    <div className="space-y-8 pb-32">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all">
                             <div>
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Network Sites</p>
+                               <p className="t-label mb-1">Network Sites</p>
                                <h3 className="text-4xl font-black text-slate-900 tracking-tighter">{fuelSites.length}</h3>
                             </div>
                             <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
                                <MapPin size={28} />
                             </div>
                          </div>
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-emerald-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-emerald-200 transition-all">
                             <div>
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Fuel Vol.</p>
+                               <p className="t-label mb-1">Total Fuel Vol.</p>
                                <h3 className="text-4xl font-black text-slate-900 tracking-tighter">{(fuelTransactions.reduce((acc, ft) => acc + ft.quantity, 0) / 1000).toFixed(1)}k</h3>
                             </div>
                             <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
                                <Droplet size={28} />
                             </div>
                          </div>
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-red-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-red-200 transition-all">
                             <div>
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Exposure</p>
+                               <p className="t-label mb-1">Total Exposure</p>
                                <h3 className="text-4xl font-black text-red-600 tracking-tighter">₹{(siteAccountStats.reduce((acc, s) => acc + s.outstanding, 0) / 100000).toFixed(1)}L</h3>
                             </div>
                             <div className="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
                                <AlertCircle size={28} />
                             </div>
                          </div>
-                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-200 transition-all">
+                         <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-200 transition-all">
                             <div>
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Dispatch Count</p>
+                               <p className="t-label mb-1">Dispatch Count</p>
                                <h3 className="text-4xl font-black text-slate-900 tracking-tighter">{fuelTransactions.length}</h3>
                             </div>
                             <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
@@ -809,7 +809,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                          </div>
                       </div>
 
-                      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
+                      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                          <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-white">
                             <div>
                                <h3 className="text-xl font-black text-slate-900 tracking-tight">Active Fuel Site Performance</h3>
@@ -821,20 +821,20 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                          </div>
                          <div className="overflow-x-auto">
                             <table className="w-full">
-                               <thead className="bg-slate-50/50">
+                               <thead className="bg-[#F5F4F0]/50">
                                   <tr>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Partner Station</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Location</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Issued</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Value</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Dispatch Count</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Outstanding</th>
-                                     <th className="px-10 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Last Activity</th>
+                                     <th className="px-10 py-5 text-left t-label">Partner Station</th>
+                                     <th className="px-10 py-5 text-left t-label">Location</th>
+                                     <th className="px-10 py-5 text-left t-label">Total Issued</th>
+                                     <th className="px-10 py-5 text-left t-label">Total Value</th>
+                                     <th className="px-10 py-5 text-left t-label">Dispatch Count</th>
+                                     <th className="px-10 py-5 text-left t-label">Outstanding</th>
+                                     <th className="px-10 py-5 text-left t-label">Last Activity</th>
                                   </tr>
                                </thead>
                                <tbody className="divide-y divide-slate-50">
                                   {siteAccountStats.map(site => (
-                                    <tr key={site.id} className="hover:bg-slate-50 transition-colors group cursor-pointer" onClick={() => setSelectedSiteId(site.id)}>
+                                    <tr key={site.id} className="hover:bg-[#F5F4F0] transition-colors group cursor-pointer" onClick={() => setSelectedSiteId(site.id)}>
                                        <td className="px-10 py-6">
                                           <div className="flex items-center gap-4">
                                              <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
@@ -873,7 +873,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                          </div>
                       </div>
 
-                      <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden p-10">
+                      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden p-10">
                         <div className="flex items-center justify-between mb-8">
                            <div>
                               <h3 className="text-xl font-black text-slate-900 tracking-tight">Fleet Fuel Consumption History</h3>
@@ -881,7 +881,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                            </div>
                            <div className="flex gap-4">
                               <select 
-                                className="px-6 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black uppercase tracking-wider outline-none focus:ring-4 focus:ring-blue-500/10"
+                                className="px-6 py-3 bg-[#F5F4F0] border-none rounded-2xl text-xs font-black uppercase tracking-wider outline-none focus:ring-4 focus:ring-blue-500/10"
                                 value={filters.truckId}
                                 onChange={(e) => setFilters({...filters, truckId: e.target.value})}
                               >
@@ -892,24 +892,24 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                         </div>
 
                         {filters.truckId !== 'ALL' ? (
-                          <div className="space-y-6">
+                          <div className="page-stack pb-10">
                              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Refuel Activity</p>
-                                   <h4 className="text-2xl font-black text-slate-900">{fuelTransactions.filter(ft => ft.truckId === filters.truckId).length} Dispatches</h4>
+                                <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100">
+                                   <p className="t-label mb-1">Total Refuel Activity</p>
+                                   <h4 className="text-2xl font-black text-[#1C1917] tracking-tight">{fuelTransactions.filter(ft => ft.truckId === filters.truckId).length} Dispatches</h4>
                                 </div>
-                                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Lifetime Quantity</p>
-                                   <h4 className="text-2xl font-black text-slate-900">{fuelTransactions.filter(ft => ft.truckId === filters.truckId).reduce((acc, ft) => acc + ft.quantity, 0).toLocaleString()} Ltr</h4>
+                                <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100">
+                                   <p className="t-label mb-1">Lifetime Quantity</p>
+                                   <h4 className="text-2xl font-black text-[#1C1917] tracking-tight">{fuelTransactions.filter(ft => ft.truckId === filters.truckId).reduce((acc, ft) => acc + ft.quantity, 0).toLocaleString()} Ltr</h4>
                                 </div>
-                                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Avg Refill Size</p>
-                                   <h4 className="text-2xl font-black text-slate-900">
+                                <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100">
+                                   <p className="t-label mb-1">Avg Refill Size</p>
+                                   <h4 className="text-2xl font-black text-[#1C1917] tracking-tight">
                                       {Math.round(fuelTransactions.filter(ft => ft.truckId === filters.truckId).reduce((acc, ft) => acc + ft.quantity, 0) / (fuelTransactions.filter(ft => ft.truckId === filters.truckId).length || 1))} Ltr
                                    </h4>
                                 </div>
-                                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Tank State</p>
+                                <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100">
+                                   <p className="t-label mb-1">Current Tank State</p>
                                    <div className="flex items-center gap-2 mt-1">
                                       <div className="h-2 flex-1 bg-slate-200 rounded-full overflow-hidden">
                                          <div className="h-full bg-blue-600 rounded-full" style={{ width: `${trucks.find(t => t.id === filters.truckId)?.fuelLevel || 0}%` }} />
@@ -919,9 +919,9 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                 </div>
                              </div>
 
-                             <div className="overflow-x-auto border border-slate-100 rounded-[2rem]">
+                             <div className="overflow-x-auto border border-slate-100 rounded-2xl">
                                 <table className="w-full">
-                                   <thead className="bg-slate-50/50">
+                                   <thead className="bg-[#F5F4F0]/50">
                                       <tr>
                                          <th className="px-8 py-4 text-left text-[9px] font-black text-slate-400 uppercase tracking-widest">Date</th>
                                          <th className="px-8 py-4 text-left text-[9px] font-black text-slate-400 uppercase tracking-widest">Site Supplied</th>
@@ -935,7 +935,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                       {fuelTransactions
                                         .filter(ft => ft.truckId === filters.truckId)
                                         .map(ft => (
-                                          <tr key={ft.id} className="hover:bg-slate-50/80 transition-colors">
+                                          <tr key={ft.id} className="hover:bg-[#F5F4F0]/80 transition-colors">
                                              <td className="px-8 py-4">
                                                 <div className="flex flex-col">
                                                    <span className="text-[11px] font-black text-slate-900">{ft.date}</span>
@@ -969,7 +969,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                              </div>
                           </div>
                         ) : (
-                          <div className="py-20 bg-slate-50/50 rounded-[2rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center">
+                          <div className="py-20 bg-[#F5F4F0]/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center">
                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                                 <Truck size={32} className="text-slate-300" />
                              </div>
@@ -986,12 +986,12 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
       )}
 
       {activeTab === 'reports' && (
-        <div className="space-y-8">
+        <div className="page-stack-lg">
           {/* Analysis Header */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all">
+            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all">
               <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Consumption</p>
+                <p className="t-label mb-2">Total Consumption</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-4xl font-black text-slate-900">{reportsData.totalQty.toLocaleString()}</h3>
                   <span className="text-sm font-black text-blue-600 tracking-widest uppercase">Ltrs</span>
@@ -1001,18 +1001,18 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                 <Droplet size={28} />
               </div>
             </div>
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-green-200 transition-all">
+            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-green-200 transition-all">
               <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Fuel Spend</p>
+                <p className="t-label mb-2">Total Fuel Spend</p>
                 <h3 className="text-4xl font-black text-slate-900">₹{(reportsData.totalAmount / 1000).toFixed(1)}k</h3>
               </div>
               <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 group-hover:rotate-12 transition-transform">
                 <BarChart3 size={28} />
               </div>
             </div>
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-amber-200 transition-all">
+            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-amber-200 transition-all">
               <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Avg Efficiency</p>
+                <p className="t-label mb-2">Avg Efficiency</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-4xl font-black text-slate-900">3.8</h3>
                   <span className="text-sm font-black text-amber-600 tracking-widest uppercase">Km/L</span>
@@ -1022,9 +1022,9 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                 <TrendingUp size={28} />
               </div>
             </div>
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-200 transition-all">
+            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-200 transition-all">
               <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Active Fuel Sites</p>
+                <p className="t-label mb-2">Active Fuel Sites</p>
                 <h3 className="text-4xl font-black text-slate-900">{fuelSites.length}</h3>
               </div>
               <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:rotate-12 transition-transform">
@@ -1035,7 +1035,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Pie Chart: Site Distribution */}
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <h4 className="text-lg font-black text-slate-900">Site-wise Consumption</h4>
@@ -1070,17 +1070,17 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
             </div>
 
             {/* Bar Chart: Vehicle Consumption */}
-            <div className="xl:col-span-2 bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            <div className="xl:col-span-2 bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <h4 className="text-lg font-black text-slate-900">Top Consuming Vehicles</h4>
                   <p className="text-xs text-slate-500 font-bold">Liters consumed vs Truck ID</p>
                 </div>
                 <div className="flex gap-2">
-                  <button className="p-2.5 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors text-slate-600">
+                  <button className="p-2.5 bg-[#F5F4F0] rounded-xl hover:bg-slate-100 transition-colors text-slate-600">
                     <Download size={18} />
                   </button>
-                  <button className="p-2.5 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors text-slate-600">
+                  <button className="p-2.5 bg-[#F5F4F0] rounded-xl hover:bg-slate-100 transition-colors text-slate-600">
                     <FileSpreadsheet size={18} />
                   </button>
                 </div>
@@ -1116,7 +1116,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
           </div>
 
           {/* Detailed Vehicle Table */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-black text-slate-900">Vehicle Wise Fuel Performance</h3>
@@ -1131,22 +1131,22 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-slate-50/50">
+                <thead className="bg-[#F5F4F0]/50">
                   <tr>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Vehicle No.</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Type</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Fuel Consumed</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Trips</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Fuel Level</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Mileage (Km/L)</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Efficiency</th>
+                    <th className="px-8 py-5 text-left t-label">Vehicle No.</th>
+                    <th className="px-8 py-5 text-left t-label">Type</th>
+                    <th className="px-8 py-5 text-left t-label">Fuel Consumed</th>
+                    <th className="px-8 py-5 text-left t-label">Trips</th>
+                    <th className="px-8 py-5 text-left t-label">Fuel Level</th>
+                    <th className="px-8 py-5 text-left t-label">Mileage (Km/L)</th>
+                    <th className="px-8 py-5 text-left t-label">Efficiency</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {reportsData.vehicleWise.map((v) => {
                     const truck = trucks.find(t => t.id === v.id);
                     return (
-                      <tr key={v.id} className="hover:bg-slate-50 transition-colors">
+                      <tr key={v.id} className="hover:bg-[#F5F4F0] transition-colors">
                         <td className="px-8 py-6">
                           <span className="text-sm font-black text-slate-900 uppercase">{v.truckNumber}</span>
                         </td>
@@ -1205,18 +1205,18 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
             /* SITE DETAIL VIEW */
             <div className="space-y-8 pb-32">
                {/* Site Header & Navigation */}
-               <div className="flex items-center justify-between bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+               <div className="flex items-center justify-between bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                   <div className="flex items-center gap-6">
                      <button 
                        onClick={() => setSelectedSiteId(null)}
-                       className="w-12 h-12 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                       className="w-12 h-12 bg-[#F5F4F0] text-slate-400 rounded-2xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all shadow-sm"
                      >
                        <ArrowLeft size={20} />
                      </button>
                      <div>
                         <div className="flex items-center gap-2">
                           <MapPin size={16} className="text-blue-500" />
-                          <h3 className="text-2xl font-black text-slate-900">{fuelSites.find(s => s.id === selectedSiteId)?.companyName}</h3>
+                          <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{fuelSites.find(s => s.id === selectedSiteId)?.companyName}</h3>
                         </div>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-6">Detailed Station Ledger</p>
                      </div>
@@ -1229,10 +1229,10 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
                {/* Site Summary Cards */}
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="bg-white p-8 rounded-[2.5rem] border-2 border-slate-100 shadow-sm relative overflow-hidden group">
+                  <div className="bg-white p-8 rounded-2xl border-2 border-slate-100 shadow-sm relative overflow-hidden group">
                      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500" />
                      <div className="relative z-10">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Total station Purchases</p>
+                       <p className="t-label mb-4">Total station Purchases</p>
                        <div className="flex items-end justify-between">
                           <h3 className="text-5xl font-black text-slate-900 tracking-tighter">
                             ₹{siteAccountStats.find(s => s.id === selectedSiteId)?.totalPurchase.toLocaleString()}
@@ -1243,10 +1243,10 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                        </div>
                      </div>
                   </div>
-                  <div className="bg-white p-8 rounded-[2.5rem] border-2 border-red-100 shadow-sm relative overflow-hidden group">
+                  <div className="bg-white p-8 rounded-2xl border-2 border-red-100 shadow-sm relative overflow-hidden group">
                      <div className="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500" />
                      <div className="relative z-10">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Current Outstanding</p>
+                       <p className="t-label mb-4">Current Outstanding</p>
                        <div className="flex items-end justify-between">
                           <h3 className="text-5xl font-black text-red-600 tracking-tighter">
                             ₹{siteAccountStats.find(s => s.id === selectedSiteId)?.outstanding.toLocaleString()}
@@ -1260,8 +1260,8 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                </div>
 
                {/* Site Pending Slips */}
-               <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
-                  <div className="px-10 py-8 border-b border-slate-50 bg-slate-50/30 flex items-center justify-between">
+               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div className="px-10 py-8 border-b border-slate-50 bg-[#F5F4F0]/30 flex items-center justify-between">
                      <div>
                        <h3 className="text-xl font-black text-slate-900">Station-Wise Pending Slips</h3>
                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Direct settlement for this specific partner</p>
@@ -1276,7 +1276,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                          .filter(ft => ft.siteId === selectedSiteId && ft.paymentStatus === 'UNPAID')
                          .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
                          .map(ft => (
-                         <div key={ft.id} className={`p-6 bg-white border-2 rounded-[2rem] hover:border-blue-500 transition-all hover:shadow-xl group relative ${selectedTxnIds.includes(ft.id) ? 'border-blue-600 shadow-lg' : 'border-slate-100'}`}>
+                         <div key={ft.id} className={`p-6 bg-white border-2 rounded-2xl hover:border-blue-500 transition-all hover:shadow-xl group relative ${selectedTxnIds.includes(ft.id) ? 'border-blue-600 shadow-lg' : 'border-slate-100'}`}>
                             <div className="absolute top-6 left-6 z-10">
                                <button 
                                  onClick={(e) => {
@@ -1293,7 +1293,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                </button>
                             </div>
                             <div className="flex justify-between items-start mb-6 ml-10">
-                               <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500 transition-all">
+                               <div className="w-12 h-12 bg-[#F5F4F0] rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500 transition-all">
                                  <Clock size={24} />
                                </div>
                                <div className="text-right">
@@ -1316,7 +1316,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                                 setSelectedTxn(ft);
                                 setShowPaymentModal(true);
                               }}
-                              className="w-full py-4 bg-blue-600 text-white rounded-[1.5rem] text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-100 hover:-translate-y-1 transition-all flex items-center justify-center gap-2"
+                              className="w-full py-4 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-100 hover:-translate-y-1 transition-all flex items-center justify-center gap-2"
                             >
                                <CreditCard size={14} /> Settle Transaction
                             </button>
@@ -1336,21 +1336,21 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                     {/* Pagination Controls */}
                     {fuelTransactions.filter(ft => ft.siteId === selectedSiteId && ft.paymentStatus === 'UNPAID').length > itemsPerPage && (
                       <div className="mt-10 flex items-center justify-between border-t border-slate-100 pt-8">
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <div className="t-label">
                           Showing {Math.min((currentPage - 1) * itemsPerPage + 1, fuelTransactions.filter(ft => ft.siteId === selectedSiteId && ft.paymentStatus === 'UNPAID').length)} - {Math.min(currentPage * itemsPerPage, fuelTransactions.filter(ft => ft.siteId === selectedSiteId && ft.paymentStatus === 'UNPAID').length)} of {fuelTransactions.filter(ft => ft.siteId === selectedSiteId && ft.paymentStatus === 'UNPAID').length}
                         </div>
                         <div className="flex gap-2">
                           <button 
                             disabled={currentPage === 1}
                             onClick={() => setCurrentPage(prev => prev - 1)}
-                            className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-white border border-[#E7E5E0] rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 hover:bg-[#F5F4F0] transition-all disabled:opacity-50 flex items-center gap-2"
                           >
                             <ArrowLeft size={14} /> Previous
                           </button>
                           <button 
                             disabled={currentPage * itemsPerPage >= fuelTransactions.filter(ft => ft.siteId === selectedSiteId && ft.paymentStatus === 'UNPAID').length}
                             onClick={() => setCurrentPage(prev => prev + 1)}
-                            className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-white border border-[#E7E5E0] rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 hover:bg-[#F5F4F0] transition-all disabled:opacity-50 flex items-center gap-2"
                           >
                             Next <ChevronRight size={14} />
                           </button>
@@ -1365,12 +1365,12 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
               {/* Section Header with Action */}
            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Financial Ledger</h2>
+                <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Financial Ledger</h2>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Manage settlements and verify fuel transactions</p>
               </div>
               <button 
                 onClick={() => setShowLogModal(true)}
-                className="px-8 py-3.5 bg-blue-600 text-white fill-white rounded-2xl text-sm font-black shadow-xl shadow-blue-200 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-widest"
+                className="px-8 py-3.5 bg-blue-600 text-white fill-white rounded-2xl text-sm font-black shadow-md shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-widest"
               >
                 <Plus size={18} />
                 Log Fuel Purchase
@@ -1379,53 +1379,53 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
            {/* Summary Cards */}
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4">
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500">
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Enrolled Sites</p>
+                  <p className="t-label">Enrolled Sites</p>
                   <h3 className="text-xl font-black text-slate-900">{fuelSites.length} Stations</h3>
                 </div>
               </div>
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4">
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center text-red-500">
                    <AlertCircle size={24} />
                 </div>
                 <div>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Outstanding</p>
+                   <p className="t-label">Total Outstanding</p>
                    <h3 className="text-xl font-black text-red-600">₹{siteAccountStats.reduce((acc, s) => acc + s.outstanding, 0).toLocaleString()}</h3>
                 </div>
               </div>
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4">
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500">
                    <Fuel size={24} />
                 </div>
                 <div>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Purchases</p>
+                   <p className="t-label">Total Purchases</p>
                    <h3 className="text-xl font-black text-slate-900">₹{siteAccountStats.reduce((acc, s) => acc + s.totalPurchase, 0).toLocaleString()}</h3>
                 </div>
               </div>
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4">
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-500">
                    <CheckCircle2 size={24} />
                 </div>
                 <div>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Settled Amount</p>
+                   <p className="t-label">Settled Amount</p>
                    <h3 className="text-xl font-black text-green-600">₹{siteAccountStats.reduce((acc, s) => acc + s.paidAmount, 0).toLocaleString()}</h3>
                 </div>
               </div>
            </div>
 
            {/* Site Wise Ledger */}
-           <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-                <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/20">
+           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between bg-[#F5F4F0]/20">
                   <h3 className="text-lg font-black text-slate-900">Partner Fuel Sites</h3>
                   <button className="text-xs font-black text-blue-600 hover:text-blue-700 uppercase tracking-widest">+ Register New Site</button>
                 </div>
                 <div className="p-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {siteAccountStats.map(site => (
-                    <div key={site.id} className="p-6 bg-slate-50/50 rounded-3xl border border-slate-100 group hover:bg-white hover:shadow-xl transition-all hover:border-blue-200">
+                    <div key={site.id} className="p-6 bg-[#F5F4F0]/50 rounded-2xl border border-slate-100 group hover:bg-white hover:shadow-xl transition-all hover:border-blue-200">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-blue-500 transition-colors shadow-sm">
@@ -1465,20 +1465,20 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
 
            {/* Full History (Transaction Logs - Moved from Site) */}
-           <div className="space-y-6">
+           <div className="page-stack pb-10">
              <div className="flex items-center justify-between px-2">
                 <div>
                    <h3 className="text-xl font-black text-slate-900">Transaction History</h3>
                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Complete archive of all fuel logs</p>
                 </div>
                 <div className="bg-white border border-slate-100 p-1 rounded-xl flex gap-1 shadow-sm">
-                   <button className="px-4 py-2 bg-slate-50 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-colors">Export CSV</button>
-                   <button className="px-4 py-2 bg-slate-50 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-colors">Print Logs</button>
+                   <button className="px-4 py-2 bg-[#F5F4F0] text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-colors">Export CSV</button>
+                   <button className="px-4 py-2 bg-[#F5F4F0] text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-colors">Print Logs</button>
                 </div>
              </div>
 
              {/* Filters Bar (Moved from Site) */}
-             <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-wrap items-center gap-4">
+             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-wrap items-center gap-4">
                 <div className="relative flex-1 min-w-[200px]">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input 
@@ -1486,12 +1486,12 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                     placeholder="Search Truck, Driver, Site..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                    className="w-full pl-12 pr-4 py-3 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                   />
                 </div>
                 <div className="flex items-center gap-3">
                   <select 
-                    className="bg-slate-50 border-none rounded-2xl px-5 py-3 text-xs font-black uppercase tracking-wider outline-none focus:ring-4 focus:ring-blue-500/10"
+                    className="bg-[#F5F4F0] border-none rounded-2xl px-5 py-3 text-xs font-black uppercase tracking-wider outline-none focus:ring-4 focus:ring-blue-500/10"
                     value={filters.siteId}
                     onChange={(e) => setFilters({...filters, siteId: e.target.value})}
                   >
@@ -1499,14 +1499,14 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                     {fuelSites.map(s => <option key={s.id} value={s.id}>{s.companyName}</option>)}
                   </select>
                   <select 
-                    className="bg-slate-50 border-none rounded-2xl px-5 py-3 text-xs font-black uppercase tracking-wider outline-none focus:ring-4 focus:ring-blue-500/10"
+                    className="bg-[#F5F4F0] border-none rounded-2xl px-5 py-3 text-xs font-black uppercase tracking-wider outline-none focus:ring-4 focus:ring-blue-500/10"
                     value={filters.truckId}
                     onChange={(e) => setFilters({...filters, truckId: e.target.value})}
                   >
                     <option value="ALL">All Vehicles</option>
                     {trucks.map(t => <option key={t.id} value={t.id}>{t.truckNumber}</option>)}
                   </select>
-                  <div className="flex items-center bg-slate-50 rounded-2xl px-4 py-3 gap-2">
+                  <div className="flex items-center bg-[#F5F4F0] rounded-2xl px-4 py-3 gap-2">
                     <input type="date" className="bg-transparent border-none text-[10px] font-black uppercase outline-none" value={filters.startDate} onChange={e => setFilters({...filters, startDate: e.target.value})} />
                     <span className="text-slate-300 font-bold">→</span>
                     <input type="date" className="bg-transparent border-none text-[10px] font-black uppercase outline-none" value={filters.endDate} onChange={e => setFilters({...filters, endDate: e.target.value})} />
@@ -1522,7 +1522,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
               </div>
 
               {/* Site Logs Table (Moved from Site) */}
-              <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
                   <h3 className="text-lg font-black text-slate-900">Fuel Transaction Logs</h3>
                   <div className="bg-blue-50 px-4 py-2 rounded-xl">
@@ -1531,29 +1531,29 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-slate-50/50">
+                    <thead className="bg-[#F5F4F0]/50">
                       <tr>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Date</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Vehicle</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Staff</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Category</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Station</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Qty/Rate</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Amount</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Status</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Settlement</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Mode</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Bank Account</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Transaction ID</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Trip ID</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Odometer</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Notes</th>
-                        <th className="px-3 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Actions</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Date</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Vehicle</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Staff</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Category</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Station</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Qty/Rate</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Amount</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Status</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Settlement</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Mode</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Bank Account</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Transaction ID</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Trip ID</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Odometer</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Notes</th>
+                        <th className="px-3 py-5 text-left t-label whitespace-nowrap">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
                       {filteredTransactions.map((ft) => (
-                        <tr key={ft.id} className="hover:bg-slate-50 transition-colors group">
+                        <tr key={ft.id} className="hover:bg-[#F5F4F0] transition-colors group">
                           <td className="px-3 py-6 whitespace-nowrap">
                             <p className="text-[10px] font-black text-slate-900">{ft.date}</p>
                             <p className="text-[8px] font-bold text-slate-400 uppercase">{ft.time}</p>
@@ -1650,13 +1650,13 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
         {/* Floating Bulk Action Bar */}
         {selectedTxnIds.length > 0 && selectedSiteId && (
-          <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-8 py-5 rounded-[2.5rem] shadow-2xl flex items-center gap-12 animate-in slide-in-from-bottom-8 duration-500 border border-slate-700/50 backdrop-blur-xl">
+          <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-8 py-5 rounded-2xl shadow-2xl flex items-center gap-12 animate-in slide-in-from-bottom-8 duration-500 border border-slate-700/50 backdrop-blur-xl">
              <div className="flex items-center gap-4 border-r border-slate-700 pr-12">
                 <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg shadow-blue-500/20">
                    {selectedTxnIds.length}
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Slips Selected</p>
+                  <p className="t-label whitespace-nowrap">Slips Selected</p>
                   <p className="text-lg font-black tracking-tighter">₹{
                     fuelTransactions
                       .filter(ft => selectedTxnIds.includes(ft.id))
@@ -1675,7 +1675,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                 </button>
                 <button 
                   onClick={() => setShowBulkPaymentModal(true)}
-                  className="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-[1.5rem] text-[11px] font-black uppercase tracking-widest shadow-xl shadow-blue-600/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-2"
+                  className="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-[11px] font-black uppercase tracking-widest shadow-xl shadow-blue-600/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-2"
                 >
                   <CreditCard size={18} /> Record Payment
                 </button>
@@ -1710,7 +1710,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
       {/* Bulk Payment Modal */}
       {showBulkPaymentModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-           <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+           <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
               <div className="p-8 bg-blue-600 text-white flex justify-between items-center">
                  <div className="flex items-center gap-4">
                     <div className="p-3 bg-white/20 rounded-2xl">
@@ -1730,9 +1730,9 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
               </div>
 
               <div className="p-8 space-y-6">
-                 <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 mb-2">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Settlement Amount</p>
-                    <p className="text-3xl font-black text-slate-900 tracking-tighter">
+                 <div className="p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 mb-2">
+                    <p className="t-label mb-1">Total Settlement Amount</p>
+                    <p className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tighter">
                        ₹{fuelTransactions
                           .filter(ft => selectedTxnIds.includes(ft.id))
                           .reduce((sum, ft) => sum + (ft.totalAmount || 0), 0)
@@ -1742,20 +1742,20 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
 
                  <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Date</label>
+                      <label className="t-label ml-1">Payment Date</label>
                       <input 
                         type="date" 
                         value={paymentForm.date}
                         onChange={(e) => setPaymentForm({...paymentForm, date: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:outline-none font-bold text-sm"
+                        className="w-full px-6 py-4 bg-[#F5F4F0] border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:outline-none font-bold text-sm"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Mode</label>
+                      <label className="t-label ml-1">Payment Mode</label>
                       <select 
                         value={paymentForm.mode}
                         onChange={(e) => setPaymentForm({...paymentForm, mode: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:outline-none font-bold text-sm appearance-none"
+                        className="w-full px-6 py-4 bg-[#F5F4F0] border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:outline-none font-bold text-sm appearance-none"
                       >
                          <option value="UPI">UPI / Digital</option>
                          <option value="CASH">Cash Payment</option>
@@ -1764,13 +1764,13 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reference Number / Transaction ID</label>
+                      <label className="t-label ml-1">Reference Number / Transaction ID</label>
                       <input 
                         type="text" 
                         placeholder="UTR / Ref No."
                         value={paymentForm.referenceNo}
                         onChange={(e) => setPaymentForm({...paymentForm, referenceNo: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:outline-none font-bold text-sm"
+                        className="w-full px-6 py-4 bg-[#F5F4F0] border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:outline-none font-bold text-sm"
                       />
                     </div>
                  </div>
@@ -1778,7 +1778,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
                  <button 
                    onClick={() => handleBulkPayment(paymentForm)}
                    disabled={!paymentForm.date}
-                   className="w-full py-5 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-100 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:translate-y-0"
+                   className="w-full py-5 bg-blue-600 text-white rounded-xl font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-100 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:translate-y-0"
                  >
                    CONFIRM SETTLEMENT
                  </button>
@@ -1790,7 +1790,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
       {/* Payment Modal */}
       {showPaymentModal && selectedTxn && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
             <div className="p-8 bg-blue-600 text-white relative">
                <button 
                   onClick={() => setShowPaymentModal(false)}
@@ -1814,20 +1814,20 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
             <div className="p-8 space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Date</label>
+                  <label className="t-label ml-1">Payment Date</label>
                   <input 
                     type="date" 
                     value={paymentForm.date}
                     onChange={e => setPaymentForm({...paymentForm, date: e.target.value})}
-                    className="w-full px-5 py-3 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mode</label>
+                  <label className="t-label ml-1">Mode</label>
                   <select 
                     value={paymentForm.mode}
                     onChange={e => setPaymentForm({...paymentForm, mode: e.target.value})}
-                    className="w-full px-5 py-3 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                   >
                     <option value="UPI">UPI</option>
                     <option value="BANK_TRANSFER">Bank Transfer</option>
@@ -1838,26 +1838,26 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
               </div>
 
               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reference Number / Txn ID</label>
+                  <label className="t-label ml-1">Reference Number / Txn ID</label>
                   <input 
                     type="text" 
                     placeholder="Enter Reference No..."
                     value={paymentForm.referenceNo}
                     onChange={e => setPaymentForm({...paymentForm, referenceNo: e.target.value})}
-                    className="w-full px-5 py-3 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                   />
               </div>
 
               <div className="pt-4 flex gap-3">
                 <button 
                   onClick={() => setShowPaymentModal(false)}
-                  className="flex-1 px-8 py-4 bg-slate-100 text-slate-600 rounded-[1.5rem] text-sm font-black hover:bg-slate-200 transition-all"
+                  className="flex-1 px-8 py-4 bg-slate-100 text-slate-600 rounded-xl text-sm font-black hover:bg-slate-200 transition-all"
                 >
                   CANCEL
                 </button>
                 <button 
                   onClick={handleProcessPayment}
-                  className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-[1.5rem] text-sm font-black shadow-xl shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-xl text-sm font-black shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
                   <CheckCircle2 size={18} />
                   CONFIRM SETTLEMENT
@@ -1949,7 +1949,7 @@ const FuelSlipModal: React.FC<{
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300 no-print">
-      <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
+      <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
          <div className="p-6 bg-slate-900 text-white flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-600 rounded-xl">
@@ -1963,7 +1963,7 @@ const FuelSlipModal: React.FC<{
          </div>
 
          <div className="p-8 overflow-y-auto bg-slate-100/50" id="fuel-slip-capture-area">
-            <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-200/60 flex flex-col gap-8 relative overflow-hidden" id="fuel-slip-content">
+            <div className="bg-white p-10 rounded-2xl shadow-xl border border-slate-200/60 flex flex-col gap-8 relative overflow-hidden" id="fuel-slip-content">
                {/* Decorative Element */}
                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-[5rem] -mr-16 -mt-16 z-0" />
                
@@ -1974,7 +1974,7 @@ const FuelSlipModal: React.FC<{
                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                          <Fuel size={16} className="text-white" />
                        </div>
-                       <h2 className="text-2xl font-black text-slate-900 tracking-tighter">FLYASH PRO</h2>
+                       <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tighter">FLYASH PRO</h2>
                     </div>
                     <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] ml-10">Logistics Excellence</p>
                   </div>
@@ -1992,7 +1992,7 @@ const FuelSlipModal: React.FC<{
                   <div className="space-y-1.5">
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Vehicle Details</p>
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg">
+                      <div className="p-1.5 bg-[#F5F4F0] text-slate-600 rounded-lg">
                         <Truck size={14} />
                       </div>
                       <p className="text-sm font-black text-slate-900 uppercase">{transaction.truckNumber}</p>
@@ -2002,7 +2002,7 @@ const FuelSlipModal: React.FC<{
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Operations Staff</p>
                     <div className="flex items-center justify-end gap-2">
                       <p className="text-sm font-black text-slate-900">{transaction.responsibleStaff || 'System'}</p>
-                      <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg">
+                      <div className="p-1.5 bg-[#F5F4F0] text-slate-600 rounded-lg">
                         <User size={14} />
                       </div>
                     </div>
@@ -2011,7 +2011,7 @@ const FuelSlipModal: React.FC<{
                   <div className="space-y-1.5">
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Service Station</p>
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-slate-50 text-blue-600 rounded-lg">
+                      <div className="p-1.5 bg-[#F5F4F0] text-blue-600 rounded-lg">
                         <MapPin size={14} />
                       </div>
                       <div className="flex flex-col">
@@ -2027,7 +2027,7 @@ const FuelSlipModal: React.FC<{
                         <p className="text-sm font-black text-slate-900">{transaction.odometerReading?.toLocaleString() || '-'} KM</p>
                         <p className="text-[9px] font-bold text-green-600 uppercase">Current Registry</p>
                       </div>
-                      <div className="p-1.5 bg-slate-50 text-amber-600 rounded-lg">
+                      <div className="p-1.5 bg-[#F5F4F0] text-amber-600 rounded-lg">
                         <TrendingUp size={14} />
                       </div>
                     </div>
@@ -2055,7 +2055,7 @@ const FuelSlipModal: React.FC<{
                </div>
 
                {/* Financial Summary */}
-               <div className="mt-2 p-8 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 relative overflow-hidden">
+               <div className="mt-2 p-8 bg-[#F5F4F0] rounded-2xl border-2 border-dashed border-slate-200 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-16 h-16 bg-white/50 -mr-8 -mt-8 rotate-45" />
                   
                   <div className="flex flex-col gap-5">
@@ -2102,7 +2102,7 @@ const FuelSlipModal: React.FC<{
 
                {/* Footer Details */}
                <div className="flex flex-col gap-4 mt-2">
-                  <div className="flex justify-between items-center px-4 py-3 bg-slate-50 rounded-2xl border border-slate-100">
+                  <div className="flex justify-between items-center px-4 py-3 bg-[#F5F4F0] rounded-2xl border border-slate-100">
                     <div className="flex items-center gap-2">
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Mode</span>
                       <span className="text-[10px] font-black text-slate-900 uppercase bg-white px-2 py-0.5 rounded-md shadow-sm">{transaction.paymentMode || 'COD'}</span>
@@ -2151,13 +2151,13 @@ const FuelSlipModal: React.FC<{
          <div className="p-8 bg-white border-t border-slate-100 flex gap-4 no-print">
             <button
               onClick={onClose}
-              className="flex-1 px-8 py-4 bg-slate-100 text-slate-500 rounded-3xl text-sm font-black hover:bg-slate-200 transition-all uppercase"
+              className="flex-1 px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl text-sm font-black hover:bg-slate-200 transition-all uppercase"
             >
               Back
             </button>
             <button
               onClick={handleDownload}
-              className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-3xl text-sm font-black shadow-xl shadow-blue-200 hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"
+              className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-2xl text-sm font-black shadow-md shadow-blue-500/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"
             >
               <Download size={18} />
               Export PDF
@@ -2247,7 +2247,7 @@ const FuelLogModal: React.FC<{
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
+      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
          {/* Header */}
          <div className="p-8 bg-blue-600 text-white relative">
             <button onClick={onClose} className="absolute top-6 right-6 p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors">
@@ -2264,20 +2264,20 @@ const FuelLogModal: React.FC<{
          <form onSubmit={onSubmit} className="p-8 space-y-6 overflow-y-auto">
             <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Entry Date</label>
+                  <label className="t-label ml-1">Entry Date</label>
                   <input 
                     type="date" 
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.date}
                     onChange={e => setForm({...form, date: e.target.value})}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Responsible Staff</label>
+                  <label className="t-label ml-1">Responsible Staff</label>
                   <input 
                     type="text" 
                     placeholder="Staff in charge"
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.responsibleStaff}
                     onChange={e => setForm({...form, responsibleStaff: e.target.value})}
                   />
@@ -2334,10 +2334,10 @@ const FuelLogModal: React.FC<{
                   />
                </div>
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Fuel Category</label>
+                  <label className="t-label ml-1">Fuel Category</label>
                   <select 
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none font-black text-blue-600"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none font-black text-blue-600"
                     value={form.fuelCategory}
                     onChange={e => setForm({...form, fuelCategory: e.target.value as any})}
                   >
@@ -2351,45 +2351,45 @@ const FuelLogModal: React.FC<{
 
             <div className="grid grid-cols-3 gap-4">
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Quantity ({form.fuelCategory === 'EV' ? 'kWh' : 'Ltrs'})</label>
+                  <label className="t-label ml-1">Quantity ({form.fuelCategory === 'EV' ? 'kWh' : 'Ltrs'})</label>
                   <input 
                     required
                     type="number"
                     step="0.01"
                     placeholder="0.00"
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.quantity}
                     onChange={e => setForm({...form, quantity: e.target.value})}
                   />
                </div>
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Rate / Unit</label>
+                  <label className="t-label ml-1">Rate / Unit</label>
                   <input 
                     required
                     type="number"
                     step="0.01"
                     placeholder="₹0.00"
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.rate}
                     onChange={e => setForm({...form, rate: e.target.value})}
                   />
                </div>
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Odometer</label>
+                  <label className="t-label ml-1">Odometer</label>
                   <input 
                     required
                     type="number"
                     placeholder="KM"
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.odometerReading}
                     onChange={e => setForm({...form, odometerReading: e.target.value})}
                   />
                </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 p-6 bg-slate-100/50 rounded-3xl border border-slate-200/50">
+            <div className="grid grid-cols-2 gap-6 p-6 bg-slate-100/50 rounded-2xl border border-slate-200/50">
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Status</label>
+                  <label className="t-label ml-1">Status</label>
                   <select 
                     className={`w-full px-5 py-3.5 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none ${form.paymentStatus === 'PAID' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
                     value={form.paymentStatus}
@@ -2402,7 +2402,7 @@ const FuelLogModal: React.FC<{
                
                {form.paymentStatus === 'PAID' ? (
                   <div className="space-y-2 animate-in slide-in-from-right-4 duration-300">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Paid Date</label>
+                    <label className="t-label ml-1">Paid Date</label>
                     <input 
                       type="date" 
                       className="w-full px-5 py-3.5 bg-white border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
@@ -2412,7 +2412,7 @@ const FuelLogModal: React.FC<{
                   </div>
                ) : (
                   <div className="space-y-2 animate-in slide-in-from-left-4 duration-300">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Due Date</label>
+                    <label className="t-label ml-1">Payment Due Date</label>
                     <input 
                       type="date" 
                       className="w-full px-5 py-3.5 bg-white border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none underline decoration-red-400"
@@ -2426,14 +2426,14 @@ const FuelLogModal: React.FC<{
             {form.paymentStatus === 'PAID' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Mode</label>
+                  <label className="t-label ml-1">Payment Mode</label>
                   <div className="grid grid-cols-4 gap-2">
                     {['UPI', 'BANK_TRANSFER', 'CASH', 'CHEQUE'].map(mode => (
                       <button
                         key={mode}
                         type="button"
                         onClick={() => setForm({...form, paymentMode: mode, bankId: mode === 'CASH' ? '' : form.bankId})}
-                        className={`py-2 rounded-xl text-[10px] font-black uppercase transition-all ${form.paymentMode === mode ? 'bg-blue-600 text-white shadow-lg' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
+                        className={`py-2 rounded-xl text-[10px] font-black uppercase transition-all ${form.paymentMode === mode ? 'bg-blue-600 text-white shadow-lg' : 'bg-[#F5F4F0] text-slate-400 hover:bg-slate-100'}`}
                       >
                         {mode.replace('_', ' ')}
                       </button>
@@ -2458,20 +2458,20 @@ const FuelLogModal: React.FC<{
 
             <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Transaction ID / Ref No</label>
+                  <label className="t-label ml-1">Transaction ID / Ref No</label>
                   <input 
                     type="text" 
                     placeholder="e.g. TXN-12938102"
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.referenceNo}
                     onChange={e => setForm({...form, referenceNo: e.target.value})}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Purchase Time</label>
+                  <label className="t-label ml-1">Purchase Time</label>
                   <input 
                     type="text" 
-                    className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                     value={form.time}
                     onChange={e => setForm({...form, time: e.target.value})}
                   />
@@ -2490,21 +2490,21 @@ const FuelLogModal: React.FC<{
                   />
                 </div>
                 <div className="space-y-2">
-                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Fuel Level Before (%)</label>
+                   <label className="t-label ml-1">Fuel Level Before (%)</label>
                    <input 
                      type="number"
                      placeholder="Level before"
-                     className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                     className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                      value={form.fuelLevelBefore}
                      onChange={e => setForm({...form, fuelLevelBefore: e.target.value})}
                    />
                 </div>
                 <div className="space-y-2">
-                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Fuel Level After (%)</label>
+                   <label className="t-label ml-1">Fuel Level After (%)</label>
                    <input 
                      type="number"
                      placeholder="Level after"
-                     className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                     className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                      value={form.fuelLevelAfter}
                      onChange={e => setForm({...form, fuelLevelAfter: e.target.value})}
                    />
@@ -2512,11 +2512,11 @@ const FuelLogModal: React.FC<{
             </div>
 
             <div className="space-y-2">
-               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Additional Notes</label>
+               <label className="t-label ml-1">Additional Notes</label>
                <textarea 
                  rows={2}
                  placeholder="Enter any additional details..."
-                 className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none resize-none"
+                 className="w-full px-5 py-3.5 bg-[#F5F4F0] border-none rounded-2xl text-sm font-bold focus:ring-4 focus:ring-blue-500/10 outline-none resize-none"
                  value={form.notes}
                  onChange={e => setForm({...form, notes: e.target.value})}
                />
@@ -2526,13 +2526,13 @@ const FuelLogModal: React.FC<{
               <button 
                 type="button" 
                 onClick={onClose}
-                className="flex-1 px-8 py-4 bg-slate-100 text-slate-500 rounded-3xl text-sm font-black hover:bg-slate-200 transition-all"
+                className="flex-1 px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl text-sm font-black hover:bg-slate-200 transition-all"
               >
                 DISCARD
               </button>
               <button 
                 type="submit" 
-                className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-3xl text-sm font-black shadow-xl shadow-blue-200 hover:-translate-y-1 transition-all"
+                className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-2xl text-sm font-black shadow-md shadow-blue-500/20 hover:-translate-y-1 transition-all"
               >
                 {isEditing ? 'UPDATE RECORD' : 'RECORD FUEL PURCHASE'}
               </button>

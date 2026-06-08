@@ -25,10 +25,8 @@ export function setAuthToken(token: string | null): void {
   authToken = token;
   if (token) {
     safeStorage.set(TOKEN_STORAGE_KEY, token);
-    axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
     safeStorage.remove(TOKEN_STORAGE_KEY);
-    delete axiosClient.defaults.headers.common['Authorization'];
   }
 }
 
@@ -90,12 +88,20 @@ function formatValidationDetails(details: unknown): string {
   return lines.join('. ') + '.';
 }
 
+axiosClient.interceptors.request.use((config) => {
+  if (authToken) {
+    config.headers['Authorization'] = `Bearer ${authToken}`;
+  }
+  return config;
+});
+
 axiosClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError<{ error?: string; details?: unknown }>) => {
     const status = error.response?.status ?? 0;
+    const url = error.config?.url ?? '';
 
-    if (status === 401) {
+    if (status === 401 && !url.includes('/auth/login') && !url.includes('/auth/register')) {
       onUnauthorized?.();
       throw new ApiError(401, 'Your session has expired. Please sign in again.');
     }

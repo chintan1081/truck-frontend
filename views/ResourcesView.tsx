@@ -303,7 +303,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   // Returns red-highlighted input className when field has an error
   const fieldCls = (base: string, field: string) =>
-    fe[field] ? base.replace('border-slate-200', 'border-red-300').replace('bg-slate-50', 'bg-red-50').replace('bg-white', 'bg-red-50') : base;
+    fe[field] ? base.replace('border-slate-200', 'border-red-300').replace('bg-[#F5F4F0]', 'bg-red-50').replace('bg-white', 'bg-red-50') : base;
 
   // Renders the error message tag below a field
   const fieldErr = (field: string) =>
@@ -335,8 +335,16 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleEmployeeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      fullName: { value: employeeForm.fullName, label: 'Full Name' },
-      phoneNumber: { value: employeeForm.phoneNumber, label: 'Phone Number' },
+      fullName: { value: employeeForm.fullName, label: 'Full Name', type: 'text' },
+      phoneNumber: { value: employeeForm.phoneNumber, label: 'Phone Number', type: 'phone' },
+      whatsappNumber: { value: employeeForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone' },
+      address: { value: employeeForm.address, label: 'Address', type: 'text' },
+      joinDate: { value: employeeForm.joinDate, label: 'Join Date' },
+      email: { value: employeeForm.email, label: 'Email', type: 'email', optional: true },
+      empBankName: { value: employeeForm.bankAccountDetails?.bankName, label: 'Bank Name', type: 'text' },
+      empAccountNumber: { value: employeeForm.bankAccountDetails?.accountNumber, label: 'Account Number', type: 'accountNumber' },
+      empIfscCode: { value: employeeForm.bankAccountDetails?.ifscCode, label: 'IFSC Code', type: 'ifsc' },
+      empUpiId: { value: employeeForm.bankAccountDetails?.upiId, label: 'UPI ID', type: 'upi' },
     });
     if (!ok) return;
     const finalTrackingId = employeeForm.trackingId || `EMP-${Date.now().toString().slice(-6)}`;
@@ -351,14 +359,14 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleClientSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      name: { value: clientForm.name, label: 'Business Name' },
-      gstNumber: { value: clientForm.gstNumber, label: 'GST Number' },
-      address: { value: clientForm.address, label: 'Billing Address' },
-      city: { value: clientForm.city, label: 'City' },
-      state: { value: clientForm.state, label: 'State' },
-      pincode: { value: clientForm.pincode, label: 'Pincode' },
-      email: { value: clientForm.email, label: 'Contact Email' },
-      phone: { value: clientForm.phone, label: 'Contact Phone' },
+      name: { value: clientForm.name, label: 'Business Name', type: 'text' },
+      gstNumber: { value: clientForm.gstNumber, label: 'GST Number', type: 'gst' },
+      address: { value: clientForm.address, label: 'Billing Address', type: 'text' },
+      city: { value: clientForm.city, label: 'City', type: 'text' },
+      state: { value: clientForm.state, label: 'State', type: 'text' },
+      pincode: { value: clientForm.pincode, label: 'Pincode', type: 'pincode' },
+      email: { value: clientForm.email, label: 'Contact Email', type: 'email' },
+      phone: { value: clientForm.phone, label: 'Contact Phone', type: 'phone' },
     });
     if (!ok) return;
     const finalTrackingId = clientForm.trackingId || `CLNT-${Date.now().toString().slice(-6)}`;
@@ -373,11 +381,14 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleSiteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      name: { value: siteForm.name, label: 'Site Name' },
-      location: { value: siteForm.location, label: 'Location Address' },
-      city: { value: siteForm.city, label: 'City' },
-      state: { value: siteForm.state, label: 'State' },
-      pincode: { value: siteForm.pincode, label: 'Pincode' },
+      name: { value: siteForm.name, label: 'Site Name', type: 'text' },
+      location: { value: siteForm.location, label: 'Location Address', type: 'text' },
+      city: { value: siteForm.city, label: 'City', type: 'text' },
+      state: { value: siteForm.state, label: 'State', type: 'text' },
+      pincode: { value: siteForm.pincode, label: 'Pincode', type: 'pincode' },
+      gstNumber: { value: siteForm.gstNumber, label: 'GST Number', type: 'gst', optional: true },
+      contactPhone: { value: siteForm.contactPhone, label: 'Contact Phone', type: 'phone', optional: true },
+      siteEmail: { value: siteForm.email, label: 'Contact Email', type: 'email', optional: true },
     });
     if (!ok) return;
     const finalTrackingId = siteForm.trackingId || `SITE-${Date.now().toString().slice(-6)}`;
@@ -392,11 +403,14 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleBrokerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      name: { value: brokerForm.name, label: 'Broker Name' },
-      email: { value: brokerForm.email, label: 'Email Address' },
-      phone: { value: brokerForm.phone, label: 'Phone Number' },
-      whatsappNumber: { value: brokerForm.whatsappNumber, label: 'WhatsApp Number' },
-      address: { value: brokerForm.address, label: 'Address' },
+      name: { value: brokerForm.name, label: 'Broker Name', type: 'text' },
+      email: { value: brokerForm.email, label: 'Email Address', type: 'email' },
+      phone: { value: brokerForm.phone, label: 'Phone Number', type: 'phone' },
+      whatsappNumber: { value: brokerForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone' },
+      address: { value: brokerForm.address, label: 'Address', type: 'text' },
+      brkUpiId: { value: brokerForm.upiId, label: 'UPI ID', type: 'upi', optional: true },
+      brkIfscCode: { value: brokerForm.bankDetails?.ifscCode, label: 'IFSC Code', type: 'ifsc', optional: true },
+      brkAccountNumber: { value: brokerForm.bankDetails?.accountNumber, label: 'Account Number', type: 'accountNumber', optional: true },
     });
     if (!ok) return;
     const finalTrackingId = brokerForm.trackingId || `BKR-${Date.now().toString().slice(-6)}`;
@@ -413,7 +427,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
     const ok = validate({
       source: { value: routeForm.source, label: 'Loading Station' },
       destination: { value: routeForm.destination, label: 'Destination' },
-      distanceKm: { value: routeForm.distanceKm, label: 'Distance (km)' },
+      distanceKm: { value: routeForm.distanceKm, label: 'Distance (km)', type: 'positiveNumber' },
     });
     if (!ok) return;
     const finalTrackingId = routeForm.trackingId || `RT-${Date.now().toString().slice(-6)}`;
@@ -427,6 +441,15 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleBankSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const ok = validate({
+      bankName: { value: bankForm.bankName, label: 'Bank Name', type: 'text' },
+      accountNumber: { value: bankForm.accountNumber, label: 'Account Number', type: 'accountNumber' },
+      ifscCode: { value: bankForm.ifscCode, label: 'IFSC Code', type: 'ifsc' },
+      managerEmail: { value: bankForm.managerEmail, label: 'Manager Email', type: 'email', optional: true },
+      managerPhone: { value: bankForm.managerPhone, label: 'Manager Phone', type: 'phone', optional: true },
+      managerWhatsapp: { value: bankForm.managerWhatsapp, label: 'Manager WhatsApp', type: 'phone', optional: true },
+    });
+    if (!ok) return;
     const finalTrackingId = bankForm.trackingId || `BANK-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
       onUpdateBanks(banks.map(b => b.id === editingItem.id ? { ...b, ...bankForm, trackingId: finalTrackingId } as Bank : b));
@@ -439,8 +462,9 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleItemProductSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      productName: { value: itemProductForm.productName, label: 'Product Name' },
-      hsnSacCode: { value: itemProductForm.hsnSacCode, label: 'HSN/SAC Code' },
+      productName: { value: itemProductForm.productName, label: 'Product Name', type: 'text' },
+      hsnSacCode: { value: itemProductForm.hsnSacCode, label: 'HSN/SAC Code', type: 'text' },
+      gstRate: { value: itemProductForm.gstRate, label: 'GST Rate', type: 'number', min: 0, max: 100, optional: true },
     });
     if (!ok) return;
     const finalTrackingId = itemProductForm.trackingId || `PROD-${Date.now().toString().slice(-6)}`;
@@ -472,13 +496,18 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleFuelSiteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      companyName: { value: fuelSiteForm.companyName, label: 'Company Name' },
-      ownerName: { value: fuelSiteForm.ownerName, label: 'Owner Name' },
-      phoneNumber: { value: fuelSiteForm.phoneNumber, label: 'Phone Number' },
-      address: { value: fuelSiteForm.address, label: 'Address' },
-      accountNumber: { value: fuelSiteForm.accountNumber, label: 'Account Number' },
-      ifscCode: { value: fuelSiteForm.ifscCode, label: 'IFSC Code' },
-      bankName: { value: fuelSiteForm.bankName, label: 'Bank Name' },
+      companyName: { value: fuelSiteForm.companyName, label: 'Company Name', type: 'text' },
+      ownerName: { value: fuelSiteForm.ownerName, label: 'Owner Name', type: 'text' },
+      phoneNumber: { value: fuelSiteForm.phoneNumber, label: 'Phone Number', type: 'phone' },
+      address: { value: fuelSiteForm.address, label: 'Address', type: 'text' },
+      bankName: { value: fuelSiteForm.bankName, label: 'Bank Name', type: 'text' },
+      accountNumber: { value: fuelSiteForm.accountNumber, label: 'Account Number', type: 'accountNumber' },
+      ifscCode: { value: fuelSiteForm.ifscCode, label: 'IFSC Code', type: 'ifsc' },
+      fsWhatsapp: { value: fuelSiteForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone', optional: true },
+      contactEmail: { value: fuelSiteForm.contactEmail, label: 'Contact Email', type: 'email', optional: true },
+      gstNumber: { value: fuelSiteForm.gstNumber, label: 'GST Number', type: 'gst', optional: true },
+      upiId: { value: fuelSiteForm.upiId, label: 'UPI ID', type: 'upi', optional: true },
+      googleMapLink: { value: fuelSiteForm.googleMapLink, label: 'Google Map Link', type: 'url', optional: true },
     });
     if (!ok) return;
     const finalTrackingId = fuelSiteForm.trackingId || `FUEL-${Date.now().toString().slice(-6)}`;
@@ -493,13 +522,17 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleDriverSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      name: { value: driverForm.name, label: 'Full Name' },
-      phoneNumber: { value: driverForm.phoneNumber, label: 'Phone Number' },
-      whatsappNumber: { value: driverForm.whatsappNumber, label: 'WhatsApp Number' },
+      name: { value: driverForm.name, label: 'Full Name', type: 'text' },
+      phoneNumber: { value: driverForm.phoneNumber, label: 'Phone Number', type: 'phone' },
+      whatsappNumber: { value: driverForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone' },
       licenseExpiry: { value: driverForm.licenseExpiry, label: 'License Expiry' },
-      address: { value: driverForm.address, label: 'Address' },
-      bankName: { value: driverForm.bankName, label: 'Bank Name' },
-      upiId: { value: driverForm.upiId, label: 'UPI ID' },
+      address: { value: driverForm.address, label: 'Address', type: 'text' },
+      bankName: { value: driverForm.bankName, label: 'Bank Name', type: 'text' },
+      upiId: { value: driverForm.upiId, label: 'UPI ID', type: 'upi' },
+      drvEmail: { value: driverForm.email, label: 'Email', type: 'email', optional: true },
+      drvIfscCode: { value: driverForm.ifscCode, label: 'IFSC Code', type: 'ifsc', optional: true },
+      drvAccountNumber: { value: driverForm.accountNumber, label: 'Account Number', type: 'accountNumber', optional: true },
+      experienceYears: { value: driverForm.experienceYears, label: 'Experience (Years)', type: 'number', min: 0, max: 60, optional: true },
     });
     if (!ok) return;
     const finalTrackingId = driverForm.trackingId || `DRV-${Date.now().toString().slice(-6)}`;
@@ -526,10 +559,14 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const handleTruckSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
-      name: { value: truckForm.name, label: 'Truck Name' },
-      truckNumber: { value: truckForm.truckNumber || truckForm.plateNumber, label: 'Truck Number' },
-      ownerName: { value: truckForm.ownerName, label: 'Owner Name' },
-      ownerContact: { value: truckForm.ownerContact, label: 'Owner Contact' },
+      name: { value: truckForm.name, label: 'Truck Name', type: 'text' },
+      truckNumber: { value: truckForm.truckNumber || truckForm.plateNumber, label: 'Truck Number', type: 'text' },
+      ownerName: { value: truckForm.ownerName, label: 'Owner Name', type: 'text' },
+      ownerContact: { value: truckForm.ownerContact, label: 'Owner Contact', type: 'phone' },
+      mileage: { value: truckForm.mileage, label: 'Mileage (KM/L)', type: 'positiveNumber', optional: true },
+      dieselLimit: { value: truckForm.dieselLimit, label: 'Diesel Limit (L)', type: 'positiveNumber', optional: true },
+      currentOdometer: { value: truckForm.currentOdometer, label: 'Odometer (KM)', type: 'number', min: 0, optional: true },
+      driverScore: { value: truckForm.driverScore, label: 'Driver Score', type: 'number', min: 0, max: 100, optional: true },
     });
     if (!ok) return;
     const assignedDriver = drivers.find(d => d.id === truckForm.assignedDriverId);
@@ -658,10 +695,10 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   }, [activeSubTab, searchQuery, searchCategory, trucks, drivers, employees, clients, sites, brokers, routes, banks, itemProducts, fuelSites]);
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Master Database</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Master Database</h2>
           <p className="text-slate-500 text-sm font-medium">Manage fleet, staff, clients, and logistics points.</p>
         </div>
         <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto no-scrollbar">
@@ -669,7 +706,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
             <button 
               key={tab}
               onClick={() => setActiveSubTab(tab)}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeSubTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeSubTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
             >
               {tab === 'sites' ? 'Stations & Sites' : tab === 'item-products' ? 'Items Products' : tab === 'fuel-sites' ? 'Fuels&Site' : tab}
             </button>
@@ -678,12 +715,12 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4">
-        <div className="flex-1 relative flex items-center bg-white border border-slate-200 rounded-2xl overflow-hidden focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all shadow-sm">
+        <div className="flex-1 relative flex items-center bg-white border border-[#E7E5E0] rounded-xl overflow-hidden focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all shadow-sm">
           <div className="relative flex items-center border-r border-slate-100">
             <select 
               value={searchCategory}
               onChange={e => setSearchCategory(e.target.value as any)}
-              className="pl-4 pr-10 py-3.5 bg-transparent border-none font-black text-[10px] uppercase tracking-widest outline-none cursor-pointer hover:bg-slate-50 transition-all appearance-none"
+              className="pl-4 pr-10 py-3.5 bg-transparent border-none font-black text-[10px] uppercase tracking-widest outline-none cursor-pointer hover:bg-[#F5F4F0] transition-all appearance-none"
             >
               <option value="ALL">All Search</option>
               <option value="NAME">By Name</option>
@@ -719,7 +756,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-in fade-in duration-500">
         {activeSubTab === 'trucks' && (filteredItems as Truck[]).map((truck: Truck) => (
-          <div key={truck.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group">
+          <div key={truck.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
@@ -738,16 +775,16 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   <button onClick={() => onUpdateTrucks(trucks.filter(t => t.id !== truck.id))} className="p-2 text-slate-400 hover:text-red-600 transition-colors"><Trash2 size={16}/></button>
                </div>
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-[#F5F4F0] p-2.5 rounded-xl border border-slate-100 mb-2">
                 <UserCheck size={14} className="text-blue-500" />
                 <span>Driver: <span className="text-slate-900 font-black">{truck.driverName}</span></span>
             </div>
             <div className="grid grid-cols-2 gap-2 mt-4">
-              <div className="p-2 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
+              <div className="p-2 bg-[#F5F4F0] rounded-xl border border-slate-100 text-[10px]">
                 <span className="block font-black text-slate-400 uppercase tracking-tight">Handled</span>
                 <span className="font-black text-slate-900">{truck.totalMtHandled} MT</span>
               </div>
-              <div className="p-2 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
+              <div className="p-2 bg-[#F5F4F0] rounded-xl border border-slate-100 text-[10px]">
                 <span className="block font-black text-slate-400 uppercase tracking-tight">Mileage</span>
                 <span className="font-black text-slate-900">{truck.mileage} KM/L</span>
               </div>
@@ -756,7 +793,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'drivers' && (filteredItems as Driver[]).map((driver: Driver) => (
-          <div key={driver.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group">
+          <div key={driver.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
@@ -779,11 +816,11 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+              <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-1">
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-tight">License Expiry</p>
                   <p className="text-xs font-black text-slate-900">{driver.licenseExpiry || 'N/A'}</p>
               </div>
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+              <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-1">
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-tight">Join Date</p>
                   <p className="text-xs font-black text-slate-900">{driver.joinDate || 'N/A'}</p>
               </div>
@@ -814,7 +851,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'employees' && (filteredItems as Employee[]).map((emp: Employee) => (
-          <div key={emp.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-purple-500">
+          <div key={emp.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-purple-500">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-all shadow-sm">
@@ -838,16 +875,16 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
             </div>
             <div className="space-y-4">
                <div className="grid grid-cols-2 gap-2 text-[10px]">
-                  <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="p-2.5 bg-[#F5F4F0] rounded-xl border border-slate-100">
                      <span className="block font-black text-slate-400 uppercase tracking-tight">Joined</span>
                      <span className="font-black text-slate-900">{emp.joinDate}</span>
                   </div>
-                  <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="p-2.5 bg-[#F5F4F0] rounded-xl border border-slate-100">
                      <span className="block font-black text-slate-400 uppercase tracking-tight">Status</span>
                      <span className={`font-black uppercase ${emp.exitDate ? 'text-red-500' : 'text-green-500'}`}>{emp.exitDate ? 'Resigned' : 'Active'}</span>
                   </div>
                </div>
-               <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 space-y-1.5">
+               <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-1.5">
                   <div className="flex justify-between items-center text-[9px] font-black text-slate-400 uppercase">
                      <span>Bank Account</span>
                      <Landmark size={12} />
@@ -864,7 +901,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'clients' && (filteredItems as Client[]).map((client: Client) => (
-          <div key={client.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-green-500">
+          <div key={client.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-green-500">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-all shadow-sm">
@@ -899,7 +936,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'sites' && (filteredItems as Site[]).map((site: Site) => (
-          <div key={site.id} className={`bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 ${site.type === 'TPS' ? 'border-l-amber-500' : 'border-l-purple-500'}`}>
+          <div key={site.id} className={`bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 ${site.type === 'TPS' ? 'border-l-amber-500' : 'border-l-purple-500'}`}>
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-sm ${site.type === 'TPS' ? 'bg-amber-50 text-amber-600' : 'bg-purple-50 text-purple-600'}`}>
@@ -919,7 +956,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   <button onClick={() => onUpdateSites(sites.filter(s => s.id !== site.id))} className="p-2 text-slate-400 hover:text-red-600 transition-colors opacity-0 group-hover:opacity-100"><Trash2 size={16}/></button>
                </div>
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100">
                <MapPin size={16} className="text-slate-300 shrink-0" />
                <span className="truncate">{site.location}</span>
             </div>
@@ -927,7 +964,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'brokers' && (filteredItems as Broker[]).map((broker: Broker) => (
-          <div key={broker.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-blue-500">
+          <div key={broker.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-blue-500">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
@@ -981,7 +1018,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
           const mapLink = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(originVal)}&destination=${encodeURIComponent(destVal)}&travelmode=driving`;
 
           return (
-            <div key={route.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-orange-500">
+            <div key={route.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-orange-500">
               <div className="flex items-start justify-between mb-4">
                  <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-all shadow-sm">
@@ -1011,7 +1048,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                  </div>
               </div>
               <div className="space-y-2">
-                 <div className="flex items-center justify-between text-xs font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                 <div className="flex items-center justify-between text-xs font-bold text-slate-600 bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100">
                     <div className="flex flex-col">
                       <span className="text-[9px] uppercase text-slate-400 flex items-center gap-1">
                         Source
@@ -1044,7 +1081,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         })}
 
         {activeSubTab === 'banks' && (filteredItems as Bank[]).map((bank: Bank) => (
-          <div key={bank.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-blue-500">
+          <div key={bank.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-blue-500">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-sm bg-blue-50 text-blue-600">
@@ -1064,7 +1101,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                </div>
             </div>
             <div className="space-y-3">
-               <div className="flex items-center justify-between gap-2 text-xs font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+               <div className="flex items-center justify-between gap-2 text-xs font-bold text-slate-600 bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100">
                   <div className="flex items-center gap-2">
                     <CreditCard size={16} className="text-slate-300 shrink-0" />
                     <div className="flex flex-col">
@@ -1080,11 +1117,11 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   )}
                </div>
                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-2 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
+                  <div className="p-2 bg-[#F5F4F0] rounded-xl border border-slate-100 text-[10px]">
                     <span className="block font-black text-slate-400 uppercase tracking-tight">Check No</span>
                     <span className="font-black text-slate-900">{bank.checkNumber || 'N/A'}</span>
                   </div>
-                  <div className="p-2 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
+                  <div className="p-2 bg-[#F5F4F0] rounded-xl border border-slate-100 text-[10px]">
                     <span className="block font-black text-slate-400 uppercase tracking-tight">Address</span>
                     <span className="font-black text-slate-900 truncate block">{bank.bankAddress}</span>
                   </div>
@@ -1123,7 +1160,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'item-products' && (filteredItems as ItemProduct[]).map((prod: ItemProduct) => (
-          <div key={prod.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-cyan-500">
+          <div key={prod.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-cyan-500">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-sm bg-cyan-50 text-cyan-600">
@@ -1144,14 +1181,14 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
             </div>
             <div className="space-y-3">
                <div className="grid grid-cols-2 gap-2">
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-100 flex-1">
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100 flex-1">
                      <div className="w-4 h-4 rounded-full border border-slate-200 shrink-0" style={{ backgroundColor: (prod.productColour || "").toLowerCase().replace(/[^a-z0-9#]/g, '') }}></div>
                      <div className="flex flex-col min-w-0">
                        <span className="text-[9px] uppercase text-slate-400">Colour</span>
                        <span className="text-slate-900 font-black truncate">{prod.productColour}</span>
                      </div>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-100 flex-1">
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100 flex-1">
                      <Percent size={14} className="text-cyan-600 shrink-0" />
                      <div className="flex flex-col min-w-0">
                        <span className="text-[9px] uppercase text-slate-400">GST</span>
@@ -1161,7 +1198,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                </div>
 
                {prod.services && prod.services.length > 0 && (
-                 <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                 <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100">
                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">Linked Services</span>
                    <div className="flex flex-wrap gap-1.5">
                      {prod.services.map((s, idx) => (
@@ -1177,7 +1214,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
         ))}
 
         {activeSubTab === 'fuel-sites' && (filteredItems as FuelSite[]).map((fs: FuelSite) => (
-          <div key={fs.id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-rose-500">
+          <div key={fs.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 border-l-rose-500">
             <div className="flex items-start justify-between mb-4">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-all shadow-sm">
@@ -1200,11 +1237,11 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
             </div>
             <div className="space-y-4">
                <div className="grid grid-cols-2 gap-2 text-[10px]">
-                  <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="p-2.5 bg-[#F5F4F0] rounded-xl border border-slate-100">
                      <span className="block font-black text-slate-400 uppercase tracking-tight">WhatsApp</span>
                      <span className="font-black text-slate-900">{fs.whatsappNumber}</span>
                   </div>
-                  <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-center">
+                  <div className="p-2.5 bg-[#F5F4F0] rounded-xl border border-slate-100 flex flex-col justify-center">
                      <span className="block font-black text-slate-400 uppercase tracking-tight">GST</span>
                      <span className="font-black text-slate-900 truncate">{fs.gstNumber}</span>
                   </div>
@@ -1233,42 +1270,45 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Bank Modal */}
       {isBankModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Bank Record' : 'Add Bank Record'}</h3>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Bank Record' : 'Add Bank Record'}</h3>
               <button onClick={() => { setIsBankModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleBankSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={bankForm.trackingId ?? ''} onChange={e => setBankForm({...bankForm, trackingId: e.target.value})} placeholder="e.g. BANK-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={bankForm.trackingId ?? ''} onChange={e => setBankForm({...bankForm, trackingId: e.target.value})} placeholder="e.g. BANK-001" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Bank Name*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={bankForm.bankName ?? ''} onChange={e => setBankForm({...bankForm, bankName: e.target.value})} placeholder="e.g. HDFC Bank" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'bankName')} value={bankForm.bankName ?? ''} onChange={e => { setBankForm({...bankForm, bankName: e.target.value}); clearField('bankName'); }} placeholder="e.g. HDFC Bank" />
+                  {fieldErr('bankName')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Account Number*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={bankForm.accountNumber ?? ''} onChange={e => setBankForm({...bankForm, accountNumber: e.target.value})} placeholder="XXXX XXXX XXXX" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'accountNumber')} value={bankForm.accountNumber ?? ''} onChange={e => { setBankForm({...bankForm, accountNumber: e.target.value}); clearField('accountNumber'); }} placeholder="9–18 digit account number" />
+                  {fieldErr('accountNumber')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">IFSC Code*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold uppercase" value={bankForm.ifscCode ?? ''} onChange={e => setBankForm({...bankForm, ifscCode: e.target.value})} placeholder="e.g. HDFC0000001" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold uppercase", 'ifscCode')} value={bankForm.ifscCode ?? ''} onChange={e => { setBankForm({...bankForm, ifscCode: e.target.value.toUpperCase()}); clearField('ifscCode'); }} placeholder="e.g. HDFC0001234" />
+                  {fieldErr('ifscCode')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Check Number</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={bankForm.checkNumber ?? ''} onChange={e => setBankForm({...bankForm, checkNumber: e.target.value})} placeholder="e.g. 001234" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={bankForm.checkNumber ?? ''} onChange={e => setBankForm({...bankForm, checkNumber: e.target.value})} placeholder="e.g. 001234" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Bank Address</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={bankForm.bankAddress ?? ''} onChange={e => setBankForm({...bankForm, bankAddress: e.target.value})} placeholder="Branch location..." />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={bankForm.bankAddress ?? ''} onChange={e => setBankForm({...bankForm, bankAddress: e.target.value})} placeholder="Branch location..." />
                 </div>
                </div>
 
-               <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200/60 space-y-4">
+               <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-200/60 space-y-4">
                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
                    <User size={14} className="text-indigo-600" /> Bank Manager Details
                  </h4>
@@ -1277,7 +1317,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Manager Name</label>
                      <input 
                        type="text" 
-                       className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
+                       className="w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
                        value={bankForm.managerName ?? ''} 
                        onChange={e => setBankForm({...bankForm, managerName: e.target.value})} 
                        placeholder="e.g. John Doe" 
@@ -1285,41 +1325,44 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                    </div>
                    <div className="space-y-2">
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Email ID</label>
-                     <input 
-                       type="email" 
-                       className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
-                       value={bankForm.managerEmail ?? ''} 
-                       onChange={e => setBankForm({...bankForm, managerEmail: e.target.value})} 
-                       placeholder="e.g. manager@bank.com" 
+                     <input
+                       type="email"
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'managerEmail')}
+                       value={bankForm.managerEmail ?? ''}
+                       onChange={e => { setBankForm({...bankForm, managerEmail: e.target.value}); clearField('managerEmail'); }}
+                       placeholder="e.g. manager@bank.com"
                      />
+                     {fieldErr('managerEmail')}
                    </div>
                  </div>
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                    <div className="space-y-2">
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Phone Number</label>
-                     <input 
-                       type="tel" 
-                       className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
-                       value={bankForm.managerPhone ?? ''} 
-                       onChange={e => setBankForm({...bankForm, managerPhone: e.target.value})} 
-                       placeholder="e.g. +91 XXXXX XXXXX" 
+                     <input
+                       type="tel"
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'managerPhone')}
+                       value={bankForm.managerPhone ?? ''}
+                       onChange={e => { setBankForm({...bankForm, managerPhone: e.target.value}); clearField('managerPhone'); }}
+                       placeholder="e.g. +91 XXXXX XXXXX"
                      />
+                     {fieldErr('managerPhone')}
                    </div>
                    <div className="space-y-2">
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Number</label>
-                     <input 
-                       type="tel" 
-                       className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
-                       value={bankForm.managerWhatsapp ?? ''} 
-                       onChange={e => setBankForm({...bankForm, managerWhatsapp: e.target.value})} 
-                       placeholder="e.g. +91 XXXXX XXXXX" 
+                     <input
+                       type="tel"
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'managerWhatsapp')}
+                       value={bankForm.managerWhatsapp ?? ''}
+                       onChange={e => { setBankForm({...bankForm, managerWhatsapp: e.target.value}); clearField('managerWhatsapp'); }}
+                       placeholder="e.g. +91 XXXXX XXXXX"
                      />
+                     {fieldErr('managerWhatsapp')}
                    </div>
                  </div>
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Description</label>
-                  <textarea className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" rows={2} value={bankForm.description ?? ''} onChange={e => setBankForm({...bankForm, description: e.target.value})} placeholder="Transaction notes..." />
+                  <textarea className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" rows={2} value={bankForm.description ?? ''} onChange={e => setBankForm({...bankForm, description: e.target.value})} placeholder="Transaction notes..." />
                </div>
                <button type="submit" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all">Save Bank Account</button>
             </form>
@@ -1330,50 +1373,54 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Employee Modal */}
       {isEmployeeModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Employee' : 'Add New Employee'}</h3>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Employee' : 'Add New Employee'}</h3>
               <button onClick={() => { setIsEmployeeModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleEmployeeSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.trackingId ?? ''} onChange={e => setEmployeeForm({...employeeForm, trackingId: e.target.value})} placeholder="e.g. EMP-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={employeeForm.trackingId ?? ''} onChange={e => setEmployeeForm({...employeeForm, trackingId: e.target.value})} placeholder="e.g. EMP-001" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Full Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'fullName')} value={employeeForm.fullName ?? ''} onChange={e => { setEmployeeForm({...employeeForm, fullName: e.target.value}); clearField('fullName'); }} placeholder="e.g. John Doe" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'fullName')} value={employeeForm.fullName ?? ''} onChange={e => { setEmployeeForm({...employeeForm, fullName: e.target.value}); clearField('fullName'); }} placeholder="e.g. John Doe" />
                   {fieldErr('fullName')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Phone Number*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'phoneNumber')} value={employeeForm.phoneNumber ?? ''} onChange={e => { setEmployeeForm({...employeeForm, phoneNumber: e.target.value}); clearField('phoneNumber'); }} placeholder="98XXXXXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'phoneNumber')} value={employeeForm.phoneNumber ?? ''} onChange={e => { setEmployeeForm({...employeeForm, phoneNumber: e.target.value}); clearField('phoneNumber'); }} placeholder="98XXXXXXXX" />
                   {fieldErr('phoneNumber')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Email ID</label>
-                  <input type="email" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.email ?? ''} onChange={e => setEmployeeForm({...employeeForm, email: e.target.value})} placeholder="e.g. employee@company.com" />
+                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'email')} value={employeeForm.email ?? ''} onChange={e => { setEmployeeForm({...employeeForm, email: e.target.value}); clearField('email'); }} placeholder="e.g. employee@company.com" />
+                  {fieldErr('email')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Number*</label>
-                  <input type="tel" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.whatsappNumber ?? ''} onChange={e => setEmployeeForm({...employeeForm, whatsappNumber: e.target.value})} placeholder="98XXXXXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'whatsappNumber')} value={employeeForm.whatsappNumber ?? ''} onChange={e => { setEmployeeForm({...employeeForm, whatsappNumber: e.target.value}); clearField('whatsappNumber'); }} placeholder="98XXXXXXXX" />
+                  {fieldErr('whatsappNumber')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Address*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.address ?? ''} onChange={e => setEmployeeForm({...employeeForm, address: e.target.value})} placeholder="Full address..." />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'address')} value={employeeForm.address ?? ''} onChange={e => { setEmployeeForm({...employeeForm, address: e.target.value}); clearField('address'); }} placeholder="Full address..." />
+                  {fieldErr('address')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Join Date*</label>
-                  <input type="date" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.joinDate ?? ''} onChange={e => setEmployeeForm({...employeeForm, joinDate: e.target.value})} />
+                  <input type="date" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'joinDate')} value={employeeForm.joinDate ?? ''} onChange={e => { setEmployeeForm({...employeeForm, joinDate: e.target.value}); clearField('joinDate'); }} />
+                  {fieldErr('joinDate')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Exit Date (Optional)</label>
-                  <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.exitDate ?? ''} onChange={e => setEmployeeForm({...employeeForm, exitDate: e.target.value})} />
+                  <input type="date" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={employeeForm.exitDate ?? ''} onChange={e => setEmployeeForm({...employeeForm, exitDate: e.target.value})} />
                 </div>
                </div>
 
@@ -1383,20 +1430,24 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Account Number*</label>
-                      <input type="text" required={isEmployeeModalOpen} className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.bankAccountDetails?.accountNumber ?? ''} onChange={e => setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, accountNumber: e.target.value}})} />
+                      <label className="t-label px-1">Account Number*</label>
+                      <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'empAccountNumber')} value={employeeForm.bankAccountDetails?.accountNumber ?? ''} onChange={e => { setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, accountNumber: e.target.value}}); clearField('empAccountNumber'); }} placeholder="9–18 digit account number" />
+                      {fieldErr('empAccountNumber')}
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Bank Name*</label>
-                      <input type="text" required={isEmployeeModalOpen} className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.bankAccountDetails?.bankName ?? ''} onChange={e => setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, bankName: e.target.value}})} />
+                      <label className="t-label px-1">Bank Name*</label>
+                      <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'empBankName')} value={employeeForm.bankAccountDetails?.bankName ?? ''} onChange={e => { setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, bankName: e.target.value}}); clearField('empBankName'); }} placeholder="e.g. HDFC Bank" />
+                      {fieldErr('empBankName')}
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">IFSC Code*</label>
-                      <input type="text" required={isEmployeeModalOpen} className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold uppercase" value={employeeForm.bankAccountDetails?.ifscCode ?? ''} onChange={e => setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, ifscCode: e.target.value}})} />
+                      <label className="t-label px-1">IFSC Code*</label>
+                      <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold uppercase", 'empIfscCode')} value={employeeForm.bankAccountDetails?.ifscCode ?? ''} onChange={e => { setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, ifscCode: e.target.value.toUpperCase()}}); clearField('empIfscCode'); }} placeholder="e.g. HDFC0001234" />
+                      {fieldErr('empIfscCode')}
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">UPI ID*</label>
-                      <input type="text" required={isEmployeeModalOpen} className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={employeeForm.bankAccountDetails?.upiId ?? ''} onChange={e => setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, upiId: e.target.value}})} placeholder="user@upi" />
+                      <label className="t-label px-1">UPI ID*</label>
+                      <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'empUpiId')} value={employeeForm.bankAccountDetails?.upiId ?? ''} onChange={e => { setEmployeeForm({...employeeForm, bankAccountDetails: {...employeeForm.bankAccountDetails!, upiId: e.target.value}}); clearField('empUpiId'); }} placeholder="user@upi" />
+                      {fieldErr('empUpiId')}
                     </div>
                   </div>
                </div>
@@ -1410,64 +1461,65 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Driver Modal */}
       {isDriverModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Driver' : 'Add New Driver'}</h3>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Driver' : 'Add New Driver'}</h3>
               <button onClick={() => { setIsDriverModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleDriverSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={driverForm.trackingId ?? ''} onChange={e => setDriverForm({...driverForm, trackingId: e.target.value})} placeholder="e.g. DRV-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={driverForm.trackingId ?? ''} onChange={e => setDriverForm({...driverForm, trackingId: e.target.value})} placeholder="e.g. DRV-001" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Full Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'name')} value={driverForm.name ?? ''} onChange={e => { setDriverForm({...driverForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Rahul Sharma" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'name')} value={driverForm.name ?? ''} onChange={e => { setDriverForm({...driverForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Rahul Sharma" />
                   {fieldErr('name')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Phone Number*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'phoneNumber')} value={driverForm.phoneNumber ?? ''} onChange={e => { setDriverForm({...driverForm, phoneNumber: e.target.value}); clearField('phoneNumber'); }} placeholder="+91 XXXXX XXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'phoneNumber')} value={driverForm.phoneNumber ?? ''} onChange={e => { setDriverForm({...driverForm, phoneNumber: e.target.value}); clearField('phoneNumber'); }} placeholder="+91 XXXXX XXXXX" />
                   {fieldErr('phoneNumber')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Email ID</label>
-                  <input type="email" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={driverForm.email ?? ''} onChange={e => setDriverForm({...driverForm, email: e.target.value})} placeholder="e.g. driver@company.com" />
+                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'drvEmail')} value={driverForm.email ?? ''} onChange={e => { setDriverForm({...driverForm, email: e.target.value}); clearField('drvEmail'); }} placeholder="e.g. driver@company.com" />
+                  {fieldErr('drvEmail')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Number*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'whatsappNumber')} value={driverForm.whatsappNumber ?? ''} onChange={e => { setDriverForm({...driverForm, whatsappNumber: e.target.value}); clearField('whatsappNumber'); }} placeholder="+91 XXXXX XXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'whatsappNumber')} value={driverForm.whatsappNumber ?? ''} onChange={e => { setDriverForm({...driverForm, whatsappNumber: e.target.value}); clearField('whatsappNumber'); }} placeholder="+91 XXXXX XXXXX" />
                   {fieldErr('whatsappNumber')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">License Expiry*</label>
-                  <input type="date" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'licenseExpiry')} value={driverForm.licenseExpiry ?? ''} onChange={e => { setDriverForm({...driverForm, licenseExpiry: e.target.value}); clearField('licenseExpiry'); }} />
+                  <input type="date" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'licenseExpiry')} value={driverForm.licenseExpiry ?? ''} onChange={e => { setDriverForm({...driverForm, licenseExpiry: e.target.value}); clearField('licenseExpiry'); }} />
                   {fieldErr('licenseExpiry')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Joining Date*</label>
-                  <input type="date" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={driverForm.joinDate ?? ''} onChange={e => setDriverForm({...driverForm, joinDate: e.target.value})} />
+                  <input type="date" required className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={driverForm.joinDate ?? ''} onChange={e => setDriverForm({...driverForm, joinDate: e.target.value})} />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Exit Date (Optional)</label>
-                  <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={driverForm.exitDate ?? ''} onChange={e => setDriverForm({...driverForm, exitDate: e.target.value})} />
+                  <input type="date" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={driverForm.exitDate ?? ''} onChange={e => setDriverForm({...driverForm, exitDate: e.target.value})} />
                 </div>
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Driver Address*</label>
-                  <textarea className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'address')} rows={2} value={driverForm.address ?? ''} onChange={e => { setDriverForm({...driverForm, address: e.target.value}); clearField('address'); }} placeholder="Permanent address..." />
+                  <textarea className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'address')} rows={2} value={driverForm.address ?? ''} onChange={e => { setDriverForm({...driverForm, address: e.target.value}); clearField('address'); }} placeholder="Permanent address..." />
                   {fieldErr('address')}
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Experience (Years)</label>
-                  <input type="number" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={driverForm.experienceYears ?? 0} onChange={e => setDriverForm({...driverForm, experienceYears: parseInt(e.target.value)})} placeholder="e.g. 5" />
+                  <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={driverForm.experienceYears ?? 0} onChange={e => setDriverForm({...driverForm, experienceYears: parseInt(e.target.value)})} placeholder="e.g. 5" />
                </div>
-               <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200/60 space-y-4 col-span-full">
+               <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-200/60 space-y-4 col-span-full">
                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
                    <Landmark size={14} className="text-indigo-600" /> Bank Account Details
                  </h4>
@@ -1476,7 +1528,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Bank Name*</label>
                      <input
                        type="text"
-                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'bankName')}
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'bankName')}
                        value={driverForm.bankName ?? ''}
                        onChange={e => { setDriverForm({...driverForm, bankName: e.target.value}); clearField('bankName'); }}
                        placeholder="e.g. State Bank of India"
@@ -1485,32 +1537,33 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                    </div>
                    <div className="space-y-2">
                       <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Account Number</label>
-                      <input 
-                        type="text" 
-                        className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
-                        value={driverForm.accountNumber ?? ''} 
-                        onChange={e => setDriverForm({...driverForm, accountNumber: e.target.value})} 
-                        placeholder="e.g. 1234567890" 
+                      <input
+                        type="text"
+                        className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'drvAccountNumber')}
+                        value={driverForm.accountNumber ?? ''}
+                        onChange={e => { setDriverForm({...driverForm, accountNumber: e.target.value}); clearField('drvAccountNumber'); }}
+                        placeholder="9–18 digit account number"
                       />
+                      {fieldErr('drvAccountNumber')}
                    </div>
                  </div>
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                    <div className="space-y-2">
-                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">IFSC Code*</label>
-                      <input 
-                        type="text" 
-                        required 
-                        className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold uppercase focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
-                        value={driverForm.ifscCode ?? ''} 
-                        onChange={e => setDriverForm({...driverForm, ifscCode: e.target.value})} 
-                        placeholder="e.g. SBIN0001234" 
+                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">IFSC Code</label>
+                      <input
+                        type="text"
+                        className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold uppercase focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'drvIfscCode')}
+                        value={driverForm.ifscCode ?? ''}
+                        onChange={e => { setDriverForm({...driverForm, ifscCode: e.target.value.toUpperCase()}); clearField('drvIfscCode'); }}
+                        placeholder="e.g. SBIN0001234"
                       />
+                      {fieldErr('drvIfscCode')}
                    </div>
                    <div className="space-y-2">
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">UPI ID*</label>
                      <input
                        type="text"
-                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'upiId')}
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none", 'upiId')}
                        value={driverForm.upiId ?? ''}
                        onChange={e => { setDriverForm({...driverForm, upiId: e.target.value}); clearField('upiId'); }}
                        placeholder="e.g. user@upi"
@@ -1528,65 +1581,65 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Client Modal */}
       {isClientModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Client Profile' : 'Register Client'}</h3>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Client Profile' : 'Register Client'}</h3>
               <button onClick={() => { setIsClientModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleClientSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={clientForm.trackingId ?? ''} onChange={e => setClientForm({...clientForm, trackingId: e.target.value})} placeholder="e.g. CLNT-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={clientForm.trackingId ?? ''} onChange={e => setClientForm({...clientForm, trackingId: e.target.value})} placeholder="e.g. CLNT-001" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Business Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'name')} value={clientForm.name ?? ''} onChange={e => { setClientForm({...clientForm, name: e.target.value}); clearField('name'); }} />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'name')} value={clientForm.name ?? ''} onChange={e => { setClientForm({...clientForm, name: e.target.value}); clearField('name'); }} />
                   {fieldErr('name')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">GST Number*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold uppercase", 'gstNumber')} value={clientForm.gstNumber ?? ''} onChange={e => { setClientForm({...clientForm, gstNumber: e.target.value}); clearField('gstNumber'); }} />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold uppercase", 'gstNumber')} value={clientForm.gstNumber ?? ''} onChange={e => { setClientForm({...clientForm, gstNumber: e.target.value.toUpperCase()}); clearField('gstNumber'); }} placeholder="22AAAAA0000A1Z5" />
                   {fieldErr('gstNumber')}
                 </div>
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Billing Address*</label>
-                  <textarea rows={2} className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'address')} value={clientForm.address ?? ''} onChange={e => { setClientForm({...clientForm, address: e.target.value}); clearField('address'); }} />
+                  <textarea rows={2} className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'address')} value={clientForm.address ?? ''} onChange={e => { setClientForm({...clientForm, address: e.target.value}); clearField('address'); }} />
                   {fieldErr('address')}
                </div>
                <div className="grid grid-cols-2 gap-6">
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">City*</label>
-                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'city')} value={clientForm.city ?? ''} onChange={e => { setClientForm({...clientForm, city: e.target.value}); clearField('city'); }} />
+                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'city')} value={clientForm.city ?? ''} onChange={e => { setClientForm({...clientForm, city: e.target.value}); clearField('city'); }} />
                    {fieldErr('city')}
                  </div>
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">State*</label>
-                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'state')} value={clientForm.state ?? ''} onChange={e => { setClientForm({...clientForm, state: e.target.value}); clearField('state'); }} />
+                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'state')} value={clientForm.state ?? ''} onChange={e => { setClientForm({...clientForm, state: e.target.value}); clearField('state'); }} />
                    {fieldErr('state')}
                  </div>
                </div>
                <div className="grid grid-cols-2 gap-6">
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Country</label>
-                   <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={clientForm.country ?? ''} onChange={e => setClientForm({...clientForm, country: e.target.value})} />
+                   <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={clientForm.country ?? ''} onChange={e => setClientForm({...clientForm, country: e.target.value})} />
                  </div>
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Pincode*</label>
-                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'pincode')} value={clientForm.pincode ?? ''} onChange={e => { setClientForm({...clientForm, pincode: e.target.value}); clearField('pincode'); }} />
+                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'pincode')} value={clientForm.pincode ?? ''} onChange={e => { setClientForm({...clientForm, pincode: e.target.value}); clearField('pincode'); }} />
                    {fieldErr('pincode')}
                  </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Contact Email*</label>
-                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'email')} value={clientForm.email ?? ''} onChange={e => { setClientForm({...clientForm, email: e.target.value}); clearField('email'); }} />
+                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'email')} value={clientForm.email ?? ''} onChange={e => { setClientForm({...clientForm, email: e.target.value}); clearField('email'); }} />
                   {fieldErr('email')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Contact Phone*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'phone')} value={clientForm.phone ?? ''} onChange={e => { setClientForm({...clientForm, phone: e.target.value}); clearField('phone'); }} />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'phone')} value={clientForm.phone ?? ''} onChange={e => { setClientForm({...clientForm, phone: e.target.value}); clearField('phone'); }} />
                   {fieldErr('phone')}
                 </div>
                </div>
@@ -1599,72 +1652,72 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Site Modal */}
       {isSiteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Site/Station' : 'Add Station/Site'}</h3>
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Site/Station' : 'Add Station/Site'}</h3>
               <button onClick={() => { setIsSiteModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleSiteSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={siteForm.trackingId ?? ''} onChange={e => setSiteForm({...siteForm, trackingId: e.target.value})} placeholder="e.g. STN-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={siteForm.trackingId ?? ''} onChange={e => setSiteForm({...siteForm, trackingId: e.target.value})} placeholder="e.g. STN-001" />
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Site/Station Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'name')} value={siteForm.name ?? ''} onChange={e => { setSiteForm({...siteForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Wanakbori TPS" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'name')} value={siteForm.name ?? ''} onChange={e => { setSiteForm({...siteForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Wanakbori TPS" />
                   {fieldErr('name')}
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Site Type*</label>
                   <div className="grid grid-cols-2 gap-4">
-                    <button type="button" onClick={() => setSiteForm({...siteForm, type: 'TPS'})} className={`p-4 rounded-2xl font-black text-sm border-2 transition-all flex flex-col items-center gap-2 ${siteForm.type === 'TPS' ? 'border-amber-500 bg-amber-50 text-amber-900' : 'border-slate-100 text-slate-400 bg-slate-50 hover:bg-white'}`}>
+                    <button type="button" onClick={() => setSiteForm({...siteForm, type: 'TPS'})} className={`p-4 rounded-2xl font-black text-sm border-2 transition-all flex flex-col items-center gap-2 ${siteForm.type === 'TPS' ? 'border-amber-500 bg-amber-50 text-amber-900' : 'border-slate-100 text-slate-400 bg-[#F5F4F0] hover:bg-white'}`}>
                       <Factory size={24} /> Loading Point (TPS)
                     </button>
-                    <button type="button" onClick={() => setSiteForm({...siteForm, type: 'CLIENT_SITE'})} className={`p-4 rounded-2xl font-black text-sm border-2 transition-all flex flex-col items-center gap-2 ${siteForm.type === 'CLIENT_SITE' ? 'border-purple-500 bg-purple-50 text-purple-900' : 'border-slate-100 text-slate-400 bg-slate-50 hover:bg-white'}`}>
+                    <button type="button" onClick={() => setSiteForm({...siteForm, type: 'CLIENT_SITE'})} className={`p-4 rounded-2xl font-black text-sm border-2 transition-all flex flex-col items-center gap-2 ${siteForm.type === 'CLIENT_SITE' ? 'border-purple-500 bg-purple-50 text-purple-900' : 'border-slate-100 text-slate-400 bg-[#F5F4F0] hover:bg-white'}`}>
                       <Building size={24} /> Delivery Point (Site)
                     </button>
                   </div>
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">GST Number</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold uppercase" value={siteForm.gstNumber ?? ''} onChange={e => setSiteForm({...siteForm, gstNumber: e.target.value})} placeholder="GSTIN (Optional)" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold uppercase" value={siteForm.gstNumber ?? ''} onChange={e => setSiteForm({...siteForm, gstNumber: e.target.value})} placeholder="GSTIN (Optional)" />
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Location Address*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'location')} value={siteForm.location ?? ''} onChange={e => { setSiteForm({...siteForm, location: e.target.value}); clearField('location'); }} placeholder="e.g. Kheda, Gujarat" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'location')} value={siteForm.location ?? ''} onChange={e => { setSiteForm({...siteForm, location: e.target.value}); clearField('location'); }} placeholder="e.g. Kheda, Gujarat" />
                   {fieldErr('location')}
                </div>
                <div className="grid grid-cols-2 gap-6">
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">City*</label>
-                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'city')} value={siteForm.city ?? ''} onChange={e => { setSiteForm({...siteForm, city: e.target.value}); clearField('city'); }} />
+                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'city')} value={siteForm.city ?? ''} onChange={e => { setSiteForm({...siteForm, city: e.target.value}); clearField('city'); }} />
                    {fieldErr('city')}
                  </div>
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">State*</label>
-                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'state')} value={siteForm.state ?? ''} onChange={e => { setSiteForm({...siteForm, state: e.target.value}); clearField('state'); }} />
+                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'state')} value={siteForm.state ?? ''} onChange={e => { setSiteForm({...siteForm, state: e.target.value}); clearField('state'); }} />
                    {fieldErr('state')}
                  </div>
                </div>
                <div className="grid grid-cols-2 gap-6">
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Country</label>
-                   <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={siteForm.country ?? ''} onChange={e => setSiteForm({...siteForm, country: e.target.value})} />
+                   <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={siteForm.country ?? ''} onChange={e => setSiteForm({...siteForm, country: e.target.value})} />
                  </div>
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Pincode*</label>
-                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'pincode')} value={siteForm.pincode ?? ''} onChange={e => { setSiteForm({...siteForm, pincode: e.target.value}); clearField('pincode'); }} />
+                   <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'pincode')} value={siteForm.pincode ?? ''} onChange={e => { setSiteForm({...siteForm, pincode: e.target.value}); clearField('pincode'); }} />
                    {fieldErr('pincode')}
                  </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Contact Phone</label>
-                   <input type="tel" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={siteForm.contactPhone ?? ''} onChange={e => setSiteForm({...siteForm, contactPhone: e.target.value})} />
+                   <input type="tel" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={siteForm.contactPhone ?? ''} onChange={e => setSiteForm({...siteForm, contactPhone: e.target.value})} />
                  </div>
                  <div className="space-y-2">
                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Contact Email</label>
-                   <input type="email" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={siteForm.email ?? ''} onChange={e => setSiteForm({...siteForm, email: e.target.value})} />
+                   <input type="email" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={siteForm.email ?? ''} onChange={e => setSiteForm({...siteForm, email: e.target.value})} />
                  </div>
                </div>
                <button type="submit" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all">Confirm Site Details</button>
@@ -1676,63 +1729,66 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Broker Modal */}
       {isBrokerModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Broker' : 'Add New Broker'}</h3>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Broker' : 'Add New Broker'}</h3>
               <button onClick={() => { setIsBrokerModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleBrokerSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={brokerForm.trackingId ?? ''} onChange={e => setBrokerForm({...brokerForm, trackingId: e.target.value})} placeholder="e.g. BKR-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={brokerForm.trackingId ?? ''} onChange={e => setBrokerForm({...brokerForm, trackingId: e.target.value})} placeholder="e.g. BKR-001" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Broker Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'name')} value={brokerForm.name ?? ''} onChange={e => { setBrokerForm({...brokerForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Shree Logistics" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'name')} value={brokerForm.name ?? ''} onChange={e => { setBrokerForm({...brokerForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Shree Logistics" />
                   {fieldErr('name')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Email Address*</label>
-                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'email')} value={brokerForm.email ?? ''} onChange={e => { setBrokerForm({...brokerForm, email: e.target.value}); clearField('email'); }} placeholder="broker@example.com" />
+                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'email')} value={brokerForm.email ?? ''} onChange={e => { setBrokerForm({...brokerForm, email: e.target.value}); clearField('email'); }} placeholder="broker@example.com" />
                   {fieldErr('email')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Phone Number*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'phone')} value={brokerForm.phone ?? ''} onChange={e => { setBrokerForm({...brokerForm, phone: e.target.value}); clearField('phone'); }} placeholder="+91 XXXXX XXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'phone')} value={brokerForm.phone ?? ''} onChange={e => { setBrokerForm({...brokerForm, phone: e.target.value}); clearField('phone'); }} placeholder="+91 XXXXX XXXXX" />
                   {fieldErr('phone')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Number*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'whatsappNumber')} value={brokerForm.whatsappNumber ?? ''} onChange={e => { setBrokerForm({...brokerForm, whatsappNumber: e.target.value}); clearField('whatsappNumber'); }} placeholder="+91 XXXXX XXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'whatsappNumber')} value={brokerForm.whatsappNumber ?? ''} onChange={e => { setBrokerForm({...brokerForm, whatsappNumber: e.target.value}); clearField('whatsappNumber'); }} placeholder="+91 XXXXX XXXXX" />
                   {fieldErr('whatsappNumber')}
                 </div>
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Address*</label>
-                  <textarea className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'address')} rows={2} value={brokerForm.address ?? ''} onChange={e => { setBrokerForm({...brokerForm, address: e.target.value}); clearField('address'); }} placeholder="Broker office address..." />
+                  <textarea className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'address')} rows={2} value={brokerForm.address ?? ''} onChange={e => { setBrokerForm({...brokerForm, address: e.target.value}); clearField('address'); }} placeholder="Broker office address..." />
                   {fieldErr('address')}
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">UPI ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={brokerForm.upiId ?? ''} onChange={e => setBrokerForm({...brokerForm, upiId: e.target.value})} placeholder="broker@upi" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'brkUpiId')} value={brokerForm.upiId ?? ''} onChange={e => { setBrokerForm({...brokerForm, upiId: e.target.value}); clearField('brkUpiId'); }} placeholder="broker@upi" />
+                  {fieldErr('brkUpiId')}
                </div>
                <div className="space-y-4 pt-4 border-t border-slate-100">
                   <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Bank Account Details</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Account Number</label>
-                      <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={brokerForm.bankDetails?.accountNumber ?? ''} onChange={e => setBrokerForm({...brokerForm, bankDetails: {...brokerForm.bankDetails!, accountNumber: e.target.value}})} />
+                      <label className="t-label px-1">Account Number</label>
+                      <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'brkAccountNumber')} value={brokerForm.bankDetails?.accountNumber ?? ''} onChange={e => { setBrokerForm({...brokerForm, bankDetails: {...brokerForm.bankDetails!, accountNumber: e.target.value}}); clearField('brkAccountNumber'); }} placeholder="9–18 digit account number" />
+                      {fieldErr('brkAccountNumber')}
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Bank Name</label>
-                      <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={brokerForm.bankDetails?.bankName ?? ''} onChange={e => setBrokerForm({...brokerForm, bankDetails: {...brokerForm.bankDetails!, bankName: e.target.value}})} />
+                      <label className="t-label px-1">Bank Name</label>
+                      <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={brokerForm.bankDetails?.bankName ?? ''} onChange={e => setBrokerForm({...brokerForm, bankDetails: {...brokerForm.bankDetails!, bankName: e.target.value}})} placeholder="e.g. HDFC Bank" />
                     </div>
                     <div className="space-y-2 sm:col-span-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">IFSC Code</label>
-                      <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold uppercase" value={brokerForm.bankDetails?.ifscCode ?? ''} onChange={e => setBrokerForm({...brokerForm, bankDetails: {...brokerForm.bankDetails!, ifscCode: e.target.value}})} />
+                      <label className="t-label px-1">IFSC Code</label>
+                      <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold uppercase", 'brkIfscCode')} value={brokerForm.bankDetails?.ifscCode ?? ''} onChange={e => { setBrokerForm({...brokerForm, bankDetails: {...brokerForm.bankDetails!, ifscCode: e.target.value.toUpperCase()}}); clearField('brkIfscCode'); }} placeholder="e.g. HDFC0001234" />
+                      {fieldErr('brkIfscCode')}
                     </div>
                   </div>
                </div>
@@ -1745,20 +1801,20 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Route Modal */}
       {isRouteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Route' : 'Create New Route'}</h3>
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Route' : 'Create New Route'}</h3>
               <button onClick={() => { setIsRouteModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleRouteSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={routeForm.trackingId ?? ''} onChange={e => setRouteForm({...routeForm, trackingId: e.target.value})} placeholder="e.g. RT-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={routeForm.trackingId ?? ''} onChange={e => setRouteForm({...routeForm, trackingId: e.target.value})} placeholder="e.g. RT-001" />
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Select Loading Station (Source)*</label>
                   <select
-                    className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'source')}
+                    className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'source')}
                     value={sites.find(s => s.name === routeForm.source)?.id || ''}
                     onChange={e => {
                         const site = sites.find(s => s.id === e.target.value);
@@ -1775,7 +1831,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Select Client / Site (Destination)*</label>
                   <select
-                    className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'destination')}
+                    className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'destination')}
                     value={clients.find(c => c.name === routeForm.destination)?.id || sites.find(s => s.name === routeForm.destination)?.id || ''}
                     onChange={e => {
                         const client = clients.find(c => c.id === e.target.value);
@@ -1805,7 +1861,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   <div className="relative">
                     <input
                       type="number"
-                      className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'distanceKm')}
+                      className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'distanceKm')}
                       value={routeForm.distanceKm ?? 0}
                       onChange={e => { setRouteForm({...routeForm, distanceKm: Number(e.target.value)}); clearField('distanceKm'); }}
                       placeholder="e.g. 120"
@@ -1828,22 +1884,22 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Loading Station (Source) Location*</label>
+                       <label className="t-label px-1">Loading Station (Source) Location*</label>
                        <input 
                          type="text" 
                          required
-                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm" 
+                         className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-sm" 
                          value={routeForm.sourceMapUrl ?? ''} 
                          onChange={e => setRouteForm({...routeForm, sourceMapUrl: e.target.value})} 
                          placeholder="e.g. Mundra Port or 22.84,70.01" 
                        />
                     </div>
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Client / Site (Destination) Location*</label>
+                       <label className="t-label px-1">Client / Site (Destination) Location*</label>
                        <input 
                          type="text" 
                          required
-                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm" 
+                         className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-sm" 
                          value={routeForm.destinationMapUrl ?? ''} 
                          onChange={e => setRouteForm({...routeForm, destinationMapUrl: e.target.value})} 
                          placeholder="e.g. Adani Power Plant or 22.12,71.34" 
@@ -1861,14 +1917,14 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Truck Modal */}
       {isTruckModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-4xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-500">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-500">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-lg">
                   <TruckIcon size={24} />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Asset Profile' : 'Register New Truck'}</h3>
+                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Asset Profile' : 'Register New Truck'}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">Asset Inventory & Fleet Command</p>
                 </div>
               </div>
@@ -1885,30 +1941,30 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.trackingId ?? ''} onChange={e => setTruckForm({...truckForm, trackingId: e.target.value})} placeholder="e.g. TRK-001" />
+                    <label className="t-label px-1">Tracking ID</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.trackingId ?? ''} onChange={e => setTruckForm({...truckForm, trackingId: e.target.value})} placeholder="e.g. TRK-001" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Truck Number / Plate No.*</label>
-                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black uppercase", 'truckNumber')} value={truckForm.plateNumber ?? ''} onChange={e => { setTruckForm({...truckForm, plateNumber: e.target.value}); clearField('truckNumber'); }} placeholder="GJ-XX-XXXX" />
+                    <label className="t-label px-1">Truck Number / Plate No.*</label>
+                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black uppercase", 'truckNumber')} value={truckForm.plateNumber ?? ''} onChange={e => { setTruckForm({...truckForm, plateNumber: e.target.value}); clearField('truckNumber'); }} placeholder="GJ-XX-XXXX" />
                     {fieldErr('truckNumber')}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Internal Nickname*</label>
-                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'name')} value={truckForm.name ?? ''} onChange={e => { setTruckForm({...truckForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Ash King 1" />
+                    <label className="t-label px-1">Internal Nickname*</label>
+                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'name')} value={truckForm.name ?? ''} onChange={e => { setTruckForm({...truckForm, name: e.target.value}); clearField('name'); }} placeholder="e.g. Ash King 1" />
                     {fieldErr('name')}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Chassis / Truck Number</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.truckNumber ?? ''} onChange={e => setTruckForm({...truckForm, truckNumber: e.target.value})} placeholder="e.g. TATA-712-XXXX" />
+                    <label className="t-label px-1">Chassis / Truck Number</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.truckNumber ?? ''} onChange={e => setTruckForm({...truckForm, truckNumber: e.target.value})} placeholder="e.g. TATA-712-XXXX" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Model / Manufacturer</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.modelNumber ?? ''} onChange={e => setTruckForm({...truckForm, modelNumber: e.target.value})} placeholder="e.g. BharatBenz 3523R" />
+                    <label className="t-label px-1">Model / Manufacturer</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.modelNumber ?? ''} onChange={e => setTruckForm({...truckForm, modelNumber: e.target.value})} placeholder="e.g. BharatBenz 3523R" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Brief Description</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.description ?? ''} onChange={e => setTruckForm({...truckForm, description: e.target.value})} placeholder="e.g. Heavy-duty Fly Ash carrier" />
+                    <label className="t-label px-1">Brief Description</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.description ?? ''} onChange={e => setTruckForm({...truckForm, description: e.target.value})} placeholder="e.g. Heavy-duty Fly Ash carrier" />
                   </div>
                 </div>
               </div>
@@ -1920,17 +1976,17 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Owner Name*</label>
-                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'ownerName')} value={truckForm.ownerName ?? ''} onChange={e => { setTruckForm({...truckForm, ownerName: e.target.value}); clearField('ownerName'); }} placeholder="Registered Owner" />
+                    <label className="t-label px-1">Owner Name*</label>
+                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'ownerName')} value={truckForm.ownerName ?? ''} onChange={e => { setTruckForm({...truckForm, ownerName: e.target.value}); clearField('ownerName'); }} placeholder="Registered Owner" />
                     {fieldErr('ownerName')}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Owner Contact Info*</label>
-                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'ownerContact')} value={truckForm.ownerContact ?? ''} onChange={e => { setTruckForm({...truckForm, ownerContact: e.target.value}); clearField('ownerContact'); }} placeholder="Phone / Email" />
+                    <label className="t-label px-1">Owner Contact Info*</label>
+                    <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'ownerContact')} value={truckForm.ownerContact ?? ''} onChange={e => { setTruckForm({...truckForm, ownerContact: e.target.value}); clearField('ownerContact'); }} placeholder="+91 XXXXX XXXXX" />
                     {fieldErr('ownerContact')}
                   </div>
                   <div className="space-y-2 md:col-span-2 relative">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Assigned Default Driver</label>
+                    <label className="t-label px-1">Assigned Default Driver</label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 z-10">
                         <Search size={16} />
@@ -1945,7 +2001,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                           if (!e.target.value) setTruckForm({...truckForm, assignedDriverId: ''});
                         }}
                         onFocus={() => setIsDriverDropdownOpen(true)}
-                        className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                        className="w-full pl-12 pr-10 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                       />
                       <button 
                         type="button"
@@ -1956,8 +2012,8 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                       </button>
                       
                       {isDriverDropdownOpen && (
-                        <div className="absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl max-h-60 overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                          <div className="p-2 border-b border-slate-50 bg-slate-50/50 flex justify-between items-center sticky top-0 bg-white z-10">
+                        <div className="absolute z-50 w-full mt-2 bg-white border border-[#E7E5E0] rounded-xl shadow-2xl max-h-60 overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                          <div className="p-2 border-b border-slate-50 bg-[#F5F4F0]/50 flex justify-between items-center sticky top-0 bg-white z-10">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 py-1">Available Drivers</p>
                             <button 
                               type="button"
@@ -2002,7 +2058,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                                     setDriverSearchQuery(d.name);
                                     setIsDriverDropdownOpen(false);
                                   }}
-                                  className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between rounded-xl ${truckForm.assignedDriverId === d.id ? 'bg-blue-50' : ''}`}
+                                  className={`w-full text-left px-4 py-3 hover:bg-[#F5F4F0] transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between rounded-xl ${truckForm.assignedDriverId === d.id ? 'bg-blue-50' : ''}`}
                                 >
                                   <div>
                                     <p className="text-sm font-black text-slate-900">{d.name}</p>
@@ -2019,7 +2075,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   </div>
 
                   <div className="space-y-2 md:col-span-2 relative">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Default Operational Route</label>
+                    <label className="t-label px-1">Default Operational Route</label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 z-10">
                         <Navigation size={16} />
@@ -2034,7 +2090,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                           if (!e.target.value) setTruckForm({...truckForm, defaultRouteId: ''});
                         }}
                         onFocus={() => setIsRouteDropdownOpen(true)}
-                        className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                        className="w-full pl-12 pr-10 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                       />
                       <button 
                         type="button"
@@ -2045,8 +2101,8 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                       </button>
                       
                       {isRouteDropdownOpen && (
-                        <div className="absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl max-h-60 overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                          <div className="p-2 border-b border-slate-50 bg-slate-50/50 flex justify-between items-center sticky top-0 bg-white z-10">
+                        <div className="absolute z-50 w-full mt-2 bg-white border border-[#E7E5E0] rounded-xl shadow-2xl max-h-60 overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                          <div className="p-2 border-b border-slate-50 bg-[#F5F4F0]/50 flex justify-between items-center sticky top-0 bg-white z-10">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 py-1">Operational Routes</p>
                             <button 
                               type="button"
@@ -2091,7 +2147,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                                     setRouteSearchQuery(`${r.source} → ${r.destination}`);
                                     setIsRouteDropdownOpen(false);
                                   }}
-                                  className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between rounded-xl ${truckForm.defaultRouteId === r.id ? 'bg-blue-50' : ''}`}
+                                  className={`w-full text-left px-4 py-3 hover:bg-[#F5F4F0] transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between rounded-xl ${truckForm.defaultRouteId === r.id ? 'bg-blue-50' : ''}`}
                                 >
                                   <div>
                                     <p className="text-sm font-black text-slate-900">{r.source} → {r.destination}</p>
@@ -2116,12 +2172,12 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Engine Number</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.engineNumber ?? ''} onChange={e => setTruckForm({...truckForm, engineNumber: e.target.value})} placeholder="e.g. B6.7B6A..." />
+                    <label className="t-label px-1">Engine Number</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.engineNumber ?? ''} onChange={e => setTruckForm({...truckForm, engineNumber: e.target.value})} placeholder="e.g. B6.7B6A..." />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Fuel Type</label>
-                    <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.fuelType ?? 'DIESEL'} onChange={e => setTruckForm({...truckForm, fuelType: e.target.value})}>
+                    <label className="t-label px-1">Fuel Type</label>
+                    <select className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.fuelType ?? 'DIESEL'} onChange={e => setTruckForm({...truckForm, fuelType: e.target.value})}>
                       <option value="DIESEL">DIESEL</option>
                       <option value="PETROL">PETROL</option>
                       <option value="CNG">CNG</option>
@@ -2129,52 +2185,52 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Branch / Location</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.branch ?? ''} onChange={e => setTruckForm({...truckForm, branch: e.target.value})} placeholder="e.g. Mumbai HQ" />
+                    <label className="t-label px-1">Branch / Location</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.branch ?? ''} onChange={e => setTruckForm({...truckForm, branch: e.target.value})} placeholder="e.g. Mumbai HQ" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Registration Date</label>
-                    <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.registrationDate ?? ''} onChange={e => setTruckForm({...truckForm, registrationDate: e.target.value})} />
+                    <label className="t-label px-1">Registration Date</label>
+                    <input type="date" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.registrationDate ?? ''} onChange={e => setTruckForm({...truckForm, registrationDate: e.target.value})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Vehicle Application</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.vehicleApplication ?? ''} onChange={e => setTruckForm({...truckForm, vehicleApplication: e.target.value})} placeholder="e.g. Cement, Fly Ash" />
+                    <label className="t-label px-1">Vehicle Application</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.vehicleApplication ?? ''} onChange={e => setTruckForm({...truckForm, vehicleApplication: e.target.value})} placeholder="e.g. Cement, Fly Ash" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Vehicle Code</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.vehicleCode ?? ''} onChange={e => setTruckForm({...truckForm, vehicleCode: e.target.value})} placeholder="e.g. V-712" />
+                    <label className="t-label px-1">Vehicle Code</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.vehicleCode ?? ''} onChange={e => setTruckForm({...truckForm, vehicleCode: e.target.value})} placeholder="e.g. V-712" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Vehicle Type</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.vehicleType ?? ''} onChange={e => setTruckForm({...truckForm, vehicleType: e.target.value})} placeholder="e.g. Tipper, Trailer" />
+                    <label className="t-label px-1">Vehicle Type</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.vehicleType ?? ''} onChange={e => setTruckForm({...truckForm, vehicleType: e.target.value})} placeholder="e.g. Tipper, Trailer" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Laden Weight (KG)</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.ladenWeight ?? ''} onChange={e => setTruckForm({...truckForm, ladenWeight: e.target.value})} placeholder="Full Weight" />
+                    <label className="t-label px-1">Laden Weight (KG)</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.ladenWeight ?? ''} onChange={e => setTruckForm({...truckForm, ladenWeight: e.target.value})} placeholder="Full Weight" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Unladen Weight (KG)</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.unladenWeight ?? ''} onChange={e => setTruckForm({...truckForm, unladenWeight: e.target.value})} placeholder="Empty Weight" />
+                    <label className="t-label px-1">Unladen Weight (KG)</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.unladenWeight ?? ''} onChange={e => setTruckForm({...truckForm, unladenWeight: e.target.value})} placeholder="Empty Weight" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tonnage</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.tonnage ?? ''} onChange={e => setTruckForm({...truckForm, tonnage: e.target.value})} placeholder="e.g. 25 MT" />
+                    <label className="t-label px-1">Tonnage</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.tonnage ?? ''} onChange={e => setTruckForm({...truckForm, tonnage: e.target.value})} placeholder="e.g. 25 MT" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Make / Year</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.makeYear ?? ''} onChange={e => setTruckForm({...truckForm, makeYear: e.target.value})} placeholder="e.g. 2023 | Jan" />
+                    <label className="t-label px-1">Make / Year</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.makeYear ?? ''} onChange={e => setTruckForm({...truckForm, makeYear: e.target.value})} placeholder="e.g. 2023 | Jan" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Owned Outside</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.ownedOutside ?? ''} onChange={e => setTruckForm({...truckForm, ownedOutside: e.target.value})} placeholder="Yes / No" />
+                    <label className="t-label px-1">Owned Outside</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.ownedOutside ?? ''} onChange={e => setTruckForm({...truckForm, ownedOutside: e.target.value})} placeholder="Yes / No" />
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Registration Address</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.registrationAddress ?? ''} onChange={e => setTruckForm({...truckForm, registrationAddress: e.target.value})} placeholder="Full Registered Address" />
+                    <label className="t-label px-1">Registration Address</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.registrationAddress ?? ''} onChange={e => setTruckForm({...truckForm, registrationAddress: e.target.value})} placeholder="Full Registered Address" />
                   </div>
                   <div className="space-y-2 md:col-span-1">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Technical Specification</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.specification ?? ''} onChange={e => setTruckForm({...truckForm, specification: e.target.value})} placeholder="e.g. BS-VI, Turbo" />
+                    <label className="t-label px-1">Technical Specification</label>
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.specification ?? ''} onChange={e => setTruckForm({...truckForm, specification: e.target.value})} placeholder="e.g. BS-VI, Turbo" />
                   </div>
                 </div>
               </div>
@@ -2186,36 +2242,36 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Avg Mileage (KM/L)*</label>
-                    <input type="number" step="0.1" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.mileage ?? 0} onChange={e => setTruckForm({...truckForm, mileage: Number(e.target.value)})} />
+                    <label className="t-label px-1">Avg Mileage (KM/L)*</label>
+                    <input type="number" step="0.1" required className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.mileage ?? 0} onChange={e => setTruckForm({...truckForm, mileage: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Diesel Trip Limit (L)*</label>
-                    <input type="number" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.dieselLimit ?? 0} onChange={e => setTruckForm({...truckForm, dieselLimit: Number(e.target.value)})} />
+                    <label className="t-label px-1">Diesel Trip Limit (L)*</label>
+                    <input type="number" required className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.dieselLimit ?? 0} onChange={e => setTruckForm({...truckForm, dieselLimit: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Current Odometer (KM)*</label>
-                    <input type="number" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.currentOdometer ?? 0} onChange={e => setTruckForm({...truckForm, currentOdometer: Number(e.target.value)})} />
+                    <label className="t-label px-1">Current Odometer (KM)*</label>
+                    <input type="number" required className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.currentOdometer ?? 0} onChange={e => setTruckForm({...truckForm, currentOdometer: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Total MT Handled</label>
-                    <input type="number" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.totalMtHandled ?? 0} onChange={e => setTruckForm({...truckForm, totalMtHandled: Number(e.target.value)})} />
+                    <label className="t-label px-1">Total MT Handled</label>
+                    <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.totalMtHandled ?? 0} onChange={e => setTruckForm({...truckForm, totalMtHandled: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Driver Performance Score</label>
-                    <input type="number" min="0" max="100" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.driverScore ?? 80} onChange={e => setTruckForm({...truckForm, driverScore: Number(e.target.value)})} />
+                    <label className="t-label px-1">Driver Performance Score</label>
+                    <input type="number" min="0" max="100" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.driverScore ?? 80} onChange={e => setTruckForm({...truckForm, driverScore: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Idle Time (Hours)</label>
-                    <input type="number" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.idleTimeHours ?? 0} onChange={e => setTruckForm({...truckForm, idleTimeHours: Number(e.target.value)})} />
+                    <label className="t-label px-1">Idle Time (Hours)</label>
+                    <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.idleTimeHours ?? 0} onChange={e => setTruckForm({...truckForm, idleTimeHours: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Engine Run Hours</label>
-                    <input type="number" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.engineHours ?? 0} onChange={e => setTruckForm({...truckForm, engineHours: Number(e.target.value)})} />
+                    <label className="t-label px-1">Engine Run Hours</label>
+                    <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.engineHours ?? 0} onChange={e => setTruckForm({...truckForm, engineHours: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Service Interval (KM)</label>
-                    <input type="number" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={truckForm.serviceIntervalKm ?? 10000} onChange={e => setTruckForm({...truckForm, serviceIntervalKm: Number(e.target.value)})} />
+                    <label className="t-label px-1">Service Interval (KM)</label>
+                    <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={truckForm.serviceIntervalKm ?? 10000} onChange={e => setTruckForm({...truckForm, serviceIntervalKm: Number(e.target.value)})} />
                   </div>
                 </div>
               </div>
@@ -2227,23 +2283,23 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Insurance Expiry</label>
-                    <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.insuranceExpiry ?? ''} onChange={e => setTruckForm({...truckForm, insuranceExpiry: e.target.value})} />
+                    <label className="t-label px-1">Insurance Expiry</label>
+                    <input type="date" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.insuranceExpiry ?? ''} onChange={e => setTruckForm({...truckForm, insuranceExpiry: e.target.value})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Fitness Expiry</label>
-                    <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.fitnessExpiry ?? ''} onChange={e => setTruckForm({...truckForm, fitnessExpiry: e.target.value})} />
+                    <label className="t-label px-1">Fitness Expiry</label>
+                    <input type="date" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.fitnessExpiry ?? ''} onChange={e => setTruckForm({...truckForm, fitnessExpiry: e.target.value})} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Last Service Date</label>
-                    <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={truckForm.lastServiceDate ?? ''} onChange={e => setTruckForm({...truckForm, lastServiceDate: e.target.value})} />
+                    <label className="t-label px-1">Last Service Date</label>
+                    <input type="date" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={truckForm.lastServiceDate ?? ''} onChange={e => setTruckForm({...truckForm, lastServiceDate: e.target.value})} />
                   </div>
                 </div>
               </div>
 
               <div className="pt-8 flex gap-4 sticky bottom-0 bg-white">
-                <button type="button" onClick={() => setIsTruckModalOpen(false)} className="flex-1 px-6 py-4 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-slate-50 transition-all">Discard</button>
-                <button type="submit" className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                <button type="button" onClick={() => setIsTruckModalOpen(false)} className="flex-1 px-6 py-4 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-[#F5F4F0] transition-all">Discard</button>
+                <button type="submit" className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
                   <CheckCircle2 size={20} />
                   {editingItem ? 'Update Asset' : 'Register Asset'}
                 </button>
@@ -2256,20 +2312,20 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Item Product Modal */}
       {isItemProductModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Product' : 'Add New Product'}</h3>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Product' : 'Add New Product'}</h3>
               <button onClick={() => { setIsItemProductModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleItemProductSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                    <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={itemProductForm.trackingId ?? ''} onChange={e => setItemProductForm({...itemProductForm, trackingId: e.target.value})} placeholder="e.g. PRD-001" />
+                    <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={itemProductForm.trackingId ?? ''} onChange={e => setItemProductForm({...itemProductForm, trackingId: e.target.value})} placeholder="e.g. PRD-001" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Product Name*</label>
-                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'productName')} value={itemProductForm.productName ?? ''} onChange={e => { setItemProductForm({...itemProductForm, productName: e.target.value}); clearField('productName'); }} placeholder="e.g. Fly Ash, Cement" />
+                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'productName')} value={itemProductForm.productName ?? ''} onChange={e => { setItemProductForm({...itemProductForm, productName: e.target.value}); clearField('productName'); }} placeholder="e.g. Fly Ash, Cement" />
                     {fieldErr('productName')}
                   </div>
                 </div>
@@ -2277,18 +2333,18 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">HSN & SAC Code*</label>
-                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'hsnSacCode')} value={itemProductForm.hsnSacCode ?? ''} onChange={e => { setItemProductForm({...itemProductForm, hsnSacCode: e.target.value}); clearField('hsnSacCode'); }} placeholder="e.g. 26219000" />
+                    <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'hsnSacCode')} value={itemProductForm.hsnSacCode ?? ''} onChange={e => { setItemProductForm({...itemProductForm, hsnSacCode: e.target.value}); clearField('hsnSacCode'); }} placeholder="e.g. 26219000" />
                     {fieldErr('hsnSacCode')}
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">GST Rate (%)</label>
-                    <input type="number" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={itemProductForm.gstRate ?? 0} onChange={e => setItemProductForm({...itemProductForm, gstRate: Number(e.target.value)})} placeholder="e.g. 18" />
+                    <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={itemProductForm.gstRate ?? 0} onChange={e => setItemProductForm({...itemProductForm, gstRate: Number(e.target.value)})} placeholder="e.g. 18" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Product Colour*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={itemProductForm.productColour ?? ''} onChange={e => setItemProductForm({...itemProductForm, productColour: e.target.value})} placeholder="e.g. Grey, White, #808080" />
+                  <input type="text" required className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={itemProductForm.productColour ?? ''} onChange={e => setItemProductForm({...itemProductForm, productColour: e.target.value})} placeholder="e.g. Grey, White, #808080" />
                 </div>
 
                 <div className="space-y-4">
@@ -2296,7 +2352,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   <div className="flex gap-2">
                     <input 
                       type="text" 
-                      className="flex-1 px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" 
+                      className="flex-1 px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" 
                       value={newService} 
                       onChange={e => setNewService(e.target.value)} 
                       placeholder="e.g. Transportation, Loading, etc." 
@@ -2343,59 +2399,63 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       {/* Fuel Site Modal */}
       {isFuelSiteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-zinc-50/50">
-              <h3 className="text-2xl font-black text-slate-900">{editingItem ? 'Edit Fuel Site' : 'Add Fuel Site Details'}</h3>
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Fuel Site' : 'Add Fuel Site Details'}</h3>
               <button onClick={() => { setIsFuelSiteModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleFuelSiteSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
-                  <input type="text" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={fuelSiteForm.trackingId ?? ''} onChange={e => setFuelSiteForm({...fuelSiteForm, trackingId: e.target.value})} placeholder="e.g. FUEL-001" />
+                  <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={fuelSiteForm.trackingId ?? ''} onChange={e => setFuelSiteForm({...fuelSiteForm, trackingId: e.target.value})} placeholder="e.g. FUEL-001" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Company Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'companyName')} value={fuelSiteForm.companyName ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, companyName: e.target.value}); clearField('companyName'); }} placeholder="Company Ltd." />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'companyName')} value={fuelSiteForm.companyName ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, companyName: e.target.value}); clearField('companyName'); }} placeholder="Company Ltd." />
                   {fieldErr('companyName')}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Owner Name*</label>
-                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'ownerName')} value={fuelSiteForm.ownerName ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, ownerName: e.target.value}); clearField('ownerName'); }} placeholder="Owner Name" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'ownerName')} value={fuelSiteForm.ownerName ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, ownerName: e.target.value}); clearField('ownerName'); }} placeholder="Owner Name" />
                   {fieldErr('ownerName')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Phone Number*</label>
-                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'phoneNumber')} value={fuelSiteForm.phoneNumber ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, phoneNumber: e.target.value}); clearField('phoneNumber'); }} placeholder="98XXXXXXXX" />
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'phoneNumber')} value={fuelSiteForm.phoneNumber ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, phoneNumber: e.target.value}); clearField('phoneNumber'); }} placeholder="98XXXXXXXX" />
                   {fieldErr('phoneNumber')}
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Number*</label>
-                  <input type="tel" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={fuelSiteForm.whatsappNumber ?? ''} onChange={e => setFuelSiteForm({...fuelSiteForm, whatsappNumber: e.target.value})} placeholder="98XXXXXXXX" />
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">WhatsApp Number</label>
+                  <input type="tel" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'fsWhatsapp')} value={fuelSiteForm.whatsappNumber ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, whatsappNumber: e.target.value}); clearField('fsWhatsapp'); }} placeholder="98XXXXXXXX" />
+                  {fieldErr('fsWhatsapp')}
                 </div>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Contact Email*</label>
-                  <input type="email" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={fuelSiteForm.contactEmail ?? ''} onChange={e => setFuelSiteForm({...fuelSiteForm, contactEmail: e.target.value})} placeholder="email@company.com" />
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Contact Email</label>
+                  <input type="email" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'contactEmail')} value={fuelSiteForm.contactEmail ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, contactEmail: e.target.value}); clearField('contactEmail'); }} placeholder="email@company.com" />
+                  {fieldErr('contactEmail')}
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">GST Number*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold uppercase" value={fuelSiteForm.gstNumber ?? ''} onChange={e => setFuelSiteForm({...fuelSiteForm, gstNumber: e.target.value})} placeholder="GST12345678" />
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">GST Number</label>
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold uppercase", 'gstNumber')} value={fuelSiteForm.gstNumber ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, gstNumber: e.target.value.toUpperCase()}); clearField('gstNumber'); }} placeholder="22AAAAA0000A1Z5" />
+                  {fieldErr('gstNumber')}
                 </div>
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Address*</label>
-                  <textarea className={fieldCls("w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold", 'address')} rows={2} value={fuelSiteForm.address ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, address: e.target.value}); clearField('address'); }} placeholder="Site location address..." />
+                  <textarea className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'address')} rows={2} value={fuelSiteForm.address ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, address: e.target.value}); clearField('address'); }} placeholder="Site location address..." />
                   {fieldErr('address')}
                </div>
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Address Google Map Link</label>
-                  <input type="url" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={fuelSiteForm.googleMapLink ?? ''} onChange={e => setFuelSiteForm({...fuelSiteForm, googleMapLink: e.target.value})} placeholder="https://maps.google.com/..." />
+                  <input type="url" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'googleMapLink')} value={fuelSiteForm.googleMapLink ?? ''} onChange={e => { setFuelSiteForm({...fuelSiteForm, googleMapLink: e.target.value}); clearField('googleMapLink'); }} placeholder="https://maps.google.com/..." />
+                  {fieldErr('googleMapLink')}
                </div>
-               <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200/60 space-y-4">
+               <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-200/60 space-y-4">
                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
                    <Landmark size={14} className="text-rose-600" /> Bank Account Details
                  </h4>
@@ -2404,7 +2464,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Bank Name*</label>
                      <input
                        type="text"
-                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'bankName')}
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'bankName')}
                        value={fuelSiteForm.bankName ?? ''}
                        onChange={e => { setFuelSiteForm({...fuelSiteForm, bankName: e.target.value}); clearField('bankName'); }}
                        placeholder="e.g. State Bank of India"
@@ -2415,7 +2475,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                       <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Account Number*</label>
                       <input
                         type="text"
-                        className={fieldCls("w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'accountNumber')}
+                        className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'accountNumber')}
                         value={fuelSiteForm.accountNumber ?? ''}
                         onChange={e => { setFuelSiteForm({...fuelSiteForm, accountNumber: e.target.value}); clearField('accountNumber'); }}
                         placeholder="e.g. 1234567890"
@@ -2428,9 +2488,9 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                       <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">IFSC Code*</label>
                       <input
                         type="text"
-                        className={fieldCls("w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold uppercase focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'ifscCode')}
+                        className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold uppercase focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'ifscCode')}
                         value={fuelSiteForm.ifscCode ?? ''}
-                        onChange={e => { setFuelSiteForm({...fuelSiteForm, ifscCode: e.target.value}); clearField('ifscCode'); }}
+                        onChange={e => { setFuelSiteForm({...fuelSiteForm, ifscCode: e.target.value.toUpperCase()}); clearField('ifscCode'); }}
                         placeholder="e.g. SBIN0001234"
                       />
                       {fieldErr('ifscCode')}
@@ -2439,11 +2499,12 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">UPI ID</label>
                      <input
                        type="text"
-                       className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-2xl font-bold focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none"
+                       className={fieldCls("w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none", 'upiId')}
                        value={fuelSiteForm.upiId ?? ''}
-                       onChange={e => setFuelSiteForm({...fuelSiteForm, upiId: e.target.value})}
+                       onChange={e => { setFuelSiteForm({...fuelSiteForm, upiId: e.target.value}); clearField('upiId'); }}
                        placeholder="e.g. user@upi"
                      />
+                     {fieldErr('upiId')}
                    </div>
                  </div>
                </div>

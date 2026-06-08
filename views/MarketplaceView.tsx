@@ -28,6 +28,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { Truck, Expense, Invoice, Employee, MaintenanceExpense, InvoiceStatus } from '../types';
+import { api } from '../services/api/client';
 import { safeStorage, safeJSONParse } from '../lib/storage';
 import { jsPDF } from 'jspdf';
 import { 
@@ -384,28 +385,15 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
     try {
       const chatContext = [...chatMessages, userMsg];
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          messages: chatContext.map(m => ({ role: m.role, content: m.content }))
-        })
+      const data = await api.post<{ text: string }>('/chat', {
+        messages: chatContext.map(m => ({ role: m.role, content: m.content }))
       });
-
-      if (!res.ok) {
-        throw new Error('API server failed');
-      }
-
-      const data = await res.json();
       setChatMessages(prev => [...prev, {
         role: 'model',
         content: data.text,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
-    } catch (err) {
-      // Fallback securely with simulated intelligent logic
+    } catch {
       const fallbackText = computeOfflineReply(userMsg.content);
       setChatMessages(prev => [...prev, {
         role: 'model',
@@ -673,11 +661,11 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
   }, [invoices]);
 
   return (
-    <div className="space-y-8">
+    <div className="page-stack-lg">
       {/* HEADER SECTION */}
       {activeApp === null && (
         <>
-          <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden border border-slate-800 animate-in fade-in zoom-in-95 duration-500">
+          <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-10 shadow-2xl relative overflow-hidden border border-slate-800 animate-in fade-in zoom-in-95 duration-500">
             <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute left-1/3 bottom-0 w-80 h-80 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
             
@@ -694,11 +682,11 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/5 backdrop-blur-md rounded-3xl p-5 border border-white/10 text-center">
+                <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 text-center">
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Addons Active</p>
                   <p className="text-3xl font-black text-white mt-1">{installedCount} / 4</p>
                 </div>
-                <div className="bg-white/5 backdrop-blur-md rounded-3xl p-5 border border-white/10 text-center">
+                <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 text-center">
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Available</p>
                   <p className="text-3xl font-black text-indigo-300 mt-1">4 Apps</p>
                 </div>
@@ -732,13 +720,13 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
       {/* RENDER ACTIVE APP VIEW OR GENERAL GRID */}
       {activeApp === null ? (
         marketplaceTab === 'browse' ? (
-          <div className="space-y-8">
+          <div className="page-stack-lg">
             <div>
               <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Available Extensions & Integrations</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* 1. LOGINSO */}
-                <div className="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-blue-300 transition-all duration-300">
+                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-blue-300 transition-all duration-300">
                   <div className="p-8 flex-1 space-y-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner group-hover:scale-105 transition-all">
@@ -754,7 +742,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                     
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-1.5">
+                      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight flex items-center gap-1.5">
                         Loginso
                       </h3>
                       <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Insurances & Renewals Management</p>
@@ -764,7 +752,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                   </div>
 
-                  <div className="px-8 py-5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                  <div className="px-8 py-5 bg-[#F5F4F0]/50 border-t border-slate-100 flex items-center justify-between">
                     {installedAddons.loginso ? (
                       <>
                         <button 
@@ -775,7 +763,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                         </button>
                         <button 
                           onClick={() => setActiveApp('loginso')}
-                          className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs px-5 py-2.5 rounded-xl uppercase tracking-widest shadow-lg shadow-blue-200 hover:shadow-none transition-all"
+                          className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs px-5 py-2.5 rounded-xl uppercase tracking-widest shadow-md shadow-blue-500/20 hover:shadow-none transition-all"
                         >
                           Launch <ChevronRight size={16} />
                         </button>
@@ -800,7 +788,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
 
                 {/* 2. DOCDOWN */}
-                <div className="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-amber-300 transition-all duration-300">
+                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-amber-300 transition-all duration-300">
                   <div className="p-8 flex-1 space-y-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-inner group-hover:scale-105 transition-all">
@@ -816,7 +804,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                     
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+                      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">
                         Docdown
                       </h3>
                       <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Unified Document Download Portal</p>
@@ -826,7 +814,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                   </div>
 
-                  <div className="px-8 py-5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                  <div className="px-8 py-5 bg-[#F5F4F0]/50 border-t border-slate-100 flex items-center justify-between">
                     {installedAddons.docdown ? (
                       <>
                         <button 
@@ -862,7 +850,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
 
                 {/* 3. LOGIDATA */}
-                <div className="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-violet-300 transition-all duration-300">
+                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-violet-300 transition-all duration-300">
                   <div className="p-8 flex-1 space-y-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="w-16 h-16 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center shadow-inner group-hover:scale-105 transition-all">
@@ -878,7 +866,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                     
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+                      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">
                         LogiData
                       </h3>
                       <p className="text-[10px] font-black text-violet-600 uppercase tracking-widest">In-depth Trend & Dynamic Analysis</p>
@@ -888,7 +876,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                   </div>
 
-                  <div className="px-8 py-5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                  <div className="px-8 py-5 bg-[#F5F4F0]/50 border-t border-slate-100 flex items-center justify-between">
                     {installedAddons.logidata ? (
                       <>
                         <button 
@@ -924,7 +912,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
 
                 {/* 4. LOGIGPT */}
-                <div className="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-indigo-300 transition-all duration-300">
+                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col group hover:border-indigo-300 transition-all duration-300">
                   <div className="p-8 flex-1 space-y-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-inner group-hover:scale-105 transition-all">
@@ -940,7 +928,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                     
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-1.5">
+                      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight flex items-center gap-1.5">
                         Logigpt <Sparkles size={16} className="text-indigo-500 animate-pulse" />
                       </h3>
                       <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Generative AI Conversational Assistant</p>
@@ -950,7 +938,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                   </div>
 
-                  <div className="px-8 py-5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                  <div className="px-8 py-5 bg-[#F5F4F0]/50 border-t border-slate-100 flex items-center justify-between">
                     {installedAddons.logigpt ? (
                       <>
                         <button 
@@ -988,7 +976,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
             {/* INSTALL LOADER BLOCK FOR MAJESTIC FEELING */}
             {installingId !== null && (
-              <div className="fixed bottom-10 right-10 z-50 bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border border-slate-700 w-96 animate-bounce">
+              <div className="fixed bottom-10 right-10 z-50 bg-slate-900 text-white rounded-2xl p-6 shadow-2xl border border-slate-700 w-96 animate-bounce">
                 <p className="text-[10px] font-black uppercase text-indigo-400 tracking-widest">Assembling Service Module</p>
                 <h4 className="text-sm font-black mt-1 capitalize leading-none">Activating {installingId} application...</h4>
                 <p className="text-slate-400 text-[11px] mt-2 italic font-semibold leading-relaxed">{installStepText}</p>
@@ -1003,46 +991,46 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
           <div className="space-y-8 animate-in fade-in duration-300">
             {/* STATS SUMMARY ROW */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4">
+              <div className="card card-pad flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
                   <RefreshCw size={22} className={totalUnsyncedAddonCost > 0 ? "animate-spin" : ""} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Unsynced Accruals</p>
+                  <p className="t-label leading-none">Unsynced Accruals</p>
                   <p className="text-2xl font-black mt-1 text-slate-900">₹{totalUnsyncedAddonCost.toLocaleString()}</p>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4">
+              <div className="card card-pad flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                   <ShieldCheck size={22} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Registered Policies</p>
+                  <p className="t-label leading-none">Registered Policies</p>
                   <p className="text-2xl font-black mt-1 text-slate-900">
                     {installedAddons.loginso ? insurances.filter(i => i.status !== 'EXPIRED').length : 'Inactive'}
                   </p>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4">
+              <div className="card card-pad flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                   <FileDown size={22} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Docdown Exports</p>
+                  <p className="t-label leading-none">Docdown Exports</p>
                   <p className="text-2xl font-black mt-1 text-slate-900">
                     {installedAddons.docdown ? unsyncedDownloads : 'Inactive'}
                   </p>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4">
+              <div className="card card-pad flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                   <Cpu size={22} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Chat Interactions</p>
+                  <p className="t-label leading-none">Chat Interactions</p>
                   <p className="text-2xl font-black mt-1 text-slate-900">
                     {installedAddons.logigpt ? unsyncedQueries : 'Inactive'}
                   </p>
@@ -1053,7 +1041,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
             {/* SYNC ACTIONS AND BREAKDOWN */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* RECONCILIATION SUMMARY PANELS */}
-              <div className="lg:col-span-2 bg-white rounded-[2rem] border border-slate-200 p-8 space-y-6">
+              <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-8 space-y-6">
                 <div>
                   <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Unreconciled Usage Breakdown</h3>
                   <p className="text-slate-500 text-xs font-semibold">Detailed breakdown of active, un-invoiced marketplace costs during the current billing cycle.</p>
@@ -1157,23 +1145,23 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-slate-100 flex items-center justify-between bg-slate-50 p-6 rounded-2xl">
+                <div className="pt-6 border-t border-slate-100 flex items-center justify-between bg-[#F5F4F0] p-6 rounded-2xl">
                   <div>
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Active Accrued Subtotal</span>
                     <p className="text-slate-500 text-xs font-semibold mt-1 font-sans">SaaS & Information Technology Surcharges (SAC 998313)</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-black text-slate-900">₹{totalUnsyncedAddonCost.toLocaleString()}</p>
+                    <p className="text-2xl font-black text-[#1C1917] tracking-tight">₹{totalUnsyncedAddonCost.toLocaleString()}</p>
                     <p className="text-[10px] text-slate-400 font-bold font-mono tracking-wider">+ 18% GST (₹{Math.round(totalUnsyncedAddonCost * 0.18).toLocaleString()})</p>
                   </div>
                 </div>
               </div>
 
               {/* RECONCILE TRIGGERS */}
-              <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-[2.5rem] p-8 flex flex-col justify-between border border-slate-800 shadow-xl relative overflow-hidden">
+              <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl p-8 flex flex-col justify-between border border-slate-800 shadow-xl relative overflow-hidden">
                 <div className="absolute right-0 top-0 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
                 
-                <div className="space-y-6">
+                <div className="page-stack pb-10">
                   <div>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-[10px] font-black uppercase tracking-widest border border-amber-500/20">
                       <RefreshCw size={10} className="animate-spin" /> Reconciliation Engine
@@ -1216,8 +1204,8 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
             </div>
 
             {/* AUDIT HISTORY OF MARKETPLACE SYNCED INVOICES */}
-            <div className="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-              <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+              <div className="p-6 border-b border-slate-100 bg-[#F5F4F0]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Billing Hub Sync Archive</h3>
                   <p className="text-slate-500 text-xs font-semibold mt-0.5 animate-pulse">Records of reconciled billing invoices generated from this Addon Marketplace.</p>
@@ -1236,18 +1224,18 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-slate-50 border-b border-slate-100">
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">Invoice Code</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">Client Name (Target)</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">Issue Date</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">Accrued Subtotal</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">Grand Total (Inc GST)</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-sans">Status / Action</th>
+                      <tr className="bg-[#F5F4F0] border-b border-slate-100">
+                        <th className="px-6 py-4 t-label font-sans">Invoice Code</th>
+                        <th className="px-6 py-4 t-label font-sans">Client Name (Target)</th>
+                        <th className="px-6 py-4 t-label font-sans">Issue Date</th>
+                        <th className="px-6 py-4 t-label font-sans">Accrued Subtotal</th>
+                        <th className="px-6 py-4 t-label font-sans">Grand Total (Inc GST)</th>
+                        <th className="px-6 py-4 t-label font-sans">Status / Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-xs">
                       {marketplaceInvoices.map((inv) => (
-                        <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors">
+                        <tr key={inv.id} className="hover:bg-[#F5F4F0]/50 transition-colors">
                           <td className="px-6 py-5">
                             <span className="font-mono font-black text-xs text-indigo-600 bg-indigo-50 px-2.5 py-1.5 rounded-lg border border-indigo-100">
                               {inv.invoiceNumber}
@@ -1290,7 +1278,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
         )
       ) : (
         // DEEP DIVE WORKSPACES
-        <div className="space-y-6">
+        <div className="page-stack pb-10">
           <button 
             onClick={() => setActiveApp(null)}
             className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-black text-[10px] uppercase tracking-widest bg-white border border-slate-200 py-2 px-4 rounded-xl transition-all"
@@ -1301,7 +1289,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
           {/* 1. LOGINSO ACTIVE PANEL */}
           {activeApp === 'loginso' && (
             <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-300">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-8 rounded-[2rem] border border-slate-200">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-8 rounded-2xl border border-slate-200">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                     <ShieldCheck size={28} />
@@ -1321,65 +1309,65 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
               {/* STATS SUMMARY CARD ROW */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white p-6 rounded-[1.5rem] border border-slate-200 shadow-sm flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center">
+                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#F5F4F0] text-slate-600 flex items-center justify-center">
                     <Activity size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Policies Tracked</p>
+                    <p className="t-label leading-none">Policies Tracked</p>
                     <p className="text-2xl font-black mt-1 text-slate-900">{insurances.length}</p>
                   </div>
                 </div>
-                <div className="bg-white p-6 rounded-[1.5rem] border border-slate-200 shadow-sm flex items-center gap-4">
+                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <CheckCircle2 size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Fully Active Cover</p>
+                    <p className="t-label leading-none">Fully Active Cover</p>
                     <p className="text-2xl font-black mt-1 text-slate-900">{insurances.filter(i => i.status === 'ACTIVE').length}</p>
                   </div>
                 </div>
-                <div className="bg-white p-6 rounded-[1.5rem] border border-slate-200 shadow-sm flex items-center gap-4">
+                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                     <AlertTriangle size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Due Next 30 Days</p>
+                    <p className="t-label leading-none">Due Next 30 Days</p>
                     <p className="text-2xl font-black mt-1 text-amber-600">{insurances.filter(i => i.status === 'EXPIRING').length}</p>
                   </div>
                 </div>
-                <div className="bg-white p-6 rounded-[1.5rem] border border-slate-200 shadow-sm flex items-center gap-4">
+                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
                     <AlertTriangle size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Expired Coverage</p>
+                    <p className="t-label leading-none">Expired Coverage</p>
                     <p className="text-2xl font-black mt-1 text-red-600">{insurances.filter(i => i.status === 'EXPIRED').length}</p>
                   </div>
                 </div>
               </div>
 
               {/* LIST TABLE */}
-              <div className="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-                <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+              <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div className="p-6 border-b border-slate-100 bg-[#F5F4F0]/50">
                   <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Active Insurance Registries</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-slate-50 border-b border-slate-100">
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Truck Number</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Insurer Company</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Policy details</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Premium Value</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest font-mono">Validity Timeline</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Risk status</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Action</th>
+                      <tr className="bg-[#F5F4F0] border-b border-slate-100">
+                        <th className="px-6 py-4 t-label">Truck Number</th>
+                        <th className="px-6 py-4 t-label">Insurer Company</th>
+                        <th className="px-6 py-4 t-label">Policy details</th>
+                        <th className="px-6 py-4 t-label">Premium Value</th>
+                        <th className="px-6 py-4 t-label font-mono">Validity Timeline</th>
+                        <th className="px-6 py-4 t-label">Risk status</th>
+                        <th className="px-6 py-4 t-label text-right">Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {insurances.map((item) => (
-                        <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
+                        <tr key={item.id} className="hover:bg-[#F5F4F0]/50 transition-colors">
                           <td className="px-6 py-5">
                             <span className="font-mono font-black text-xs text-slate-900 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200">
                               {item.truckNumber}
@@ -1427,7 +1415,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
               {/* REGISTER POLICY MODAL */}
               {isInsuranceModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
-                  <div className="bg-white rounded-[2rem] border border-slate-200 shadow-2xl p-8 max-w-lg w-full space-y-6 animate-in zoom-in-95 duration-200">
+                  <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-8 max-w-lg w-full space-y-6 animate-in zoom-in-95 duration-200">
                     <div className="flex justify-between items-center">
                       <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-1.5">
                         <ShieldCheck className="text-blue-600" /> New Insurance Cover
@@ -1442,7 +1430,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                           required
                           value={newPolicy.truckId} 
                           onChange={e => setNewPolicy({...newPolicy, truckId: e.target.value})}
-                          className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                          className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
                         >
                           <option value="">-- Choose Truck --</option>
                           {fleet.map(t => (
@@ -1458,7 +1446,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                             required
                             value={newPolicy.insurer} 
                             onChange={e => setNewPolicy({...newPolicy, insurer: e.target.value})}
-                            className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                            className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                           >
                             <option value="ICICI Lombard">ICICI Lombard</option>
                             <option value="HDFC ERGO">HDFC ERGO</option>
@@ -1473,7 +1461,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                             required
                             value={newPolicy.type} 
                             onChange={e => setNewPolicy({...newPolicy, type: e.target.value as any})}
-                            className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                            className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                           >
                             <option value="Comprehensive">Comprehensive Cover</option>
                             <option value="Own Damage">Own Damage Cover</option>
@@ -1490,7 +1478,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                             type="number" 
                             value={newPolicy.premiumAmount} 
                             onChange={e => setNewPolicy({...newPolicy, premiumAmount: Number(e.target.value)})}
-                            className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                            className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                             placeholder="Wages/Cost Premium"
                           />
                         </div>
@@ -1500,7 +1488,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                             type="text" 
                             value={newPolicy.policyNo} 
                             onChange={e => setNewPolicy({...newPolicy, policyNo: e.target.value})}
-                            className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                            className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                             placeholder="e.g. POL-98721345"
                           />
                         </div>
@@ -1514,7 +1502,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                             type="date" 
                             value={newPolicy.startDate} 
                             onChange={e => setNewPolicy({...newPolicy, startDate: e.target.value})}
-                            className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                            className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                           />
                         </div>
                         <div>
@@ -1524,7 +1512,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                             type="date" 
                             value={newPolicy.endDate} 
                             onChange={e => setNewPolicy({...newPolicy, endDate: e.target.value})}
-                            className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                            className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                           />
                         </div>
                       </div>
@@ -1546,7 +1534,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
           {/* 2. DOCDOWN ACTIVE PANEL */}
           {activeApp === 'docdown' && (
             <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-300">
-              <div className="bg-white p-8 rounded-[2rem] border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="bg-white p-8 rounded-2xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
                     <FileDown size={28} />
@@ -1565,7 +1553,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                       placeholder="Search documents..." 
                       value={docSearch}
                       onChange={e => setDocSearch(e.target.value)}
-                      className="pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-4 focus:ring-amber-500/10 outline-none w-56"
+                      className="pl-10 pr-4 py-2.5 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-4 focus:ring-amber-500/10 outline-none w-56"
                     />
                   </div>
                 </div>
@@ -1574,29 +1562,29 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
               {/* TABS & LIST */}
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 {/* CATEGORIES MENU */}
-                <div className="space-y-2 bg-white p-4 rounded-[1.5rem] border border-slate-200 h-fit">
+                <div className="space-y-2 bg-white p-4 rounded-xl border border-slate-200 h-fit">
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-2">Category Filters</p>
                   <button 
                     onClick={() => setDocCategory('ALL')}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'ALL' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'ALL' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                   >
                     All Documents
                   </button>
                   <button 
                     onClick={() => setDocCategory('COMPLIANCE')}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'COMPLIANCE' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'COMPLIANCE' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                   >
                     Permits & Certs
                   </button>
                   <button 
                     onClick={() => setDocCategory('FINANCE')}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'FINANCE' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'FINANCE' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                   >
                     Finance Sheets
                   </button>
                   <button 
                     onClick={() => setDocCategory('VEHICLE')}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'VEHICLE' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-xl transition-all ${docCategory === 'VEHICLE' ? 'bg-amber-500 text-white' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                   >
                     Operational Logs
                   </button>
@@ -1605,13 +1593,13 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                 {/* FILE CARDS CONTAINER */}
                 <div className="lg:col-span-3 space-y-4">
                   {docDatabase.length === 0 ? (
-                    <div className="bg-white p-16 rounded-[2rem] border border-slate-200 text-center space-y-4">
+                    <div className="bg-white p-16 rounded-2xl border border-slate-200 text-center space-y-4">
                       <Search size={40} className="mx-auto text-slate-300" />
                       <p className="text-slate-500 text-sm font-semibold">No documents found matching your parameters.</p>
                     </div>
                   ) : (
                     docDatabase.map(doc => (
-                      <div key={doc.id} className="bg-white p-6 rounded-[2rem] border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:border-amber-300 transition-all">
+                      <div key={doc.id} className="bg-white p-6 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:border-amber-300 transition-all">
                         <div className="flex items-center gap-4">
                           <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-xs ${doc.type === 'PDF' ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-600'}`}>
                             {doc.type}
@@ -1644,7 +1632,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
           {/* 3. LOGIDATA ACTIVE PANEL */}
           {activeApp === 'logidata' && (
             <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-300">
-              <div className="bg-white p-8 rounded-[2rem] border border-slate-200">
+              <div className="bg-white p-8 rounded-2xl border border-slate-200">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center">
                     <TrendingUp size={28} />
@@ -1659,7 +1647,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
               {/* INTERACTIVE VARIABLES MAPPING PLOT */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* PLOTTING PARAMETERS */}
-                <div className="bg-white p-6 rounded-[2rem] border border-slate-200 space-y-6 h-fit">
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-6 h-fit">
                   <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest">Multi-axis Correlation Plotting</h3>
                   
                   <div className="space-y-4">
@@ -1668,7 +1656,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                       <select 
                         value={logiDataX} 
                         onChange={e => setLogiDataX(e.target.value)}
-                        className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                        className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                       >
                         <option value="loadWeight">Average Load Weight (Metric Tons)</option>
                         <option value="truckAge">Fleet Vehicle Age (Years in service)</option>
@@ -1681,7 +1669,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                       <select 
                         value={logiDataY} 
                         onChange={e => setLogiDataY(e.target.value)}
-                        className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs"
+                        className="w-full mt-1.5 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs"
                       >
                         <option value="maintenanceCost">Total Maintenance Cost (₹)</option>
                         <option value="mileage">Average Diesel Mileage (km/L)</option>
@@ -1690,7 +1678,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 bg-slate-50 rounded-2xl p-4 space-y-2">
+                  <div className="pt-4 border-t border-slate-100 bg-[#F5F4F0] rounded-2xl p-4 space-y-2">
                     <p className="text-[9px] font-black text-violet-600 uppercase tracking-widest flex items-center gap-1.5">
                       <Info size={12} /> Correlation Summary
                     </p>
@@ -1704,7 +1692,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                 </div>
 
                 {/* RECHARTS PLOT */}
-                <div className="lg:col-span-2 bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div className="lg:col-span-2 card card-pad flex flex-col justify-between">
                   <div className="space-y-1">
                     <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Independent Scatter Plot</h4>
                     <p className="text-slate-400 text-xs font-semibold">Comparing actual parameters mapped from {fleet.length} HGVs.</p>
@@ -1739,7 +1727,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
               </div>
 
               {/* BOTTOM COLUMN: PROFITABILITY SCENARIO SIMULATOR */}
-              <div className="bg-white p-8 rounded-[2rem] border border-slate-200">
+              <div className="bg-white p-8 rounded-2xl border border-slate-200">
                 <div className="space-y-1 mb-8">
                   <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Interactive Surcharge Margin Simulator</h3>
                   <p className="text-slate-400 text-xs font-semibold">Test profitability scenario thresholds before committing to final diesel contracts.</p>
@@ -1797,27 +1785,27 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
                   {/* COMPUTED OUTCOMES CARDS */}
                   <div className="lg:col-span-2 grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                    <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Projected Monthly Diesel Spent</p>
-                      <p className="text-3xl font-black text-slate-900 mt-2">₹{logiDataCalculations.fuelCost.toLocaleString()}</p>
+                      <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-2">₹{logiDataCalculations.fuelCost.toLocaleString()}</p>
                       <p className="text-[10px] text-slate-400 font-semibold mt-1">Based on ~240km average dispatch hauls.</p>
                     </div>
 
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                    <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Gross Projected Revenue</p>
                       <p className="text-3xl font-black text-emerald-600 mt-2">₹{logiDataCalculations.revenue.toLocaleString()}</p>
                       <p className="text-[10px] text-slate-400 font-semibold mt-1">Projected total transport tonnage handled.</p>
                     </div>
 
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                    <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Projected Net operational Margin</p>
                       <p className="text-3xl font-black text-violet-600 mt-2">₹{logiDataCalculations.profit.toLocaleString()}</p>
                       <p className="text-[10px] text-slate-400 font-semibold mt-1">After fuel contracts, driver payroll, toll taxes.</p>
                     </div>
 
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                    <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Projected Return Ratio</p>
-                      <p className="text-3xl font-black text-slate-900 mt-2">{logiDataCalculations.margin}%</p>
+                      <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-2">{logiDataCalculations.margin}%</p>
                       <p className="text-[10px] text-slate-400 font-semibold mt-1">Expected return index metric.</p>
                     </div>
                   </div>
@@ -1831,7 +1819,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
           {activeApp === 'logigpt' && (
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 animate-in slide-in-from-bottom-4 duration-300">
               {/* ADVANCED PROMPTS GUIDE */}
-              <div className="space-y-4 bg-white p-6 rounded-[2rem] border border-slate-200 h-fit">
+              <div className="space-y-4 bg-white p-6 rounded-2xl border border-slate-200 h-fit">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
                     <Sparkles size={16} />
@@ -1842,28 +1830,28 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                 
                 <button 
                   onClick={() => setChatInput('Evaluate insurance risk status across our fleet. Which policy requires immediate attention?')}
-                  className="w-full text-left p-3.5 bg-slate-50 hover:bg-slate-100 border border-slate-100 rounded-xl font-bold text-xs text-slate-700 transition-all text-ellipsis overflow-hidden"
+                  className="w-full text-left p-3.5 bg-[#F5F4F0] hover:bg-slate-100 border border-slate-100 rounded-xl font-bold text-xs text-slate-700 transition-all text-ellipsis overflow-hidden"
                 >
                   Insurance Risk Status
                 </button>
 
                 <button 
                   onClick={() => setChatInput('Perform a complete diesel consumption audit. Suggest actionable steps to reduce idle waste.')}
-                  className="w-full text-left p-3.5 bg-slate-50 hover:bg-slate-100 border border-slate-100 rounded-xl font-bold text-xs text-slate-700 transition-all text-ellipsis overflow-hidden"
+                  className="w-full text-left p-3.5 bg-[#F5F4F0] hover:bg-slate-100 border border-slate-100 rounded-xl font-bold text-xs text-slate-700 transition-all text-ellipsis overflow-hidden"
                 >
                   Diesel Cost Audit
                 </button>
 
                 <button 
                   onClick={() => setChatInput('Draft a WhatsApp checklist to remind heavy transport vehicle drivers about safety checks.')}
-                  className="w-full text-left p-3.5 bg-slate-50 hover:bg-slate-100 border border-slate-100 rounded-xl font-bold text-xs text-slate-700 transition-all text-ellipsis overflow-hidden"
+                  className="w-full text-left p-3.5 bg-[#F5F4F0] hover:bg-slate-100 border border-slate-100 rounded-xl font-bold text-xs text-slate-700 transition-all text-ellipsis overflow-hidden"
                 >
                   Driver WhatsApp Reminder
                 </button>
               </div>
 
               {/* CHAT DISPLAY PANEL */}
-              <div className="lg:col-span-3 bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm flex flex-col h-[520px]">
+              <div className="lg:col-span-3 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col h-[520px]">
                 <div className="p-6 border-b border-slate-100 bg-indigo-950 text-white flex justify-between items-center">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center">
@@ -1885,7 +1873,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50">
+                <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F5F4F0]/50">
                   {chatMessages.length === 0 && (
                     <div className="text-center py-20 max-w-sm mx-auto space-y-4">
                       <Bot size={40} className="mx-auto text-indigo-250 animate-pulse" />
@@ -1929,7 +1917,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-900 text-white shrink-0">
                         <Bot size={14} />
                       </div>
-                      <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center gap-2">
+                      <div className="bg-white border border-[#E7E5E0] rounded-xl p-4 flex items-center gap-2">
                         <span className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"></span>
                         <span className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce delay-100"></span>
                         <span className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce delay-200"></span>
@@ -1945,7 +1933,7 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
                     placeholder="Enter transport query or compliance checklist question..." 
                     value={chatInput}
                     onChange={e => setChatInput(e.target.value)}
-                    className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
+                    className="flex-1 px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
                   />
                   <button 
                     type="submit" 

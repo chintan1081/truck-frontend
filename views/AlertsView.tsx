@@ -232,19 +232,19 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
     <div className="space-y-8 pb-20">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Fleet Nerve Center</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Fleet Nerve Center</h2>
           <p className="text-slate-500 font-medium">Compliance radar and user-defined operational alerts.</p>
         </div>
         <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm">
           <button 
             onClick={() => setActiveTab('AUTO')}
-            className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 ${activeTab === 'AUTO' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 ${activeTab === 'AUTO' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
           >
             <ShieldCheck size={14}/> Critical Radar ({autoAlerts.length})
           </button>
           <button 
             onClick={() => setActiveTab('CUSTOM')}
-            className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 ${activeTab === 'CUSTOM' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 ${activeTab === 'CUSTOM' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
           >
             <BellPlus size={14}/> Custom Tasks ({customAlerts.length})
           </button>
@@ -259,7 +259,7 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
             placeholder="Filter alerts by asset number or title..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-[1.5rem] focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
+            className="w-full pl-12 pr-4 py-4 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
           />
         </div>
         
@@ -298,17 +298,17 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
 
         <button 
           onClick={() => { setEditingId(null); setFormData({ ...formData, title: '', description: '', truckId: '' }); setIsModalOpen(true); }}
-          className="flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-[1.5rem] font-black shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all"
+          className="flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all"
         >
           <Plus size={20} /> Create Task
         </button>
       </div>
 
-      <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden animate-in fade-in duration-500">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in duration-500">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <tr className="bg-[#F5F4F0]/50 border-b border-slate-100 t-label">
                 <th className="px-8 py-5">Urgency</th>
                 <th className="px-8 py-5">Asset #</th>
                 <th className="px-8 py-5">Alert Detail</th>
@@ -324,7 +324,7 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
                 const truck = fleet.find(t => t.id === alertItem.truckId);
 
                 return (
-                  <tr key={alertItem.id} className="hover:bg-slate-50/50 transition-colors group">
+                  <tr key={alertItem.id} className="hover:bg-[#F5F4F0]/50 transition-colors group">
                     <td className="px-8 py-5">
                       <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border w-fit ${URGENCY_CONFIG[alertItem.urgency as AlertUrgency].bg}`}>
                         <UrgencyIcon size={14} className={URGENCY_CONFIG[alertItem.urgency as AlertUrgency].color} />
@@ -411,8 +411,8 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-12 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm transition-all animate-in slide-in-from-bottom-4">
-           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+        <div className="flex items-center justify-between mt-12 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm transition-all animate-in slide-in-from-bottom-4">
+           <p className="t-label">
               Showing page {currentPage} of {totalPages} ({currentAlerts.length} total alerts)
            </p>
            <div className="flex gap-3">
@@ -422,7 +422,7 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
                     setCurrentPage(p => p - 1);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="px-6 py-2 bg-slate-50 border border-slate-100 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all font-mono"
+                className="px-6 py-2 bg-[#F5F4F0] border border-slate-100 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all font-mono"
               >
                  Prev
               </button>
@@ -442,10 +442,10 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
-            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
+            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
-                  <h3 className="text-2xl font-black text-slate-900">{editingId ? 'Modify Task' : 'New Manual Task'}</h3>
+                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingId ? 'Modify Task' : 'New Manual Task'}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Operational Protocol • Manual Entry</p>
                </div>
                <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={24}/></button>
@@ -453,11 +453,11 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
             
             <form onSubmit={handleSubmit} className="p-10 space-y-6">
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Task Title*</label>
+                  <label className="t-label px-1">Task Title*</label>
                   <input 
                     type="text" 
                     placeholder="e.g. Schedule RC Renewal" 
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" 
+                    className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" 
                     value={formData.title ?? ''} 
                     onChange={e => setFormData({...formData, title: e.target.value})} 
                   />
@@ -493,11 +493,11 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
                     ]}
                   />
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Reminder Date</label>
+                     <label className="t-label px-1">Reminder Date</label>
                      <input 
                         type="date" 
                         required 
-                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" 
+                        className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" 
                         value={formData.date ?? ''} 
                         onChange={e => setFormData({...formData, date: e.target.value})} 
                      />
@@ -505,10 +505,10 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
                </div>
 
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Notes</label>
+                  <label className="t-label px-1">Notes</label>
                   <textarea 
                     rows={2} 
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" 
+                    className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" 
                     value={formData.description ?? ''} 
                     onChange={e => setFormData({...formData, description: e.target.value})} 
                     placeholder="Detailed instructions..." 

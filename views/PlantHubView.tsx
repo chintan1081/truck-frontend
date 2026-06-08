@@ -410,7 +410,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       {/* Strategic Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight flex items-center gap-3">
              <Factory size={32} className="text-blue-600" /> Advance Command Hub
           </h2>
           <p className="text-slate-500 font-medium">Station-specific financial segregation and master pool management.</p>
@@ -434,7 +434,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
            </button>
            <button 
              onClick={() => setIsAdvanceModalOpen(true)}
-             className="flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl shadow-blue-200"
+             className="flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20"
            >
               <Plus size={18} /> Create New TPS Advance
            </button>
@@ -456,12 +456,12 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
       {/* Navigation Sub-Tabs */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex bg-white p-1.5 rounded-[2rem] border border-slate-200 shadow-sm w-fit">
+        <div className="flex bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm w-fit">
            {(['DASHBOARD', 'LEDGER', 'USAGE', 'POOL', 'RATE'] as const).map(tab => (
              <button 
               key={tab} 
               onClick={() => setActiveViewTab(tab)}
-              className={`px-8 py-3 rounded-[1.5rem] text-[10px] font-black tracking-widest transition-all ${activeViewTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+              className={`px-8 py-3 rounded-xl text-[10px] font-black tracking-widest transition-all ${activeViewTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
              >
                {tab}
              </button>
@@ -476,7 +476,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                 placeholder="Search UTR, Truck..."
                 value={searchQuery}
                 onChange={(e)=>setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold w-48 focus:w-64 transition-all outline-none shadow-sm"
+                className="pl-9 pr-4 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold w-48 focus:w-64 transition-all outline-none shadow-sm"
               />
            </div>
            <button onClick={() => setFilters({stationId: 'ALL', employeeName: 'ALL', truckId: 'ALL', clientId: 'ALL', orderId: 'ALL', paymentMode: 'ALL', startDate: '', endDate: ''})} className="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Clear Filters"><FilterX size={18}/></button>
@@ -484,7 +484,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       </div>
 
       {/* Persistent Filters Matrix */}
-      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+      <div className="card card-pad-lg grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           <FilterGroup label="TPS Station" value={filters.stationId} onChange={v => setFilters({...filters, stationId: v})} options={['ALL', ...stations.map(s=>s.id)]} labels={['All Stations', ...stations.map(s=>s.name)]} />
           <FilterGroup label="Client" value={filters.clientId} onChange={v => setFilters({...filters, clientId: v})} options={['ALL', ...clients]} />
           <FilterGroup label="Asset / Truck" value={filters.truckId} onChange={v => setFilters({...filters, truckId: v})} options={['ALL', ...trucks.map(t=>t.id)]} labels={['All Assets', ...trucks.map(t=>t.truckNumber)]} />
@@ -492,11 +492,11 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
           <FilterGroup label="Payment Mode" value={filters.paymentMode} onChange={v => setFilters({...filters, paymentMode: v})} options={['ALL', 'RTGS', 'UPI', 'NEFT', 'CASH']} />
           <div className="space-y-1">
              <label className="text-[9px] font-black text-slate-400 uppercase ml-1">Start Date</label>
-             <input type="date" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-3 py-2 text-[10px] font-bold" value={filters.startDate} onChange={e=>setFilters({...filters, startDate: e.target.value})} />
+             <input type="date" className="w-full bg-[#F5F4F0] border border-slate-100 rounded-xl px-3 py-2 text-[10px] font-bold" value={filters.startDate} onChange={e=>setFilters({...filters, startDate: e.target.value})} />
           </div>
           <div className="space-y-1">
              <label className="text-[9px] font-black text-slate-400 uppercase ml-1">End Date</label>
-             <input type="date" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-3 py-2 text-[10px] font-bold" value={filters.endDate} onChange={e=>setFilters({...filters, endDate: e.target.value})} />
+             <input type="date" className="w-full bg-[#F5F4F0] border border-slate-100 rounded-xl px-3 py-2 text-[10px] font-bold" value={filters.endDate} onChange={e=>setFilters({...filters, endDate: e.target.value})} />
           </div>
       </div>
 
@@ -507,12 +507,12 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
               <h3 className="text-xl font-black text-slate-900 mb-8 flex items-center gap-3 uppercase tracking-tighter">
                  <ShieldCheck size={24} className="text-green-600"/> Station Liquidity Status
               </h3>
-              <div className="space-y-6">
+              <div className="page-stack pb-10">
                  {stations.map((s, i) => {
                     const bal = getStationBalances(s.id);
                     const usagePercent = bal.totalLifetime > 0 ? (bal.totalUtilized / bal.totalLifetime) * 100 : 0;
                     return (
-                       <div key={s.id} className="p-5 rounded-3xl border border-slate-50 bg-slate-50/30 space-y-3">
+                       <div key={s.id} className="p-5 rounded-2xl border border-slate-50 bg-[#F5F4F0]/30 space-y-3">
                           <div className="flex justify-between items-start">
                              <div>
                                 <p className="text-sm font-black text-slate-900">{s.name}</p>
@@ -560,19 +560,19 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       )}
 
       {activeViewTab === 'LEDGER' && (
-        <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden animate-in fade-in duration-500">
-           <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in duration-500">
+           <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/30">
               <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
                  <HistoryIcon size={18} className="text-blue-600" /> Advance Utilization History
               </h3>
-              <button className="flex items-center gap-2 px-6 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 shadow-sm">
+              <button className="flex items-center gap-2 px-6 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#F5F4F0] shadow-sm">
                  <Printer size={16}/> Print Ledger
               </button>
            </div>
            <div className="overflow-x-auto">
               <table className="w-full text-left">
-                 <thead className="bg-slate-50/50 border-b border-slate-100">
-                    <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                 <thead className="bg-[#F5F4F0]/50 border-b border-slate-100">
+                    <tr className="t-label">
                        <th className="px-8 py-5">Date & Station</th>
                        <th className="px-8 py-5">Audit Mapping</th>
                        <th className="px-8 py-5">Transaction Details</th>
@@ -586,7 +586,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                       const truck = trucks.find(t=>t.id===adv.truckId);
                       const order = orders.find(o=>o.id===adv.orderId);
                       return (
-                        <tr key={adv.id} className="hover:bg-slate-50/30 transition-colors group">
+                        <tr key={adv.id} className="hover:bg-[#F5F4F0]/30 transition-colors group">
                            <td className="px-8 py-6">
                               <div className="flex items-center gap-4">
                                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -651,20 +651,20 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  </tbody>
               </table>
            </div>
-           <div className="flex items-center justify-between px-8 py-4 bg-slate-50/30 border-t border-slate-100">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page {ledgerPage} of {totalLedgerPages || 1}</p>
+           <div className="flex items-center justify-between px-8 py-4 bg-[#F5F4F0]/30 border-t border-slate-100">
+              <p className="t-label">Page {ledgerPage} of {totalLedgerPages || 1}</p>
               <div className="flex gap-2">
                  <button 
                    disabled={ledgerPage === 1}
                    onClick={() => setLedgerPage(ledgerPage - 1)}
-                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
+                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm"
                  >
                    <ChevronLeft size={16} />
                  </button>
                  <button 
                    disabled={ledgerPage >= totalLedgerPages}
                    onClick={() => setLedgerPage(ledgerPage + 1)}
-                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
+                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm"
                  >
                    <ChevronRight size={16} />
                  </button>
@@ -678,7 +678,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
            {/* Top-Level Summary Cards for USAGE section */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Total Quantity Utilized Card */}
-              <div id="usage-qty-card" className="bg-white rounded-[2.5rem] border border-slate-200 p-10 flex items-center justify-between shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+              <div id="usage-qty-card" className="bg-white rounded-2xl border border-slate-200 p-10 flex items-center justify-between shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
                  <div className="space-y-2 z-10">
                     <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest block">Total Quantity Utilized</span>
                     <div className="flex items-baseline gap-2">
@@ -689,14 +689,14 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                     </div>
                     <p className="text-[10px] text-slate-500 font-bold">Accumulated fly ash weight from active filtered utilization records</p>
                  </div>
-                 <div className="w-16 h-16 rounded-3xl bg-blue-50 flex items-center justify-center text-blue-600 transition-colors group-hover:bg-blue-100 z-10">
+                 <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 transition-colors group-hover:bg-blue-100 z-10">
                     <Package size={28} />
                  </div>
                  <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-blue-50/20 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
               </div>
 
               {/* Total Utilized Payment Card */}
-              <div id="usage-amt-card" className="bg-white rounded-[2.5rem] border border-slate-200 p-10 flex items-center justify-between shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+              <div id="usage-amt-card" className="bg-white rounded-2xl border border-slate-200 p-10 flex items-center justify-between shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
                  <div className="space-y-2 z-10">
                     <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest block">Total Utilized Payment</span>
                     <div className="flex items-baseline gap-1">
@@ -707,7 +707,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                     </div>
                     <p className="text-[10px] text-slate-500 font-bold">Total funds disbursed to power stations for the filtered transactions</p>
                  </div>
-                 <div className="w-16 h-16 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 transition-colors group-hover:bg-emerald-100 z-10">
+                 <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 transition-colors group-hover:bg-emerald-100 z-10">
                     <IndianRupee size={28} />
                  </div>
                  <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-emerald-50/20 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
@@ -715,8 +715,8 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
            </div>
 
            {/* Station Advance Utilization Detail Table */}
-           <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-              <div className="p-8 border-b border-slate-100 flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-slate-50/30">
+           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="p-8 border-b border-slate-100 flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-[#F5F4F0]/30">
                  <div>
                     <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
                        <TruckIcon size={18} className="text-blue-600" /> Station Advance Utilization Detail
@@ -771,8 +771,8 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
               <div className="overflow-x-auto">
                  <table className="w-full text-left">
-                    <thead className="bg-slate-50/50 border-b border-slate-100">
-                       <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <thead className="bg-[#F5F4F0]/50 border-b border-slate-100">
+                       <tr className="t-label">
                           <th className="px-8 py-5">Date</th>
                           <th className="px-8 py-5">Stations</th>
                           <th className="px-8 py-5">Truck</th>
@@ -786,7 +786,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                     <tbody className="divide-y divide-slate-100">
                        {filteredAdvances.length === 0 ? (
                           <tr>
-                             <td colSpan={8} className="px-8 py-16 text-center text-slate-400 font-bold text-xs uppercase tracking-wider bg-slate-50/10">
+                             <td colSpan={8} className="px-8 py-16 text-center text-slate-400 font-bold text-xs uppercase tracking-wider bg-[#F5F4F0]/10">
                                 No utilized advance records match the active filter criteria
                              </td>
                           </tr>
@@ -795,7 +795,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                              const truckObj = trucks.find(t => t.id === adv.truckId);
                              const stationObj = stations.find(s => s.id === adv.stationId);
                              return (
-                                <tr key={adv.id} className="hover:bg-slate-50/30 transition-colors group">
+                                <tr key={adv.id} className="hover:bg-[#F5F4F0]/30 transition-colors group">
                                    <td className="px-8 py-5 font-mono text-xs text-slate-500">{adv.date}</td>
                                    <td className="px-8 py-5 font-bold text-slate-700 text-xs">{stationObj?.name || adv.stationId}</td>
                                    <td className="px-8 py-5">
@@ -832,14 +832,14 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  </table>
               </div>
 
-              <div className="flex items-center justify-between px-8 py-4 bg-slate-50/30 border-t border-slate-100">
-                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page {usagePage} of {totalUsagePages || 1}</p>
+              <div className="flex items-center justify-between px-8 py-4 bg-[#F5F4F0]/30 border-t border-slate-100">
+                 <p className="t-label">Page {usagePage} of {totalUsagePages || 1}</p>
                  <div className="flex gap-2">
                     <button 
                       type="button"
                       disabled={usagePage === 1}
                       onClick={() => setUsagePage(usagePage - 1)}
-                      className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm cursor-pointer"
+                      className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm cursor-pointer"
                     >
                       <ChevronLeft size={16} />
                     </button>
@@ -847,7 +847,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                       type="button"
                       disabled={usagePage >= totalUsagePages}
                       onClick={() => setUsagePage(usagePage + 1)}
-                      className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm cursor-pointer"
+                      className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm cursor-pointer"
                     >
                       <ChevronRight size={16} />
                     </button>
@@ -893,7 +893,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       )}
 
       {activeViewTab === 'POOL' && (
-        <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500">
            <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white">
               <div>
                  <h3 className="text-xl font-black tracking-tight">Lifetime Advance Ledger (Credits)</h3>
@@ -901,7 +901,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
               </div>
               <HistoryIcon size={24} className="text-blue-400 opacity-50" />
            </div>
-           <div className="px-8 py-6 bg-slate-50 border-b border-slate-100 flex flex-wrap gap-4 items-center">
+           <div className="px-8 py-6 bg-[#F5F4F0] border-b border-slate-100 flex flex-wrap gap-4 items-center">
               <div className="relative flex-1 min-w-[250px]">
                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                  <input 
@@ -909,14 +909,14 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                    placeholder="Search Pool ID, UTR, Station, Staff, Description..."
                    value={searchQuery}
                    onChange={(e)=>setSearchQuery(e.target.value)}
-                   className="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
+                   className="w-full pl-11 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
                  />
               </div>
               <div className="flex flex-wrap items-center gap-3">
                  <div className="flex flex-col gap-1">
                     <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Filter Station</label>
                     <select 
-                      className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm"
+                      className="bg-white border border-[#E7E5E0] rounded-xl px-4 py-2.5 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm"
                       value={filters.stationId}
                       onChange={(e) => setFilters({...filters, stationId: e.target.value})}
                     >
@@ -927,7 +927,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  <div className="flex flex-col gap-1">
                     <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Method</label>
                     <select 
-                      className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm"
+                      className="bg-white border border-[#E7E5E0] rounded-xl px-4 py-2.5 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm"
                       value={filters.paymentMode}
                       onChange={(e) => setFilters({...filters, paymentMode: e.target.value})}
                     >
@@ -941,9 +941,9 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  <div className="flex flex-col gap-1">
                     <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Date Range</label>
                     <div className="flex items-center gap-2">
-                      <input type="date" className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] font-bold outline-none shadow-sm" value={filters.startDate} onChange={e=>setFilters({...filters, startDate: e.target.value})} />
+                      <input type="date" className="bg-white border border-[#E7E5E0] rounded-xl px-3 py-2 text-[10px] font-bold outline-none shadow-sm" value={filters.startDate} onChange={e=>setFilters({...filters, startDate: e.target.value})} />
                       <span className="text-slate-400 font-bold text-xs">-</span>
-                      <input type="date" className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] font-bold outline-none shadow-sm" value={filters.endDate} onChange={e=>setFilters({...filters, endDate: e.target.value})} />
+                      <input type="date" className="bg-white border border-[#E7E5E0] rounded-xl px-3 py-2 text-[10px] font-bold outline-none shadow-sm" value={filters.endDate} onChange={e=>setFilters({...filters, endDate: e.target.value})} />
                     </div>
                  </div>
                  <button onClick={() => setFilters({...filters, stationId: 'ALL', paymentMode: 'ALL', startDate: '', endDate: ''})} className="p-3 mt-4 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Clear Pooled Filters"><FilterX size={18}/></button>
@@ -951,7 +951,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
            </div>
            <div className="overflow-x-auto">
               <table className="w-full text-left">
-                  <thead className="bg-slate-50/50 border-b border-slate-100">
+                  <thead className="bg-[#F5F4F0]/50 border-b border-slate-100">
                     <tr className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
                        <th className="px-6 py-5">Pool ID</th>
                        <th className="px-6 py-5">Txn Type</th>
@@ -971,7 +971,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                        const station = stations.find(s=>s.id===entry.stationId);
                        const bank = banks.find(b=>b.id===entry.bankId);
                        return (
-                        <tr key={entry.id} className="hover:bg-slate-50/50 transition-colors group">
+                        <tr key={entry.id} className="hover:bg-[#F5F4F0]/50 transition-colors group">
                           <td className="px-6 py-6">
                              <p className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg border border-blue-100 inline-block font-mono">{entry.id}</p>
                           </td>
@@ -1001,7 +1001,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                               <p className="text-xs font-black text-slate-900">{entry.date}</p>
                            </td>
                            <td className="px-6 py-6">
-                              <p className="text-[10px] font-mono font-bold text-slate-500 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 inline-block">{entry.referenceNo}</p>
+                              <p className="text-[10px] font-mono font-bold text-slate-500 bg-[#F5F4F0] px-2 py-1 rounded-lg border border-slate-100 inline-block">{entry.referenceNo}</p>
                            </td>
                            <td className="px-6 py-6 font-black text-blue-500 text-[10px] uppercase">
                               {entry.employeeName || 'Admin'}
@@ -1041,20 +1041,20 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  </tbody>
               </table>
            </div>
-           <div className="flex items-center justify-between px-8 py-4 bg-slate-50/30 border-t border-slate-100">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page {poolPage} of {totalPoolPages || 1}</p>
+           <div className="flex items-center justify-between px-8 py-4 bg-[#F5F4F0]/30 border-t border-slate-100">
+              <p className="t-label">Page {poolPage} of {totalPoolPages || 1}</p>
               <div className="flex gap-2">
                  <button 
                    disabled={poolPage === 1}
                    onClick={() => setPoolPage(poolPage - 1)}
-                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
+                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm"
                  >
                    <ChevronLeft size={16} />
                  </button>
                  <button 
                    disabled={poolPage >= totalPoolPages}
                    onClick={() => setPoolPage(poolPage + 1)}
-                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
+                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm"
                  >
                    <ChevronRight size={16} />
                  </button>
@@ -1064,7 +1064,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       )}
 
       {activeViewTab === 'RATE' && (
-         <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500">
+         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500">
             <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white">
                <div>
                   <h3 className="text-xl font-black tracking-tight">TPS Purchase Rates (Buy price)</h3>
@@ -1072,7 +1072,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                </div>
                <Tag size={24} className="text-emerald-400 opacity-50" />
             </div>
-            <div className="px-8 py-6 bg-slate-50 border-b border-slate-100 flex flex-wrap gap-4 items-center">
+            <div className="px-8 py-6 bg-[#F5F4F0] border-b border-slate-100 flex flex-wrap gap-4 items-center">
                <div className="relative flex-1 min-w-[250px]">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                   <input 
@@ -1080,14 +1080,14 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                     placeholder="Search Station, description..."
                     value={searchQuery}
                     onChange={(e)=>setSearchQuery(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
+                    className="w-full pl-11 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
                   />
                </div>
                <div className="flex flex-wrap items-center gap-3">
                   <div className="flex flex-col gap-1">
                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Filter Station</label>
                      <select 
-                       className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm"
+                       className="bg-white border border-[#E7E5E0] rounded-xl px-4 py-2.5 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-sm"
                        value={filters.stationId}
                        onChange={(e) => setFilters({...filters, stationId: e.target.value})}
                      >
@@ -1110,7 +1110,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
             </div>
             <div className="overflow-x-auto">
                <table className="w-full text-left">
-                  <thead className="bg-slate-50/50 border-b border-slate-100">
+                  <thead className="bg-[#F5F4F0]/50 border-b border-slate-100">
                      <tr className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
                         <th className="px-8 py-5">TPS Station</th>
                         <th className="px-8 py-5">Buy Rate per MT</th>
@@ -1131,7 +1131,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                        <tr>
                           <td colSpan={5} className="px-8 py-16 text-center">
                              <div className="max-w-md mx-auto flex flex-col items-center justify-center space-y-3">
-                                <div className="p-4 bg-slate-50 rounded-full text-slate-400">
+                                <div className="p-4 bg-[#F5F4F0] rounded-full text-slate-400">
                                    <Tag size={28} />
                                 </div>
                                 <h4 className="text-base font-black text-slate-700">No Purchase Rates Configured</h4>
@@ -1161,7 +1161,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                        }).map(rate => {
                           const station = stations.find(s => s.id === rate.stationId);
                           return (
-                            <tr key={rate.id} className="hover:bg-slate-50/50 transition-colors">
+                            <tr key={rate.id} className="hover:bg-[#F5F4F0]/50 transition-colors">
                                <td className="px-8 py-6">
                                   <p className="text-sm font-black text-slate-900 tracking-tight">{station?.name || 'Unknown Station'}</p>
                                   <p className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">{station?.location || 'No Location'}</p>
@@ -1219,10 +1219,10 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       {/* ADD POOL MODAL */}
       {isPoolModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-           <div className="bg-white w-full max-w-xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col">
-              <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+           <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+              <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                  <div>
-                    <h3 className="text-2xl font-black text-slate-900">{editingPoolEntry ? 'Edit' : 'Add'} Lifetime Advance</h3>
+                    <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingPoolEntry ? 'Edit' : 'Add'} Lifetime Advance</h3>
                     <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">TPS Account Deposit • Master Credit</p>
                  </div>
                  <button onClick={() => { setIsPoolModalOpen(false); setEditingPoolEntry(null); setPoolForm({ stationId: '', employeeId: '', employeeName: '', amount: 0, date: new Date().toISOString().split('T')[0], referenceNo: '', notes: '', transactionType: 'PAID', paymentMethod: 'BANK_TRANSFER', bankId: '' }); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20}/></button>
@@ -1230,9 +1230,9 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
               <form onSubmit={handlePoolSubmit} className="p-10 space-y-6 overflow-y-auto max-h-[75vh] no-scrollbar">
                  <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Transaction Type</label>
+                       <label className="t-label px-1">Transaction Type</label>
                        <select 
-                         className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                         className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-xs font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                          value={poolForm.transactionType}
                          onChange={e => setPoolForm({...poolForm, transactionType: e.target.value as any})}
                        >
@@ -1241,9 +1241,9 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                        </select>
                     </div>
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Payment Method</label>
+                       <label className="t-label px-1">Payment Method</label>
                        <select 
-                         className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                         className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-xs font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                          value={poolForm.paymentMethod}
                          onChange={e => setPoolForm({...poolForm, paymentMethod: e.target.value as any})}
                        >
@@ -1273,18 +1273,18 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  
                  <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Deposit Amount (₹)*</label>
-                       <input type="number" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-xl text-green-600" value={poolForm.amount} onChange={e=>setPoolForm({...poolForm, amount: Number(e.target.value)})} placeholder="0.00" />
+                       <label className="t-label px-1">Deposit Amount (₹)*</label>
+                       <input type="number" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black text-xl text-green-600" value={poolForm.amount} onChange={e=>setPoolForm({...poolForm, amount: Number(e.target.value)})} placeholder="0.00" />
                     </div>
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Deposit Date*</label>
-                       <input type="date" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={poolForm.date} onChange={e=>setPoolForm({...poolForm, date: e.target.value})} />
+                       <label className="t-label px-1">Deposit Date*</label>
+                       <input type="date" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={poolForm.date} onChange={e=>setPoolForm({...poolForm, date: e.target.value})} />
                     </div>
                  </div>
 
                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Transaction ID / UTR*</label>
-                    <input type="text" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={poolForm.referenceNo} onChange={e=>setPoolForm({...poolForm, referenceNo: e.target.value})} placeholder="Reference ID..." />
+                    <label className="t-label px-1">Transaction ID / UTR*</label>
+                    <input type="text" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={poolForm.referenceNo} onChange={e=>setPoolForm({...poolForm, referenceNo: e.target.value})} placeholder="Reference ID..." />
                  </div>
 
                  <SearchableSelect 
@@ -1299,8 +1299,8 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  />
 
                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Description</label>
-                    <textarea className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs" value={poolForm.notes} onChange={e=>setPoolForm({...poolForm, notes: e.target.value})} placeholder="Add description..." rows={2} />
+                    <label className="t-label px-1">Description</label>
+                    <textarea className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs" value={poolForm.notes} onChange={e=>setPoolForm({...poolForm, notes: e.target.value})} placeholder="Add description..." rows={2} />
                  </div>
 
                  <button type="submit" className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black shadow-2xl hover:bg-black transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-3">
@@ -1314,10 +1314,10 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       {/* CREATE TPS ADVANCE MODAL */}
       {isAdvanceModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
-                  <h3 className="text-2xl font-black text-slate-900">{editingAdvance ? 'Edit' : 'Create New'} TPS Advance</h3>
+                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingAdvance ? 'Edit' : 'Create New'} TPS Advance</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Operation Linkage • Balanced Utilization</p>
                </div>
                <button onClick={() => { setIsAdvanceModalOpen(false); setEditingAdvance(null); setAdvForm({ orderId: '', truckId: '', stationId: '', amount: 0, date: new Date().toISOString().split('T')[0], paymentMode: 'RTGS', referenceNo: '', status: 'PENDING', isPriority: false, notes: '', quantity: undefined, rate: undefined }); }} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={24} /></button>
@@ -1342,7 +1342,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                />
 
                {advForm.stationId && (
-                  <div className="p-6 bg-blue-50 border border-blue-100 rounded-3xl flex items-center justify-between animate-in slide-in-from-top-2 duration-300">
+                  <div className="p-6 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-between animate-in slide-in-from-top-2 duration-300">
                      <div>
                         <p className="text-[10px] font-black text-blue-600 uppercase">Station Account Balance</p>
                         <p className="text-2xl font-black text-blue-900">₹{(getStationBalances(advForm.stationId).remaining || 0).toLocaleString()}</p>
@@ -1385,12 +1385,12 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Quantity (MT)</label>
+                     <label className="t-label px-1">Quantity (MT)</label>
                      <input 
                         type="number" 
                         step="any"
                         placeholder="e.g. 25.5"
-                        className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" 
+                        className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" 
                         value={advForm.quantity ?? ''} 
                         onChange={e => {
                           const qty = Number(e.target.value);
@@ -1404,12 +1404,12 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Rate per MT (₹)</label>
+                     <label className="t-label px-1">Rate per MT (₹)</label>
                      <input 
                         type="number" 
                         step="any"
                         placeholder="e.g. 450"
-                        className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" 
+                        className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" 
                         value={advForm.rate ?? ''} 
                         onChange={e => {
                           const rate = Number(e.target.value);
@@ -1426,27 +1426,27 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Advance Amount (₹)*</label>
+                     <label className="t-label px-1">Advance Amount (₹)*</label>
                      <div className="relative">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400">₹</span>
                         <input 
                            type="number" 
                            required 
-                           className={`w-full pl-10 pr-6 py-4 bg-slate-50 border rounded-2xl font-black text-xl ${advForm.stationId && (advForm.amount || 0) > getStationBalances(advForm.stationId).remaining ? 'border-red-300 text-red-600' : 'border-slate-200 text-blue-600'}`} 
+                           className={`w-full pl-10 pr-6 py-4 bg-[#F5F4F0] border rounded-2xl font-black text-xl ${advForm.stationId && (advForm.amount || 0) > getStationBalances(advForm.stationId).remaining ? 'border-red-300 text-red-600' : 'border-slate-200 text-blue-600'}`} 
                            value={advForm.amount || ''} 
                            onChange={e => setAdvForm({...advForm, amount: Number(e.target.value)})} 
                         />
                      </div>
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Transaction Ref / UTR*</label>
-                     <input type="text" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={advForm.referenceNo} onChange={e => setAdvForm({...advForm, referenceNo: e.target.value})} placeholder="e.g. UTR-90123-XXXX" />
+                     <label className="t-label px-1">Transaction Ref / UTR*</label>
+                     <input type="text" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={advForm.referenceNo} onChange={e => setAdvForm({...advForm, referenceNo: e.target.value})} placeholder="e.g. UTR-90123-XXXX" />
                   </div>
                </div>
 
                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Description</label>
-                  <textarea className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs" value={advForm.notes} onChange={e=>setAdvForm({...advForm, notes: e.target.value})} placeholder="Utilization reason..." rows={2} />
+                  <label className="t-label px-1">Description</label>
+                  <textarea className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs" value={advForm.notes} onChange={e=>setAdvForm({...advForm, notes: e.target.value})} placeholder="Utilization reason..." rows={2} />
                </div>
 
                <button 
@@ -1464,10 +1464,10 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
       {/* CREATE STATION RATE MODAL */}
       {isRateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-           <div className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl overflow-hidden flex flex-col">
-              <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+           <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+              <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                  <div>
-                    <h3 className="text-2xl font-black text-slate-900">{editingRate ? 'Edit' : 'Create'} Station Rate</h3>
+                    <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingRate ? 'Edit' : 'Create'} Station Rate</h3>
                     <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Set thermal power station buy price</p>
                  </div>
                  <button 
@@ -1492,14 +1492,14 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  />
 
                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Rate per MT (₹)*</label>
+                    <label className="t-label px-1">Rate per MT (₹)*</label>
                     <div className="relative">
                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400">₹</span>
                        <input 
                           type="number" 
                           required 
                           placeholder="e.g. 450"
-                          className="w-full pl-10 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-xl text-emerald-600 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
+                          className="w-full pl-10 pr-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black text-xl text-emerald-600 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
                           value={rateForm.rate ?? ''} 
                           onChange={e => setRateForm({...rateForm, rate: Number(e.target.value) || undefined})} 
                        />
@@ -1508,9 +1508,9 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                  </div>
 
                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Description / Notes</label>
+                    <label className="t-label px-1">Description / Notes</label>
                     <textarea 
-                       className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs outline-none focus:ring-4 focus:ring-blue-500/10 transition-all" 
+                       className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs outline-none focus:ring-4 focus:ring-blue-500/10 transition-all" 
                        value={rateForm.notes || ''} 
                        onChange={e => setRateForm({...rateForm, notes: e.target.value})} 
                        placeholder="e.g. Contract active until Dec 2026..." 
@@ -1556,7 +1556,7 @@ const ChartBox: React.FC<{
           <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{title}</h4>
        </div>
        {metrics && (
-          <div className="flex flex-wrap items-center gap-4 bg-slate-50 border border-slate-150 px-4 py-2.5 rounded-2xl shadow-sm">
+          <div className="flex flex-wrap items-center gap-4 bg-[#F5F4F0] border border-slate-150 px-4 py-2.5 rounded-2xl shadow-sm">
              {metrics.map((m, idx) => (
                 <div key={idx} className="flex items-center gap-4">
                    <div className="flex flex-col">
@@ -1585,15 +1585,15 @@ const StatCard: React.FC<{ label: string, value: string | number, icon: any, col
     red: 'bg-red-50 text-red-600'
   };
   return (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm group hover:shadow-xl transition-all">
+    <div className="card card-pad-lg group hover:shadow-xl transition-all">
        <div className="flex items-center justify-between mb-6">
           <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform ${colors[color]}`}>
              <Icon size={24} />
           </div>
           <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{sub}</span>
        </div>
-       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
-       <p className="text-2xl font-black text-slate-900 mt-1 tracking-tighter">{value}</p>
+       <p className="t-label">{label}</p>
+       <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-1 tracking-tighter">{value}</p>
     </div>
   );
 };

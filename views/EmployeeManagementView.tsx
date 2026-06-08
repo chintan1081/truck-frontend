@@ -414,22 +414,22 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
           { label: 'On Leave', value: stats.onLeave, icon: Clock, color: 'amber' },
           { label: 'Avg Efficiency', value: `${stats.efficiency}%`, icon: Zap, color: 'indigo' }
         ].map((stat, i) => (
-          <div key={i} className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4">
+          <div key={i} className="card card-pad flex items-center gap-4">
             <div className={`w-12 h-12 rounded-2xl bg-${stat.color}-50 flex items-center justify-center text-${stat.color}-600`}>
               <stat.icon size={24} />
             </div>
             <div>
               <p className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900 leading-none">{stat.value}</p>
+              <p className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">{stat.value}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Main Container */}
-      <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden min-h-[600px] flex flex-col">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[600px] flex flex-col">
         {/* Internal Navigation */}
-        <div className="px-8 pt-8 border-b border-slate-100 bg-slate-50/50">
+        <div className="px-8 pt-8 border-b border-slate-100 bg-[#F5F4F0]/50">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
             <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm w-fit">
               {(['roster', 'attendance', 'leaves', 'performance'] as const).map(tab => (
@@ -438,8 +438,8 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                   onClick={() => setActiveTab(tab)}
                   className={`px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${
                     activeTab === tab 
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                      : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' 
+                      : 'text-slate-400 hover:text-slate-600 hover:bg-[#F5F4F0]'
                   }`}
                 >
                   {tab}
@@ -455,13 +455,13 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                   placeholder="Query personnel by name, tracking ID or designation..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-6 py-4 bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-[1.5rem] text-sm font-black text-slate-900 w-80 placeholder:text-slate-300 placeholder:font-black placeholder:uppercase placeholder:tracking-widest focus:ring-[15px] focus:ring-blue-500/5 focus:w-96 focus:border-blue-400/50 outline-none transition-all duration-500 shadow-xl shadow-slate-100/50"
+                  className="pl-12 pr-6 py-4 bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl text-sm font-black text-slate-900 w-80 placeholder:text-slate-300 placeholder:font-black placeholder:uppercase placeholder:tracking-widest focus:ring-[15px] focus:ring-blue-500/5 focus:w-96 focus:border-blue-400/50 outline-none transition-all duration-500 shadow-sm/50"
                 />
               </div>
               <select 
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as any)}
-                className="px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
+                className="px-4 py-3 bg-white border border-[#E7E5E0] rounded-xl text-sm font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm"
               >
                 <option value="ALL">All Categories</option>
                 <option value="DRIVER">Drivers</option>
@@ -491,7 +491,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                 );
 
                 return (
-                  <div key={person.id} className="bg-white border border-slate-200 rounded-3xl p-6 hover:shadow-xl transition-all group relative overflow-hidden">
+                  <div key={person.id} className="bg-white border border-[#E7E5E0] rounded-xl p-6 hover:shadow-xl transition-all group relative overflow-hidden">
                     {/* Feature 1: Tracking ID Badge (Master Data) */}
                     <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-1">
                       <span className="text-[9px] font-black bg-slate-900 text-white px-2 py-1 rounded-lg uppercase tracking-widest shadow-lg border border-slate-700">
@@ -550,7 +550,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                     <div className="grid grid-cols-2 gap-3 mt-6">
                       {/* Efficiency Metric */}
-                      <div className="bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:border-blue-200 transition-colors">
+                      <div className="bg-[#F5F4F0] p-4 rounded-2xl border border-slate-100 hover:border-blue-200 transition-colors">
                         <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1">
                           <Zap size={10} className="text-blue-500" /> Op. Efficiency
                         </p>
@@ -566,7 +566,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                       </div>
 
                       {/* Safety Metric */}
-                      <div className="bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:border-emerald-200 transition-colors">
+                      <div className="bg-[#F5F4F0] p-4 rounded-2xl border border-slate-100 hover:border-emerald-200 transition-colors">
                         <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1">
                           <ShieldCheck size={10} className="text-emerald-500" /> Safety
                         </p>
@@ -582,7 +582,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                       </div>
 
                       {/* Timing Metric */}
-                      <div className="bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:border-amber-200 transition-colors">
+                      <div className="bg-[#F5F4F0] p-4 rounded-2xl border border-slate-100 hover:border-amber-200 transition-colors">
                         <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1">
                           <Timer size={10} className="text-amber-500" /> Timing
                         </p>
@@ -598,7 +598,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                       </div>
 
                       {/* Service Rating */}
-                      <div className="bg-slate-50 p-4 rounded-3xl border border-slate-100 hover:border-indigo-200 transition-colors">
+                      <div className="bg-[#F5F4F0] p-4 rounded-2xl border border-slate-100 hover:border-indigo-200 transition-colors">
                         <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1">
                           <Star size={10} className="text-indigo-500" /> Service Rating
                         </p>
@@ -652,12 +652,12 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                       {person.type === 'DRIVER' ? (
                         <>
                           <span className="text-[7px] font-black uppercase px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md border border-blue-100">Hazmat Certified</span>
-                          <span className="text-[7px] font-black uppercase px-2 py-0.5 bg-slate-50 text-slate-400 rounded-md">Long Haul</span>
+                          <span className="text-[7px] font-black uppercase px-2 py-0.5 bg-[#F5F4F0] text-slate-400 rounded-md">Long Haul</span>
                         </>
                       ) : (
                         <>
                           <span className="text-[7px] font-black uppercase px-2 py-0.5 bg-indigo-50 text-indigo-500 rounded-md border border-indigo-100">Ops Expert</span>
-                          <span className="text-[7px] font-black uppercase px-2 py-0.5 bg-slate-50 text-slate-400 rounded-md">CRM Certified</span>
+                          <span className="text-[7px] font-black uppercase px-2 py-0.5 bg-[#F5F4F0] text-slate-400 rounded-md">CRM Certified</span>
                         </>
                       )}
                     </div>
@@ -714,7 +714,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
           )}
 
           {activeTab === 'attendance' && (
-            <div className="space-y-6">
+            <div className="page-stack pb-10">
                <div className="flex items-center justify-between mb-8">
                   <div>
                     <h3 className="text-lg font-black text-slate-900">Today's Attendance Roll Call</h3>
@@ -723,34 +723,34 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                   <div className="flex items-center gap-3">
                     <button 
                       onClick={() => setShowAttendanceHistory(true)}
-                      className="px-6 py-2.5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-200"
+                      className="px-6 py-2.5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-md shadow-blue-500/20"
                     >
                       History Log
                     </button>
                     <button 
                       onClick={() => setShowCalendar(true)}
-                      className="p-2.5 border border-slate-200 rounded-2xl text-slate-400 hover:bg-slate-50 transition-all"
+                      className="p-2.5 border border-slate-200 rounded-2xl text-slate-400 hover:bg-[#F5F4F0] transition-all"
                     >
                       <CalendarDays size={20} />
                     </button>
                   </div>
                </div>
 
-               <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+               <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                   <table className="w-full text-left">
-                    <thead className="bg-slate-50 border-b border-slate-100">
+                    <thead className="bg-[#F5F4F0] border-b border-slate-100">
                       <tr>
-                        <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Personnel</th>
-                        <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Role</th>
-                        <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                        <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                        <th className="px-8 py-4 t-label">Personnel</th>
+                        <th className="px-8 py-4 t-label">Role</th>
+                        <th className="px-8 py-4 t-label">Status</th>
+                        <th className="px-8 py-4 t-label text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {allPersonnel.map(person => {
                         const record = attendance.find(a => a.entityId === person.id && a.date === format(new Date(), 'yyyy-MM-dd'));
                         return (
-                          <tr key={person.id} className="hover:bg-slate-50/50 transition-colors group">
+                          <tr key={person.id} className="hover:bg-[#F5F4F0]/50 transition-colors group">
                             <td className="px-8 py-5">
                               <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center font-black text-xs text-slate-500 uppercase tracking-tighter">
@@ -861,7 +861,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
           )}
 
           {activeTab === 'leaves' && (
-            <div className="space-y-8">
+            <div className="page-stack-lg">
                {/* Advanced Leave Dashboard */}
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {[
@@ -877,7 +877,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                     { label: 'Upcoming Holiday', value: nextHoliday ? format(new Date(nextHoliday.date), 'MMM d') : 'N/A', icon: Coffee, color: 'rose', detail: nextHoliday?.name || 'No upcoming holidays' },
                     { label: 'Staff Ready', value: stats.total - stats.onLeave, icon: UserCheck, color: 'indigo', detail: 'How many people are available today' }
                   ].map((stat, i) => (
-                    <div key={i} className={`bg-white p-6 rounded-[2.5rem] border transition-all group overflow-hidden relative ${
+                    <div key={i} className={`bg-white p-6 rounded-2xl border transition-all group overflow-hidden relative ${
                       (stat as any).pulse 
                         ? 'border-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.2)] scale-[1.02]' 
                         : 'border-slate-200 shadow-sm hover:border-blue-200'
@@ -890,7 +890,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                        }`}>
                           <stat.icon size={24} />
                        </div>
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
+                       <p className="t-label mb-1">{stat.label}</p>
                        <div className="flex items-center gap-2">
                           <p className={`text-2xl font-black leading-none mb-1 ${(stat as any).pulse ? 'text-emerald-600' : 'text-slate-900'}`}>{stat.value}</p>
                           {(stat as any).pulse && (
@@ -916,7 +916,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         <div className="flex gap-2">
                            <button 
                               onClick={() => setShowFilterModal(true)}
-                              className="p-2 border border-slate-200 rounded-xl text-slate-400 hover:bg-slate-50 transition-all"
+                              className="p-2 border border-slate-200 rounded-xl text-slate-400 hover:bg-[#F5F4F0] transition-all"
                            >
                               <Filter size={18} />
                            </button>
@@ -931,17 +931,17 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                      <div className="space-y-4">
                         {leaves.length === 0 ? (
-                           <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm p-12 text-center">
+                           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm p-12 text-center">
                               <Briefcase size={40} className="mx-auto mb-4 text-slate-300" />
                               <h4 className="font-black text-slate-900 uppercase">Workforce Fully Deployed</h4>
                               <p className="text-[10px] font-bold text-slate-400">No pending leave applications currently.</p>
                            </div>
                         ) : (
-                          <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                          <div className="bg-white border border-[#E7E5E0] rounded-xl overflow-hidden shadow-sm">
                              <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                    <thead>
-                                      <tr className="bg-slate-50 border-b border-slate-200">
+                                      <tr className="bg-[#F5F4F0] border-b border-slate-200">
                                          <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Request Category</th>
                                          <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Personnel Reference</th>
                                          <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none text-center">Start Date</th>
@@ -954,7 +954,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                       {leaves.map(request => {
                                          const person = allPersonnel.find(p => p.id === request.entityId);
                                          return (
-                                            <tr key={request.id} className="hover:bg-slate-50/50 transition-colors group">
+                                            <tr key={request.id} className="hover:bg-[#F5F4F0]/50 transition-colors group">
                                                <td className="px-6 py-4">
                                                   <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
                                                      request.type === 'SICK' ? 'bg-red-50 text-red-600 border-red-100' :
@@ -1031,10 +1031,10 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                   {/* Sidebar - Policy & Balance */}
                   <div className="w-full lg:w-80 space-y-6">
-                     <div className="bg-blue-50 p-6 rounded-[2rem] border border-blue-100 shadow-inner overflow-hidden relative group">
+                     <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 shadow-inner overflow-hidden relative group">
                         <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-100/50 rounded-full blur-2xl group-hover:bg-blue-200/50 transition-all" />
                         <div className="flex items-center gap-3 mb-6 relative z-10">
-                           <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                           <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
                               <CalendarDays size={20} />
                            </div>
                            <div>
@@ -1066,7 +1066,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                         <button 
                            onClick={() => setShowCalendar(true)}
-                           className="w-full py-3 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 active:scale-95 flex items-center justify-center gap-2"
+                           className="w-full py-3 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2"
                         >
                            View Full Holiday Calendar <ChevronRight size={10} />
                         </button>
@@ -1077,10 +1077,10 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
           )}
 
           {activeTab === 'performance' && (
-            <div className="space-y-8">
+            <div className="page-stack-lg">
                {/* Leaderboard & Highlights */}
                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  <div className="lg:col-span-3 bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden group">
+                  <div className="lg:col-span-3 bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl shadow-xl relative overflow-hidden group">
                      <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                         <Trophy size={140} className="text-white" />
                      </div>
@@ -1130,17 +1130,17 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                   </div>
                </div>
 
-               <div className="space-y-6">
+               <div className="page-stack pb-10">
                   <div className="flex items-center justify-between">
                     <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
                        <Zap size={18} className="text-blue-500" />
                        Workforce Performance Matrix
                     </h4>
                     <div className="flex items-center gap-3">
-                       <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all">
+                       <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#F5F4F0] transition-all">
                           <History size={14} /> View History
                        </button>
-                       <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-200 hover:scale-105 transition-all">
+                       <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-md shadow-blue-500/20 hover:scale-105 transition-all">
                           <Plus size={14} /> Log Performance
                        </button>
                     </div>
@@ -1154,7 +1154,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                       const safetyScore = latest?.safetyIncidents === 0 ? 100 : Math.max(0, 100 - (latest?.safetyIncidents || 0) * 20);
 
                       return (
-                        <div key={person.id} className="bg-white border-2 border-slate-100 rounded-[2rem] p-8 flex flex-col gap-6 group hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 relative">
+                        <div key={person.id} className="bg-white border-2 border-slate-100 rounded-2xl p-8 flex flex-col gap-6 group hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 relative">
                            <div className="flex items-start justify-between">
                               <div className="flex items-center gap-4">
                                  <div className="relative">
@@ -1168,7 +1168,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                  <div>
                                     <h5 className="font-black text-slate-900 uppercase tracking-tight leading-none mb-1 group-hover:text-blue-600 transition-colors">{person.fullName}</h5>
                                     <div className="flex items-center gap-2">
-                                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{person.type}</p>
+                                       <p className="t-label">{person.type}</p>
                                        <span className="w-1 h-1 bg-slate-300 rounded-full" />
                                        <div className="flex gap-0.5">
                                           {[1, 2, 3, 4, 5].map(s => (
@@ -1179,21 +1179,21 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                  </div>
                               </div>
                               <div className="text-right">
-                                 <div className="text-2xl font-black text-slate-900 leading-none">{Math.round(avg)}%</div>
+                                 <div className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">{Math.round(avg)}%</div>
                                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Operational Score</p>
                               </div>
                            </div>
 
                            <div className="grid grid-cols-3 gap-3">
-                              <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 group-hover:bg-blue-50/50 group-hover:border-blue-100/50 transition-colors">
+                              <div className="bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100 group-hover:bg-blue-50/50 group-hover:border-blue-100/50 transition-colors">
                                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1"><ShieldAlert size={10} /> Safety</p>
                                  <p className={`text-sm font-black ${safetyScore > 80 ? 'text-emerald-600' : 'text-red-500'}`}>{safetyScore}%</p>
                               </div>
-                              <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 group-hover:bg-blue-50/50 group-hover:border-blue-100/50 transition-colors">
+                              <div className="bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100 group-hover:bg-blue-50/50 group-hover:border-blue-100/50 transition-colors">
                                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1"><Heart size={10} /> Kudos</p>
                                  <p className="text-sm font-black text-rose-600">{latest?.kudosCount || 0}</p>
                               </div>
-                              <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 group-hover:bg-blue-50/50 group-hover:border-blue-100/50 transition-colors">
+                              <div className="bg-[#F5F4F0] p-3 rounded-2xl border border-slate-100 group-hover:bg-blue-50/50 group-hover:border-blue-100/50 transition-colors">
                                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1"><Timer size={10} /> Tasks</p>
                                  <p className="text-sm font-black text-slate-900">{latest?.tasksCompleted || 0}</p>
                               </div>
@@ -1235,7 +1235,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </button>
                               <button 
                                  onClick={() => { setSelectedPersonnel(person); setShowPerformanceHistory(true); }}
-                                 className="p-3 bg-slate-50 text-slate-400 border border-slate-200 rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                                 className="p-3 bg-[#F5F4F0] text-slate-400 border border-slate-200 rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-sm"
                                  title="History"
                               >
                                  <History size={18} />
@@ -1263,12 +1263,12 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                   </div>
                </div>
 
-               <div className="space-y-8 mt-12 bg-slate-50/50 p-8 rounded-[3rem] border border-slate-100">
+               <div className="space-y-8 mt-12 bg-[#F5F4F0]/50 p-8 rounded-2xl border border-slate-100">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                      {/* Overall Efficiency Curve */}
-                     <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 shadow-sm">
+                     <div className="bg-white border-2 border-slate-100 rounded-2xl p-8 shadow-sm">
                         <div className="flex items-center justify-between mb-8">
-                           <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Historical Efficiency Curve (Fleet Average)</h5>
+                           <h5 className="t-label">Historical Efficiency Curve (Fleet Average)</h5>
                            <div className="flex items-center gap-2">
                               <div className="w-2 h-2 bg-blue-500 rounded-full" />
                               <span className="text-[8px] font-black uppercase text-slate-400">Yield %</span>
@@ -1276,7 +1276,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
                         <div className="flex items-end gap-3 h-48 px-4">
                            {[65, 78, 72, 85, 92, 88, 95, 90, 85, 94, 98, 92].map((h, i) => (
-                              <div key={i} className="flex-1 bg-slate-50 rounded-t-xl relative group">
+                              <div key={i} className="flex-1 bg-[#F5F4F0] rounded-t-xl relative group">
                                  <div 
                                    className="absolute bottom-0 left-0 right-0 bg-blue-600/20 group-hover:bg-blue-600 transition-all duration-500 rounded-t-xl" 
                                    style={{ height: `${h}%` }}
@@ -1295,11 +1295,11 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                      </div>
 
                      {/* Work History Timeline */}
-                     <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 flex flex-col shadow-sm">
+                     <div className="bg-white border-2 border-slate-100 rounded-2xl p-8 flex flex-col shadow-sm">
                         <div className="flex items-center justify-between mb-8">
                            <div className="flex items-center gap-2">
                               <History size={16} className="text-blue-500" />
-                              <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Historical Work Repository</h5>
+                              <h5 className="t-label">Historical Work Repository</h5>
                            </div>
                            <div className="flex items-center gap-2">
                               <input 
@@ -1323,7 +1323,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               const d = new Date(wh.date);
                               return d >= new Date(workHistoryStartDate) && d <= new Date(workHistoryEndDate);
                            }).map(wh => (
-                              <div key={wh.id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-blue-200 transition-all">
+                              <div key={wh.id} className="p-4 bg-[#F5F4F0] border border-slate-100 rounded-2xl group hover:border-blue-200 transition-all">
                                  <div className="flex items-center justify-between gap-4">
                                     <div className="flex items-center gap-3">
                                        <div className="w-8 h-8 rounded-lg bg-white flex flex-col items-center justify-center border border-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -1360,9 +1360,9 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
       {/* Dynamic Modals Overlay Layer */}
       {(showRosterDetail || showAttendanceHistory || showLeaveRequestModal || showPerformanceLogger || showMetricsDetail || showPerformanceHistory || showCalendar || showFilterModal || showLeaderboardModal || showRewardsModal) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-4xl rounded-[3rem] shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
+          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-300 flex flex-col max-h-[90vh]">
             {/* Modal Header */}
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
                   <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">
                      {showRosterDetail && "Personnel Dossier"}
@@ -1403,10 +1403,10 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
             {/* Modal Content */}
             <div className="p-8 overflow-y-auto flex-1 custom-scrollbar">
                {showLeaderboardModal && (
-                  <div className="space-y-8">
+                  <div className="page-stack-lg">
                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         {/* 1. Champion Status */}
-                        <div className="bg-slate-950 p-5 rounded-[2.5rem] text-white flex flex-col justify-between overflow-hidden relative group">
+                        <div className="bg-slate-950 p-5 rounded-2xl text-white flex flex-col justify-between overflow-hidden relative group">
                            <div className="absolute -right-4 -top-4 w-20 h-20 bg-amber-500 opacity-20 blur-2xl group-hover:opacity-40 transition-opacity" />
                            <Trophy className="text-amber-500 mb-4 animate-bounce" size={24} />
                            <div>
@@ -1417,11 +1417,11 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 2. Consistency Streak */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-emerald-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-emerald-200 transition-all">
                            <Activity className="text-emerald-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Elite Streak</p>
-                              <p className="text-2xl font-black text-slate-900">14 Days</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">14 Days</p>
                               <div className="flex gap-1 mt-1">
                                  {[1,1,1,1,1].map((_, i) => <div key={i} className="w-1.5 h-1 bg-emerald-500 rounded-full" />)}
                               </div>
@@ -1429,41 +1429,41 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 3. Peak Velocity */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-blue-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-blue-200 transition-all">
                            <Zap className="text-blue-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Peak Score</p>
-                              <p className="text-2xl font-black text-slate-900">99.2%</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">99.2%</p>
                               <span className="text-[8px] font-bold text-blue-500 uppercase">Last Logged: May 12</span>
                            </div>
                         </div>
 
                         {/* 4. Reliability Index */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-indigo-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-indigo-200 transition-all">
                            <ShieldCheck className="text-indigo-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Trust Score</p>
-                              <p className="text-2xl font-black text-slate-900">98.5</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">98.5</p>
                               <span className="text-[8px] font-bold text-indigo-400 uppercase">A+ Rating</span>
                            </div>
                         </div>
 
                         {/* 5. Regional Standing */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-orange-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-orange-200 transition-all">
                            <MapPin className="text-orange-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Zone Rank</p>
-                              <p className="text-2xl font-black text-slate-900">#4</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">#4</p>
                               <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tighter">Eastern Hub</span>
                            </div>
                         </div>
 
                         {/* 6. Improvement Curve */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-pink-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-pink-200 transition-all">
                            <TrendingUp className="text-pink-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Growth MoM</p>
-                              <p className="text-2xl font-black text-slate-900">+12%</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">+12%</p>
                               <div className="h-1 w-full bg-slate-100 rounded-full mt-2 overflow-hidden">
                                  <div className="h-full bg-pink-500 w-[60%]" />
                               </div>
@@ -1471,7 +1471,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 7. Fuel Efficiency Bonus */}
-                        <div className="bg-emerald-50 p-5 rounded-[2.5rem] border border-emerald-100 flex flex-col justify-between group">
+                        <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 flex flex-col justify-between group">
                            <Truck className="text-emerald-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-emerald-600/60 mb-1">Eco-Driver</p>
@@ -1481,7 +1481,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 8. Safety Violation Clock */}
-                        <div className="bg-blue-50 p-5 rounded-[2.5rem] border border-blue-100 flex flex-col justify-between group">
+                        <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100 flex flex-col justify-between group">
                            <ShieldAlert className="text-blue-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-blue-600/60 mb-1">Clean Record</p>
@@ -1491,7 +1491,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 9. Feedback Sentiment */}
-                        <div className="bg-indigo-50 p-5 rounded-[2.5rem] border border-indigo-100 flex flex-col justify-between group">
+                        <div className="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 flex flex-col justify-between group">
                            <MessageCircle className="text-indigo-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-indigo-600/60 mb-1">Client View</p>
@@ -1501,7 +1501,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 10. Community Standing */}
-                        <div className="bg-amber-50 p-5 rounded-[2.5rem] border border-amber-100 flex flex-col justify-between group">
+                        <div className="bg-amber-50 p-5 rounded-2xl border border-amber-100 flex flex-col justify-between group">
                            <Heart className="text-amber-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-amber-600/60 mb-1">Kudos Rank</p>
@@ -1511,7 +1511,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
                      </div>
 
-                     <div className="bg-slate-50 p-6 rounded-[3rem] border border-slate-100">
+                     <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-100">
                         <div className="flex items-center justify-between mb-8">
                            <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs border-l-4 border-blue-600 pl-4">Detailed Rankings (Week 19)</h4>
                            <select className="bg-white border border-slate-200 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
@@ -1521,9 +1521,9 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
                         <div className="space-y-4">
                            {allPersonnel.slice(0, 10).map((p, i) => (
-                              <div key={p.id} className="bg-white p-4 rounded-3xl border border-slate-100 flex items-center justify-between group hover:shadow-xl transition-all shadow-sm">
+                              <div key={p.id} className="bg-white p-4 rounded-2xl border border-slate-100 flex items-center justify-between group hover:shadow-xl transition-all shadow-sm">
                                  <div className="flex items-center gap-6">
-                                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xs border ${i < 3 ? 'bg-amber-100 text-amber-600 border-amber-200 scale-110 shadow-lg' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>
+                                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xs border ${i < 3 ? 'bg-amber-100 text-amber-600 border-amber-200 scale-110 shadow-lg' : 'bg-[#F5F4F0] text-slate-400 border-slate-100'}`}>
                                        {i + 1}
                                     </div>
                                     <div className="flex items-center gap-4">
@@ -1554,10 +1554,10 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                )}
 
                {showRewardsModal && (
-                  <div className="space-y-8">
+                  <div className="page-stack-lg">
                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         {/* 1. Points Balance */}
-                        <div className="bg-blue-600 p-6 rounded-[2.5rem] text-white flex flex-col justify-between relative overflow-hidden group">
+                        <div className="bg-blue-600 p-6 rounded-2xl text-white flex flex-col justify-between relative overflow-hidden group">
                            <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/20 blur-2xl group-hover:bg-white/30 transition-all" />
                            <Award className="mb-4" size={32} />
                            <div>
@@ -1568,11 +1568,11 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 2. Monthly Earnings Velocity */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-blue-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-blue-200 transition-all">
                            <TrendingUp className="text-blue-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Monthly Yield</p>
-                              <p className="text-2xl font-black text-slate-900">+820 pts</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">+820 pts</p>
                               <div className="flex items-center gap-1 text-[8px] font-black text-emerald-500 uppercase">
                                  <Zap size={10} fill="currentColor" /> Outpacing Avg by 15%
                               </div>
@@ -1580,7 +1580,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 3. Tier Status */}
-                        <div className="bg-slate-950 p-5 rounded-[2.5rem] text-white flex flex-col justify-between relative group">
+                        <div className="bg-slate-950 p-5 rounded-2xl text-white flex flex-col justify-between relative group">
                            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                            <Star className="text-indigo-400 mb-4 fill-indigo-400" size={24} />
                            <div>
@@ -1591,27 +1591,27 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 4. Redemption Power */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-amber-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-amber-200 transition-all">
                            <Truck className="text-amber-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Unlock Status</p>
-                              <p className="text-2xl font-black text-slate-900">4 Rewards</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">4 Rewards</p>
                               <span className="text-[8px] font-black text-amber-500 uppercase">Ready to Redeem</span>
                            </div>
                         </div>
 
                         {/* 5. Points Expiry Integrity */}
-                        <div className="bg-white p-5 rounded-[2.5rem] border border-slate-200 flex flex-col justify-between group hover:border-rose-200 transition-all">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between group hover:border-rose-200 transition-all">
                            <Timer className="text-rose-500 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Vault Aging</p>
-                              <p className="text-2xl font-black text-slate-900">342 Days</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">342 Days</p>
                               <span className="text-[8px] font-black text-rose-400 uppercase">Until Earliest Expiry</span>
                            </div>
                         </div>
 
                         {/* 6. Multiplier Status */}
-                        <div className="bg-blue-50 p-5 rounded-[2.5rem] border border-blue-100 flex flex-col justify-between group">
+                        <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100 flex flex-col justify-between group">
                            <Zap className="text-blue-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-blue-600/60 mb-1">Earning Power</p>
@@ -1621,17 +1621,17 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 7. Lifetime Contribution */}
-                        <div className="bg-slate-50 p-5 rounded-[2.5rem] border border-slate-100 flex flex-col justify-between group">
+                        <div className="bg-[#F5F4F0] p-5 rounded-2xl border border-slate-100 flex flex-col justify-between group">
                            <Trophy className="text-slate-400 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Lifetime Yield</p>
-                              <p className="text-2xl font-black text-slate-900">22.4K</p>
+                              <p className="text-2xl font-black text-[#1C1917] tracking-tight">22.4K</p>
                               <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Total Points Earned</span>
                            </div>
                         </div>
 
                         {/* 8. Impact Peer Index */}
-                        <div className="bg-emerald-50 p-5 rounded-[2.5rem] border border-emerald-100 flex flex-col justify-between group">
+                        <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 flex flex-col justify-between group">
                            <Users className="text-emerald-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-emerald-600/60 mb-1">Peer Percentile</p>
@@ -1641,7 +1641,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 9. Safety Bonus Guard */}
-                        <div className="bg-indigo-50 p-5 rounded-[2.5rem] border border-indigo-100 flex flex-col justify-between group">
+                        <div className="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 flex flex-col justify-between group">
                            <ShieldCheck className="text-indigo-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-indigo-600/60 mb-1">Safety Credits</p>
@@ -1651,7 +1651,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
 
                         {/* 10. Digital Badges */}
-                        <div className="bg-orange-50 p-5 rounded-[2.5rem] border border-orange-100 flex flex-col justify-between group">
+                        <div className="bg-orange-50 p-5 rounded-2xl border border-orange-100 flex flex-col justify-between group">
                            <CheckCircle className="text-orange-600 mb-4" size={24} />
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest text-orange-600/60 mb-1">Milestones</p>
@@ -1663,7 +1663,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Points History */}
-                        <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm">
+                        <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
                            <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-8 border-l-4 border-blue-600 pl-4">Transaction Intelligence Ledger</h4>
                            <div className="space-y-4">
                               {[
@@ -1675,7 +1675,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               ].map((item, i) => {
                                  const Icon = (item as any).icon || Activity;
                                  return (
-                                    <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl group hover:shadow-lg transition-all border border-transparent hover:border-slate-100">
+                                    <div key={i} className="flex items-center justify-between p-4 bg-[#F5F4F0] rounded-2xl group hover:shadow-lg transition-all border border-transparent hover:border-slate-100">
                                        <div className="flex items-center gap-4">
                                           <div className={`w-10 h-10 rounded-xl bg-${(item as any).color}-100 flex items-center justify-center text-${(item as any).color}-600 group-hover:scale-110 transition-transform`}>
                                              <Icon size={20} />
@@ -1690,11 +1690,11 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                  );
                               })}
                            </div>
-                           <button className="w-full mt-6 py-4 border-2 border-dashed border-slate-200 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest hover:border-blue-300 hover:text-blue-500 transition-all active:scale-95">Load Historical Archive</button>
+                           <button className="w-full mt-6 py-4 border-2 border-dashed border-slate-200 rounded-2xl t-label hover:border-blue-300 hover:text-blue-500 transition-all active:scale-95">Load Historical Archive</button>
                         </div>
 
                         {/* Redemption Catalog */}
-                        <div className="bg-slate-950 p-8 rounded-[3rem] text-white overflow-hidden relative">
+                        <div className="bg-slate-950 p-8 rounded-2xl text-white overflow-hidden relative">
                            <div className="absolute top-0 right-0 p-8 opacity-10">
                               <ShoppingBag size={120} />
                            </div>
@@ -1706,7 +1706,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                  { label: 'Holiday Stay Voucher', pts: '5,000', icon: Moon, color: 'indigo' },
                                  { label: 'Fuel Allowance Topup', pts: '3,000', icon: Zap, color: 'amber' }
                               ].map((reward, i) => (
-                                 <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-3xl hover:bg-white/10 transition-all group cursor-pointer active:scale-95">
+                                 <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-white/10 transition-all group cursor-pointer active:scale-95">
                                     <div className={`w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 text-${(reward as any).color}-400 group-hover:scale-110 transition-transform`}>
                                        <reward.icon size={20} />
                                     </div>
@@ -1727,13 +1727,13 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                )}
 
                {showRosterDetail && selectedPersonnel && (
-                  <div className="space-y-8">
-                     <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-[2rem] border border-slate-100">
-                        <div className="w-24 h-24 rounded-3xl bg-white p-1 border-2 border-slate-100 shadow-sm overflow-hidden">
+                  <div className="page-stack-lg">
+                     <div className="flex items-center gap-6 p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100">
+                        <div className="w-24 h-24 rounded-2xl bg-white p-1 border-2 border-slate-100 shadow-sm overflow-hidden">
                            <img src={`https://api.dicebear.com/7.x/initials/svg?seed=${selectedPersonnel.fullName}`} className="w-full h-full rounded-2xl object-cover" alt="" />
                         </div>
                         <div className="flex-1">
-                           <h4 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{selectedPersonnel.fullName}</h4>
+                           <h4 className="text-2xl font-black text-[#1C1917] tracking-tight uppercase tracking-tight">{selectedPersonnel.fullName}</h4>
                            <p className="text-sm font-black text-blue-600 uppercase tracking-widest flex items-center gap-2">
                               <span>{selectedPersonnel.type}</span>
                               <span className="w-1.5 h-1.5 bg-blue-200 rounded-full" />
@@ -1748,21 +1748,21 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
                      </div>
                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm hover:border-blue-200 transition-all group">
+                        <div className="p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm hover:border-blue-200 transition-all group">
                            <div className="flex items-center gap-2">
                               <Calendar size={14} className="text-blue-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Join Date</p>
                            </div>
                            <p className="font-black text-lg text-slate-900 group-hover:text-blue-600 transition-colors">{selectedPersonnel.joinDate ? format(new Date(selectedPersonnel.joinDate), 'MMM dd, yyyy') : 'N/A'}</p>
                         </div>
-                        <div className="p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm hover:border-blue-200 transition-all group">
+                        <div className="p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm hover:border-blue-200 transition-all group">
                            <div className="flex items-center gap-2">
                               <Briefcase size={14} className="text-blue-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Designation</p>
                            </div>
                            <p className="font-black text-lg text-slate-900 group-hover:text-blue-600 transition-colors truncate">{selectedPersonnel.designation || 'Field Specialist'}</p>
                         </div>
-                        <div className="p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm hover:border-emerald-200 transition-all group">
+                        <div className="p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm hover:border-emerald-200 transition-all group">
                            <div className="flex items-center gap-2">
                               <Star size={14} className="text-orange-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Experience</p>
@@ -1771,7 +1771,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               {selectedPersonnel.experienceYears ? `${selectedPersonnel.experienceYears}Y+` : 'Exp. Pending'}
                            </p>
                         </div>
-                        <div className={`p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm transition-all group ${selectedPersonnel.type === 'DRIVER' ? 'hover:border-rose-200' : 'opacity-40 grayscale pointer-events-none'}`}>
+                        <div className={`p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm transition-all group ${selectedPersonnel.type === 'DRIVER' ? 'hover:border-rose-200' : 'opacity-40 grayscale pointer-events-none'}`}>
                            <div className="flex items-center gap-2">
                               <ShieldAlert size={14} className="text-rose-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">License Expiry</p>
@@ -1782,21 +1782,21 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </div>
                      </div>
                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm hover:border-blue-200 transition-all group">
+                        <div className="p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm hover:border-blue-200 transition-all group">
                            <div className="flex items-center gap-2">
                               <Phone size={14} className="text-blue-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Phone Connection</p>
                            </div>
                            <p className="font-black text-lg text-slate-900 group-hover:text-blue-600 transition-colors uppercase">{selectedPersonnel.phoneNumber || 'N/A'}</p>
                         </div>
-                        <div className="p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm hover:border-emerald-200 transition-all group">
+                        <div className="p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm hover:border-emerald-200 transition-all group">
                            <div className="flex items-center gap-2">
                               <MessageCircle size={14} className="text-emerald-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">WhatsApp Network</p>
                            </div>
                            <p className="font-black text-lg text-slate-900 group-hover:text-emerald-600 transition-colors uppercase">{selectedPersonnel.whatsappNumber || 'N/A'}</p>
                         </div>
-                        <div className="p-5 bg-white border-2 border-slate-100 rounded-3xl space-y-2 shadow-sm hover:border-indigo-200 transition-all group">
+                        <div className="p-5 bg-white border-2 border-slate-100 rounded-2xl space-y-2 shadow-sm hover:border-indigo-200 transition-all group">
                            <div className="flex items-center gap-2">
                               <MapPin size={14} className="text-indigo-500" />
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">Permanent Residence</p>
@@ -1804,10 +1804,10 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                            <p className="font-black text-sm text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2">{selectedPersonnel.address || 'N/A'}</p>
                         </div>
                      </div>
-                     <div className="space-y-6">
+                     <div className="page-stack pb-10">
                         <div className="flex items-center justify-between" id="vault-header">
                            <h5 className="text-xs font-black text-slate-900 uppercase tracking-widest border-l-4 border-blue-500 pl-3 italic">Vault Intelligence Matrix</h5>
-                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">End-to-End Encryption Enabled</p>
+                           <p className="t-label">End-to-End Encryption Enabled</p>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -1817,7 +1817,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               { label: 'Life Insurance', icon: Heart, color: 'rose' },
                               { label: 'Other', icon: FileText, color: 'slate' }
                            ].map((cat, i) => (
-                              <label key={i} className="flex flex-col items-center justify-center p-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl group hover:border-blue-500 hover:bg-blue-50/30 transition-all cursor-pointer text-center active:scale-95">
+                              <label key={i} className="flex flex-col items-center justify-center p-4 bg-[#F5F4F0] border-2 border-dashed border-slate-200 rounded-2xl group hover:border-blue-500 hover:bg-blue-50/30 transition-all cursor-pointer text-center active:scale-95">
                                  <cat.icon size={20} className={`text-${cat.color}-500 mb-2 group-hover:scale-110 transition-transform`} />
                                  <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">{cat.label}</span>
                                  <input 
@@ -1850,7 +1850,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                                    type="text" 
                                                    value={editedDocName} 
                                                    onChange={(e) => setEditedDocName(e.target.value)}
-                                                   className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-sm font-bold text-slate-900 w-full focus:ring-2 focus:ring-blue-500 outline-none"
+                                                   className="bg-[#F5F4F0] border border-slate-200 rounded-lg px-2 py-1 text-sm font-bold text-slate-900 w-full focus:ring-2 focus:ring-blue-500 outline-none"
                                                    autoFocus
                                                 />
                                                 <button onClick={saveDocName} className="text-emerald-500 font-black text-[10px] uppercase">Save</button>
@@ -1872,7 +1872,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                           href={doc.fileUrl} 
                                           target="_blank" 
                                           rel="noreferrer"
-                                          className="p-2 bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
+                                          className="p-2 bg-[#F5F4F0] text-slate-400 hover:bg-slate-900 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
                                           title="View/Open"
                                        >
                                           <Eye size={14} />
@@ -1880,7 +1880,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                        <a 
                                           href={doc.fileUrl} 
                                           download={doc.fileName}
-                                          className="p-2 bg-slate-50 text-slate-400 hover:bg-emerald-600 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
+                                          className="p-2 bg-[#F5F4F0] text-slate-400 hover:bg-emerald-600 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
                                           title="Download"
                                           id={`download-${doc.id}`}
                                        >
@@ -1888,14 +1888,14 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                        </a>
                                        <button 
                                           onClick={() => startEditingDoc(doc)}
-                                          className="p-2 bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
+                                          className="p-2 bg-[#F5F4F0] text-slate-400 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
                                           title="Edit Name"
                                        >
                                           <Edit3 size={14} />
                                        </button>
                                        <button 
                                           onClick={() => deleteDocument(doc.id)}
-                                          className="p-2 bg-slate-50 text-slate-400 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
+                                          className="p-2 bg-[#F5F4F0] text-slate-400 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-sm border border-slate-100"
                                           title="Delete"
                                        >
                                           <Trash2 size={14} />
@@ -1904,7 +1904,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                  </div>
                               ))
                            ) : (
-                              <div className="p-12 border-2 border-dashed border-slate-100 rounded-[2rem] text-center bg-slate-50/50">
+                              <div className="p-12 border-2 border-dashed border-slate-100 rounded-2xl text-center bg-[#F5F4F0]/50">
                                  <FileText size={32} className="mx-auto text-slate-200 mb-3" />
                                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">No documents found in vault</p>
                                  <p className="text-[9px] font-bold text-slate-300 uppercase mt-1">Upload ID proofs, licenses, or medical records</p>
@@ -1916,7 +1916,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                )}
 
                {showAttendanceHistory && (
-                  <div className="space-y-6">
+                  <div className="page-stack pb-10">
                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="space-y-1">
                            <h4 className="text-xs font-black text-slate-900 uppercase">
@@ -1931,7 +1931,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         <div className="flex items-center gap-2">
                            {!attendanceHistoryPersonnelId && (
                               <select 
-                                 className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-black uppercase text-slate-600 outline-none focus:ring-2 focus:ring-blue-500/20"
+                                 className="px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-[10px] font-black uppercase text-slate-600 outline-none focus:ring-2 focus:ring-blue-500/20"
                                  onChange={(e) => setAttendanceHistoryPersonnelId(e.target.value || null)}
                               >
                                  <option value="">All Drivers</option>
@@ -1945,7 +1945,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                      </div>
 
                      {selectedAttendanceRecord ? (
-                        <div className="bg-slate-50 rounded-[2.5rem] border border-slate-200 p-8 space-y-8 animate-in slide-in-from-right-4 duration-300">
+                        <div className="bg-[#F5F4F0] rounded-2xl border border-slate-200 p-8 space-y-8 animate-in slide-in-from-right-4 duration-300">
                            <div className="flex items-center justify-between">
                               <button 
                                  onClick={() => setSelectedAttendanceRecord(null)}
@@ -1964,13 +1964,13 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
                               <div>
                                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Detailed Log Entry</p>
-                                 <h5 className="text-2xl font-black text-slate-900 leading-none">
+                                 <h5 className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">
                                     {format(new Date(selectedAttendanceRecord.date), 'EEEE, MMMM do, yyyy')}
                                  </h5>
                               </div>
                            </div>                           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                               {/* 1. Shift Duration Analytics */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-blue-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <Clock size={40} />
                                  </div>
@@ -1984,7 +1984,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 2. Geolocation Verification */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-rose-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-rose-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <MapPin size={40} />
                                  </div>
@@ -1998,7 +1998,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 3. Weather Context */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-amber-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-amber-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <CloudSun size={40} />
                                  </div>
@@ -2009,7 +2009,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 4. Vault Integrity */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-indigo-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-indigo-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <ShieldCheck size={40} />
                                  </div>
@@ -2020,7 +2020,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 5. Fatigue Risk Score (AI) */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-orange-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-orange-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <Activity size={40} />
                                  </div>
@@ -2036,7 +2036,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 6. Biometric Sync */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-blue-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <ShieldCheck size={40} />
                                  </div>
@@ -2047,7 +2047,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 7. Fleet Telematics */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-slate-800 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-slate-800 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <Truck size={40} />
                                  </div>
@@ -2058,7 +2058,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 8. Compliance Status */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-emerald-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-emerald-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <Briefcase size={40} />
                                  </div>
@@ -2069,7 +2069,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 9. Health & Safety */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-rose-200 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-rose-200 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <Star size={40} />
                                  </div>
@@ -2080,7 +2080,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
 
                               {/* 10. System Health */}
-                              <div className="bg-white p-5 rounded-[2rem] border border-slate-100 hover:border-blue-900 hover:shadow-xl transition-all group relative overflow-hidden">
+                              <div className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-blue-900 hover:shadow-xl transition-all group relative overflow-hidden">
                                  <div className="absolute top-0 right-0 p-3 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
                                     <Zap size={40} />
                                  </div>
@@ -2091,27 +2091,27 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               </div>
                            </div>
 
-                           <div className="p-6 bg-white border border-slate-200 rounded-[2rem] flex items-center justify-between">
+                           <div className="p-6 bg-white border border-[#E7E5E0] rounded-xl flex items-center justify-between">
                               <div className="flex items-center gap-4">
                                  <div className="w-12 h-12 rounded-2xl bg-blue-900 flex items-center justify-center text-white shadow-lg border border-blue-800">
                                     <Activity size={24} />
                                  </div>
                                  <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shift Cycle Intelligence</p>
+                                    <p className="t-label">Shift Cycle Intelligence</p>
                                     <h6 className="text-sm font-black text-slate-900 uppercase">Autonomous Work Breakdown Structure</h6>
                                  </div>
                               </div>
-                              <button className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-200">Adjust Hours</button>
+                              <button className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-md shadow-blue-500/20">Adjust Hours</button>
                            </div>
                         </div>
                      ) : (
-                        <div className="space-y-6">
+                        <div className="page-stack pb-10">
                            {/* Calendar Controls */}
-                           <div className="flex items-center justify-between bg-white p-4 rounded-3xl border border-slate-100 shadow-sm">
+                           <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                               <div className="flex items-center gap-4">
                                  <button 
                                     onClick={() => setCalendarDate(subMonths(calendarDate, 1))}
-                                    className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 transition-all"
+                                    className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-blue-600 transition-all"
                                  >
                                     <ChevronRight className="rotate-180" size={20} />
                                  </button>
@@ -2120,7 +2120,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                  </h5>
                                  <button 
                                     onClick={() => setCalendarDate(addMonths(calendarDate, 1))}
-                                    className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 transition-all"
+                                    className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-blue-600 transition-all"
                                  >
                                     <ChevronRight size={20} />
                                  </button>
@@ -2141,7 +2141,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                            </div>
 
                            {/* Calendar Grid */}
-                           <div className="bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-hidden">
+                           <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm overflow-hidden">
                               <div className="grid grid-cols-7 gap-2">
                                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
                                     <div key={day} className="text-center py-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">{day}</div>
@@ -2158,7 +2158,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                        (!attendanceHistoryPersonnelId || l.entityId === attendanceHistoryPersonnelId)
                                     );
 
-                                    let statusColor = 'bg-slate-50 text-slate-300';
+                                    let statusColor = 'bg-[#F5F4F0] text-slate-300';
                                     if (dayLeave) statusColor = 'bg-indigo-50 text-indigo-600 border border-indigo-100';
                                     else if (dayAttendance?.status === AttendanceStatus.PRESENT) {
                                        statusColor = dayAttendance.isLate ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-emerald-50 text-emerald-600 border border-emerald-100';
@@ -2189,7 +2189,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                            {/* Daily Context Summary */}
                            {!attendanceHistoryPersonnelId && (
-                              <div className="p-6 bg-blue-50/50 rounded-3xl border border-blue-100 text-center">
+                              <div className="p-6 bg-blue-50/50 rounded-2xl border border-blue-100 text-center">
                                  <p className="text-[9px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1">Global Health Monitor</p>
                                  <p className="text-xs font-black text-blue-900 uppercase">Archive contains logs across {fullPersonnelList.filter(p => p.type === 'DRIVER').length} authorized fleet units</p>
                               </div>
@@ -2200,7 +2200,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                )}
 
                 {showLeaveRequestModal && (
-                   <div className="space-y-6">
+                   <div className="page-stack pb-10">
                       <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200 shadow-sm w-full">
                          <button 
                             onClick={() => setLeaveMode('LEAVE')}
@@ -2210,13 +2210,13 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                          </button>
                          <button 
                             onClick={() => setLeaveMode('DUTY')}
-                            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${leaveMode === 'DUTY' ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'text-slate-400 hover:text-slate-600'}`}
+                            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${leaveMode === 'DUTY' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-400 hover:text-slate-600'}`}
                          >
                             <Zap size={14} /> On-Duty Assignment
                          </button>
                       </div>
 
-                      <div className="p-6 bg-slate-50 border border-slate-100 rounded-3xl">
+                      <div className="p-6 bg-[#F5F4F0] border border-slate-100 rounded-2xl">
                          <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
                                <h5 className="text-xs font-black text-slate-900 uppercase">
@@ -2281,7 +2281,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
 
                                   const Icon = (b as any).icon;
                                   return (
-                                     <div key={i} className={`bg-white p-4 rounded-3xl border transition-all ${leavePersonnelId ? 'border-slate-100 shadow-sm hover:shadow-xl hover:scale-[1.02]' : 'opacity-40 grayscale blur-[1px]'}`}>
+                                     <div key={i} className={`bg-white p-4 rounded-2xl border transition-all ${leavePersonnelId ? 'border-slate-100 shadow-sm hover:shadow-xl hover:scale-[1.02]' : 'opacity-40 grayscale blur-[1px]'}`}>
                                         <div className="flex items-center justify-between mb-2">
                                            <div className={`w-6 h-6 rounded-lg bg-${(b as any).color}-50 flex items-center justify-center text-${(b as any).color}-600`}>
                                               <Icon size={12} />
@@ -2305,7 +2305,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                                           }
                                                        }));
                                                     }}
-                                                    className="w-full bg-slate-50 border-2 border-amber-100 rounded-xl text-center font-mono font-black text-xs p-1.5 text-amber-600 outline-none focus:border-amber-400"
+                                                    className="w-full bg-[#F5F4F0] border-2 border-amber-100 rounded-xl text-center font-mono font-black text-xs p-1.5 text-amber-600 outline-none focus:border-amber-400"
                                                  />
                                                  <span className="absolute -top-2 -right-1 bg-amber-500 text-white text-[6px] font-black px-1 rounded-full">EDIT</span>
                                               </div>
@@ -2320,7 +2320,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                               </div>
                                            )}
                                            {taken > 0 && (
-                                              <div className="flex items-center justify-center gap-1 mt-1 bg-slate-50 py-0.5 rounded-lg border border-slate-100">
+                                              <div className="flex items-center justify-center gap-1 mt-1 bg-[#F5F4F0] py-0.5 rounded-lg border border-slate-100">
                                                  <div className="w-1 h-1 rounded-full bg-amber-500" />
                                                  <span className="text-[7px] font-black text-amber-600 uppercase tracking-tighter">Spent: {taken}D</span>
                                               </div>
@@ -2347,11 +2347,11 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                       </div>
                       <div className="space-y-4">
                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Request Category*</label>
+                            <label className="t-label ml-1">Request Category*</label>
                             <select
                                value={leaveCategory}
                                onChange={(e) => { setLeaveCategory(e.target.value); clearField('leaveCategory'); }}
-                               className={`w-full px-5 py-3 border-2 rounded-2xl text-sm font-black text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all uppercase tracking-tight ${fe['leaveCategory'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                               className={`w-full px-5 py-3 border-2 rounded-2xl text-sm font-black text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all uppercase tracking-tight ${fe['leaveCategory'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                             >
                                <option value="">{leaveMode === 'LEAVE' ? 'Select Leave Category' : 'Select Duty Type'}</option>
                                {(leaveMode === 'LEAVE' 
@@ -2362,7 +2362,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                             {fe['leaveCategory'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveCategory']}</p>}
                          </div>
                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Personnel Reference*</label>
+                            <label className="t-label ml-1">Personnel Reference*</label>
                             <div className="space-y-3">
                                <div className="relative">
                                   <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -2372,14 +2372,14 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                      placeholder="Search by Name, Role or Tracking ID..."
                                      value={personnelSearch}
                                      onChange={(e) => setPersonnelSearch(e.target.value)}
-                                     className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 placeholder:text-slate-400 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none border-dashed"
+                                     className="w-full pl-10 pr-4 py-3 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold text-slate-700 placeholder:text-slate-400 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none border-dashed"
                                   />
                                </div>
                                <select
                                   id="personnel-select"
                                   value={leavePersonnelId}
                                   onChange={(e) => { setLeavePersonnelId(e.target.value); clearField('leavePersonnelId'); }}
-                                  className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none cursor-pointer border ${fe['leavePersonnelId'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                                  className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none cursor-pointer border ${fe['leavePersonnelId'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                >
                               <option value="">{personnelSearch ? `Search Results (${fullPersonnelList.filter(p => 
                                  p.fullName.toLowerCase().includes(personnelSearch.toLowerCase()) || 
@@ -2405,32 +2405,32 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                          </div>
                          <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-1.5">
-                               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Start Date*</label>
+                               <label className="t-label ml-1">Start Date*</label>
                                <input
                                   type="date"
                                   value={leaveStartDate}
                                   onChange={(e) => { setLeaveStartDate(e.target.value); clearField('leaveStartDate'); }}
-                                  className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all border ${fe['leaveStartDate'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                                  className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all border ${fe['leaveStartDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                />
                                {fe['leaveStartDate'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveStartDate']}</p>}
                             </div>
                             <div className="space-y-1.5">
-                               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">End Date*</label>
+                               <label className="t-label ml-1">End Date*</label>
                                <input
                                   type="date"
                                   value={leaveEndDate}
                                   onChange={(e) => { setLeaveEndDate(e.target.value); clearField('leaveEndDate'); }}
-                                  className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all border ${fe['leaveEndDate'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                                  className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all border ${fe['leaveEndDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                />
                                {fe['leaveEndDate'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveEndDate']}</p>}
                             </div>
                          </div>
                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Operational Justification*</label>
+                            <label className="t-label ml-1">Operational Justification*</label>
                             <textarea
                                value={leaveReason}
                                onChange={(e) => { setLeaveReason(e.target.value); clearField('leaveReason'); }}
-                               className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all h-24 resize-none border ${fe['leaveReason'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                               className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all h-24 resize-none border ${fe['leaveReason'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                placeholder={leaveMode === 'LEAVE' ? 'Reason for absence...' : 'Objective of the assignment...'}
                             />
                             {fe['leaveReason'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveReason']}</p>}
@@ -2556,7 +2556,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         </button>
                         <button 
                            onClick={handleCommitPerformance}
-                           className="flex-[2] py-3 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-blue-200 active:scale-95 transition-all"
+                           className="flex-[2] py-3 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-md shadow-blue-500/20 active:scale-95 transition-all"
                         >
                            Commit Updates
                         </button>
@@ -2569,8 +2569,8 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                   const metrics = performance.filter(m => m.entityId === selectedPersonnel.id).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                   const latest = metrics[0];
                   return (
-                  <div className="space-y-8">
-                     <div className="flex items-center gap-6 p-6 bg-slate-900 rounded-[2rem] text-white">
+                  <div className="page-stack-lg">
+                     <div className="flex items-center gap-6 p-6 bg-slate-900 rounded-2xl text-white">
                         <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center text-3xl font-black">
                            {selectedPersonnel.fullName[0]}
                         </div>
@@ -2601,13 +2601,13 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                            { label: 'Load Cycle Timing', val: `${latest?.loadCycleTiming || '90'}%`, prev: metrics[1]?.loadCycleTiming, icon: Timer, color: 'amber' },
                            { label: 'Service Rating', val: `${latest?.serviceRating || '5.0'}/5`, prev: metrics[1]?.serviceRating, icon: Star, color: 'indigo' }
                         ].map((m, i) => (
-                           <div key={i} className="p-6 border-2 border-slate-100 rounded-3xl group hover:border-blue-200 transition-all flex flex-col justify-between">
+                           <div key={i} className="p-6 border-2 border-slate-100 rounded-2xl group hover:border-blue-200 transition-all flex flex-col justify-between">
                               <div>
                                  <div className={`w-10 h-10 rounded-xl bg-${m.color}-50 flex items-center justify-center text-${m.color}-600 mb-4 group-hover:scale-110 transition-transform`}>
                                     <m.icon size={24} />
                                  </div>
                                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">{m.label}</p>
-                                 <p className="text-2xl font-black text-slate-900 leading-none">{m.val}</p>
+                                 <p className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">{m.val}</p>
                               </div>
                               {m.prev !== undefined && (
                                  <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
@@ -2618,8 +2618,8 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                            </div>
                         ))}
                      </div>
-                     <div className="p-6 bg-slate-50 border border-slate-100 rounded-3xl">
-                        <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Historical Efficiency Curve</h5>
+                     <div className="p-6 bg-[#F5F4F0] border border-slate-100 rounded-2xl">
+                        <h5 className="t-label mb-4">Historical Efficiency Curve</h5>
                         <div className="flex items-end gap-2 h-32">
                            {[40, 60, 55, 80, 95, 85, 90].map((h, i) => (
                               <div key={i} className="flex-1 bg-blue-500/20 rounded-t-lg relative group overflow-hidden">
@@ -2636,14 +2636,14 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                      </div>
 
                      {/* Historical Work Activity Logs */}
-                     <div className="space-y-6">
+                     <div className="page-stack pb-10">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                            <div className="flex items-center gap-2">
                               <History size={18} className="text-blue-600" />
                               <h5 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.2em]">Historical Work Repository</h5>
                            </div>
                            <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus-within:border-blue-300 transition-colors">
+                              <div className="flex items-center gap-2 bg-white border border-[#E7E5E0] rounded-xl px-3 py-1.5 focus-within:border-blue-300 transition-colors">
                                  <Calendar size={12} className="text-slate-400" />
                                  <input 
                                     type="date" 
@@ -2683,7 +2683,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                     <div className={`absolute left-0 top-1 w-6 h-6 rounded-full border-4 border-white shadow-md flex items-center justify-center ${vh.status === 'Completed' ? 'bg-emerald-500' : vh.status === 'In Progress' ? 'bg-blue-500' : 'bg-rose-500'}`}>
                                        {vh.status === 'Completed' ? <CheckCircle size={10} className="text-white" /> : vh.status === 'In Progress' ? <Clock size={10} className="text-white" /> : <ShieldAlert size={10} className="text-white" />}
                                     </div>
-                                    <div className="bg-white border-2 border-slate-50 p-5 rounded-[2rem] hover:border-blue-200 hover:shadow-xl transition-all group">
+                                    <div className="bg-white border-2 border-slate-50 p-5 rounded-2xl hover:border-blue-200 hover:shadow-xl transition-all group">
                                        <div className="flex items-center justify-between mb-4">
                                           <div>
                                              <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.15em] mb-1">{format(new Date(vh.date), 'EEEE, MMM dd, yyyy')}</p>
@@ -2700,7 +2700,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                        </div>
 
                                        <div className="grid grid-cols-2 gap-4">
-                                          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:border-blue-100 transition-all">
+                                          <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100 hover:bg-white hover:border-blue-100 transition-all">
                                              <div className="flex items-center gap-2 mb-2">
                                                 <div className="w-5 h-5 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
                                                    <MapPin size={10} />
@@ -2709,7 +2709,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                              </div>
                                              <p className="text-[9px] font-black text-slate-900 uppercase truncate">{vh.pickupSite}</p>
                                           </div>
-                                          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:border-indigo-100 transition-all">
+                                          <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100 hover:bg-white hover:border-indigo-100 transition-all">
                                              <div className="flex items-center gap-2 mb-2">
                                                 <div className="w-5 h-5 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
                                                    <UserCheck size={10} />
@@ -2724,7 +2724,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               ))
                            }
                            {WORK_HISTORIES.filter(vh => vh.entityId === selectedPersonnel.id).length === 0 && (
-                              <div className="p-12 border-2 border-dashed border-slate-100 rounded-[2.5rem] text-center bg-slate-50/50">
+                              <div className="p-12 border-2 border-dashed border-slate-100 rounded-2xl text-center bg-[#F5F4F0]/50">
                                  <History size={40} className="mx-auto text-slate-200 mb-4 opacity-30" />
                                  <p className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">No historical work logged for this agent</p>
                                  <p className="text-[9px] font-bold text-slate-300 uppercase mt-2 italic">Activity archives will populate upon duty completion</p>
@@ -2737,7 +2737,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                })()}
 
                {showPerformanceHistory && (
-                  <div className="space-y-6">
+                  <div className="page-stack pb-10">
                      <div className="flex items-center justify-between">
                         <h4 className="text-xs font-black text-slate-900 uppercase">Organizational Performance Timeline</h4>
                         <div className="flex gap-2">
@@ -2755,7 +2755,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                            <div key={i} className="flex gap-4 items-start border-l-2 border-blue-100 pl-6 pb-6 relative last:pb-0">
                               <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-white border-4 border-blue-500 shadow-sm" />
                               <div>
-                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.date}</p>
+                                 <p className="t-label mb-1">{item.date}</p>
                                  <p className="text-sm font-black text-slate-900">{item.event}</p>
                                  <p className="text-[10px] font-bold text-blue-600 mt-1 uppercase italic opacity-70">Impact: High • {item.personnel}</p>
                               </div>
@@ -2766,7 +2766,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                )}
 
                {showFilterModal && (
-                  <div className="space-y-8">
+                  <div className="page-stack-lg">
                      <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-4">
                            <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Metric Thresholds</h5>
@@ -2797,14 +2797,14 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                      </div>
                      <div className="pt-6 border-t border-slate-100 flex gap-4">
                         <button className="flex-1 py-3 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl">Apply Intelligence Filter</button>
-                        <button className="px-6 py-3 border border-slate-200 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest hover:bg-slate-50">Reset</button>
+                        <button className="px-6 py-3 border border-slate-200 rounded-2xl t-label hover:bg-[#F5F4F0]">Reset</button>
                      </div>
                   </div>
                )}
 
                {showCalendar && (
-                  <div className="space-y-8">
-                     <div className="flex items-center justify-between bg-slate-50 p-4 rounded-3xl border border-slate-100">
+                  <div className="page-stack-lg">
+                     <div className="flex items-center justify-between bg-[#F5F4F0] p-4 rounded-2xl border border-slate-100">
                         <div className="flex items-center gap-4">
                            <button 
                               onClick={() => setCalendarDate(subMonths(calendarDate, 1))}
@@ -2846,8 +2846,8 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                            return (
                               <div 
                                  key={idx} 
-                                 className={`min-h-[100px] border-2 rounded-[1.5rem] p-3 flex flex-col transition-all relative group ${
-                                    !isCurrentMonth ? 'bg-slate-50/20 border-transparent opacity-20' : 
+                                 className={`min-h-[100px] border-2 rounded-xl p-3 flex flex-col transition-all relative group ${
+                                    !isCurrentMonth ? 'bg-[#F5F4F0]/20 border-transparent opacity-20' : 
                                     isToday ? 'border-blue-500 bg-blue-50/30' : 
                                     holiday ? (holiday.type === 'Compulsory' ? 'border-rose-100 bg-rose-50/30' : 'border-blue-100 bg-blue-50/30') :
                                     'border-slate-50 bg-white shadow-sm'
@@ -2882,7 +2882,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                         })}
                      </div>
 
-                     <div className="p-6 bg-slate-900 rounded-3xl text-white relative overflow-hidden">
+                     <div className="p-6 bg-slate-900 rounded-2xl text-white relative overflow-hidden">
                         <div className="absolute right-0 top-0 p-6 opacity-10">
                            <ShieldCheck size={80} />
                         </div>
@@ -2895,7 +2895,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                )}
             </div>
             
-            <div className="px-8 py-6 border-t border-slate-100 bg-slate-50/30 text-center">
+            <div className="px-8 py-6 border-t border-slate-100 bg-[#F5F4F0]/30 text-center">
                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center justify-center gap-2">
                   <ShieldAlert size={12} className="text-blue-600" /> Advanced Workforce Intelligence System Interface
                </p>

@@ -959,15 +959,15 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
              {/* Header Section (Same to same as Single Preview) */}
              <div className="flex justify-between items-start mb-4">
                 <div className="flex-1">
-                   <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none">{settings?.companyName?.toUpperCase() || 'ARMIN TRANSPORT CO'}</h1>
+                   <h1 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight leading-none">{settings?.companyName?.toUpperCase() || 'ARMIN TRANSPORT CO'}</h1>
                    <p className="text-[11px] font-bold text-slate-600 mt-2">{settings?.companyAddress || 'AT& PO Songadh Tapi.'}</p>
                    <p className="text-[11px] font-medium text-slate-500">Phone: {settings?.companyContact || '9426365268'} • Email: {settings?.companyEmail?.toUpperCase() || 'ARMINTRANSPORT1@GMAIL.COM'}</p>
-                   <div className="mt-2 flex gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                   <div className="mt-2 flex gap-4 t-label">
                      <span>GSTIN: <span className="text-slate-900">{settings?.companyGst || '24AARFA6502G1ZM'}</span></span>
                      <span>State: <span className="text-slate-900">24-Gujarat</span></span>
                    </div>
                 </div>
-                <div className="w-20 h-20 flex items-center justify-center border-2 border-slate-100 rounded-2xl p-1 bg-slate-50/50 overflow-hidden shadow-inner">
+                <div className="w-20 h-20 flex items-center justify-center border-2 border-slate-100 rounded-2xl p-1 bg-[#F5F4F0]/50 overflow-hidden shadow-inner">
                   {settings?.companyLogo ? (
                     <img 
                       src={settings.companyLogo} 
@@ -997,7 +997,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                          {client ? `${client.address}\n${client.city}, ${client.state} - ${client.pincode}` : 'Consolidated Report for All Restricted Accounts'}
                       </div>
                       {client && (
-                         <div className="mt-3 p-2 bg-slate-50 rounded border border-slate-100">
+                         <div className="mt-3 p-2 bg-[#F5F4F0] rounded border border-slate-100">
                            <p className="font-bold text-slate-900">GSTIN: {client.gstNumber}</p>
                            <p className="text-[10px] text-slate-500 font-bold uppercase">STATE: {client.state}</p>
                          </div>
@@ -1077,7 +1077,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                             <p className="font-black text-blue-600 uppercase mb-1 text-[10px] tracking-widest">Consolidated Amount In Words</p>
                             <p className="text-slate-900 font-black italic capitalize leading-relaxed text-xs">{numberToIndianWords(totalAmount)}</p>
                          </div>
-                         <div className="p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl">
+                         <div className="p-4 bg-[#F5F4F0] border-2 border-slate-100 rounded-2xl">
                             <div className="flex justify-between items-center mb-3">
                                <p className="font-black text-blue-600 uppercase text-[10px] tracking-widest">Settlement Account</p>
                                <div className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[8px] font-black uppercase tracking-tighter">Verified</div>
@@ -1168,7 +1168,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
             >
               <ArrowLeft size={16} /> Back to Billing Hub
             </button>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">
               {isSites ? 'Station & Site Billing Ledger' : 'Client-Wise Outstanding Registry'}
             </h2>
             <p className="text-slate-500 text-sm font-medium">Comprehensive breakdown of all {isSites ? 'stations and project sites' : 'corporate accounts'}.</p>
@@ -1181,11 +1181,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-[3rem] border-2 border-slate-100 shadow-xl min-h-[60vh]">
+        <div className="bg-white p-8 rounded-2xl border-2 border-slate-100 shadow-xl min-h-[60vh]">
           {isSites ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                {sites.map(site => (
-                  <div key={site.id} className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col gap-4 group hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div key={site.id} className="p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 flex flex-col gap-4 group hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                      <div className="flex justify-between items-start">
                         <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-blue-600 shadow-sm">
                            <MapPin size={20} />
@@ -1216,7 +1216,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                )}
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="page-stack pb-10">
                <div className="relative mb-4">
                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                  <input 
@@ -1224,7 +1224,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                    placeholder="Search corporate account by name..."
                    value={clientSearchQuery}
                    onChange={(e) => setClientSearchQuery(e.target.value)}
-                   className="w-full max-w-xl pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                   className="w-full max-w-xl pl-12 pr-4 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                  />
                </div>
                <div className="overflow-x-auto">
@@ -1241,10 +1241,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                         {clients
                           .filter(c => c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()))
                           .map(client => (
-                           <tr key={client.id} className="group hover:bg-slate-50/80 transition-colors">
+                           <tr key={client.id} className="group hover:bg-[#F5F4F0]/80 transition-colors">
                               <td className="py-6 pl-4">
                                  <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black text-lg shadow-lg shadow-blue-200">
+                                    <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black text-lg shadow-md shadow-blue-500/20">
                                        {client.name.charAt(0)}
                                     </div>
                                     <div>
@@ -1293,16 +1293,16 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Invoice Command Center</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Invoice Command Center</h2>
           <p className="text-slate-500 text-sm font-medium">Compliance, Aging & Receivable Management.</p>
         </div>
         <div className="flex gap-3">
            <button 
               onClick={() => setIsBulkExportModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs hover:bg-slate-50 transition-all"
+              className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs hover:bg-[#F5F4F0] transition-all"
            >
               <Download size={16} /> Bulk Export
            </button>
@@ -1326,7 +1326,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
       </div>
 
       {/* FEATURE: BILLING REGISTRY (SITE & CLIENT OUTSTANDING) */}
-      <div className="bg-white p-8 rounded-[2.5rem] border-2 border-slate-100 shadow-sm relative overflow-hidden group">
+      <div className="bg-white p-8 rounded-2xl border-2 border-slate-100 shadow-sm relative overflow-hidden group">
          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50/50 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-blue-100/50 transition-all duration-700" />
          
          <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4 relative z-10">
@@ -1345,7 +1345,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mt-0.5">Real-time Outstanding Balance & Receivables</p>
                 </div>
              </div>
-             <div className="flex items-center gap-3 bg-slate-50 p-1.5 rounded-[1.5rem] border border-slate-100">
+             <div className="flex items-center gap-3 bg-[#F5F4F0] p-1.5 rounded-xl border border-slate-100">
                <button 
                  onClick={() => setBillingSubTab('SITES')}
                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all ${billingSubTab === 'SITES' ? 'bg-white text-blue-600 shadow-md ring-1 ring-slate-200/50' : 'text-slate-400 hover:text-slate-600'}`}
@@ -1362,10 +1362,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
          </div>
 
          {billingSubTab === 'SITES' ? (
-           <div className="space-y-6">
+           <div className="page-stack pb-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-300">
                  {sites.slice(0, 8).map(site => (
-                    <div key={site.id} className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col gap-1 hover:bg-white hover:shadow-md transition-all">
+                    <div key={site.id} className="p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 flex flex-col gap-1 hover:bg-white hover:shadow-md transition-all">
                        <div className="flex justify-between items-center gap-2">
                           <p className="text-[10px] font-black text-slate-400 uppercase truncate">{site.name}</p>
                           <span className={`px-1.5 py-0.5 rounded text-[7px] font-black uppercase ${site.type === 'TPS' ? 'bg-slate-200 text-slate-700' : 'bg-blue-50 text-blue-600'}`}>
@@ -1403,17 +1403,17 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   placeholder="Search client by name..."
                   value={clientSearchQuery}
                   onChange={(e) => setClientSearchQuery(e.target.value)}
-                  className="w-full max-w-md pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  className="w-full max-w-md pl-10 pr-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
                 />
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-slate-100">
-                      <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2">Client Name</th>
-                      <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact Person</th>
-                      <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Phone</th>
-                      <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right pr-2">Outstanding Balance</th>
+                      <th className="pb-4 t-label pl-2">Client Name</th>
+                      <th className="pb-4 t-label">Contact Person</th>
+                      <th className="pb-4 t-label">Phone</th>
+                      <th className="pb-4 t-label text-right pr-2">Outstanding Balance</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50">
@@ -1421,7 +1421,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                       .filter(c => c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()))
                       .slice(0, 10)
                       .map(client => (
-                      <tr key={client.id} className="group hover:bg-slate-50/50 transition-colors">
+                      <tr key={client.id} className="group hover:bg-[#F5F4F0]/50 transition-colors">
                         <td className="py-4 pl-2">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-black text-xs">
@@ -1459,7 +1459,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
          )}
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4 sticky top-4 z-40 bg-slate-50/80 backdrop-blur-md p-2 rounded-[2rem] -m-2">
+      <div className="flex flex-col lg:flex-row gap-4 sticky top-4 z-40 bg-[#F5F4F0]/80 backdrop-blur-md p-2 rounded-2xl -m-2">
         <div className="flex-1 flex gap-2">
           <div className="flex-1 relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -1468,7 +1468,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
               placeholder="Search by Inv #, Client, Order id, Product, Site, Broker, Truck, Driver, SO/PO..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm transition-all font-bold"
+              className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm transition-all font-bold"
             />
           </div>
           <button 
@@ -1476,7 +1476,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
             className={`flex items-center gap-2 px-5 py-3.5 rounded-2xl border transition-all font-black text-xs uppercase shadow-sm ${
               showFilters 
                 ? 'bg-blue-600 border-blue-600 text-white hover:bg-blue-700' 
-                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-[#F5F4F0]'
             }`}
             title="Toggle Advanced Filters"
           >
@@ -1489,7 +1489,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
             <button 
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
             >
               {tab}
             </button>
@@ -1498,7 +1498,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
       </div>
 
       {showFilters && (
-        <div className="bg-slate-100/50 rounded-[2rem] p-6 border border-slate-200/60 shadow-sm mt-4 mb-6">
+        <div className="bg-slate-100/50 rounded-2xl p-6 border border-slate-200/60 shadow-sm mt-4 mb-6">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-2">
               <div className="p-1.5 bg-blue-50 border border-blue-100 rounded-lg text-blue-600">
@@ -1522,7 +1522,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 type="date"
                 value={filterStartDate}
                 onChange={(e) => setFilterStartDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm text-xs font-bold text-slate-700"
+                className="w-full px-3.5 py-2.5 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm text-xs font-bold text-slate-700"
               />
             </div>
             <div className="flex flex-col gap-1.5">
@@ -1531,7 +1531,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 type="date"
                 value={filterEndDate}
                 onChange={(e) => setFilterEndDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm text-xs font-bold text-slate-700"
+                className="w-full px-3.5 py-2.5 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none shadow-sm text-xs font-bold text-slate-700"
               />
             </div>
             <SearchableSelect
@@ -1584,7 +1584,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   });
                 }
               }}
-              className="flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-black uppercase tracking-wider transition-all border border-slate-200 cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-2 bg-[#F5F4F0] hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-black uppercase tracking-wider transition-all border border-slate-200 cursor-pointer"
             >
               <div className={`w-4 h-4 rounded-md border flex items-center justify-center transition-all ${
                 currentInvoices.every(i => selectedInvoiceIds.includes(i.id)) 
@@ -1621,7 +1621,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   });
                 }
               }}
-              className="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-black uppercase tracking-wider transition-all border border-slate-200 cursor-pointer"
+              className="px-3.5 py-2 bg-[#F5F4F0] hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-black uppercase tracking-wider transition-all border border-slate-200 cursor-pointer"
             >
               Select All Filtered ({filteredInvoices.length})
             </button>
@@ -1644,7 +1644,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 animate-in fade-in duration-500 pb-8">
         {currentInvoices.map((inv) => (
-          <div key={inv.id} className={`bg-white rounded-[2.5rem] border-2 shadow-sm hover:shadow-xl transition-all duration-300 p-8 group flex flex-col relative ${selectedInvoiceIds.includes(inv.id) ? 'border-blue-500 bg-blue-50/10' : inv.status === InvoiceStatus.CANCELLED ? 'border-red-50 bg-slate-50/50' : 'border-slate-100'}`}>
+          <div key={inv.id} className={`bg-white rounded-2xl border-2 shadow-sm hover:shadow-xl transition-all duration-300 p-8 group flex flex-col relative ${selectedInvoiceIds.includes(inv.id) ? 'border-blue-500 bg-blue-50/10' : inv.status === InvoiceStatus.CANCELLED ? 'border-red-50 bg-[#F5F4F0]/50' : 'border-slate-100'}`}>
              <div className="absolute top-6 left-6 z-10">
                 <button 
                   onClick={(e) => {
@@ -1686,8 +1686,8 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   </div>
                 </div>
                 <div className="text-right">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payable</p>
-                   <p className="text-2xl font-black text-slate-900">₹{(inv.totalAmount || 0).toLocaleString()}</p>
+                   <p className="t-label">Payable</p>
+                   <p className="text-2xl font-black text-[#1C1917] tracking-tight">₹{(inv.totalAmount || 0).toLocaleString()}</p>
                    {inv.paidAmount > 0 && inv.paidAmount < inv.totalAmount && (
                      <p className="text-xs font-black text-amber-600 mt-1">
                        Remaining: ₹{(inv.totalAmount - inv.paidAmount).toLocaleString()}
@@ -1728,21 +1728,21 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                      <Clock size={12}/> Overdue x{inv.overdueCount}
                   </div>
                 )}
-                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F5F4F0] rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
                    <MapPin size={12} className="text-slate-400"/> {inv.placeOfSupply}
                 </div>
                 {inv.ewayBill && (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F5F4F0] rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
                     <QrCode size={12} className="text-slate-400"/> E-Way: {inv.ewayBill}
                   </div>
                 )}
                 {inv.soNumber && (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F5F4F0] rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
                     <FileText size={12} className="text-blue-500"/> SO: {inv.soNumber}
                   </div>
                 )}
                 {inv.poNumber && (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F5F4F0] rounded-lg border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-tight">
                     <ShieldCheck size={12} className="text-green-500"/> PO: {inv.poNumber}
                   </div>
                 )}
@@ -1780,9 +1780,9 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
              <div className="flex items-center justify-between pt-6 border-t border-slate-100 mt-auto relative">
                 <div className="flex gap-1">
                    <button onClick={() => handleDownloadInvoice(inv)} className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm" title="Download PDF"><Download size={18}/></button>
-                   <button onClick={() => handleEdit(inv)} className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-slate-900 hover:text-white transition-all" title="Edit"><Edit size={18}/></button>
+                   <button onClick={() => handleEdit(inv)} className="p-2.5 bg-[#F5F4F0] text-slate-400 rounded-xl hover:bg-slate-900 hover:text-white transition-all" title="Edit"><Edit size={18}/></button>
                    <button onClick={() => handleAddPaymentClick(inv)} disabled={inv.status === InvoiceStatus.CANCELLED} className={`p-2.5 rounded-xl transition-all ${inv.status === InvoiceStatus.CANCELLED ? 'bg-slate-100 text-slate-300 cursor-not-allowed opacity-50' : 'bg-green-50 text-green-600 hover:bg-green-600 hover:text-white shadow-md'}`} title={inv.status === InvoiceStatus.CANCELLED ? "Cannot add payment to cancelled invoice" : "Add Billing Record"}><IndianRupee size={18}/></button>
-                   <button onClick={() => handleMarkAsPaid(inv)} disabled={inv.status === InvoiceStatus.CANCELLED} className={`p-2.5 rounded-xl transition-all ${inv.status === InvoiceStatus.CANCELLED ? 'bg-slate-100 text-slate-300 cursor-not-allowed opacity-50' : 'bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white'}`} title={inv.status === InvoiceStatus.CANCELLED ? "Cannot mark cancelled invoice as paid" : "Mark as Paid"}><Check size={18}/></button>
+                   <button onClick={() => handleMarkAsPaid(inv)} disabled={inv.status === InvoiceStatus.CANCELLED} className={`p-2.5 rounded-xl transition-all ${inv.status === InvoiceStatus.CANCELLED ? 'bg-slate-100 text-slate-300 cursor-not-allowed opacity-50' : 'bg-[#F5F4F0] text-slate-400 hover:bg-blue-600 hover:text-white'}`} title={inv.status === InvoiceStatus.CANCELLED ? "Cannot mark cancelled invoice as paid" : "Mark as Paid"}><Check size={18}/></button>
                    {inv.status === InvoiceStatus.CANCELLED && (
                       <button 
                         onClick={() => handleUncancel(inv)} 
@@ -1805,7 +1805,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                       {openDropdownId === inv.id && (
                         <div className="absolute bottom-full left-0 mb-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
                           <div className="px-4 py-2 border-b border-slate-50 mb-1">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Invoicing & Sharing</p>
+                            <p className="t-label">Invoicing & Sharing</p>
                           </div>
                           <button 
                             onClick={() => { handleDownloadInvoice(inv); setOpenDropdownId(null); }}
@@ -1825,7 +1825,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                           >
                             <BellRing size={16} /> Send Payment Reminder
                           </button>
-                          <div className="h-px bg-slate-50 my-1" />
+                          <div className="h-px bg-[#F5F4F0] my-1" />
                           {inv.status === InvoiceStatus.CANCELLED ? (
                             <button 
                               onClick={() => { handleUncancel(inv); setOpenDropdownId(null); }}
@@ -1855,15 +1855,15 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
       </div>
 
       {filteredInvoices.length > itemsPerPage && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 rounded-[2rem] border-2 border-slate-100 shadow-sm mb-32">
-           <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 rounded-2xl border-2 border-slate-100 shadow-sm mb-32">
+           <div className="t-label">
               Showing <span className="text-slate-900">{Math.min(filteredInvoices.length, (currentPage - 1) * itemsPerPage + 1)}</span> to <span className="text-slate-900">{Math.min(filteredInvoices.length, currentPage * itemsPerPage)}</span> of <span className="text-slate-900">{filteredInvoices.length}</span> Invoices
            </div>
            <div className="flex items-center gap-2">
               <button 
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${currentPage === 1 ? 'bg-slate-50 text-slate-300 cursor-not-allowed' : 'bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white'}`}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${currentPage === 1 ? 'bg-[#F5F4F0] text-slate-300 cursor-not-allowed' : 'bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white'}`}
               >
                 <ArrowLeft size={14} className={currentPage === 1 ? 'text-slate-300' : ''} /> Previous
               </button>
@@ -1874,7 +1874,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                        {idx > 0 && arr[idx-1] !== pageNum - 1 && <span className="text-slate-300">...</span>}
                        <button
                           onClick={() => setCurrentPage(pageNum)}
-                          className={`w-10 h-10 rounded-xl text-[10px] font-black transition-all ${currentPage === pageNum ? 'bg-slate-900 text-white shadow-xl' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
+                          className={`w-10 h-10 rounded-xl text-[10px] font-black transition-all ${currentPage === pageNum ? 'bg-slate-900 text-white shadow-xl' : 'bg-[#F5F4F0] text-slate-400 hover:bg-slate-100'}`}
                        >
                           {pageNum}
                        </button>
@@ -1885,7 +1885,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
               <button 
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${currentPage === totalPages ? 'bg-slate-50 text-slate-300 cursor-not-allowed' : 'bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white'}`}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase transition-all ${currentPage === totalPages ? 'bg-[#F5F4F0] text-slate-300 cursor-not-allowed' : 'bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white'}`}
               >
                 Next <ArrowLeft size={14} className={`rotate-180 ${currentPage === totalPages ? 'text-slate-300' : ''}`} />
               </button>
@@ -1905,7 +1905,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
       {selectedInvoiceIds.length > 0 && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] animate-in slide-in-from-bottom-10 duration-500">
-           <div className="bg-slate-900 text-white rounded-[2rem] shadow-2xl overflow-hidden py-3 px-8 flex items-center gap-8 border border-white/10 backdrop-blur-md">
+           <div className="bg-slate-900 text-white rounded-2xl shadow-2xl overflow-hidden py-3 px-8 flex items-center gap-8 border border-white/10 backdrop-blur-md">
               <div className="flex items-center gap-3 pr-8 border-r border-white/10">
                  <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black">{selectedInvoiceIds.length}</div>
                  <div>
@@ -1946,16 +1946,16 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-4xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
-                  <h3 className="text-2xl font-black text-slate-900">{formData.id ? 'Edit Invoice' : 'Generate Tax Invoice'}</h3>
+                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{formData.id ? 'Edit Invoice' : 'Generate Tax Invoice'}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">FlyAsh Logistics Accounting • GST Standard</p>
                </div>
                <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={24} /></button>
             </div>
 
-            <div className="flex bg-slate-50 border-b border-slate-100 px-10 gap-8">
+            <div className="flex bg-[#F5F4F0] border-b border-slate-100 px-10 gap-8">
                {(['client', 'trips', 'tax'] as const).map(tab => (
                  <button 
                   key={tab} 
@@ -1972,10 +1972,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                  <div className="space-y-8 animate-in slide-in-from-right-4 duration-300">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Client Partner*</label>
+                            <label className="t-label px-1">Client Partner*</label>
                             <select 
                                 required 
-                                className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                                className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                                 value={formData.clientId}
                                 onChange={e => {
                                   const cid = e.target.value;
@@ -1993,37 +1993,37 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                             </select>
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">PO & SO Numbers</label>
+                            <label className="t-label px-1">PO & SO Numbers</label>
                             <div className="grid grid-cols-2 gap-2">
                               <div className="relative">
                                 <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
-                                <input type="text" className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs" value={formData.poNumber || ""} onChange={e => setFormData({...formData, poNumber: e.target.value})} placeholder="PO No." />
+                                <input type="text" className="w-full pl-10 pr-4 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs" value={formData.poNumber || ""} onChange={e => setFormData({...formData, poNumber: e.target.value})} placeholder="PO No." />
                               </div>
                               <div className="relative">
                                 <ReceiptText className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
-                                <input type="text" className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs" value={formData.soNumber || ""} onChange={e => setFormData({...formData, soNumber: e.target.value})} placeholder="SO No." />
+                                <input type="text" className="w-full pl-10 pr-4 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs" value={formData.soNumber || ""} onChange={e => setFormData({...formData, soNumber: e.target.value})} placeholder="SO No." />
                               </div>
                             </div>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Place of Supply*</label>
-                            <input type="text" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={formData.placeOfSupply || ""} onChange={e => setFormData({...formData, placeOfSupply: e.target.value})} />
+                            <label className="t-label px-1">Place of Supply*</label>
+                            <input type="text" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={formData.placeOfSupply || ""} onChange={e => setFormData({...formData, placeOfSupply: e.target.value})} />
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Invoice Date*</label>
-                            <input type="date" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={formData.date || ""} onChange={e => setFormData({...formData, date: e.target.value})} />
+                            <label className="t-label px-1">Invoice Date*</label>
+                            <input type="date" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={formData.date || ""} onChange={e => setFormData({...formData, date: e.target.value})} />
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Due Date*</label>
-                            <input type="date" required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold border-amber-200 bg-amber-50/30" value={formData.dueDate || ""} onChange={e => setFormData({...formData, dueDate: e.target.value})} />
+                            <label className="t-label px-1">Due Date*</label>
+                            <input type="date" required className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold border-amber-200 bg-amber-50/30" value={formData.dueDate || ""} onChange={e => setFormData({...formData, dueDate: e.target.value})} />
                         </div>
                     </div>
                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Company Bank Profile (for Printing)</label>
+                        <label className="t-label px-1">Company Bank Profile (for Printing)</label>
                         <select 
-                          className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" 
+                          className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" 
                           value={formData.selectedBankId} 
                           onChange={e => {
                             const bank = settings?.bankDetails?.find((b: any) => b.id === e.target.value);
@@ -2057,7 +2057,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                 placeholder="Search by Order ID, Product, Site or Broker..."
                                 value={shipmentSearchQuery}
                                 onChange={(e) => setShipmentSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
+                                className="w-full pl-12 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
                              />
                              {shipmentSearchQuery && (
                                 <button 
@@ -2075,7 +2075,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                    type="date"
                                    value={shipmentStartDate}
                                    onChange={(e) => setShipmentStartDate(e.target.value)}
-                                   className="w-full pl-9 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[10px] font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                                   className="w-full pl-9 pr-2 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-[10px] font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                                 />
                              </div>
                              <div className="flex-1 relative">
@@ -2084,7 +2084,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                    type="date"
                                    value={shipmentEndDate}
                                    onChange={(e) => setShipmentEndDate(e.target.value)}
-                                   className="w-full pl-9 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[10px] font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
+                                   className="w-full pl-9 pr-2 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl text-[10px] font-bold focus:ring-4 focus:ring-blue-500/10 outline-none"
                                 />
                              </div>
                              {(shipmentStartDate || shipmentEndDate) && (
@@ -2101,7 +2101,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto no-scrollbar p-2">
                         {deliveredTrips.map(o => (
-                           <label key={o.id} className={`flex items-center gap-4 p-5 rounded-3xl border-2 transition-all cursor-pointer ${formData.orderIds?.includes(o.id) ? 'border-blue-600 bg-blue-50/50' : 'border-slate-100 bg-white hover:border-blue-200'}`}>
+                           <label key={o.id} className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all cursor-pointer ${formData.orderIds?.includes(o.id) ? 'border-blue-600 bg-blue-50/50' : 'border-slate-100 bg-white hover:border-blue-200'}`}>
                               <input 
                                 type="checkbox" 
                                 className="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500"
@@ -2138,24 +2138,24 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                            </label>
                         ))}
                         {deliveredTrips.length === 0 && (
-                          <div className="col-span-full py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                          <div className="col-span-full py-12 text-center bg-[#F5F4F0] rounded-2xl border border-dashed border-slate-200">
                              <FileWarning size={32} className="mx-auto text-slate-300 mb-2" />
                              <p className="text-xs font-bold text-slate-400 uppercase">No Delivered Orders Found for Billing</p>
                           </div>
                         )}
                     </div>
                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">E-Way Bill Number (if applicable)</label>
-                        <input type="text" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={formData.ewayBill ?? ""} onChange={e => setFormData({...formData, ewayBill: e.target.value})} placeholder="12-digit E-Way Bill No." />
+                        <label className="t-label px-1">E-Way Bill Number (if applicable)</label>
+                        <input type="text" className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={formData.ewayBill ?? ""} onChange={e => setFormData({...formData, ewayBill: e.target.value})} placeholder="12-digit E-Way Bill No." />
                     </div>
                  </div>
                )}
 
                {activeFormTab === 'tax' && (
                  <div className="space-y-8 animate-in slide-in-from-right-4 duration-300">
-                    <div className="p-6 bg-blue-50/50 border-2 border-blue-100/50 rounded-[2rem] space-y-6">
+                    <div className="p-6 bg-blue-50/50 border-2 border-blue-100/50 rounded-2xl space-y-6">
                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                          <div className="w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-blue-500/20">
                              <Package size={16} />
                           </div>
                           <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight">Master Product Sync</h3>
@@ -2163,9 +2163,9 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                        
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="space-y-3">
-                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Select Product Name (Master DB)</label>
+                             <label className="t-label px-1">Select Product Name (Master DB)</label>
                              <select 
-                                className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl font-black text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                                className="w-full px-5 py-4 bg-white border border-[#E7E5E0] rounded-xl font-black text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                                 onChange={(e) => {
                                    const product = itemProducts.find(p => p.id === e.target.value);
                                    if (product) {
@@ -2184,8 +2184,8 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                              </select>
                           </div>
                           <div className="space-y-3">
-                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Applicable Services (Operations)</label>
-                             <div className="flex flex-wrap gap-2 p-3 bg-white border border-slate-200 rounded-2xl min-h-[58px]">
+                             <label className="t-label px-1">Applicable Services (Operations)</label>
+                             <div className="flex flex-wrap gap-2 p-3 bg-white border border-[#E7E5E0] rounded-xl min-h-[58px]">
                                 {(() => {
                                    const selectedProd = itemProducts.find(p => p.hsnSacCode === formData.sacCode);
                                    const services = selectedProd?.services || [];
@@ -2200,19 +2200,19 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">HSN/SAC CODE</label>
-                            <input type="text" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={formData.sacCode ?? ""} onChange={e => setFormData({...formData, sacCode: e.target.value})} />
+                            <label className="t-label px-1">HSN/SAC CODE</label>
+                            <input type="text" className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={formData.sacCode ?? ""} onChange={e => setFormData({...formData, sacCode: e.target.value})} />
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">GST Structure</label>
-                            <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={formData.gstType ?? "CGST_SGST"} onChange={e => setFormData({...formData, gstType: e.target.value as any})}>
+                            <label className="t-label px-1">GST Structure</label>
+                            <select className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={formData.gstType ?? "CGST_SGST"} onChange={e => setFormData({...formData, gstType: e.target.value as any})}>
                                 <option value="IGST">IGST (Inter-state)</option>
                                 <option value="CGST_SGST">CGST + SGST (Local)</option>
                             </select>
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">GST Rate (%)</label>
-                            <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={formData.gstRate ?? 5} onChange={e => setFormData({...formData, gstRate: Number(e.target.value)})}>
+                            <label className="t-label px-1">GST Rate (%)</label>
+                            <select className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={formData.gstRate ?? 5} onChange={e => setFormData({...formData, gstRate: Number(e.target.value)})}>
                                 <option value={5}>5% (Transport)</option>
                                 <option value={12}>12% (Logistics)</option>
                                 <option value={18}>18% (Service)</option>
@@ -2222,25 +2222,25 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1 flex items-center gap-2">
+                            <label className="t-label px-1 flex items-center gap-2">
                                 <Percent size={14} className="text-green-600" /> Add Discount (₹)
                             </label>
                             <input type="number" className="w-full px-5 py-4 bg-white border border-green-200 rounded-2xl font-black text-green-700" value={formData.discountAmount ?? 0} onChange={e => setFormData({...formData, discountAmount: Number(e.target.value)})} />
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1 flex items-center gap-2">
+                            <label className="t-label px-1 flex items-center gap-2">
                                 <Banknote size={14} className="text-indigo-600" /> Retention / TDS (₹)
                             </label>
                             <input type="number" className="w-full px-5 py-4 bg-white border border-indigo-200 rounded-2xl font-black text-indigo-700" value={formData.tdsAmount ?? 0} onChange={e => setFormData({...formData, tdsAmount: Number(e.target.value)})} />
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1 flex items-center gap-2">
+                            <label className="t-label px-1 flex items-center gap-2">
                                 <Calculator size={14} className="text-red-600" /> Round Off (₹)
                             </label>
                             <input type="number" className="w-full px-5 py-4 bg-white border border-red-200 rounded-2xl font-black text-red-700" value={formData.roundOff ?? 0} onChange={e => setFormData({...formData, roundOff: Number(e.target.value)})} />
                         </div>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1 flex items-center gap-2">
+                            <label className="t-label px-1 flex items-center gap-2">
                                 <Banknote size={14} className="text-amber-600" /> TCS (%)
                             </label>
                             <select className="w-full px-5 py-4 bg-white border border-amber-200 rounded-2xl font-black text-amber-700" value={formData.tcsRate ?? 0} onChange={e => setFormData({...formData, tcsRate: Number(e.target.value)})}>
@@ -2251,7 +2251,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                         </div>
                     </div>
 
-                    <div className="p-8 bg-slate-900 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden gap-8">
+                    <div className="p-8 bg-slate-900 rounded-2xl text-white flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden gap-8">
                         <div className="absolute top-0 right-0 p-12 opacity-5 rotate-12"><Calculator size={160}/></div>
                         <div className="relative z-10 space-y-2 text-center md:text-left">
                             <p className="text-[11px] font-black text-blue-300 uppercase tracking-[0.2em]">Payable Statement Total</p>
@@ -2275,14 +2275,14 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                     </div>
 
                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Specific Terms & Conditions</label>
-                        <textarea rows={3} className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs" value={formData.terms ?? ""} onChange={e => setFormData({...formData, terms: e.target.value})} />
+                        <label className="t-label px-1">Specific Terms & Conditions</label>
+                        <textarea rows={3} className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs" value={formData.terms ?? ""} onChange={e => setFormData({...formData, terms: e.target.value})} />
                     </div>
                  </div>
                )}
 
                <div className="pt-8 flex gap-4 sticky bottom-0 bg-white border-t border-slate-50 py-4 z-20">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 px-8 py-5 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-slate-50 transition-all uppercase tracking-widest text-xs">Discard</button>
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 px-8 py-5 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-[#F5F4F0] transition-all uppercase tracking-widest text-xs">Discard</button>
                   
                   {activeFormTab !== 'client' && (
                     <button 
@@ -2291,7 +2291,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                         e.preventDefault();
                         setActiveFormTab(activeFormTab === 'tax' ? 'trips' : 'client');
                       }}
-                      className="px-8 py-5 border-2 border-slate-900 text-slate-900 rounded-2xl font-black hover:bg-slate-50 transition-all uppercase tracking-widest text-xs"
+                      className="px-8 py-5 border-2 border-slate-900 text-slate-900 rounded-2xl font-black hover:bg-[#F5F4F0] transition-all uppercase tracking-widest text-xs"
                     >
                       Back
                     </button>
@@ -2329,8 +2329,8 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
       {isPaymentModalOpen && selectedInvoice && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
                   <h3 className="text-xl font-black text-slate-900">Add Billing Record</h3>
                   <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">INV: {selectedInvoice.invoiceNumber}</p>
@@ -2357,13 +2357,13 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Receive From Where (Client Name)*</label>
+                    <label className="t-label px-1">Receive From Where (Client Name)*</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
                       <input 
                         type="text"
                         required
-                        className="w-full pl-10 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+                        className="w-full pl-10 pr-4 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
                         value={paymentFormData.fromWhere || ''}
                         onChange={e => setPaymentFormData({...paymentFormData, fromWhere: e.target.value})}
                         placeholder="Client Name"
@@ -2371,12 +2371,12 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Select Bank*</label>
+                    <label className="t-label px-1">Select Bank*</label>
                     <div className="relative">
                        <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
                       <select 
                         required
-                        className="w-full pl-10 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xs focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none"
+                        className="w-full pl-10 pr-4 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-xs focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none"
                         value={paymentFormData.bankId || ''}
                         onChange={e => setPaymentFormData({...paymentFormData, bankId: e.target.value})}
                       >
@@ -2392,20 +2392,20 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Date</label>
+                    <label className="t-label px-1">Date</label>
                     <div className="relative">
                       <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
                       <input 
                         type="date" 
                         required 
-                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs" 
+                        className="w-full pl-10 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs" 
                         value={paymentFormData.date} 
                         onChange={e => setPaymentFormData({...paymentFormData, date: e.target.value})} 
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Amount (₹)</label>
+                    <label className="t-label px-1">Amount (₹)</label>
                     <div className="relative">
                       <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
                       <input 
@@ -2413,7 +2413,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                         required 
                         step="0.01"
                         max={selectedInvoice.totalAmount - selectedInvoice.paidAmount}
-                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs" 
+                        className="w-full pl-10 pr-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs" 
                         value={paymentFormData.amount} 
                         onChange={e => setPaymentFormData({...paymentFormData, amount: Number(e.target.value)})} 
                       />
@@ -2423,10 +2423,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Mode</label>
+                    <label className="t-label px-1">Mode</label>
                     <select 
                       required 
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs" 
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs" 
                       value={paymentFormData.mode} 
                       onChange={e => setPaymentFormData({...paymentFormData, mode: e.target.value as any})}
                     >
@@ -2438,11 +2438,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Reference No.</label>
+                    <label className="t-label px-1">Reference No.</label>
                     <input 
                       type="text" 
                       required 
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs" 
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs" 
                       placeholder="TXN ID / Chq No" 
                       value={paymentFormData.referenceNo} 
                       onChange={e => setPaymentFormData({...paymentFormData, referenceNo: e.target.value})} 
@@ -2451,9 +2451,9 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Private Note</label>
+                  <label className="t-label px-1">Private Note</label>
                   <textarea 
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs" 
+                    className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-xs" 
                     placeholder="Optional details..." 
                     rows={2}
                     value={paymentFormData.note} 
@@ -2466,7 +2466,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 <button 
                   type="button" 
                   onClick={() => setIsPaymentModalOpen(false)} 
-                  className="flex-1 px-4 py-4 border-2 border-slate-100 rounded-xl font-black text-slate-400 hover:bg-slate-50 transition-all uppercase tracking-widest text-[10px]"
+                  className="flex-1 px-4 py-4 border-2 border-slate-100 rounded-xl font-black text-slate-400 hover:bg-[#F5F4F0] transition-all uppercase tracking-widest text-[10px]"
                 >
                   Discard
                 </button>
@@ -2485,11 +2485,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
       {isDetailOpen && (selectedInvoice || isBulkPrint) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
           <div className={`bg-white w-full ${isBulkPrint ? 'max-w-5xl' : 'max-w-4xl'} rounded-[4rem] shadow-2xl overflow-hidden my-8 relative flex flex-col max-h-[90vh]`}>
-             <div className="px-10 py-8 bg-slate-50 flex items-center justify-between border-b border-slate-100 no-print flex-col sm:flex-row gap-4 shrink-0">
+             <div className="px-10 py-8 bg-[#F5F4F0] flex items-center justify-between border-b border-slate-100 no-print flex-col sm:flex-row gap-4 shrink-0">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg"><FileText size={24}/></div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">
+                    <h3 className="text-2xl font-black text-[#1C1917] tracking-tight uppercase tracking-tighter">
                       {isBulkPrint ? 'Bulk Invoices PDF' : detailTab === 'preview' ? 'Invoice Preview' : 'Audit History'}
                     </h3>
                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">
@@ -2502,19 +2502,19 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm self-center">
                     <button 
                       onClick={() => setDetailTab('preview')}
-                      className={`px-6 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-widest ${detailTab === 'preview' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+                      className={`px-6 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-widest ${detailTab === 'preview' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                     >
                       Preview
                     </button>
                     <button 
                       onClick={() => setDetailTab('payments')}
-                      className={`px-6 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-widest ${detailTab === 'payments' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+                      className={`px-6 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-widest ${detailTab === 'payments' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                     >
                       Payments
                     </button>
                     <button 
                       onClick={() => setDetailTab('history')}
-                      className={`px-6 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-widest ${detailTab === 'history' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+                      className={`px-6 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-widest ${detailTab === 'history' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
                     >
                       History
                     </button>
@@ -2523,14 +2523,14 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                 <div className="flex gap-2">
                     {isBulkPrint ? (
-                      <button onClick={executeBulkDownload} className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm" title="Download Bulk PDF"><Download size={20}/></button>
+                      <button onClick={executeBulkDownload} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm" title="Download Bulk PDF"><Download size={20}/></button>
                     ) : (
                      selectedInvoice && (
-                       <button onClick={() => handleDownloadInvoice(selectedInvoice)} className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm" title="Download PDF"><Download size={20}/></button>
+                       <button onClick={() => handleDownloadInvoice(selectedInvoice)} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm" title="Download PDF"><Download size={20}/></button>
                      )
                    )}
-                   <button onClick={() => window.print()} className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all shadow-sm" title="Print Invoices"><Printer size={20}/></button>
-                   <button onClick={() => { setIsDetailOpen(false); setIsBulkPrint(false); }} className="p-3 bg-white border border-slate-200 rounded-2xl hover:rotate-90 transition-all shadow-sm" title="Close"><X size={20}/></button>
+                   <button onClick={() => window.print()} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-[#F5F4F0] transition-all shadow-sm" title="Print Invoices"><Printer size={20}/></button>
+                   <button onClick={() => { setIsDetailOpen(false); setIsBulkPrint(false); }} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:rotate-90 transition-all shadow-sm" title="Close"><X size={20}/></button>
                 </div>
              </div>
 
@@ -2542,7 +2542,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
              <div 
                onScroll={handleModalScroll}
-               className="flex-1 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-slate-50 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-blue-400 transition-colors relative"
+               className="flex-1 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#F5F4F0] [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-blue-400 transition-colors relative"
              >
                 {isBulkPrint && (
                    <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-50 no-print bg-white/40 backdrop-blur-sm p-2 rounded-full border border-white/50">
@@ -2563,9 +2563,9 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 {detailTab === 'preview' || isBulkPrint ? (
                       <div className="py-20 px-10 print:p-0 flex flex-col items-center bg-[#f8fafc] print:bg-white gap-16 relative" id="printable-invoice">
                         {isBulkPrint && (
-                          <div className="sticky top-4 z-[60] w-full max-w-4xl bg-white/90 backdrop-blur-xl border-2 border-blue-100 p-6 rounded-[2rem] shadow-2xl shadow-blue-900/10 mb-8 no-print flex flex-col sm:flex-row items-center justify-between gap-6 ring-8 ring-blue-50/50">
+                          <div className="sticky top-4 z-[60] w-full max-w-4xl bg-white/90 backdrop-blur-xl border-2 border-blue-100 p-6 rounded-2xl shadow-2xl shadow-blue-900/10 mb-8 no-print flex flex-col sm:flex-row items-center justify-between gap-6 ring-8 ring-blue-50/50">
                             <div className="flex items-center gap-5">
-                              <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                              <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-md shadow-blue-500/20">
                                 <Receipt size={28} />
                               </div>
                               <div>
@@ -2575,11 +2575,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                             </div>
 
                             <div className="flex flex-col min-w-[280px]">
-                              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Select Dispatch Account</label>
+                              <label className="t-label mb-1.5 ml-1">Select Dispatch Account</label>
                               <select 
                                 value={bulkInvoicesBankId || ''} 
                                 onChange={(e) => setBulkInvoicesBankId(e.target.value || null)}
-                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-all cursor-pointer"
+                                className="w-full bg-[#F5F4F0] border-2 border-slate-100 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-all cursor-pointer"
                               >
                                 <option value="">Invoice Defaults (As Individual)</option>
                                 {settings?.bankDetails?.map((bank: any) => (
@@ -2606,15 +2606,15 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                               {/* Header Section */}
                               <div className="flex justify-between items-start mb-4">
                                 <div className="flex-1">
-                                  <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none">{settings?.companyName?.toUpperCase() || 'ARMIN TRANSPORT CO'}</h1>
+                                  <h1 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight leading-none">{settings?.companyName?.toUpperCase() || 'ARMIN TRANSPORT CO'}</h1>
                                   <p className="text-[11px] font-bold text-slate-600 mt-2">{settings?.companyAddress || 'AT& PO Songadh Tapi.'}</p>
                                   <p className="text-[11px] font-medium text-slate-500">Phone: {settings?.companyContact || '9426365268'} • Email: {settings?.companyEmail?.toUpperCase() || 'ARMINTRANSPORT1@GMAIL.COM'}</p>
-                                  <div className="mt-2 flex gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                  <div className="mt-2 flex gap-4 t-label">
                                     <span>GSTIN: <span className="text-slate-900">{settings?.companyGst || '24AARFA6502G1ZM'}</span></span>
                                     <span>State: <span className="text-slate-900">24-Gujarat</span></span>
                                   </div>
                                 </div>
-                                <div className="w-20 h-20 flex items-center justify-center border-2 border-slate-100 rounded-2xl p-1 bg-slate-50/50 overflow-hidden shadow-inner">
+                                <div className="w-20 h-20 flex items-center justify-center border-2 border-slate-100 rounded-2xl p-1 bg-[#F5F4F0]/50 overflow-hidden shadow-inner">
                                   {settings?.companyLogo ? (
                                     <img 
                                       src={settings.companyLogo} 
@@ -2651,7 +2651,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                       ) : 'N/A';
                                     })()}
                                   </div>
-                                  <div className="mt-3 p-2 bg-slate-50 rounded border border-slate-100">
+                                  <div className="mt-3 p-2 bg-[#F5F4F0] rounded border border-slate-100">
                                     <p className="font-bold text-slate-900">GSTIN: {inv.clientGst}</p>
                                     <p className="text-[10px] text-slate-500 font-bold">STATE: {clients.find(cl => cl.id === inv.clientId)?.state?.toUpperCase() || 'N/A'}</p>
                                   </div>
@@ -2722,7 +2722,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                         <p className="font-black text-blue-600 uppercase mb-1 text-[10px] tracking-widest">Amount In Words</p>
                                         <p className="text-slate-900 font-black italic capitalize leading-relaxed text-xs">{numberToIndianWords(inv.totalAmount)}</p>
                                       </div>
-                                      <div className="p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl">
+                                      <div className="p-4 bg-[#F5F4F0] border-2 border-slate-100 rounded-2xl">
                                         <div className="flex justify-between items-center mb-3">
                                           <p className="font-black text-blue-600 uppercase text-[10px] tracking-widest">Settlement Account</p>
                                           <div className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[8px] font-black uppercase tracking-tighter">Verified</div>
@@ -2815,10 +2815,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                               <Plus size={14} /> Add Payment
                             </button>
                           </div>
-                          <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] overflow-hidden">
+                          <div className="bg-white border-2 border-slate-100 rounded-2xl overflow-hidden">
                             <table className="w-full">
                               <thead>
-                                <tr className="bg-slate-50 border-b border-slate-100">
+                                <tr className="bg-[#F5F4F0] border-b border-slate-100">
                                   <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase">Date</th>
                                   <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase">Mode</th>
                                   <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase">Reference</th>
@@ -2827,7 +2827,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                               </thead>
                               <tbody className="divide-y divide-slate-50">
                                 {selectedInvoice!.payments.map((p) => (
-                                  <tr key={p.id} className="hover:bg-slate-50/50 transition-all">
+                                  <tr key={p.id} className="hover:bg-[#F5F4F0]/50 transition-all">
                                     <td className="px-6 py-4 text-xs font-bold text-slate-900">{new Date(p.date).toLocaleDateString('en-GB')}</td>
                                     <td className="px-6 py-4 text-xs font-black text-blue-600">{p.mode}</td>
                                     <td className="px-6 py-4 text-xs font-medium text-slate-600">{p.referenceNo}</td>
@@ -2840,7 +2840,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                   </tr>
                                 )}
                               </tbody>
-                              <tfoot className="bg-slate-50/50">
+                              <tfoot className="bg-[#F5F4F0]/50">
                                 <tr>
                                   <td colSpan={3} className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase">Total Paid</td>
                                   <td className="px-6 py-4 text-right text-sm font-black text-green-600">₹{selectedInvoice!.paidAmount.toLocaleString()}</td>
@@ -2884,7 +2884,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                           <h5 className="font-black text-slate-900 uppercase tracking-widest text-xs">
                             {entry.action.replace(/_/g, ' ')}
                           </h5>
-                          <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+                          <span className="text-[10px] font-bold text-slate-400 bg-[#F5F4F0] px-2 py-1 rounded-md border border-slate-100">
                             {entry.timestamp}
                           </span>
                         </div>
@@ -2892,7 +2892,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                           Managed by <span className="text-slate-900">{entry.user}</span>
                         </p>
                         {entry.note && (
-                          <div className="mt-3 p-3 bg-slate-50/50 rounded-xl border border-slate-200 border-dashed">
+                          <div className="mt-3 p-3 bg-[#F5F4F0]/50 rounded-xl border border-slate-200 border-dashed">
                             <p className="text-[11px] font-medium text-slate-600 italic">"{entry.note}"</p>
                           </div>
                         )}
@@ -2916,10 +2916,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
       {isBulkExportModalOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-           <div className="bg-white rounded-[2.5rem] w-full max-w-lg shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
-              <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+           <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
+              <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                  <div>
-                    <h3 className="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tight">Bulk Export PDF</h3>
+                    <h3 className="text-2xl font-black text-[#1C1917] tracking-tight leading-tight uppercase tracking-tight">Bulk Export PDF</h3>
                     <p className="text-slate-500 font-medium text-sm mt-1">Generate 10-entry per page invoices.</p>
                  </div>
                  <button onClick={() => setIsBulkExportModalOpen(false)} className="w-12 h-12 flex items-center justify-center bg-white text-slate-400 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-all shadow-sm">
@@ -2929,13 +2929,13 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
               
               <div className="p-8 space-y-6">
                  <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5">Select Client Partner</label>
+                    <label className="block t-label mb-2.5">Select Client Partner</label>
                     <div className="relative">
                        <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                        <select 
                          value={bulkExportData.clientId}
                          onChange={(e) => setBulkExportData({ ...bulkExportData, clientId: e.target.value })}
-                         className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none"
+                         className="w-full pl-12 pr-4 py-3.5 bg-[#F5F4F0] border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none"
                        >
                           <option value="ALL">All Clients</option>
                           {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -2945,21 +2945,21 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                       <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5">From Date</label>
+                       <label className="block t-label mb-2.5">From Date</label>
                        <input 
                          type="date"
                          value={bulkExportData.startDate}
                          onChange={(e) => setBulkExportData({ ...bulkExportData, startDate: e.target.value })}
-                         className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+                         className="w-full px-4 py-3.5 bg-[#F5F4F0] border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
                        />
                     </div>
                     <div>
-                       <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5">To Date</label>
+                       <label className="block t-label mb-2.5">To Date</label>
                        <input 
                          type="date"
                          value={bulkExportData.endDate}
                          onChange={(e) => setBulkExportData({ ...bulkExportData, endDate: e.target.value })}
-                         className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+                         className="w-full px-4 py-3.5 bg-[#F5F4F0] border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
                        />
                     </div>
                  </div>
@@ -2980,7 +2980,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                            }
                            setIsPreviewModalOpen(true);
                          }}
-                         className="py-4 bg-slate-900 text-white rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-black active:scale-95 transition-all flex items-center justify-center gap-2"
+                         className="py-4 bg-slate-900 text-white rounded-xl font-black uppercase tracking-widest hover:bg-black active:scale-95 transition-all flex items-center justify-center gap-2"
                        >
                           <Eye size={18} /> Preview
                        </button>
@@ -3013,7 +3013,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                            */
                          }}
-                         className="py-4 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3"
+                         className="py-4 bg-blue-600 text-white rounded-xl font-black uppercase tracking-widest shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3"
                        >
                           <Download size={20} /> Download
                        </button>
@@ -3037,11 +3037,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
            <div className="bg-white w-full max-w-5xl rounded-[4rem] shadow-2xl overflow-hidden my-8 relative flex flex-col max-h-[90vh]">
               <div className="flex items-center justify-between p-8 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50 no-print">
                  <div className="flex items-center gap-6">
-                    <div className="w-16 h-16 rounded-[1.5rem] bg-slate-900 flex items-center justify-center text-white shadow-xl shadow-slate-200">
+                    <div className="w-16 h-16 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-xl shadow-slate-200">
                        <FileStack size={32} />
                     </div>
                     <div>
-                       <h3 className="text-2xl font-black text-slate-900 tracking-tight">Bulk Export Preview</h3>
+                       <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Bulk Export Preview</h3>
                        <p className="text-slate-500 font-medium text-sm">
                           Consolidated statements for <span className="text-blue-600 font-bold">{bulkExportData.clientId === 'ALL' ? 'All Accounts' : clients.find(c => c.id === bulkExportData.clientId)?.name}</span>
                        </p>
@@ -3049,9 +3049,9 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                  </div>
 
                  {settings?.bankDetails && settings.bankDetails.length > 0 && (
-                    <div className="flex items-center gap-4 px-6 py-2 bg-slate-50 rounded-2xl border border-slate-100 mx-4 flex-1 max-w-sm no-print">
+                    <div className="flex items-center gap-4 px-6 py-2 bg-[#F5F4F0] rounded-2xl border border-slate-100 mx-4 flex-1 max-w-sm no-print">
                        <div className="flex flex-col w-full">
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Settlement Bank Account</span>
+                          <span className="t-label">Settlement Bank Account</span>
                           <select 
                              value={bulkSelectedBankId || ''} 
                              onChange={(e) => setBulkSelectedBankId(e.target.value || null)}
@@ -3083,20 +3083,20 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                         };
                          */
                       }}
-                      className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm"
+                      className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm"
                       title="Download PDF"
                     >
                        <Download size={20} />
                     </button>
-                    <button onClick={() => window.print()} className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all shadow-sm" title="Print"><Printer size={20}/></button>
-                    <button onClick={() => setIsPreviewModalOpen(false)} className="p-3 bg-white border border-slate-200 rounded-2xl hover:rotate-90 transition-all shadow-sm" title="Close">
+                    <button onClick={() => window.print()} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-[#F5F4F0] transition-all shadow-sm" title="Print"><Printer size={20}/></button>
+                    <button onClick={() => setIsPreviewModalOpen(false)} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:rotate-90 transition-all shadow-sm" title="Close">
                        <X size={20} />
                     </button>
                  </div>
               </div>
               
               <div 
-                className="flex-1 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-slate-50 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-blue-400 transition-colors relative bg-slate-100/50 backdrop-blur-sm"
+                className="flex-1 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#F5F4F0] [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-blue-400 transition-colors relative bg-slate-100/50 backdrop-blur-sm"
               >
                  <div className="py-20 px-10 print:p-0 flex flex-col items-center gap-16">
                     <div id="preview-content-area" className="bg-transparent shadow-none">
@@ -3134,12 +3134,12 @@ const StatCard: React.FC<{ label: string; value: string | number; icon: any; col
     indigo: 'bg-indigo-50 text-indigo-600 border-indigo-100' 
   };
   return (
-    <div className={`p-6 bg-white rounded-[2.5rem] border-2 shadow-sm ${colors[color]} flex items-center gap-5 group hover:-translate-y-1 transition-all cursor-default`}>
+    <div className={`p-6 bg-white rounded-2xl border-2 shadow-sm ${colors[color]} flex items-center gap-5 group hover:-translate-y-1 transition-all cursor-default`}>
        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner transition-transform group-hover:scale-110 ${colors[color]}`}>
           <Icon size={24} />
        </div>
        <div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+          <p className="t-label">{label}</p>
           <p className="text-xl font-black text-slate-900 mt-0.5">{value}</p>
        </div>
     </div>

@@ -911,7 +911,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
       {/* Header & Main Stats */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight flex items-center gap-3">
             <Wallet size={32} className="text-blue-600" /> Accountability Hub
           </h2>
           <p className="text-slate-500 font-medium">
@@ -934,7 +934,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? "bg-slate-900 text-white shadow-lg" : "text-slate-500 hover:bg-slate-50"}`}
+              className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? "bg-slate-900 text-white shadow-lg" : "text-slate-500 hover:bg-[#F5F4F0]"}`}
             >
               {tab === "PAYMENTS"
                 ? "Methods"
@@ -954,65 +954,65 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
         <div className="space-y-8 animate-in fade-in duration-500">
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm transition-all hover:shadow-lg group">
+            <div className="card card-pad transition-all hover:shadow-lg group">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center group-hover:rotate-12 transition-transform">
                   <ArrowDownRight size={20} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Manual Receipts</h4>
+                  <h4 className="t-label leading-none">Manual Receipts</h4>
                   <p className="text-xl font-black text-slate-900 mt-1">₹{inflowDistributionData.manualTotal.toLocaleString()}</p>
                 </div>
               </div>
               <p className="text-[10px] font-bold text-slate-400">{inflowDistributionData.manualCount} manual entries counted</p>
             </div>
 
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm transition-all hover:shadow-lg group">
+            <div className="card card-pad transition-all hover:shadow-lg group">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:rotate-12 transition-transform">
                   <Fuel size={20} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Operational Exp</h4>
+                  <h4 className="t-label leading-none">Operational Exp</h4>
                   <p className="text-xl font-black text-slate-900 mt-1">₹{totalExpenses.toLocaleString()}</p>
                 </div>
               </div>
               <p className="text-[10px] font-bold text-slate-400">Total operational burn rate</p>
             </div>
 
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm transition-all hover:shadow-lg group">
+            <div className="card card-pad transition-all hover:shadow-lg group">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:rotate-12 transition-transform">
                   <Package size={20} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Plant Advances (Pool Outflow)</h4>
+                  <h4 className="t-label leading-none">Plant Advances (Pool Outflow)</h4>
                   <p className="text-xl font-black text-slate-900 mt-1">₹{advancesData.poolDepositTotal.toLocaleString()}</p>
                 </div>
               </div>
               <p className="text-[10px] font-bold text-slate-400">₹{advancesData.utilizedTotal.toLocaleString()} utilized in {advancesData.tpsCount} TPS advances</p>
             </div>
 
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm transition-all hover:shadow-lg group">
+            <div className="card card-pad transition-all hover:shadow-lg group">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:rotate-12 transition-transform">
                   <FileText size={20} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Billing Realized</h4>
+                  <h4 className="t-label leading-none">Billing Realized</h4>
                   <p className="text-xl font-black text-slate-900 mt-1">₹{billingEfficiencyData[0].value.toLocaleString()}</p>
                 </div>
               </div>
               <p className="text-[10px] font-bold text-slate-400">₹{billingEfficiencyData[1].value.toLocaleString()} pending</p>
             </div>
 
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm transition-all hover:shadow-lg group">
+            <div className="card card-pad transition-all hover:shadow-lg group">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:rotate-12 transition-transform">
                   <Users size={20} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Global Payroll</h4>
+                  <h4 className="t-label leading-none">Global Payroll</h4>
                   <p className="text-xl font-black text-slate-900 mt-1">₹{(payrollDistributionData[0].value + payrollDistributionData[1].value).toLocaleString()}</p>
                 </div>
               </div>
@@ -1021,37 +1021,37 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm transition-all hover:shadow-xl group">
+            <div className="card card-pad-lg transition-all hover:shadow-xl group">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <ArrowDownRight size={24} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Inflow</h4>
-                  <p className="text-2xl font-black text-slate-900 mt-1.5 tracking-tight">₹{cashFlowStats.inflow.toLocaleString()}</p>
+                  <h4 className="t-label leading-none">Total Inflow</h4>
+                  <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-1.5 tracking-tight">₹{cashFlowStats.inflow.toLocaleString()}</p>
                 </div>
               </div>
-              <div className="h-1 w-full bg-slate-50 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-[#F5F4F0] rounded-full overflow-hidden">
                 <div className="h-full bg-emerald-500" style={{ width: '100%' }} />
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm transition-all hover:shadow-xl group">
+            <div className="card card-pad-lg transition-all hover:shadow-xl group">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <ArrowUpRight size={24} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Outflow</h4>
-                  <p className="text-2xl font-black text-slate-900 mt-1.5 tracking-tight">₹{cashFlowStats.outflow.toLocaleString()}</p>
+                  <h4 className="t-label leading-none">Total Outflow</h4>
+                  <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-1.5 tracking-tight">₹{cashFlowStats.outflow.toLocaleString()}</p>
                 </div>
               </div>
-              <div className="h-1 w-full bg-slate-50 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-[#F5F4F0] rounded-full overflow-hidden">
                 <div className="h-full bg-rose-500" style={{ width: `${Math.min((cashFlowStats.outflow / (cashFlowStats.inflow || 1)) * 100, 100)}%` }} />
               </div>
             </div>
 
-            <div className={`${cashFlowStats.net >= 0 ? 'bg-blue-600' : 'bg-slate-900'} p-8 rounded-[2.5rem] shadow-xl transition-all hover:shadow-2xl group relative overflow-hidden text-white`}>
+            <div className={`${cashFlowStats.net >= 0 ? 'bg-blue-600' : 'bg-slate-900'} p-8 rounded-2xl shadow-xl transition-all hover:shadow-2xl group relative overflow-hidden text-white`}>
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <TrendingDown size={120} />
               </div>
@@ -1072,7 +1072,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
             </div>
 
-            <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-xl transition-all hover:shadow-2xl group relative overflow-hidden text-white flex flex-col justify-between">
+            <div className="bg-slate-900 p-8 rounded-2xl shadow-xl transition-all hover:shadow-2xl group relative overflow-hidden text-white flex flex-col justify-between">
               <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform">
                 <IndianRupee size={100} />
               </div>
@@ -1105,8 +1105,8 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
           </div>
 
           {/* Filters & Search Matrix */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-8 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center gap-6 bg-slate-50/50">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-8 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center gap-6 bg-[#F5F4F0]/50">
               <div className="flex-1 relative">
                 <Search
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -1117,13 +1117,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   placeholder="Universal Search: ID, Vendor, Party, Invoice, Desk..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
                 />
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border ${showFilters ? "bg-blue-600 text-white border-blue-600 shadow-lg" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}
+                  className={`flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border ${showFilters ? "bg-blue-600 text-white border-blue-600 shadow-lg" : "bg-white text-slate-600 border-slate-200 hover:bg-[#F5F4F0]"}`}
                 >
                   <SlidersHorizontal size={16} /> Advanced Filters
                 </button>
@@ -1133,18 +1133,18 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             {showFilters && (
               <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in slide-in-from-top-4 duration-300 border-b border-slate-100 bg-white">
                 <div className="space-y-2">
-                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Date Range</label>
+                   <label className="t-label px-1">Date Range</label>
                    <div className="grid grid-cols-2 gap-2">
-                     <input type="date" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" value={filters.startDate} onChange={e => setFilters({...filters, startDate: e.target.value})} />
-                     <input type="date" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" value={filters.endDate} onChange={e => setFilters({...filters, endDate: e.target.value})} />
+                     <input type="date" className="w-full px-3 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-[10px] font-bold" value={filters.startDate} onChange={e => setFilters({...filters, startDate: e.target.value})} />
+                     <input type="date" className="w-full px-3 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-[10px] font-bold" value={filters.endDate} onChange={e => setFilters({...filters, endDate: e.target.value})} />
                    </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Movement Type
                   </label>
                   <select
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.entity}
                     onChange={(e) =>
                       setFilters({ ...filters, entity: e.target.value })
@@ -1156,11 +1156,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Category
                   </label>
                   <select
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.category}
                     onChange={(e) =>
                       setFilters({ ...filters, category: e.target.value })
@@ -1176,11 +1176,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Payment Mode
                   </label>
                   <select
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.paymentMode}
                     onChange={(e) =>
                       setFilters({ ...filters, paymentMode: e.target.value })
@@ -1211,20 +1211,20 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/30 border-b border-slate-100">
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <tr className="bg-[#F5F4F0]/30 border-b border-slate-100">
+                    <th className="px-8 py-5 t-label">
                       Txn Date & Summary
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Category
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Method
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Flow
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">
+                    <th className="px-8 py-5 t-label text-right">
                       Amount
                     </th>
                   </tr>
@@ -1233,7 +1233,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   {paginatedLedger.map((item) => (
                     <tr
                       key={item.id}
-                      className="hover:bg-slate-50/50 transition-colors group cursor-default"
+                      className="hover:bg-[#F5F4F0]/50 transition-colors group cursor-default"
                     >
                       <td className="px-8 py-6">
                         <div className="flex items-center gap-4">
@@ -1295,29 +1295,29 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   )}
                 </tbody>
               </table>
-              <div className="p-8 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
+              <div className="p-8 border-t border-slate-100 bg-[#F5F4F0]/50 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <p className="t-label">
                     Page {ledgerPage} of {totalLedgerPages || 1}
                   </p>
                   <div className="flex gap-2">
                     <button
                       disabled={ledgerPage === 1}
                       onClick={() => setLedgerPage(ledgerPage - 1)}
-                      className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg text-slate-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all shadow-sm"
+                      className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg text-slate-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F4F0] transition-all shadow-sm"
                     >
                       <ChevronLeft size={16} />
                     </button>
                     <button
                       disabled={ledgerPage >= totalLedgerPages}
                       onClick={() => setLedgerPage(ledgerPage + 1)}
-                      className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg text-slate-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all shadow-sm"
+                      className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg text-slate-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F4F0] transition-all shadow-sm"
                     >
                       <ChevronRight size={16} />
                     </button>
                   </div>
                 </div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                <p className="t-label leading-none">
                   {mergedLedger.length} Records Detected
                 </p>
               </div>
@@ -1326,7 +1326,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
 
           {/* Visualization Row */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-white p-10 rounded-[3rem] border border-slate-200 shadow-sm flex flex-col h-[500px]">
+            <div className="lg:col-span-2 bg-white p-10 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[500px]">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
                 <div>
                   <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter flex items-center gap-3">
@@ -1367,7 +1367,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
             </div>
 
-            <div className="bg-slate-900 p-10 rounded-[3rem] shadow-2xl text-white flex flex-col h-[500px]">
+            <div className="bg-slate-900 p-10 rounded-2xl shadow-2xl text-white flex flex-col h-[500px]">
               <h3 className="text-xl font-black mb-8 tracking-tighter uppercase">Category Distribution</h3>
               <div className="flex-1 min-h-0">
                 <ResponsiveContainer width="100%" height="100%">
@@ -1397,14 +1397,14 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             <div className="flex items-center gap-4 px-4">
               <div className="w-1.5 h-12 bg-blue-600 rounded-full" />
               <div>
-                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Deep Dive Analysis</h3>
+                <h3 className="text-2xl font-black text-[#1C1917] tracking-tight uppercase tracking-tighter">Deep Dive Analysis</h3>
                 <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Statistical breakups of business verticals</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Inflow Composition Analysis */}
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col h-[520px]">
+              <div className="card card-pad-lg flex flex-col h-[520px]">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <ArrowDownRight size={16} className="text-violet-500" />
@@ -1448,7 +1448,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               {/* Expensive Analysis */}
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col h-[400px]">
+              <div className="card card-pad-lg flex flex-col h-[400px]">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <History size={16} className="text-rose-500" />
@@ -1489,7 +1489,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               {/* Advance Hub Analysis */}
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col h-[520px]">
+              <div className="card card-pad-lg flex flex-col h-[520px]">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <Zap size={16} className="text-amber-500" />
@@ -1517,7 +1517,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                 </div>
                 <div className="mt-4 border-t border-slate-50 pt-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 p-2 rounded-lg">
+                    <div className="bg-[#F5F4F0] p-2 rounded-lg">
                        <p className="text-[8px] font-black text-slate-400 uppercase">Total Volume</p>
                        <p className="text-sm font-black text-slate-900">₹{advancesData.total.toLocaleString()}</p>
                     </div>
@@ -1530,7 +1530,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               {/* Billing Hub Analysis */}
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col h-[520px]">
+              <div className="card card-pad-lg flex flex-col h-[520px]">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <FileText size={16} className="text-emerald-500" />
@@ -1570,7 +1570,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               {/* Salary Payroll Analysis */}
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col h-[520px]">
+              <div className="card card-pad-lg flex flex-col h-[520px]">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <Users size={16} className="text-indigo-500" />
@@ -1613,7 +1613,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               {/* Methods Analysis */}
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col h-[520px]">
+              <div className="card card-pad-lg flex flex-col h-[520px]">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <Calculator size={16} className="text-blue-500" />
@@ -1739,7 +1739,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             {paginatedBankTrans.map((t) => (
               <div
                 key={t.id}
-                className={`bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 ${t.type === "RECEIVE_MONEY" ? "border-l-emerald-500" : "border-l-rose-500"}`}
+                className={`bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-6 group border-l-4 ${t.type === "RECEIVE_MONEY" ? "border-l-emerald-500" : "border-l-rose-500"}`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
@@ -1756,7 +1756,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       <h4 className="font-black text-slate-900 text-lg leading-none">
                         {t.bankName}
                       </h4>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1.5">
+                      <p className="t-label mt-1.5">
                         {t.date}
                       </p>
                     </div>
@@ -1782,7 +1782,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <span className="t-label">
                       {t.type === "RECEIVE_MONEY" ? "From" : "To"}
                     </span>
                     <span className="text-xs font-black text-slate-900">
@@ -1790,7 +1790,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <span className="t-label">
                       Amount
                     </span>
                     <span className="text-xl font-black text-slate-900">
@@ -1822,7 +1822,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
             ))}
             {props.bankTransactions.length === 0 && (
-              <div className="col-span-full py-20 text-center bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+              <div className="col-span-full py-20 text-center bg-[#F5F4F0] rounded-2xl border-2 border-dashed border-slate-200">
                 <Banknote size={48} className="mx-auto text-slate-200 mb-4" />
                 <p className="text-slate-400 font-black uppercase tracking-widest text-xs">
                   No bank transactions recorded yet.
@@ -1852,20 +1852,20 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                  </div>
                  
                  <div className="flex flex-wrap gap-4 pt-4">
-                   <div className="bg-slate-50 px-6 py-4 rounded-3xl border border-slate-100">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Date Scope</p>
+                   <div className="bg-[#F5F4F0] px-6 py-4 rounded-2xl border border-slate-100">
+                     <p className="t-label mb-1">Date Scope</p>
                      <p className="text-sm font-black text-slate-900">
                        {filters.startDate || 'Beginning'} — {filters.endDate || 'Present'}
                      </p>
                    </div>
-                   <div className="bg-slate-50 px-6 py-4 rounded-3xl border border-slate-100">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Deployments</p>
+                   <div className="bg-[#F5F4F0] px-6 py-4 rounded-2xl border border-slate-100">
+                     <p className="t-label mb-1">Total Deployments</p>
                      <p className="text-sm font-black text-slate-900">{advancesData.count} Entities</p>
                    </div>
                  </div>
                </div>
 
-               <div className="w-full lg:w-[450px] bg-slate-900 rounded-[3rem] p-8 text-white shadow-2xl relative overflow-hidden group">
+               <div className="w-full lg:w-[450px] bg-slate-900 rounded-2xl p-8 text-white shadow-2xl relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:scale-110 transition-transform">
                    <IndianRupee size={80} />
                  </div>
@@ -1906,7 +1906,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
            </div>
 
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm overflow-hidden relative">
+              <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm overflow-hidden relative">
                 <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-8 flex items-center gap-2">
                   <Landmark size={14} className="text-blue-600" /> Station Liquidity Status
                 </h4>
@@ -1916,7 +1916,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                     const issued = props.plantAdvances.filter(a => a.stationId === site.id).reduce((sum, a) => sum + a.amount, 0);
                     const net = pool - issued;
                     return (
-                      <div key={site.id} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between group hover:border-blue-200 transition-all">
+                      <div key={site.id} className="p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 flex items-center justify-between group hover:border-blue-200 transition-all">
                         <div className="space-y-1">
                           <p className="text-xs font-black text-slate-900 uppercase tracking-tighter">{site.name}</p>
                           <div className="flex items-center gap-3">
@@ -1935,11 +1935,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
+              <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
                 <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-8 flex items-center gap-2">
                   <Zap size={14} className="text-blue-600" /> Fund Distribution
                 </h4>
-                <div className="space-y-8">
+                <div className="page-stack-lg">
                   {props.sites.filter(s => s.type === 'TPS').map(site => {
                     const pool = props.plantPool.filter(p => p.stationId === site.id && p.transactionType === 'PAID').reduce((sum, p) => sum + p.amount, 0);
                     const issued = props.plantAdvances.filter(a => a.stationId === site.id).reduce((sum, a) => sum + a.amount, 0);
@@ -1954,7 +1954,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                            </div>
                            <p className="text-[10px] font-black text-slate-900 tracking-tighter">₹{net.toLocaleString()} <span className="text-slate-400 ml-1">({percentage.toFixed(1)}%)</span></p>
                         </div>
-                        <div className="h-3 bg-slate-50 rounded-full overflow-hidden border border-slate-100 p-0.5">
+                        <div className="h-3 bg-[#F5F4F0] rounded-full overflow-hidden border border-slate-100 p-0.5">
                            <div 
                              className="h-full bg-blue-500 rounded-full transition-all duration-1000 ease-out" 
                              style={{ width: `${percentage}%` }}
@@ -1965,7 +1965,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   })}
                 </div>
                 
-                <div className="mt-12 p-8 bg-slate-900 rounded-[2rem] text-white">
+                <div className="mt-12 p-8 bg-slate-900 rounded-2xl text-white">
                   <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-4">Liquidity Dispersion Matrix</p>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
@@ -1994,9 +1994,9 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
       {/* Bank Transaction Modal */}
       {isBankModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">
                 {editingBankTransaction
                   ? "Edit Transaction"
                   : "New Bank Transaction"}
@@ -2038,7 +2038,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </label>
                   <select
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={bankForm.bankId ?? ""}
                     onChange={(e) =>
                       setBankForm({ ...bankForm, bankId: e.target.value })
@@ -2062,7 +2062,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       onClick={() =>
                         setBankForm({ ...bankForm, type: "RECEIVE_MONEY" })
                       }
-                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${bankForm.type === "RECEIVE_MONEY" ? "border-emerald-500 bg-emerald-50 text-emerald-900" : "border-slate-100 text-slate-400 bg-slate-50"}`}
+                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${bankForm.type === "RECEIVE_MONEY" ? "border-emerald-500 bg-emerald-50 text-emerald-900" : "border-slate-100 text-slate-400 bg-[#F5F4F0]"}`}
                     >
                       <ArrowDownRight size={14} /> Receive
                     </button>
@@ -2071,7 +2071,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       onClick={() =>
                         setBankForm({ ...bankForm, type: "PAID_MONEY" })
                       }
-                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${bankForm.type === "PAID_MONEY" ? "border-rose-500 bg-rose-50 text-rose-900" : "border-slate-100 text-slate-400 bg-slate-50"}`}
+                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${bankForm.type === "PAID_MONEY" ? "border-rose-500 bg-rose-50 text-rose-900" : "border-slate-100 text-slate-400 bg-[#F5F4F0]"}`}
                     >
                       <ArrowUpRight size={14} /> Paid
                     </button>
@@ -2089,7 +2089,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   <input
                     type="text"
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={
                       bankForm.type === "RECEIVE_MONEY"
                         ? bankForm.fromWhere
@@ -2117,7 +2117,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   <input
                     type="number"
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={bankForm.amount ?? 0}
                     onChange={(e) =>
                       setBankForm({
@@ -2137,7 +2137,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   <input
                     type="date"
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={bankForm.date ?? ""}
                     onChange={(e) =>
                       setBankForm({ ...bankForm, date: e.target.value })
@@ -2150,7 +2150,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={bankForm.checkNo ?? ""}
                     onChange={(e) =>
                       setBankForm({ ...bankForm, checkNo: e.target.value })
@@ -2164,7 +2164,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={bankForm.neftUpiId ?? ""}
                     onChange={(e) =>
                       setBankForm({ ...bankForm, neftUpiId: e.target.value })
@@ -2179,7 +2179,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   Description
                 </label>
                 <textarea
-                  className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                  className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   rows={2}
                   value={bankForm.description ?? ""}
                   onChange={(e) =>
@@ -2206,7 +2206,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
         <div className="space-y-8 animate-in fade-in duration-500">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-              <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight uppercase tracking-tighter">
                 Accountability Hub • Methods
               </h3>
               <p className="text-slate-500 text-xs font-medium">
@@ -2262,15 +2262,15 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
 
           {/* Payment Method Stats Carousel/Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in slide-in-from-top-4 duration-500">
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-center gap-6 group hover:border-emerald-200 transition-all">
-              <div className="w-16 h-16 rounded-[1.5rem] bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner shadow-emerald-100">
+            <div className="card card-pad-lg flex items-center gap-6 group hover:border-emerald-200 transition-all">
+              <div className="w-16 h-16 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner shadow-emerald-100">
                 <ArrowDownRight size={28} />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Payment Received</p>
+                <p className="t-label leading-none">Total Payment Received</p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-sm font-black text-slate-400">₹</span>
-                  <p className="text-3xl font-black text-slate-900 tracking-tighter">
+                  <p className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tighter">
                     {paymentMethodStats.received.toLocaleString()}
                   </p>
                 </div>
@@ -2280,15 +2280,15 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-center gap-6 group hover:border-rose-200 transition-all">
-              <div className="w-16 h-16 rounded-[1.5rem] bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner shadow-rose-100">
+            <div className="card card-pad-lg flex items-center gap-6 group hover:border-rose-200 transition-all">
+              <div className="w-16 h-16 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner shadow-rose-100">
                 <ArrowUpRight size={28} />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Payment Paid To</p>
+                <p className="t-label leading-none">Total Payment Paid To</p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-sm font-black text-slate-400">₹</span>
-                  <p className="text-3xl font-black text-slate-900 tracking-tighter">
+                  <p className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tighter">
                     {paymentMethodStats.paid.toLocaleString()}
                   </p>
                 </div>
@@ -2302,12 +2302,12 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-center gap-6 group hover:border-amber-200 transition-all">
-              <div className="w-16 h-16 rounded-[1.5rem] bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner shadow-amber-100">
+            <div className="card card-pad-lg flex items-center gap-6 group hover:border-amber-200 transition-all">
+              <div className="w-16 h-16 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner shadow-amber-100">
                 <Calculator size={28} />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Payment Unpaid</p>
+                <p className="t-label leading-none">Total Payment Unpaid</p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-sm font-black text-slate-400">₹</span>
                   <p className="text-3xl font-black text-amber-600 tracking-tighter">
@@ -2320,8 +2320,8 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
           </div>
 
           {/* Search & Filter Matrix for Payments */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mb-8">
-            <div className="p-8 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center gap-6 bg-slate-50/50">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-8">
+            <div className="p-8 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center gap-6 bg-[#F5F4F0]/50">
               <div className="flex-1 relative">
                 <Search
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -2332,13 +2332,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   placeholder="Search: Client, Bank, Trans ID, Method, Invoice..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
                 />
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border ${showFilters ? "bg-blue-600 text-white border-blue-600 shadow-lg" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}
+                  className={`flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border ${showFilters ? "bg-blue-600 text-white border-blue-600 shadow-lg" : "bg-white text-slate-600 border-slate-200 hover:bg-[#F5F4F0]"}`}
                 >
                   <SlidersHorizontal size={16} /> Filters
                 </button>
@@ -2348,11 +2348,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             {showFilters && (
               <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in slide-in-from-top-4 duration-300 border-b border-slate-100 bg-white">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Select Bank
                   </label>
                   <select
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.bankId}
                     onChange={(e) =>
                       setFilters({ ...filters, bankId: e.target.value })
@@ -2373,11 +2373,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Method
                   </label>
                   <select
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.paymentMode}
                     onChange={(e) =>
                       setFilters({ ...filters, paymentMode: e.target.value })
@@ -2391,12 +2391,12 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Date From
                   </label>
                   <input
                     type="date"
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.startDate}
                     onChange={(e) =>
                       setFilters({ ...filters, startDate: e.target.value })
@@ -2404,12 +2404,12 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Date To
                   </label>
                   <input
                     type="date"
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                    className="w-full px-4 py-2 bg-[#F5F4F0] border border-slate-200 rounded-xl text-xs font-bold"
                     value={filters.endDate}
                     onChange={(e) =>
                       setFilters({ ...filters, endDate: e.target.value })
@@ -2423,7 +2423,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
           {(paymentSubTab === "BILLING" || paymentSubTab === "RECEIVE") && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 animate-in slide-in-from-bottom-4 duration-700">
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
+                <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center">
@@ -2433,7 +2433,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                         <h4 className="text-lg font-black text-slate-900 tracking-tight leading-none text-blue-600">
                           Billing Registry
                         </h4>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
+                        <p className="t-label mt-1">
                           Pending Collections & Invoices
                         </p>
                       </div>
@@ -2448,10 +2448,10 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       pendingInvoices.slice(0, 5).map((inv) => (
                         <div
                           key={inv.id}
-                          className="flex items-center justify-between p-5 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-3xl transition-all group"
+                          className="flex items-center justify-between p-5 bg-[#F5F4F0] hover:bg-white border border-transparent hover:border-slate-200 rounded-2xl transition-all group"
                         >
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-blue-500 transition-colors">
+                            <div className="w-10 h-10 bg-white border border-[#E7E5E0] rounded-xl flex items-center justify-center text-slate-400 group-hover:text-blue-500 transition-colors">
                               <Hash size={16} />
                             </div>
                             <div>
@@ -2498,8 +2498,8 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white shadow-xl">
+              <div className="page-stack pb-10">
+                <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl">
                   <p className="text-[10px] font-black uppercase tracking-widest text-blue-100 opacity-80">
                     Total Outstanding
                   </p>
@@ -2529,11 +2529,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
-                  <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 px-1 text-slate-900">
+                <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+                  <h5 className="t-label mb-6 px-1 text-slate-900">
                     Billing Analytics
                   </h5>
-                  <div className="space-y-6">
+                  <div className="page-stack pb-10">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
                         <CheckCircle2 size={16} />
@@ -2576,8 +2576,8 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             </div>
           )}
 
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mt-8">
-            <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/30">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-8">
+            <div className="px-8 py-6 border-b border-slate-100 bg-[#F5F4F0]/30">
               <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">
                 {paymentSubTab === "RECEIVE"
                   ? "Receive History (Manual + Billing)"
@@ -2589,54 +2589,54 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/30 border-b border-slate-100">
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <tr className="bg-[#F5F4F0]/30 border-b border-slate-100">
+                    <th className="px-8 py-5 t-label">
                       Transaction
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Method
                     </th>
                     {paymentSubTab === "RECEIVE" ? (
                       <>
-                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="px-8 py-5 t-label">
                           Received From (Client/Party)
                         </th>
-                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="px-8 py-5 t-label">
                           Credited To
                         </th>
                       </>
                     ) : paymentSubTab === "PAY" ? (
                       <>
-                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="px-8 py-5 t-label">
                           Paid From
                         </th>
-                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="px-8 py-5 t-label">
                           Paid To (Party Name)*
                         </th>
                       </>
                     ) : (
                       <>
-                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="px-8 py-5 t-label">
                           Receive From Where (Client Name)*
                         </th>
-                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="px-8 py-5 t-label">
                           Select Bank*
                         </th>
                       </>
                     )}
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Amount (₹)
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Date
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Transaction ID*
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="px-8 py-5 t-label">
                       Description
                     </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">
+                    <th className="px-8 py-5 t-label text-right">
                       Actions
                     </th>
                   </tr>
@@ -2645,7 +2645,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   {filteredPayments.map((r) => (
                     <tr
                       key={r.id}
-                      className="hover:bg-slate-50/50 transition-colors group cursor-default"
+                      className="hover:bg-[#F5F4F0]/50 transition-colors group cursor-default"
                     >
                       <td className="px-8 py-6">
                         <div className="flex items-center gap-2">
@@ -2780,7 +2780,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                         </p>
                       </td>
                       <td className="px-8 py-6">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest truncate max-w-[100px]">
+                        <p className="t-label truncate max-w-[100px]">
                           {r.isBilling
                             ? r.referenceNo
                             : r.transactionId || r.chequeNo || "N/A"}
@@ -2856,9 +2856,9 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
       {/* Payment Record Modal */}
       {isPaymentModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <h3 className="text-2xl font-black text-slate-900">
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">
                 {editingPaymentRecord
                   ? "Edit Payment Record"
                   : "New Payment Record"}
@@ -2897,7 +2897,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Transaction Type*
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -2906,7 +2906,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       onClick={() =>
                         setPaymentForm({ ...paymentForm, type: "RECEIVE" })
                       }
-                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${paymentForm.type === "RECEIVE" ? "border-emerald-500 bg-emerald-50 text-emerald-900" : "border-slate-100 text-slate-400 bg-slate-50"}`}
+                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${paymentForm.type === "RECEIVE" ? "border-emerald-500 bg-emerald-50 text-emerald-900" : "border-slate-100 text-slate-400 bg-[#F5F4F0]"}`}
                     >
                       <ArrowDownRight size={14} /> Receive
                     </button>
@@ -2915,19 +2915,19 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       onClick={() =>
                         setPaymentForm({ ...paymentForm, type: "PAY" })
                       }
-                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${paymentForm.type === "PAY" ? "border-rose-500 bg-rose-50 text-rose-900" : "border-slate-100 text-slate-400 bg-slate-50"}`}
+                      className={`py-3 rounded-xl font-black text-[10px] border-2 transition-all flex items-center justify-center gap-1.5 ${paymentForm.type === "PAY" ? "border-rose-500 bg-rose-50 text-rose-900" : "border-slate-100 text-slate-400 bg-[#F5F4F0]"}`}
                     >
                       <ArrowUpRight size={14} /> Pay
                     </button>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Method*
                   </label>
                   <select
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={paymentForm.method}
                     onChange={(e) =>
                       setPaymentForm({
@@ -2945,7 +2945,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                <label className="t-label px-1">
                   {paymentForm.type === "RECEIVE"
                     ? "Receive From Where (Client Name) or Party Name*"
                     : "Party Name / Paid To*"}
@@ -2955,7 +2955,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   required
                   list="party-names"
                   placeholder="Enter Client Name or Party Name"
-                  className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                  className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   value={paymentForm.partyName || ""}
                   onChange={(e) =>
                     setPaymentForm({
@@ -2973,13 +2973,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Amount (₹)*
                   </label>
                   <input
                     type="number"
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={paymentForm.amount ?? 0}
                     onChange={(e) =>
                       setPaymentForm({
@@ -2990,13 +2990,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Date*
                   </label>
                   <input
                     type="date"
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={paymentForm.date || ""}
                     onChange={(e) =>
                       setPaymentForm({ ...paymentForm, date: e.target.value })
@@ -3004,7 +3004,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Transaction ID*
                   </label>
                   <input
@@ -3015,7 +3015,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                         ? "Cheque No"
                         : "Ref No / Trans ID"
                     }
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={paymentForm.transactionId || ""}
                     onChange={(e) =>
                       setPaymentForm({
@@ -3029,11 +3029,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
 
               {paymentForm.method !== "CASH" ? (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Select Bank Account
                   </label>
                   <select
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={paymentForm.bankId || ""}
                     onChange={(e) => {
                       const bank = props.settings.bankDetails?.find(
@@ -3056,7 +3056,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Cash Mode
                   </label>
                   <div className="px-5 py-3.5 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-600 font-bold text-sm flex items-center gap-2">
@@ -3066,11 +3066,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               )}
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                <label className="t-label px-1">
                   Description
                 </label>
                 <textarea
-                  className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                  className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   rows={2}
                   value={paymentForm.description || ""}
                   onChange={(e) =>
@@ -3097,13 +3097,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
       )}
 
       {activeTab === "AUDIT" && (
-        <div className="bg-white rounded-[3rem] border border-slate-200 p-12 text-center animate-in fade-in duration-500">
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center animate-in fade-in duration-500">
           <div className="max-w-2xl mx-auto space-y-8">
-            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner">
+            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
               <Calculator size={40} />
             </div>
             <div>
-              <h3 className="text-3xl font-black text-slate-900 tracking-tight">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">
                 Compliance Audit Mode
               </h3>
               <p className="text-slate-500 text-lg font-medium mt-3 leading-relaxed">
@@ -3131,7 +3131,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
       {/* Invoice Payment Modal */}
       {isInvoicePaymentModalOpen && selectedInvoiceForPayment && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-emerald-50/50">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
@@ -3141,7 +3141,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                   <h3 className="text-xl font-black text-slate-900">
                     Add Billing Record
                   </h3>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <p className="t-label">
                     Inv: {selectedInvoiceForPayment.invoiceNumber} •{" "}
                     {selectedInvoiceForPayment.clientName}
                   </p>
@@ -3193,7 +3193,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
             >
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Amount (₹)*
                   </label>
                   <input
@@ -3204,11 +3204,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                       selectedInvoiceForPayment.totalAmount -
                       selectedInvoiceForPayment.paidAmount
                     }
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Date*
                   </label>
                   <input
@@ -3216,20 +3216,20 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                     type="date"
                     required
                     defaultValue={new Date().toISOString().split("T")[0]}
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                  <label className="t-label px-1">
                     Payment Mode*
                   </label>
                   <select
                     name="mode"
                     required
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                     value={invoicePaymentMode}
                     onChange={(e) => setInvoicePaymentMode(e.target.value)}
                   >
@@ -3242,7 +3242,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                 <div className="space-y-2">
                   {invoicePaymentMode === "CASH" ? (
                     <>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                      <label className="t-label px-1">
                         Cash Mode
                       </label>
                       <div className="px-5 py-3.5 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-600 font-bold text-sm flex items-center gap-2">
@@ -3252,13 +3252,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                     </>
                   ) : (
                     <>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                      <label className="t-label px-1">
                         Select Bank*
                       </label>
                       <select
                         name="bankId"
                         required
-                        className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                        className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                       >
                         <option value="">Select Account</option>
                         {props.settings.bankDetails?.map((b) => (
@@ -3273,7 +3273,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+                <label className="t-label px-1">
                   Reference No / Private Note
                 </label>
                 <div className="grid grid-cols-2 gap-4">
@@ -3281,13 +3281,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                     name="referenceNo"
                     type="text"
                     placeholder="Ref No"
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   />
                   <input
                     name="note"
                     type="text"
                     placeholder="Internal Note"
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold"
                   />
                 </div>
               </div>
@@ -3322,7 +3322,7 @@ const FinanceCard: React.FC<{
     red: "bg-red-50 text-red-600",
   };
   return (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group cursor-default">
+    <div className="card card-pad-lg hover:shadow-xl transition-all group cursor-default">
       <div className="flex items-center justify-between mb-6">
         <div
           className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform ${colors[color]}`}
@@ -3333,10 +3333,10 @@ const FinanceCard: React.FC<{
           {subtext}
         </span>
       </div>
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+      <p className="t-label">
         {label}
       </p>
-      <p className="text-2xl font-black text-slate-900 mt-1 tracking-tighter">
+      <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-1 tracking-tighter">
         {value}
       </p>
     </div>
@@ -3347,7 +3347,7 @@ const AuditFeature: React.FC<{ label: string; description: string }> = ({
   label,
   description,
 }) => (
-  <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 text-left space-y-2">
+  <div className="p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 text-left space-y-2">
     <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">
       {label}
     </h4>

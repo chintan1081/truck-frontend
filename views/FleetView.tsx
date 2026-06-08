@@ -316,11 +316,11 @@ const FleetView: React.FC<FleetViewProps> = ({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="page-stack-lg">
       {/* Header with Compliance Pulse */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Fleet Command</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Fleet Command</h2>
           <p className="text-slate-500 font-medium">Strategic intelligence for asset health and operational efficiency.</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -332,7 +332,7 @@ const FleetView: React.FC<FleetViewProps> = ({
       </div>
 
       {stats.available < 3 && (
-        <div className="p-4 bg-amber-50 border border-amber-200 rounded-3xl flex items-center gap-4 animate-in slide-in-from-top-4 duration-500">
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center gap-4 animate-in slide-in-from-top-4 duration-500">
            <div className="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center border border-amber-200">
               <AlertTriangle size={20} />
            </div>
@@ -352,7 +352,7 @@ const FleetView: React.FC<FleetViewProps> = ({
           <input 
             type="text" 
             placeholder="Search fleet by truck #, driver, or expiring docs..."
-            className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none shadow-sm transition-all font-bold"
+            className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl outline-none shadow-sm transition-all font-bold"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -363,7 +363,7 @@ const FleetView: React.FC<FleetViewProps> = ({
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${
-                statusFilter === s ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'
+                statusFilter === s ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'
               }`}
             >
               {s.toLowerCase()}
@@ -411,7 +411,7 @@ const FleetView: React.FC<FleetViewProps> = ({
           const hasExpiredDocs = daysToPollution < 0 || daysToInsurance < 0 || daysToFitness < 0 || daysToRC < 0 || daysToPermit < 0 || daysToDL < 0;
 
           return (
-            <div key={truck.id} className={`bg-white rounded-[2.5rem] border-2 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col group relative overflow-hidden ${
+            <div key={truck.id} className={`bg-white rounded-2xl border-2 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col group relative overflow-hidden ${
                 hasExpiredDocs ? 'border-red-500 shadow-red-100 ring-4 ring-red-50' : 
                 hasCriticalDocs ? 'border-amber-400 shadow-amber-50' : 'border-slate-100'
             }`}>
@@ -424,7 +424,7 @@ const FleetView: React.FC<FleetViewProps> = ({
               <div className="p-8 space-y-6 flex-1">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    <div className={`w-14 h-14 rounded-3xl flex items-center justify-center shadow-lg transition-all group-hover:scale-110 ${
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all group-hover:scale-110 ${
                       truck.isMaintenanceMode ? 'bg-rose-500 text-white animate-pulse' :
                       truck.status === 'AVAILABLE' ? 'bg-green-100 text-green-600' :
                       truck.status === 'ON_TRIP' ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'
@@ -455,7 +455,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                           {calculateHealthScore(truck)}%
                        </div>
                     </div>
-                    <button onClick={() => { setSelectedTruck(truck); setIsDossierOpen(true); }} className="p-2 text-slate-400 hover:bg-slate-50 rounded-xl transition-colors">
+                    <button onClick={() => { setSelectedTruck(truck); setIsDossierOpen(true); }} className="p-2 text-slate-400 hover:bg-[#F5F4F0] rounded-xl transition-colors">
                       <Maximize2 size={20} />
                     </button>
                   </div>
@@ -487,7 +487,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                    const driverPerf = performance.filter(p => p.entityId === truck.assignedDriverId || p.entityId === truck.driverName).sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
                    return (
                      <div className="grid grid-cols-2 gap-4">
-                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1 group/score hover:border-blue-200 transition-colors">
+                        <div className="p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-1 group/score hover:border-blue-200 transition-colors">
                            <p className="text-[10px] font-black text-slate-400 uppercase flex items-center gap-1">
                               Workforce Rating {driverPerf && <Star size={10} className="fill-amber-400 text-amber-400" />}
                            </p>
@@ -498,7 +498,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                               </div>
                            </div>
                         </div>
-                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+                        <div className="p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-1">
                            <p className="text-[10px] font-black text-slate-400 uppercase">Engine Hours</p>
                            <div className="flex items-center gap-2 text-sm font-black text-slate-800">
                               <Clock size={14} className="text-slate-400"/> {(truck.engineHours || 0).toLocaleString()}h
@@ -539,9 +539,9 @@ const FleetView: React.FC<FleetViewProps> = ({
                      </div>
                   </div>
                 ) : (
-                  <div className="p-5 bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl space-y-3">
+                  <div className="p-5 bg-[#F5F4F0]/50 border border-dashed border-slate-200 rounded-2xl space-y-3">
                      <div className="flex items-center justify-between">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <p className="t-label flex items-center gap-1.5">
                            <History size={10} /> Recent Activity
                         </p>
                         <span className="text-[9px] font-black text-slate-400">{truck.idleTimeHours}h Idle</span>
@@ -570,7 +570,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                       </div>
                    </div>
                    
-                   <div className="grid grid-cols-4 gap-x-4 gap-y-3 p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
+                   <div className="grid grid-cols-4 gap-x-4 gap-y-3 p-4 bg-[#F5F4F0]/50 rounded-2xl border border-slate-100">
                       <HealthUnit label="Battery" status={getStatusString(truck.healthStatus?.battery)} icon={Battery} id="battery" />
                       <HealthUnit label="Engine" status={getStatusString(truck.healthStatus?.engine)} icon={Cpu} id="engine" />
                       <HealthUnit label="Tyres" status={getStatusString(truck.healthStatus?.tyres)} icon={CircleDot} id="tyres" />
@@ -632,7 +632,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                    })()}
 
                    {maintenance.filter(m => m.truckId === truck.id).length > 0 && (
-                      <div className="flex items-center justify-between text-[10px] text-slate-500 font-bold bg-slate-50 px-3 py-2 rounded-xl border border-slate-100">
+                      <div className="flex items-center justify-between text-[10px] text-slate-500 font-bold bg-[#F5F4F0] px-3 py-2 rounded-xl border border-slate-100">
                          <span className="flex items-center gap-1.5"><Wrench size={12} className="text-slate-400" /> Last Maint:</span>
                          <span className="text-slate-900">{[...maintenance].filter(m => m.truckId === truck.id).sort((a,b) => b.date.localeCompare(a.date))[0].date}</span>
                       </div>
@@ -641,7 +641,7 @@ const FleetView: React.FC<FleetViewProps> = ({
               </div>
 
               {/* Action Ribbon */}
-              <div className="px-8 py-5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+              <div className="px-8 py-5 bg-[#F5F4F0]/50 border-t border-slate-100 flex items-center justify-between">
                 <div className="flex gap-4">
                    <button 
                      onClick={() => {
@@ -700,14 +700,14 @@ const FleetView: React.FC<FleetViewProps> = ({
       {/* Asset Dossier Modal (20+ Feature Modal) */}
       {isDossierOpen && selectedTruck && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-4xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-500">
-             <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-500">
+             <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                 <div className="flex items-center gap-6">
-                   <div className="w-16 h-16 bg-slate-900 text-white rounded-3xl flex items-center justify-center shadow-2xl">
+                   <div className="w-16 h-16 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-2xl">
                       <TruckIcon size={32} />
                    </div>
                    <div>
-                      <h3 className="text-3xl font-black text-slate-900">{selectedTruck.truckNumber}</h3>
+                      <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{selectedTruck.truckNumber}</h3>
                       <div className="flex items-center gap-3 mt-1">
                          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Full Dossier • Fleet Asset #{selectedTruck.id.slice(-4)}</p>
                          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-md border border-emerald-100">
@@ -736,7 +736,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                 </div>
 
                 {/* Documents Module */}
-                <div className="space-y-6">
+                <div className="page-stack pb-10">
                    <div className="flex items-center justify-between">
                       <h4 className="text-sm font-black text-slate-900 uppercase tracking-[0.2em] flex items-center gap-2">
                          <ShieldCheck size={20} className="text-blue-600" /> Statutory Compliance & Documents
@@ -781,18 +781,18 @@ const FleetView: React.FC<FleetViewProps> = ({
 
                 {/* Health & Tires Module */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                   <div className="space-y-6">
+                   <div className="page-stack pb-10">
                       <h4 className="text-sm font-black text-slate-900 uppercase tracking-[0.2em] flex items-center gap-2">
                         <Activity size={20} className="text-red-600" /> Technical Health Monitor
                       </h4>
-                      <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 space-y-6">
+                      <div className="p-8 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-6">
                          <HealthRow label="Engine Performance" status={getStatusString(selectedTruck.healthStatus?.engine)} />
                          <HealthRow label="Braking System" status="HEALTHY" />
                          <HealthRow label="Tyre Tread Depth" status={getStatusString(selectedTruck.healthStatus?.tyres)} />
                          <HealthRow label="Coolant Levels" status="HEALTHY" />
                       </div>
                    </div>
-                   <div className="space-y-6">
+                   <div className="page-stack pb-10">
                       <h4 className="text-sm font-black text-slate-900 uppercase tracking-[0.2em] flex items-center gap-2">
                         <History size={20} className="text-indigo-600" /> Recent Trip Activity
                       </h4>
@@ -811,7 +811,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                 </div>
              </div>
 
-             <div className="p-10 border-t border-slate-100 bg-slate-50/50 flex gap-4">
+             <div className="p-10 border-t border-slate-100 bg-[#F5F4F0]/50 flex gap-4">
                 <button className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
                    <Settings size={18} /> Update Technical Log
                 </button>
@@ -835,18 +835,18 @@ const FleetView: React.FC<FleetViewProps> = ({
       {/* Assignment Modal */}
       {isAssignModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
-             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 flex-shrink-0">
-                <h3 className="text-2xl font-black text-slate-900">Dispatch Truck</h3>
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
+             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50 flex-shrink-0">
+                <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">Dispatch Truck</h3>
                 <button onClick={() => setIsAssignModalOpen(false)} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full"><X size={20}/></button>
              </div>
-             <div className="p-8 space-y-6 overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-slate-50 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-400 pb-10">
+             <div className="p-8 space-y-6 overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#F5F4F0] [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-400 pb-10">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Select Truck (Available Only)</label>
                     <div className="relative">
                       <div 
-                        className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900 flex justify-between items-center cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
+                        className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-slate-900 flex justify-between items-center cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
                         onClick={() => {
                           setTruckSelectorOpen(!truckSelectorOpen);
                           setOrderSelectorOpen(false);
@@ -865,13 +865,13 @@ const FleetView: React.FC<FleetViewProps> = ({
                       {truckSelectorOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setTruckSelectorOpen(false)} />
-                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                            <div className="p-3 border-b border-slate-100 bg-slate-50/50 relative">
+                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#E7E5E0] rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="p-3 border-b border-slate-100 bg-[#F5F4F0]/50 relative">
                               <Search size={14} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" />
                               <input 
                                 autoFocus
                                 type="text" 
-                                className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
+                                className="w-full pl-9 pr-4 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
                                 placeholder="Search by truck number or driver..."
                                 value={truckSelectorSearch}
                                 onChange={(e) => setTruckSelectorSearch(e.target.value)}
@@ -891,8 +891,8 @@ const FleetView: React.FC<FleetViewProps> = ({
                                     }}
                                     className={`px-5 py-3 text-xs font-bold transition-all flex items-center justify-between border-l-4 ${
                                       t.disabled 
-                                        ? 'opacity-50 cursor-not-allowed bg-slate-50 text-slate-400 border-transparent' 
-                                        : 'cursor-pointer hover:bg-slate-50 ' + (assignData.truckId === t.id ? 'bg-blue-50 text-blue-700 border-blue-600' : 'text-slate-700 border-transparent')
+                                        ? 'opacity-50 cursor-not-allowed bg-[#F5F4F0] text-slate-400 border-transparent' 
+                                        : 'cursor-pointer hover:bg-[#F5F4F0] ' + (assignData.truckId === t.id ? 'bg-blue-50 text-blue-700 border-blue-600' : 'text-slate-700 border-transparent')
                                     }`}
                                   >
                                     <div className="flex flex-col">
@@ -918,7 +918,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Active Order</label>
                     <div className="relative">
                       <div 
-                        className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900 flex justify-between items-center cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
+                        className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-slate-900 flex justify-between items-center cursor-pointer hover:bg-slate-100 transition-colors shadow-sm"
                         onClick={() => {
                           setOrderSelectorOpen(!orderSelectorOpen);
                           setTruckSelectorOpen(false);
@@ -937,13 +937,13 @@ const FleetView: React.FC<FleetViewProps> = ({
                       {orderSelectorOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setOrderSelectorOpen(false)} />
-                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                            <div className="p-3 border-b border-slate-100 bg-slate-50/50 relative">
+                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#E7E5E0] rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="p-3 border-b border-slate-100 bg-[#F5F4F0]/50 relative">
                               <Search size={14} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" />
                               <input 
                                 autoFocus
                                 type="text" 
-                                className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
+                                className="w-full pl-9 pr-4 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
                                 placeholder="Search by order ID or site..."
                                 value={orderSelectorSearch}
                                 onChange={(e) => setOrderSelectorSearch(e.target.value)}
@@ -960,7 +960,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                                       setAssignData({ ...assignData, orderId: o.id, routeId: '' });
                                       setOrderSelectorOpen(false);
                                     }}
-                                    className={`px-5 py-3 text-xs font-bold cursor-pointer transition-all flex flex-col justify-center border-l-4 hover:bg-slate-50 ${
+                                    className={`px-5 py-3 text-xs font-bold cursor-pointer transition-all flex flex-col justify-center border-l-4 hover:bg-[#F5F4F0] ${
                                       assignData.orderId === o.id ? 'bg-blue-50 text-blue-700 border-blue-600' : 'text-slate-700 border-transparent'
                                     }`}
                                   >
@@ -986,7 +986,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                         className={`w-full px-5 py-4 border rounded-2xl font-bold flex justify-between items-center transition-all ${
                           !assignData.orderId 
                             ? 'bg-slate-100 cursor-not-allowed text-slate-400 border-slate-200' 
-                            : 'cursor-pointer hover:bg-slate-50 border-slate-200 text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 shadow-sm'
+                            : 'cursor-pointer hover:bg-[#F5F4F0] border-slate-200 text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 shadow-sm'
                         }`}
                         onClick={() => {
                           if (!assignData.orderId) return;
@@ -1007,13 +1007,13 @@ const FleetView: React.FC<FleetViewProps> = ({
                       {routeSelectorOpen && assignData.orderId && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setRouteSelectorOpen(false)} />
-                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                            <div className="p-3 border-b border-slate-100 bg-slate-50/50 relative">
+                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#E7E5E0] rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="p-3 border-b border-slate-100 bg-[#F5F4F0]/50 relative">
                               <Search size={14} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" />
                               <input 
                                 autoFocus
                                 type="text" 
-                                className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
+                                className="w-full pl-9 pr-4 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
                                 placeholder="Search route source or destination..."
                                 value={routeSelectorSearch}
                                 onChange={(e) => setRouteSelectorSearch(e.target.value)}
@@ -1030,7 +1030,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                                       setAssignData({ ...assignData, routeId: r.id });
                                       setRouteSelectorOpen(false);
                                     }}
-                                    className={`px-5 py-3 text-xs font-bold cursor-pointer transition-all flex flex-col justify-center border-l-4 hover:bg-slate-50 ${
+                                    className={`px-5 py-3 text-xs font-bold cursor-pointer transition-all flex flex-col justify-center border-l-4 hover:bg-[#F5F4F0] ${
                                       assignData.routeId === r.id ? 'bg-blue-50 text-blue-700 border-blue-600' : 'text-slate-700 border-transparent'
                                     }`}
                                   >
@@ -1057,7 +1057,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                         </div>
                       </div>
                     ) : (
-                      <div className="p-4 rounded-2xl flex items-center gap-3 border bg-slate-50 border-slate-100 text-slate-400">
+                      <div className="p-4 rounded-2xl flex items-center gap-3 border bg-[#F5F4F0] border-slate-100 text-slate-400">
                         <Info size={16} />
                         <div>
                           <p className="text-[9px] font-black uppercase tracking-widest leading-none">Pool Balance</p>
@@ -1070,7 +1070,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                       const client = clients.find(c => c.name === assigningOrderObj.clientName);
                       const balance = client?.outstandingBalance ?? 0;
                       return (
-                        <div className={`p-4 rounded-2xl flex items-center gap-3 border transition-colors ${balance > 50000 ? 'bg-amber-50 border-amber-100 text-amber-700' : 'bg-slate-50 border-slate-100 text-slate-700'}`}>
+                        <div className={`p-4 rounded-2xl flex items-center gap-3 border transition-colors ${balance > 50000 ? 'bg-amber-50 border-amber-100 text-amber-700' : 'bg-[#F5F4F0] border-slate-100 text-slate-700'}`}>
                           <User size={16} />
                           <div>
                             <p className="text-[9px] font-black uppercase tracking-widest leading-none">Outstanding: {assigningOrderObj.clientName || 'N/A'}</p>
@@ -1079,7 +1079,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                         </div>
                       );
                     })() : (
-                      <div className="p-4 rounded-2xl flex items-center gap-3 border bg-slate-50 border-slate-100 text-slate-400">
+                      <div className="p-4 rounded-2xl flex items-center gap-3 border bg-[#F5F4F0] border-slate-100 text-slate-400">
                         <User size={16} />
                         <div>
                           <p className="text-[9px] font-black uppercase tracking-widest leading-none">Client Outstanding</p>
@@ -1089,7 +1089,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                     )}
                   </div>
                 </div>
-                <button onClick={confirmAssignment} disabled={!assignData.truckId || !assignData.orderId || !assignData.routeId} className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                <button onClick={confirmAssignment} disabled={!assignData.truckId || !assignData.orderId || !assignData.routeId} className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
                   {isDispatching ? <Loader2 className="animate-spin"/> : <MessageCircle size={20}/>} Confirm & Dispatch Driver
                 </button>
              </div>
@@ -1100,9 +1100,9 @@ const FleetView: React.FC<FleetViewProps> = ({
       {/* Maintenance Input Modal */}
       {isMaintenanceModalOpen && selectedTruck && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500">
-             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 className="text-2xl font-black text-slate-900">Maintenance Log</h3>
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500">
+             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
+                <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">Maintenance Log</h3>
                 <button onClick={() => setIsMaintenanceModalOpen(false)} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full"><X size={20}/></button>
              </div>
              <div className="p-8 space-y-6">
@@ -1110,7 +1110,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Reason for Maintenance</label>
                     <textarea 
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none font-bold text-slate-900 min-h-[100px]" 
+                      className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none font-bold text-slate-900 min-h-[100px]" 
                       placeholder="Describe the issue..."
                       value={maintenanceData.reason}
                       onChange={e => setMaintenanceData({...maintenanceData, reason: e.target.value})}
@@ -1120,7 +1120,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Next Service Date</label>
                     <input 
                       type="date"
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none font-bold text-slate-900" 
+                      className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none font-bold text-slate-900" 
                       value={maintenanceData.nextServiceDate}
                       onChange={e => setMaintenanceData({...maintenanceData, nextServiceDate: e.target.value})}
                     />
@@ -1166,7 +1166,7 @@ const ComplianceBadge: React.FC<{ label: string, days: number, date?: string, on
           onClick={(e) => { e.stopPropagation(); onClick?.(); }}
           className={`px-3 py-2 rounded-2xl text-[8px] font-black uppercase border flex flex-col items-start gap-1 transition-all hover:scale-105 active:scale-95 group relative overflow-hidden ${
             isOverdue ? 'bg-red-50 text-red-600 border-red-100 shadow-lg shadow-red-100/30' :
-            isCritical ? 'bg-amber-50 text-amber-600 border-amber-100' : 'bg-slate-50/50 text-slate-800 border-slate-200 shadow-sm'
+            isCritical ? 'bg-amber-50 text-amber-600 border-amber-100' : 'bg-[#F5F4F0]/50 text-slate-800 border-slate-200 shadow-sm'
         }`}>
             <div className="flex items-center gap-2 relative z-10">
                 <div className="flex items-center gap-1 relative">
@@ -1206,12 +1206,12 @@ const DossierStat: React.FC<{ label: string, value: string, icon: any, color: st
         red: 'bg-red-50 text-red-600'
     };
     return (
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
+        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${colors[color]}`}>
               <Icon size={20} />
            </div>
            <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+              <p className="t-label">{label}</p>
               <p className="text-lg font-black text-slate-900">{value}</p>
            </div>
         </div>
@@ -1219,7 +1219,7 @@ const DossierStat: React.FC<{ label: string, value: string, icon: any, color: st
 };
 
 const DocCard: React.FC<{ label: string, expiry: string, type: string, onOpen?: () => void }> = ({ label, expiry, type, onOpen }) => (
-    <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between">
+    <div className="p-5 bg-[#F5F4F0] rounded-2xl border border-slate-100 flex items-center justify-between">
        <div className="flex items-center gap-4">
           <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 shadow-sm">
              <ShieldCheck size={20} />
@@ -1297,14 +1297,14 @@ const VaultModal: React.FC<{ truck: Truck, onClose: () => void, onUpdateTruck: (
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-500">
-                <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-500">
+                <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                     <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 bg-blue-600 text-white rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-blue-200">
+                        <div className="w-14 h-14 bg-blue-600 text-white rounded-[1.25rem] flex items-center justify-center shadow-md shadow-blue-500/20">
                            <ShieldCheck size={28} />
                         </div>
                         <div>
-                           <h3 className="text-2xl font-black text-slate-900 tracking-tight">Compliance Operations Vault</h3>
+                           <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Compliance Operations Vault</h3>
                            <div className="flex items-center gap-2 mt-1">
                               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">{truck.truckNumber}</span>
                               <span className="w-1 h-1 rounded-full bg-slate-300" />
@@ -1312,12 +1312,12 @@ const VaultModal: React.FC<{ truck: Truck, onClose: () => void, onUpdateTruck: (
                            </div>
                         </div>
                     </div>
-                    <button onClick={onClose} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-2xl hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"><X size={24}/></button>
+                    <button onClick={onClose} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-2xl hover:bg-[#F5F4F0] hover:text-slate-900 transition-all shadow-sm"><X size={24}/></button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-10 space-y-8 no-scrollbar">
                    {isAddOpen ? (
-                      <div className="space-y-8">
+                      <div className="page-stack-lg">
                          <div className="flex items-center justify-between">
                             <h4 className="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">{selectedDoc ? 'Edit Digital Asset' : 'Register New Asset'}</h4>
                             <button onClick={() => { setIsAddOpen(false); setSelectedDoc(null); }} className="text-[10px] font-black text-slate-400 uppercase hover:text-slate-600">Back to Vault</button>
@@ -1345,7 +1345,7 @@ const VaultModal: React.FC<{ truck: Truck, onClose: () => void, onUpdateTruck: (
 
                         <div className="space-y-3">
                            {(truck.documents || []).map(doc => (
-                              <div key={doc.id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between group hover:border-blue-200 transition-colors">
+                              <div key={doc.id} className="p-4 bg-[#F5F4F0] border border-slate-100 rounded-2xl flex items-center justify-between group hover:border-blue-200 transition-colors">
                                  <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 shadow-sm group-hover:text-blue-500 transition-colors">
                                        <FileText size={20} />
@@ -1385,7 +1385,7 @@ const VaultModal: React.FC<{ truck: Truck, onClose: () => void, onUpdateTruck: (
                            ))}
                            {(!truck.documents || truck.documents.length === 0) && (
                               <div className="py-20 text-center space-y-4">
-                                 <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                                 <div className="w-16 h-16 bg-[#F5F4F0] rounded-full flex items-center justify-center mx-auto text-slate-300">
                                     <FileText size={32} />
                                  </div>
                                  <p className="text-sm font-bold text-slate-400">Vault is empty. Upload compliance documents.</p>
@@ -1400,7 +1400,7 @@ const VaultModal: React.FC<{ truck: Truck, onClose: () => void, onUpdateTruck: (
             {/* Document Preview Overlay */}
             {previewDoc && (
                 <div className="fixed inset-0 z-[70] flex items-center justify-center p-8 bg-slate-950/90 backdrop-blur-xl animate-in fade-in duration-300">
-                    <div className="bg-white w-full max-w-5xl h-full rounded-[3rem] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-500">
+                    <div className="bg-white w-full max-w-5xl h-full rounded-2xl shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-500">
                         <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
@@ -1418,7 +1418,7 @@ const VaultModal: React.FC<{ truck: Truck, onClose: () => void, onUpdateTruck: (
                                 >
                                     <Download size={14} /> Download PDF
                                 </button>
-                                <button onClick={() => setPreviewDoc(null)} className="w-12 h-12 flex items-center justify-center bg-slate-50 text-slate-400 rounded-2xl hover:bg-slate-100 hover:text-slate-900 transition-all">
+                                <button onClick={() => setPreviewDoc(null)} className="w-12 h-12 flex items-center justify-center bg-[#F5F4F0] text-slate-400 rounded-2xl hover:bg-slate-100 hover:text-slate-900 transition-all">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -1488,12 +1488,12 @@ const DocumentAdditionForm: React.FC<{
     };
 
     return (
-        <div className="space-y-8">
+        <div className="page-stack-lg">
             <div className="grid grid-cols-1 gap-4">
                 <div className="group">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Document Title</label>
                     <input 
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
+                        className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
                         placeholder="Commercial Fitness Certificate 2024"
                         value={title}
                         onChange={e => setTitle(e.target.value)}
@@ -1504,7 +1504,7 @@ const DocumentAdditionForm: React.FC<{
                 <div className="group">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Document Category</label>
                     <select 
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+                        className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
                         value={type}
                         onChange={e => setType(e.target.value as any)}
                     >
@@ -1516,7 +1516,7 @@ const DocumentAdditionForm: React.FC<{
                 <div className="group">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Certificate/Policy ID</label>
                     <input 
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
+                        className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
                         placeholder="AA-100293-XP"
                         value={number}
                         onChange={e => setNumber(e.target.value)}
@@ -1528,7 +1528,7 @@ const DocumentAdditionForm: React.FC<{
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Date of Publishing</label>
                     <input 
                         type="date"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+                        className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
                         value={publishDate}
                         onChange={e => setPublishDate(e.target.value)}
                     />
@@ -1537,7 +1537,7 @@ const DocumentAdditionForm: React.FC<{
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Expiry Date</label>
                     <input 
                         type="date"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+                        className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
                         value={expiry}
                         onChange={e => setExpiry(e.target.value)}
                     />
@@ -1545,7 +1545,7 @@ const DocumentAdditionForm: React.FC<{
             </div>
 
             <div className="space-y-4">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Attachments</label>
+                <label className="t-label block">Attachments</label>
                 
                 <input 
                     type="file" 
@@ -1558,7 +1558,7 @@ const DocumentAdditionForm: React.FC<{
 
                 <div className="grid grid-cols-2 gap-4">
                     {files.map((file, idx) => (
-                        <div key={idx} className="relative aspect-video rounded-[2rem] border-2 border-slate-100 overflow-hidden bg-slate-50 group hover:border-blue-200 transition-all shadow-sm">
+                        <div key={idx} className="relative aspect-video rounded-2xl border-2 border-slate-100 overflow-hidden bg-[#F5F4F0] group hover:border-blue-200 transition-all shadow-sm">
                             {file.url.startsWith('data:image') ? (
                                 <img src={file.url} alt="preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             ) : (
@@ -1580,13 +1580,13 @@ const DocumentAdditionForm: React.FC<{
                     <button 
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="aspect-video border-3 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center bg-slate-50 hover:bg-blue-50 hover:border-blue-300 transition-all cursor-pointer group relative overflow-hidden"
+                        className="aspect-video border-3 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center bg-[#F5F4F0] hover:bg-blue-50 hover:border-blue-300 transition-all cursor-pointer group relative overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-slate-300 group-hover:text-blue-500 group-hover:scale-110 transition-all mb-3">
                             <Upload size={24} />
                         </div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-600 relative z-10">Add Files</p>
+                        <p className="t-label group-hover:text-blue-600 relative z-10">Add Files</p>
                     </button>
                 </div>
             </div>
@@ -1594,7 +1594,7 @@ const DocumentAdditionForm: React.FC<{
             <button 
                 disabled={files.length === 0}
                 onClick={() => onSave(type, number, expiry, files, title, publishDate)}
-                className="w-full bg-slate-900 disabled:bg-slate-100 disabled:text-slate-400 text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-3 group mt-8"
+                className="w-full bg-slate-900 disabled:bg-slate-100 disabled:text-slate-400 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-3 group mt-8"
             >
                 <FileCheck size={20} className="group-hover:scale-110 transition-transform" />
                 {initialDoc ? 'Confirm Security Update' : `Register ${files.length} Digital Asset${files.length !== 1 ? 's' : ''}`}

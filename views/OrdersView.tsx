@@ -53,6 +53,7 @@ import {
   PlantAdvancePoolEntry,
 } from "../types";
 import { SearchableSelect } from "../components/SearchableSelect";
+import { QuickAddModal, QuickAddEntityType } from "../components/QuickAddModal";
 import { useFormErrors } from '../hooks/useFormErrors';
 import {
   sendDriverWhatsAppNotification,
@@ -75,6 +76,12 @@ interface OrdersViewProps {
   onUpdateOrder: (order: Order) => void;
   onDeleteOrder: (id: string) => void;
   onUpdateTruck?: (truck: Truck) => void;
+  onAddClient?: (client: Client) => void;
+  onAddSite?: (site: Site) => void;
+  onAddBroker?: (broker: Broker) => void;
+  onAddRoute?: (route: Route) => void;
+  onAddDriver?: (driver: Driver) => void;
+  onAddTruck?: (truck: Truck) => void;
 }
 
 const STATUS_CONFIG: Record<
@@ -144,7 +151,14 @@ const OrdersView: React.FC<OrdersViewProps> = ({
   onUpdateOrder,
   onDeleteOrder,
   onUpdateTruck,
+  onAddClient,
+  onAddSite,
+  onAddBroker,
+  onAddRoute,
+  onAddDriver,
+  onAddTruck,
 }) => {
+  const [quickAdd, setQuickAdd] = useState<{ type: QuickAddEntityType; initialName: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isChallanModalOpen, setIsChallanModalOpen] = useState(false);
@@ -222,13 +236,13 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
     return (
       <div className="space-y-1.5 relative" ref={containerRef}>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+        <label className="t-label px-1">
           {label}
         </label>
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-xs outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 flex items-center justify-between text-slate-900 shadow-sm transition-all"
+          className="w-full px-4 py-3 bg-white border border-[#E7E5E0] rounded-xl font-bold text-xs outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 flex items-center justify-between text-slate-900 shadow-sm transition-all"
         >
           <span className="truncate">{activeLabel}</span>
           <ChevronDown
@@ -239,7 +253,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
         {isOpen && (
           <div className="absolute z-[60] w-full mt-1 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 ring-4 ring-black/5">
-            <div className="p-2 border-b border-slate-50 bg-slate-50/50">
+            <div className="p-2 border-b border-slate-50 bg-[#F5F4F0]/50">
               <div className="relative">
                 <Search
                   size={12}
@@ -261,7 +275,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
             </div>
             <div className="max-h-[180px] overflow-y-auto no-scrollbar p-1">
               <div
-                className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all mb-0.5 ${value === "ALL" ? "bg-blue-50 text-blue-700" : "hover:bg-slate-50 text-slate-600"}`}
+                className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all mb-0.5 ${value === "ALL" ? "bg-blue-50 text-blue-700" : "hover:bg-[#F5F4F0] text-slate-600"}`}
                 onClick={() => {
                   onChange("ALL");
                   setIsOpen(false);
@@ -279,7 +293,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   .map((opt, index) => (
                     <div
                       key={`${opt.value}-${index}`}
-                      className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all mb-0.5 ${value === opt.value ? "bg-blue-50 text-blue-700" : "hover:bg-slate-50 text-slate-600"}`}
+                      className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all mb-0.5 ${value === opt.value ? "bg-blue-50 text-blue-700" : "hover:bg-[#F5F4F0] text-slate-600"}`}
                       onClick={() => {
                         onChange(opt.value);
                         setIsOpen(false);
@@ -699,7 +713,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       {/* CSS for print mode */}
       <style>{`
         @media print {
@@ -728,7 +742,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">
             Orders & Client Tracking
           </h2>
           <p className="text-slate-500 text-sm font-medium">
@@ -745,7 +759,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
           </button>
           <button
             onClick={handleOpenCreate}
-            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-2xl font-black shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all"
+            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all"
           >
             <Plus size={20} />
             New Order
@@ -766,7 +780,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
               placeholder="Search by ID, Broker, Site, Client, Truck, Remarks, DC/SO, Supply Place, Driver, Product..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-12 py-4 bg-white border border-slate-200 rounded-[1.5rem] shadow-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
+              className="w-full pl-12 pr-12 py-4 bg-white border border-[#E7E5E0] rounded-xl shadow-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
             />
             <button
               onClick={() => setIsFiltersVisible(!isFiltersVisible)}
@@ -781,7 +795,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   materialFilter,
                   routeFilter,
                 ].some((f) => f !== "ALL")
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
                   : "bg-slate-100 text-slate-500 hover:bg-slate-200"
               }`}
             >
@@ -793,7 +807,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setStatusFilter("ALL")}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all border ${statusFilter === "ALL" ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}
+              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all border ${statusFilter === "ALL" ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-600 border-slate-200 hover:bg-[#F5F4F0]"}`}
             >
               All
             </button>
@@ -801,7 +815,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all border ${statusFilter === status ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all border ${statusFilter === status ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100" : "bg-white text-slate-600 border-slate-200 hover:bg-[#F5F4F0]"}`}
               >
                 {STATUS_CONFIG[status].label}
               </button>
@@ -810,7 +824,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
         </div>
 
         {isFiltersVisible && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6 bg-slate-50 rounded-[2rem] border border-slate-200 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6 bg-[#F5F4F0] rounded-2xl border border-slate-200 animate-in fade-in slide-in-from-top-4 duration-300">
             <SearchableFilter
               label="Broker"
               value={brokerFilter}
@@ -934,7 +948,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
       {/* Orders List */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {paginatedOrders.length === 0 ? (
-          <div className="xl:col-span-2 flex flex-col items-center justify-center py-20 bg-white border-2 border-dashed border-slate-200 rounded-[2.5rem]">
+          <div className="xl:col-span-2 flex flex-col items-center justify-center py-20 bg-white border-2 border-dashed border-slate-200 rounded-2xl">
             <Package size={48} className="text-slate-200 mb-4" />
             <p className="text-slate-400 font-medium italic text-center px-4">
               {searchQuery || statusFilter !== "ALL"
@@ -955,7 +969,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
             return (
               <div
                 key={order.id}
-                className={`bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all duration-300 group flex flex-col relative ${isMenuOpen ? "z-30" : "z-0"} ${order.status !== TripStatus.DELIVERED && order.status !== TripStatus.PAID && new Date(order.deliveryDate) < new Date() ? "ring-2 ring-red-500/20 border-red-100 bg-red-50/10" : ""}`}
+                className={`bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all duration-300 group flex flex-col relative ${isMenuOpen ? "z-30" : "z-0"} ${order.status !== TripStatus.DELIVERED && order.status !== TripStatus.PAID && new Date(order.deliveryDate) < new Date() ? "ring-2 ring-red-500/20 border-red-100 bg-red-50/10" : ""}`}
               >
                 {order.status !== TripStatus.DELIVERED && order.status !== TripStatus.PAID && new Date(order.deliveryDate) < new Date() && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5 z-20">
@@ -996,7 +1010,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                         onClick={() =>
                           setActiveMenu(isMenuOpen ? null : order.id)
                         }
-                        className={`p-2 rounded-xl transition-colors ${isMenuOpen ? "bg-slate-100 text-slate-900" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"}`}
+                        className={`p-2 rounded-xl transition-colors ${isMenuOpen ? "bg-slate-100 text-slate-900" : "text-slate-400 hover:text-slate-600 hover:bg-[#F5F4F0]"}`}
                       >
                         <MoreVertical size={20} />
                       </button>
@@ -1010,7 +1024,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                           <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-20 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                             <button
                               onClick={() => handleOpenAssign(order)}
-                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-[#F5F4F0] transition-colors"
                             >
                               <TruckIcon size={16} className="text-blue-500" />
                               Assign Truck
@@ -1019,7 +1033,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                               onClick={() =>
                                 handleOpenChallan(order, "TRANSPORTER")
                               }
-                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-[#F5F4F0] transition-colors"
                             >
                               <Printer size={16} className="text-blue-500" />
                               Transporter Challan
@@ -1028,14 +1042,14 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                               onClick={() =>
                                 handleOpenChallan(order, "DELIVERY")
                               }
-                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-[#F5F4F0] transition-colors"
                             >
                               <Printer size={16} className="text-emerald-500" />
                               Delivery Challan
                             </button>
                             <button
                               onClick={() => handleOpenEdit(order)}
-                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-[#F5F4F0] transition-colors"
                             >
                               <Edit size={16} className="text-slate-500" />
                               Edit Order
@@ -1046,12 +1060,12 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                                 setActiveMenu(null);
                               }}
                               disabled={statusIdx === STATUS_ORDER.length - 1}
-                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors disabled:opacity-30"
+                              className="w-full flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-[#F5F4F0] transition-colors disabled:opacity-30"
                             >
                               <History size={16} className="text-amber-500" />
                               Advance Status
                             </button>
-                            <div className="h-px bg-slate-50 my-1" />
+                            <div className="h-px bg-[#F5F4F0] my-1" />
                             <button
                               onClick={() => {
                                 onDeleteOrder(order.id);
@@ -1151,7 +1165,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                             <div
                               className={`w-8 h-8 rounded-full flex items-center justify-center border-4 transition-all duration-500 z-10 ${
                                 isCurrent
-                                  ? "bg-blue-600 border-blue-100 scale-125 shadow-lg shadow-blue-200 text-white"
+                                  ? "bg-blue-600 border-blue-100 scale-125 shadow-md shadow-blue-500/20 text-white"
                                   : isActive
                                     ? "bg-blue-500 border-white text-white"
                                     : "bg-white border-slate-50 shadow-sm text-slate-300"
@@ -1173,7 +1187,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </div>
                 </div>
 
-                <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between rounded-b-3xl">
+                <div className="px-6 py-4 bg-[#F5F4F0]/50 border-t border-slate-100 flex items-center justify-between rounded-b-3xl">
                   <div className="flex items-center gap-4">
                     <div className="flex flex-col">
                       <span className="text-[9px] text-slate-400 font-bold uppercase">
@@ -1235,8 +1249,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+        <div className="flex items-center justify-between bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+          <p className="t-label">
             Showing page {currentPage} of {totalPages} ({filteredOrders.length}{" "}
             total orders)
           </p>
@@ -1247,7 +1261,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 setCurrentPage((p) => p - 1);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="px-6 py-2 bg-slate-50 border border-slate-100 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all font-mono"
+              className="px-6 py-2 bg-[#F5F4F0] border border-slate-100 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all font-mono"
             >
               Prev
             </button>
@@ -1268,10 +1282,10 @@ const OrdersView: React.FC<OrdersViewProps> = ({
       {/* Bulk Export Modal */}
       {isBulkExportModalOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white rounded-[2.5rem] w-full max-w-lg shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
-            <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
+            <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
               <div>
-                <h3 className="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tight">
+                <h3 className="text-2xl font-black text-[#1C1917] tracking-tight leading-tight uppercase tracking-tight">
                   Bulk Export PDF
                 </h3>
                 <p className="text-slate-500 font-medium text-sm mt-1">
@@ -1313,7 +1327,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5">
+                  <label className="block t-label mb-2.5">
                     Start Date
                   </label>
                   <input
@@ -1325,11 +1339,11 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                         startDate: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+                    className="w-full px-4 py-3.5 bg-[#F5F4F0] border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5">
+                  <label className="block t-label mb-2.5">
                     End Date
                   </label>
                   <input
@@ -1341,7 +1355,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                         endDate: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+                    className="w-full px-4 py-3.5 bg-[#F5F4F0] border border-slate-100 rounded-2xl text-slate-900 font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
                   />
                 </div>
               </div>
@@ -1384,7 +1398,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
                     html2pdf().from(element).set(opt).save();
                   }}
-                  className="w-full py-4 bg-blue-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3"
+                  className="w-full py-4 bg-blue-600 text-white rounded-xl font-black uppercase tracking-widest shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3"
                 >
                   <Download size={20} />
                   Generate Bulk PDF
@@ -1486,7 +1500,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                           className="w-full object-contain"
                         />
                       ) : (
-                        <div className="bg-slate-50 p-4 rounded-xl text-center border-2 border-slate-100 flex flex-col items-center">
+                        <div className="bg-[#F5F4F0] p-4 rounded-xl text-center border-2 border-slate-100 flex flex-col items-center">
                           <TruckIcon
                             size={32}
                             className="text-slate-300 mb-2"
@@ -1639,8 +1653,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
                   {/* Summary & Footer (Only on last page or repeated if needed) */}
                   <div className="mt-8 grid grid-cols-2 gap-8 border-t-2 border-slate-900 pt-8">
-                    <div className="space-y-6">
-                      <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <div className="page-stack pb-10">
+                      <div className="bg-[#F5F4F0] p-4 rounded-2xl border border-slate-100">
                         <h4 className="text-[10px] font-black uppercase text-slate-400 mb-3 tracking-widest">
                           Pay To:
                         </h4>
@@ -1726,7 +1740,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
             <div className="flex items-center gap-3">
               <button
                 onClick={handleDownloadPDF}
-                className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center gap-2 px-6"
+                className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 flex items-center gap-2 px-6"
               >
                 <Download size={18} />
                 <span className="text-xs font-black uppercase tracking-widest leading-none">
@@ -1765,7 +1779,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
               }}
             >
               <div className="border border-black w-full h-full flex flex-col font-sans box-border">
-                <div className="border-b border-black py-2 text-center bg-slate-50">
+                <div className="border-b border-black py-2 text-center bg-[#F5F4F0]">
                   <h1 className="text-lg font-black uppercase tracking-[0.2em]">
                     {challanType} CHALLAN
                   </h1>
@@ -1987,7 +2001,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                         {selectedOrderForChallan.pickupDate}
                       </div>
                     </div>
-                    <div className="bg-slate-50 p-1.5 border-b border-black">
+                    <div className="bg-[#F5F4F0] p-1.5 border-b border-black">
                       <p className="text-[9px] font-black uppercase text-center tracking-widest">
                         Destination
                       </p>
@@ -2055,7 +2069,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 <div className="flex-1 border-b border-black overflow-hidden">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="text-[9px] font-black uppercase bg-slate-50 border-b border-black">
+                      <tr className="text-[9px] font-black uppercase bg-[#F5F4F0] border-b border-black">
                         <th className="p-1.5 border-r border-black w-10 text-center">
                           S.NO
                         </th>
@@ -2113,7 +2127,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       ))}
                     </tbody>
                     <tfoot>
-                      <tr className="text-[10px] font-black uppercase bg-slate-50 border-t border-black">
+                      <tr className="text-[10px] font-black uppercase bg-[#F5F4F0] border-t border-black">
                         <td
                           colSpan={5}
                           className="p-2 text-right border-r border-black uppercase tracking-widest"
@@ -2157,7 +2171,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       </p>
                     </div>
                   </div>
-                  <div className="bg-slate-50 text-center py-1.5 px-4">
+                  <div className="bg-[#F5F4F0] text-center py-1.5 px-4">
                     <p className="text-[8px] font-black uppercase tracking-tight leading-none">
                       Corporate Office :{" "}
                       {settings.companyAddress ||
@@ -2174,10 +2188,10 @@ const OrdersView: React.FC<OrdersViewProps> = ({
       {/* New/Edit Order Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 flex flex-col max-h-[90vh]">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
               <div>
-                <h3 className="text-2xl font-black text-slate-900">
+                <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">
                   {editingOrder ? "Edit Order" : "New Order"}
                 </h3>
                 <p className="text-sm text-slate-500 font-medium italic">
@@ -2219,6 +2233,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       sub: c.city
                     }))}
                     placeholder="Select Client..."
+                    onCreateNew={(name) => setQuickAdd({ type: 'client', initialName: name })}
+                    createNewLabel="Add Client"
                   />
                   {fe['clientName'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['clientName']}</p>}
                 </div>
@@ -2237,6 +2253,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       sub: s.location
                     }))}
                     placeholder="Select Site..."
+                    onCreateNew={(name) => setQuickAdd({ type: 'site', initialName: name })}
+                    createNewLabel="Add Site"
                   />
                   {fe['projectSite'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['projectSite']}</p>}
                 </div>
@@ -2329,7 +2347,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     onClick={() =>
                       setIsServicesDropdownOpen(!isServicesDropdownOpen)
                     }
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none flex items-center justify-between font-bold text-slate-900 hover:border-blue-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none flex items-center justify-between font-bold text-slate-900 hover:border-blue-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="truncate">
                       {formData.services && formData.services.length > 0
@@ -2388,7 +2406,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                                   className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all mb-1 last:mb-0 ${
                                     formData.services?.includes(service)
                                       ? "bg-blue-50 text-blue-700"
-                                      : "hover:bg-slate-50 text-slate-600"
+                                      : "hover:bg-[#F5F4F0] text-slate-600"
                                   }`}
                                 >
                                   <span className="text-xs font-bold uppercase tracking-tight">
@@ -2418,7 +2436,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
                     value={formData.dcNo ?? ""}
                     onChange={(e) =>
                       setFormData({ ...formData, dcNo: e.target.value })
@@ -2432,7 +2450,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
                     value={formData.soNo ?? ""}
                     onChange={(e) =>
                       setFormData({ ...formData, soNo: e.target.value })
@@ -2447,7 +2465,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   Remarks
                 </label>
                 <textarea
-                  className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900 min-h-[80px]"
+                  className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900 min-h-[80px]"
                   value={formData.remarks ?? ""}
                   onChange={(e) =>
                     setFormData({ ...formData, remarks: e.target.value })
@@ -2463,7 +2481,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </label>
                   <input
                     type="number"
-                    className={`w-full px-5 py-3.5 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-black text-slate-900 border ${fe['quantity'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                    className={`w-full px-5 py-3.5 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-black text-slate-900 border ${fe['quantity'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     placeholder="0.00"
                     value={formData.quantity ?? ""}
                     onChange={(e) => { setFormData({ ...formData, quantity: Number(e.target.value) }); clearField('quantity'); }}
@@ -2476,7 +2494,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </label>
                   <input
                     type="number"
-                    className={`w-full px-5 py-3.5 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-black text-slate-900 border ${fe['ratePerMT'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                    className={`w-full px-5 py-3.5 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-black text-slate-900 border ${fe['ratePerMT'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     placeholder="0"
                     value={formData.ratePerMT ?? ""}
                     onChange={(e) => { setFormData({ ...formData, ratePerMT: Number(e.target.value) }); clearField('ratePerMT'); }}
@@ -2486,7 +2504,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
               </div>
 
               {/* Logistics Details: KM and Diesel */}
-              <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">
                     Total KM Between
@@ -2498,7 +2516,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     />
                     <input
                       type="number"
-                      className="w-full pl-12 pr-5 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none font-black text-slate-900"
+                      className="w-full pl-12 pr-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl outline-none font-black text-slate-900"
                       placeholder="0 KM"
                       value={formData.totalKm ?? ""}
                       onChange={(e) =>
@@ -2521,7 +2539,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     />
                     <input
                       type="number"
-                      className="w-full pl-12 pr-5 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none font-black text-slate-900"
+                      className="w-full pl-12 pr-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl outline-none font-black text-slate-900"
                       placeholder="0 Liters"
                       value={formData.estimatedDiesel ?? ""}
                       onChange={(e) =>
@@ -2544,7 +2562,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     />
                     <input
                       type="number"
-                      className="w-full pl-12 pr-5 py-3.5 bg-white border border-slate-200 rounded-2xl outline-none font-black text-slate-900"
+                      className="w-full pl-12 pr-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl outline-none font-black text-slate-900"
                       placeholder="0.00"
                       step="0.01"
                       value={formData.dieselRatePerLiter ?? ""}
@@ -2566,7 +2584,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </label>
                   <input
                     type="date"
-                    className={`w-full px-5 py-3.5 rounded-2xl outline-none font-bold text-slate-900 border ${fe['pickupDate'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                    className={`w-full px-5 py-3.5 rounded-2xl outline-none font-bold text-slate-900 border ${fe['pickupDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     value={formData.pickupDate ?? ""}
                     onChange={(e) => { setFormData({ ...formData, pickupDate: e.target.value }); clearField('pickupDate'); }}
                   />
@@ -2578,7 +2596,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                   </label>
                   <input
                     type="date"
-                    className={`w-full px-5 py-3.5 rounded-2xl outline-none font-bold text-slate-900 border ${fe['deliveryDate'] ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-200'}`}
+                    className={`w-full px-5 py-3.5 rounded-2xl outline-none font-bold text-slate-900 border ${fe['deliveryDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     value={formData.deliveryDate ?? ""}
                     onChange={(e) => { setFormData({ ...formData, deliveryDate: e.target.value }); clearField('deliveryDate'); }}
                   />
@@ -2592,7 +2610,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     Payment Terms
                   </label>
                   <select
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none font-bold text-slate-900"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none font-bold text-slate-900"
                     value={formData.paymentTerms ?? "30 Days Net"}
                     onChange={(e) =>
                       setFormData({ ...formData, paymentTerms: e.target.value })
@@ -2609,7 +2627,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     Trip Status
                   </label>
                   <select
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none font-bold text-slate-900"
+                    className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none font-bold text-slate-900"
                     value={formData.status ?? TripStatus.CREATED}
                     onChange={(e) => {
                       const newStatus = e.target.value as TripStatus;
@@ -2638,30 +2656,25 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">
-                    Broker Mapping
-                  </label>
-                  <select
-                    className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-slate-900"
+                  <SearchableSelect
+                    label="Broker Mapping"
                     value={formData.brokerId ?? ""}
-                    onChange={(e) => {
-                      const broker = brokers.find(
-                        (b) => b.id === e.target.value,
-                      );
+                    onChange={(val) => {
+                      const broker = brokers.find((b) => b.id === val);
                       setFormData({
                         ...formData,
-                        brokerId: e.target.value,
+                        brokerId: val,
                         brokerName: broker?.name || "",
                       });
                     }}
-                  >
-                    <option value="">Direct (No Broker)</option>
-                    {brokers.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
-                      </option>
-                    ))}
-                  </select>
+                    options={[
+                      { value: "", label: "Direct (No Broker)" },
+                      ...brokers.map((b) => ({ value: b.id, label: b.name, sub: b.phone })),
+                    ]}
+                    placeholder="Direct (No Broker)"
+                    onCreateNew={(name) => setQuickAdd({ type: 'broker', initialName: name })}
+                    createNewLabel="Add Broker"
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">
@@ -2674,7 +2687,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     />
                     <input
                       type="number"
-                      className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all font-black text-slate-900"
+                      className="w-full pl-12 pr-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all font-black text-slate-900"
                       placeholder="0"
                       value={formData.brokerCommissionPerMT ?? ""}
                       onChange={(e) =>
@@ -2700,13 +2713,13 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-6 py-4 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-slate-50 transition-all"
+                  className="flex-1 px-6 py-4 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-[#F5F4F0] transition-all"
                 >
                   Discard
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all"
+                  className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all"
                 >
                   {editingOrder ? "Update Order" : "Create Order"}
                 </button>
@@ -2719,9 +2732,9 @@ const OrdersView: React.FC<OrdersViewProps> = ({
       {/* Dispatch/Assign Modal (Preserved but logic cleanup) */}
       {isAssignModalOpen && assigningOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
-              <h3 className="text-2xl font-black text-slate-900">
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 slide-in-from-bottom-10 duration-500">
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50 shrink-0">
+              <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">
                 Dispatch Trip
               </h3>
               <button
@@ -2748,7 +2761,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                    const client = clients.find(c => c.name === assigningOrder?.clientName);
                    const balance = client?.outstandingBalance ?? 0;
                    return (
-                    <div className={`p-4 rounded-2xl flex items-center gap-3 border ${balance > 50000 ? 'bg-amber-50 border-amber-100 text-amber-700' : 'bg-slate-50 border-slate-100 text-slate-700'}`}>
+                    <div className={`p-4 rounded-2xl flex items-center gap-3 border ${balance > 50000 ? 'bg-amber-50 border-amber-100 text-amber-700' : 'bg-[#F5F4F0] border-slate-100 text-slate-700'}`}>
                       <User size={16} />
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest leading-none">Outstanding: {assigningOrder?.clientName}</p>
@@ -2792,6 +2805,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     }))
                   ]}
                   placeholder="Choose an available asset..."
+                  onCreateNew={(name) => setQuickAdd({ type: 'truck', initialName: name })}
+                  createNewLabel="Add Truck"
                 />
                 
                 <SearchableSelect
@@ -2824,6 +2839,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     sub: `${r.distanceKm} KM — Route Master`
                   }))}
                   placeholder="Choose trip route..."
+                  onCreateNew={(name) => setQuickAdd({ type: 'route', initialName: name })}
+                  createNewLabel="Add Route"
                 />
               </div>
             </div>
@@ -2831,7 +2848,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 <button
                   type="submit"
                   disabled={isDispatching}
-                  className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
                 >
                   {isDispatching ? (
                     <Loader2 className="animate-spin" />
@@ -2844,6 +2861,35 @@ const OrdersView: React.FC<OrdersViewProps> = ({
             </form>
           </div>
         </div>
+      )}
+
+      {quickAdd && (
+        <QuickAddModal
+          entityType={quickAdd.type}
+          initialName={quickAdd.initialName}
+          onClose={() => setQuickAdd(null)}
+          onCreated={(entity) => {
+            setQuickAdd(null);
+            if (quickAdd.type === 'client' && onAddClient) {
+              onAddClient(entity);
+              setFormData(prev => ({ ...prev, clientName: entity.name }));
+            } else if (quickAdd.type === 'site' && onAddSite) {
+              onAddSite(entity);
+              setFormData(prev => ({ ...prev, projectSite: entity.name }));
+            } else if (quickAdd.type === 'broker' && onAddBroker) {
+              onAddBroker(entity);
+              setFormData(prev => ({ ...prev, brokerId: entity.id, brokerName: entity.name }));
+            } else if (quickAdd.type === 'route' && onAddRoute) {
+              onAddRoute(entity);
+              setAssignmentData(prev => ({ ...prev, routeId: entity.id }));
+            } else if (quickAdd.type === 'driver' && onAddDriver) {
+              onAddDriver(entity);
+            } else if (quickAdd.type === 'truck' && onAddTruck) {
+              onAddTruck(entity);
+              setAssignmentData(prev => ({ ...prev, truckId: entity.id }));
+            }
+          }}
+        />
       )}
     </div>
   );

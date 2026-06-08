@@ -1,12 +1,12 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  FileText, 
-  Search, 
-  Plus, 
-  Filter, 
-  Download, 
-  ChevronRight, 
+import {
+  FileText,
+  Search,
+  Plus,
+  Filter,
+  Download,
+  ChevronRight,
   ChevronLeft,
   ChevronDown,
   ArrowUpRight,
@@ -29,14 +29,60 @@ import { SearchableSelect } from '../components/SearchableSelect';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+const generateOrderId = () => {
+  const prefix = "ORD";
+  const random = Math.floor(1000 + Math.random() * 9000);
+  const datePart = new Date().getFullYear().toString().slice(-2);
+  return `${prefix}-${datePart}${random}`;
+};
+
 interface TransportOrdersViewProps {
   orders: Order[];
   onUpdateOrders: (orders: Order[]) => void;
+  onAddOrder: (order: Order) => Promise<void>;
   fleet: Truck[];
   settings: AppSettings;
 }
 
-const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpdateOrders, fleet, settings }) => {
+const PAYMENT_TERMS = ['Advance Payment', '15 Days Net', '30 Days Net', '45 Days Net', '60 Days Net'];
+
+type CreateFormData = {
+  clientName: string;
+  projectSite: string;
+  materialName: string;
+  quantity: string;
+  ratePerMT: string;
+  pickupDate: string;
+  deliveryDate: string;
+  hasGST: boolean;
+  gstRate: string;
+  paymentTerms: string;
+  brokerName: string;
+  brokerCommissionPerMT: string;
+  remarks: string;
+};
+
+const EMPTY_FORM: CreateFormData = {
+  clientName: '',
+  projectSite: '',
+  materialName: '',
+  quantity: '',
+  ratePerMT: '',
+  pickupDate: '',
+  deliveryDate: '',
+  hasGST: true,
+  gstRate: '5',
+  paymentTerms: '30 Days Net',
+  brokerName: '',
+  brokerCommissionPerMT: '',
+  remarks: '',
+};
+
+const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpdateOrders, onAddOrder, fleet, settings }) => {
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [createForm, setCreateForm] = useState<CreateFormData>(EMPTY_FORM);
+  const [createErrors, setCreateErrors] = useState<Partial<CreateFormData>>({});
+  const [createLoading, setCreateLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchCategory, setSearchCategory] = useState<'ALL' | 'STATUS' | 'CLIENT' | 'BROKER' | 'TRUCK' | 'SITE'>('ALL');
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,6 +103,50 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
   const trucksList = useMemo(() => Array.from(new Set(orders.map(o => o.assignedTruckId).filter(Boolean))), [orders]);
   const brokers = useMemo(() => Array.from(new Set(orders.map(o => o.brokerName).filter(Boolean))), [orders]);
   const sites = useMemo(() => Array.from(new Set(orders.map(o => o.projectSite).filter(Boolean))), [orders]);
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs: Partial<CreateFormData> = {};
+    if (!createForm.clientName.trim()) errs.clientName = 'Required';
+    if (!createForm.projectSite.trim()) errs.projectSite = 'Required';
+    if (!createForm.quantity || isNaN(Number(createForm.quantity)) || Number(createForm.quantity) <= 0) errs.quantity = 'Must be > 0';
+    if (!createForm.ratePerMT || isNaN(Number(createForm.ratePerMT)) || Number(createForm.ratePerMT) <= 0) errs.ratePerMT = 'Must be > 0';
+    if (!createForm.pickupDate) errs.pickupDate = 'Required';
+    if (!createForm.deliveryDate) errs.deliveryDate = 'Required';
+    if (createForm.pickupDate && createForm.deliveryDate && new Date(createForm.deliveryDate) < new Date(createForm.pickupDate)) {
+      errs.deliveryDate = 'Must be on or after pickup date';
+    }
+    if (Object.keys(errs).length) { setCreateErrors(errs); return; }
+    setCreateErrors({});
+    setCreateLoading(true);
+    try {
+      const qty = Number(createForm.quantity);
+      const commPerMT = Number(createForm.brokerCommissionPerMT) || 0;
+      const order: Order = {
+        id: generateOrderId(),
+        clientName: createForm.clientName.trim(),
+        projectSite: createForm.projectSite.trim(),
+        materialName: createForm.materialName.trim() || undefined,
+        quantity: qty,
+        ratePerMT: Number(createForm.ratePerMT),
+        pickupDate: createForm.pickupDate,
+        deliveryDate: createForm.deliveryDate,
+        hasGST: createForm.hasGST,
+        gstRate: createForm.hasGST && createForm.gstRate ? Number(createForm.gstRate) : undefined,
+        paymentTerms: createForm.paymentTerms,
+        brokerName: createForm.brokerName.trim() || undefined,
+        brokerCommissionPerMT: commPerMT || undefined,
+        totalBrokerCommission: qty * commPerMT,
+        remarks: createForm.remarks.trim() || undefined,
+        status: TripStatus.CREATED,
+      };
+      await onAddOrder(order);
+      setIsCreateOpen(false);
+      setCreateForm(EMPTY_FORM);
+    } finally {
+      setCreateLoading(false);
+    }
+  };
 
   const filteredOrders = useMemo(() => {
     return orders.filter(order => {
@@ -355,7 +445,7 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
     <div className="space-y-8 pb-20">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight flex items-center gap-3">
              <FileText size={32} className="text-blue-600" /> Transport Orders Command
           </h2>
           <p className="text-slate-500 font-medium">Global order management and logistical fulfillment tracking.</p>
@@ -363,17 +453,20 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
         <div className="flex gap-4">
            <button 
              onClick={exportToPDF}
-             className="flex items-center gap-2 px-6 py-3.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm"
+             className="flex items-center gap-2 px-6 py-3.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#F5F4F0] transition-all shadow-sm"
            >
               <FileDown size={18} className="text-red-500" /> Export PDF
            </button>
-           <button className="flex items-center gap-2 px-8 py-3.5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl shadow-blue-200">
+           <button
+             onClick={() => { setCreateForm(EMPTY_FORM); setCreateErrors({}); setIsCreateOpen(true); }}
+             className="flex items-center gap-2 px-8 py-3.5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20"
+           >
               <Plus size={18} /> New Transport Order
            </button>
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="page-stack pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard label="Total Orders" value={stats.totalOrders.toLocaleString()} icon={FileText} color="blue" />
           <StatCard label="Completed Orders" value={stats.completedOrders.toLocaleString()} icon={ShieldCheck} color="green" />
@@ -411,11 +504,11 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
         </div>
       </div>
 
-      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm space-y-8">
+      <div className="card card-pad-lg space-y-8">
         <div className="flex flex-col space-y-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="flex items-center gap-4 flex-1">
-              <div className="relative flex-1 max-w-2xl flex items-center bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-400 transition-all">
+              <div className="relative flex-1 max-w-2xl flex items-center bg-[#F5F4F0] border border-slate-200 rounded-2xl overflow-hidden focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-400 transition-all">
                 <div className="relative flex items-center border-r border-slate-200">
                   <select 
                     value={searchCategory}
@@ -541,14 +634,14 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
           </div>
 
           {filters.datePreset === 'CUSTOM' && (
-            <div className="flex flex-wrap items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-in fade-in slide-in-from-top-2">
+            <div className="flex flex-wrap items-center gap-4 p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 animate-in fade-in slide-in-from-top-2">
               <div className="flex flex-col gap-1.5 flex-1 min-w-[200px]">
                 <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">From Date</label>
                 <input 
                   type="date" 
                   value={filters.startDate} 
                   onChange={e => setFilters({...filters, startDate: e.target.value})}
-                  className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-mono"
+                  className="bg-white border border-[#E7E5E0] rounded-xl px-4 py-2 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-mono"
                 />
               </div>
               <div className="flex flex-col gap-1.5 flex-1 min-w-[200px]">
@@ -557,17 +650,17 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
                   type="date" 
                   value={filters.endDate} 
                   onChange={e => setFilters({...filters, endDate: e.target.value})}
-                  className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-mono"
+                  className="bg-white border border-[#E7E5E0] rounded-xl px-4 py-2 text-[10px] font-black uppercase outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-mono"
                 />
               </div>
             </div>
           )}
         </div>
 
-        <div className="overflow-x-auto rounded-[2rem] border border-slate-100">
+        <div className="overflow-x-auto rounded-2xl border border-slate-100">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100">
+              <tr className="bg-[#F5F4F0]/50 border-b border-slate-100">
                 <th className="px-4 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest">Order ID</th>
                 <th className="px-4 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest">Pickup Date</th>
                 <th className="px-4 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Est. Delivery</th>
@@ -590,7 +683,7 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
                 const netRevenue = totalValue - brokerage - gstAmount;
 
                 return (
-                  <tr key={order.id} className="hover:bg-slate-50/30 transition-colors group text-[11px]">
+                  <tr key={order.id} className="hover:bg-[#F5F4F0]/30 transition-colors group text-[11px]">
                     <td className="px-4 py-6">
                       <p className="font-black text-blue-600 font-mono tracking-tighter">#{order.id.slice(-6)}</p>
                     </td>
@@ -643,12 +736,12 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
         </div>
 
         <div className="flex items-center justify-between pt-4">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Showing {paginatedOrders.length} of {filteredOrders.length} Orders</p>
+          <p className="t-label">Showing {paginatedOrders.length} of {filteredOrders.length} Orders</p>
           <div className="flex gap-2">
             <button 
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(prev => prev - 1)}
-              className="p-2 py-3 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all"
+              className="p-2 py-3 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all"
             >
               <ChevronLeft size={16} />
             </button>
@@ -657,7 +750,7 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
                  <button 
                    key={i} 
                    onClick={() => setCurrentPage(i + 1)}
-                   className={`w-10 h-10 rounded-xl font-black text-xs transition-all ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-400'}`}
+                   className={`w-10 h-10 rounded-xl font-black text-xs transition-all ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'hover:bg-[#F5F4F0] text-slate-400'}`}
                  >
                    {i + 1}
                  </button>
@@ -666,13 +759,200 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
             <button 
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(prev => prev + 1)}
-              className="p-2 py-3 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all"
+              className="p-2 py-3 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all"
             >
               <ChevronRight size={16} />
             </button>
           </div>
         </div>
       </div>
+      {/* Create Order Modal */}
+      {isCreateOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
+              <div>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">New Transport Order</h3>
+                <p className="text-xs font-bold text-slate-400 mt-0.5 uppercase tracking-widest">Fill in order details below</p>
+              </div>
+              <button onClick={() => setIsCreateOpen(false)} className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all">
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleCreateSubmit} className="flex-1 overflow-y-auto p-8 space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Client Name *</label>
+                  <input
+                    type="text"
+                    value={createForm.clientName}
+                    onChange={e => setCreateForm(f => ({ ...f, clientName: e.target.value }))}
+                    placeholder="e.g. Adani Power"
+                    className={`w-full px-4 py-3 bg-[#F5F4F0] border rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all ${createErrors.clientName ? 'border-red-400' : 'border-slate-200'}`}
+                  />
+                  {createErrors.clientName && <p className="text-[10px] text-red-500 font-bold ml-1">{createErrors.clientName}</p>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Project Site *</label>
+                  <input
+                    type="text"
+                    value={createForm.projectSite}
+                    onChange={e => setCreateForm(f => ({ ...f, projectSite: e.target.value }))}
+                    placeholder="e.g. Mundra TPS"
+                    className={`w-full px-4 py-3 bg-[#F5F4F0] border rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all ${createErrors.projectSite ? 'border-red-400' : 'border-slate-200'}`}
+                  />
+                  {createErrors.projectSite && <p className="text-[10px] text-red-500 font-bold ml-1">{createErrors.projectSite}</p>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Material / Product</label>
+                  <input
+                    type="text"
+                    value={createForm.materialName}
+                    onChange={e => setCreateForm(f => ({ ...f, materialName: e.target.value }))}
+                    placeholder="e.g. Fly Ash"
+                    className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Payment Terms *</label>
+                  <select
+                    value={createForm.paymentTerms}
+                    onChange={e => setCreateForm(f => ({ ...f, paymentTerms: e.target.value }))}
+                    className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all"
+                  >
+                    {PAYMENT_TERMS.map(t => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Quantity (MT) *</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={createForm.quantity}
+                    onChange={e => setCreateForm(f => ({ ...f, quantity: e.target.value }))}
+                    placeholder="0.00"
+                    className={`w-full px-4 py-3 bg-[#F5F4F0] border rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all ${createErrors.quantity ? 'border-red-400' : 'border-slate-200'}`}
+                  />
+                  {createErrors.quantity && <p className="text-[10px] text-red-500 font-bold ml-1">{createErrors.quantity}</p>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Rate per MT (₹) *</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={createForm.ratePerMT}
+                    onChange={e => setCreateForm(f => ({ ...f, ratePerMT: e.target.value }))}
+                    placeholder="0.00"
+                    className={`w-full px-4 py-3 bg-[#F5F4F0] border rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all ${createErrors.ratePerMT ? 'border-red-400' : 'border-slate-200'}`}
+                  />
+                  {createErrors.ratePerMT && <p className="text-[10px] text-red-500 font-bold ml-1">{createErrors.ratePerMT}</p>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Pickup Date *</label>
+                  <input
+                    type="date"
+                    value={createForm.pickupDate}
+                    onChange={e => setCreateForm(f => ({ ...f, pickupDate: e.target.value }))}
+                    className={`w-full px-4 py-3 bg-[#F5F4F0] border rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all ${createErrors.pickupDate ? 'border-red-400' : 'border-slate-200'}`}
+                  />
+                  {createErrors.pickupDate && <p className="text-[10px] text-red-500 font-bold ml-1">{createErrors.pickupDate}</p>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="t-label">Delivery Date *</label>
+                  <input
+                    type="date"
+                    value={createForm.deliveryDate}
+                    onChange={e => setCreateForm(f => ({ ...f, deliveryDate: e.target.value }))}
+                    className={`w-full px-4 py-3 bg-[#F5F4F0] border rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all ${createErrors.deliveryDate ? 'border-red-400' : 'border-slate-200'}`}
+                  />
+                  {createErrors.deliveryDate && <p className="text-[10px] text-red-500 font-bold ml-1">{createErrors.deliveryDate}</p>}
+                </div>
+              </div>
+
+              <div className="border-t border-slate-100 pt-6 space-y-4">
+                <p className="t-label">GST & Brokerage</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="hasGST"
+                      checked={createForm.hasGST}
+                      onChange={e => setCreateForm(f => ({ ...f, hasGST: e.target.checked }))}
+                      className="w-5 h-5 rounded accent-blue-600"
+                    />
+                    <label htmlFor="hasGST" className="text-sm font-black text-slate-700 cursor-pointer">Apply GST</label>
+                  </div>
+                  {createForm.hasGST && (
+                    <div className="flex flex-col gap-1.5">
+                      <label className="t-label">GST Rate (%)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={createForm.gstRate}
+                        onChange={e => setCreateForm(f => ({ ...f, gstRate: e.target.value }))}
+                        className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all"
+                      />
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="t-label">Broker Name</label>
+                    <input
+                      type="text"
+                      value={createForm.brokerName}
+                      onChange={e => setCreateForm(f => ({ ...f, brokerName: e.target.value }))}
+                      placeholder="Optional"
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="t-label">Commission / MT (₹)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={createForm.brokerCommissionPerMT}
+                      onChange={e => setCreateForm(f => ({ ...f, brokerCommissionPerMT: e.target.value }))}
+                      placeholder="0.00"
+                      className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="t-label">Remarks</label>
+                <textarea
+                  rows={3}
+                  value={createForm.remarks}
+                  onChange={e => setCreateForm(f => ({ ...f, remarks: e.target.value }))}
+                  placeholder="Optional notes..."
+                  className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all resize-none"
+                />
+              </div>
+
+              <div className="flex gap-4 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateOpen(false)}
+                  className="flex-1 px-6 py-3.5 border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#F5F4F0] transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={createLoading}
+                  className="flex-1 px-6 py-3.5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50 shadow-md shadow-blue-500/20"
+                >
+                  {createLoading ? 'Creating...' : 'Create Order'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -686,13 +966,13 @@ const StatCard: React.FC<{ label: string; value: string; icon: any; color: strin
     red: 'bg-red-50 text-red-600 border-red-100'
   };
   return (
-    <div className={`p-8 bg-white rounded-[2.5rem] border shadow-sm ${colors[color]} flex flex-col gap-6`}>
+    <div className={`p-8 bg-white rounded-2xl border shadow-sm ${colors[color]} flex flex-col gap-6`}>
        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner ${colors[color]}`}>
           <Icon size={24} />
        </div>
        <div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
-          <p className="text-3xl font-black text-slate-900 mt-2 tracking-tighter">{value}</p>
+          <p className="t-label">{label}</p>
+          <p className="text-2xl font-black text-[#1C1917] tracking-tight mt-2 tracking-tighter">{value}</p>
        </div>
     </div>
   );
@@ -704,7 +984,7 @@ const getStatusStyles = (status: TripStatus) => {
     case TripStatus.DELIVERED: return 'bg-blue-50 text-blue-600 border-blue-200';
     case TripStatus.INVOICED: return 'bg-indigo-50 text-indigo-600 border-indigo-200';
     case TripStatus.PICKED: return 'bg-amber-50 text-amber-600 border-amber-200';
-    default: return 'bg-slate-50 text-slate-500 border-slate-200';
+    default: return 'bg-[#F5F4F0] text-slate-500 border-slate-200';
   }
 };
 

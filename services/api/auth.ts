@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { api, setAuthToken, getAuthToken, API_BASE } from './client';
+import { safeStorage } from '@/lib/storage';
 
 /**
  * Auth API surface. Mirrors the backend /api/auth contract:
@@ -58,9 +59,19 @@ export async function fetchCurrentUser(): Promise<AuthUser | null> {
   }
 }
 
-/** Clears the local session. There is no server-side token revocation. */
+const MARKETPLACE_STORAGE_KEYS = [
+  'flyash_marketplace_installed_addons_v1',
+  'flyash_marketplace_loginso_v1',
+  'flyash_marketplace_logigpt_v1',
+  'flyash_marketplace_docdown_downloads_v1',
+  'flyash_marketplace_logigpt_queries_v1',
+  'flyash_marketplace_last_sync_v1',
+];
+
+/** Clears the local session and all user-scoped UI state. */
 export function logout(): void {
   setAuthToken(null);
+  MARKETPLACE_STORAGE_KEYS.forEach((key) => safeStorage.remove(key));
 }
 
 /** Uploads a profile photo via multipart/form-data and returns the base64 data URL. */

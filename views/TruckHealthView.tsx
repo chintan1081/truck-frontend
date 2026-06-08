@@ -647,9 +647,9 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
       case 'DRIVER_LICENCE': return 'bg-violet-50 text-violet-600 border-violet-100';
       case 'HAZMAT': return 'bg-red-50 text-red-600 border-red-100';
       case 'FASTAG': return 'bg-sky-50 text-sky-600 border-sky-100';
-      case 'TAX_INVOICE': return 'bg-slate-50 text-slate-600 border-slate-100';
+      case 'TAX_INVOICE': return 'bg-[#F5F4F0] text-slate-600 border-slate-100';
       case 'EMI_DOCS': return 'bg-yellow-50 text-yellow-600 border-yellow-100';
-      default: return 'bg-slate-50 text-slate-600 border-slate-100';
+      default: return 'bg-[#F5F4F0] text-slate-600 border-slate-100';
     }
   };
 
@@ -657,7 +657,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Truck Health Center</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Truck Health Center</h2>
           <p className="text-slate-500 font-bold">Comprehensive diagnostic monitoring and lifecycle management.</p>
         </div>
         {viewMode === 'grid' ? (
@@ -666,7 +666,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
             <input 
               type="text" 
               placeholder="Search by plate or name..." 
-              className="w-full bg-white border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold text-slate-900 shadow-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none"
+              className="w-full bg-white border border-[#E7E5E0] rounded-xl py-3.5 pl-12 pr-4 text-sm font-bold text-slate-900 shadow-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -674,7 +674,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
         ) : (
           <button 
             onClick={handleBackToGrid}
-            className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 px-6 py-3 rounded-2xl font-black shadow-sm hover:bg-slate-50 transition-all"
+            className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 px-6 py-3 rounded-2xl font-black shadow-sm hover:bg-[#F5F4F0] transition-all"
           >
             <ArrowRight size={20} className="rotate-180" /> Back to Fleet
           </button>
@@ -699,7 +699,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
               return (
                 <div 
                   key={truck.id}
-                  className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all p-6 group flex flex-col justify-between"
+                  className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all p-6 group flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex justify-between items-start mb-6">
@@ -713,7 +713,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         {truck.isMaintenanceMode && (
                           <div className="bg-rose-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest mb-2 inline-block">Maint Mode</div>
                         )}
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Health Score</p>
+                        <p className="t-label mb-1">Health Score</p>
                         <div className={`text-2xl font-black ${score > 80 ? 'text-emerald-500' : score > 50 ? 'text-orange-500' : 'text-red-500'}`}>
                           {score}<span className="text-xs">/100</span>
                         </div>
@@ -742,11 +742,11 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
-                        <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
+                        <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100/50">
                           <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Odometer</p>
                           <p className="text-xs font-black text-slate-900">{truck.currentOdometer.toLocaleString()}</p>
                         </div>
-                        <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
+                        <div className="p-3 bg-[#F5F4F0] rounded-2xl border border-slate-100/50">
                           <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Next Service</p>
                           <p className={`text-xs font-black ${calculateKmToService(truck) && calculateKmToService(truck)! < 1000 ? 'text-red-500' : 'text-slate-900'}`}>
                             {calculateKmToService(truck) !== null ? `${calculateKmToService(truck)} KM` : 'N/A'}
@@ -773,10 +773,10 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: 20 }}
             key="detail"
-            className="space-y-8"
+            className="page-stack-lg"
           >
             {!selectedTruck ? (
-              <div className="bg-white rounded-[2.5rem] p-12 text-center border-2 border-dashed border-slate-200">
+              <div className="bg-white rounded-2xl p-12 text-center border-2 border-dashed border-slate-200">
                 <p className="text-slate-500 font-bold">Please select a truck to view health details.</p>
                 <button 
                   onClick={handleBackToGrid}
@@ -788,11 +788,11 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
             ) : (
               <>
               {/* Header Stats */}
-              <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl">
+              <div className="bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-600/20 to-transparent pointer-events-none" />
             <div className="relative z-10 flex flex-wrap items-center justify-between gap-8">
               <div className="flex items-center gap-6">
-                <div className="w-20 h-20 bg-blue-600 rounded-[2rem] flex items-center justify-center shadow-lg shadow-blue-600/30">
+                <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30">
                   <HeartPulse size={40} />
                 </div>
                 <div>
@@ -825,13 +825,13 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
               </div>
               
               <div className="flex gap-4">
-                <div className="bg-slate-800/50 p-4 rounded-3xl border border-slate-700 backdrop-blur-sm min-w-[120px]">
+                <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 backdrop-blur-sm min-w-[120px]">
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Health Score</p>
                   <p className={`text-2xl font-black ${calculateHealthScore(selectedTruck) > 80 ? 'text-emerald-400' : 'text-orange-400'}`}>
                     {calculateHealthScore(selectedTruck)}<span className="text-sm">/100</span>
                   </p>
                 </div>
-                <div className="bg-slate-800/50 p-4 rounded-3xl border border-slate-700 backdrop-blur-sm min-w-[120px]">
+                <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 backdrop-blur-sm min-w-[120px]">
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Service Due</p>
                   <p className="text-2xl font-black text-blue-400">
                     {calculateKmToService(selectedTruck) !== null 
@@ -840,7 +840,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     }
                   </p>
                 </div>
-                <div className="bg-slate-800/50 p-4 rounded-3xl border border-slate-700 backdrop-blur-sm min-w-[120px] hidden md:block">
+                <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 backdrop-blur-sm min-w-[120px] hidden md:block">
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Predictive Risk</p>
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${calculateHealthScore(selectedTruck) > 80 ? 'bg-emerald-500' : 'bg-orange-500'} animate-pulse`} />
@@ -871,7 +871,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                 className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-sm transition-all whitespace-nowrap ${
                   activeDetailTab === tab.id 
                     ? 'bg-blue-600 text-white shadow-md' 
-                    : 'text-slate-500 hover:bg-slate-50'
+                    : 'text-slate-500 hover:bg-[#F5F4F0]'
                 }`}
               >
                 <tab.icon size={18} />
@@ -889,23 +889,23 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       key="vehicle_details"
-                      className="space-y-6"
+                      className="page-stack pb-10"
                     >
                       {/* Top Summary Card */}
-                      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8 h-full relative group/top">
+                      <div className="card card-pad-lg flex flex-col md:flex-row items-center justify-between gap-8 h-full relative group/top">
                         <button 
                           onClick={() => {
                             setActiveEditTruckSection('identity');
                             setEditTruckForm(selectedTruck);
                           }}
-                          className="absolute top-4 right-4 p-2 bg-slate-50 text-slate-400 hover:text-blue-600 rounded-xl opacity-0 group-hover/top:opacity-100 transition-all border border-slate-100"
+                          className="absolute top-4 right-4 p-2 bg-[#F5F4F0] text-slate-400 hover:text-blue-600 rounded-xl opacity-0 group-hover/top:opacity-100 transition-all border border-slate-100"
                         >
                           <Edit size={16} />
                         </button>
                         <div className="flex items-center gap-6">
                            <div>
                               <div className="flex items-center gap-3 mb-1">
-                                 <h2 className="text-3xl font-black text-slate-900 tracking-tight">{selectedTruck.plateNumber}</h2>
+                                 <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">{selectedTruck.plateNumber}</h2>
                                  <span className="text-emerald-600 font-bold text-[10px] uppercase tracking-widest">BS 6</span>
                               </div>
                               <p className="text-slate-500 font-black text-xs uppercase tracking-widest mb-3">{selectedTruck.modelNumber || 'HCV Cargo'}</p>
@@ -925,7 +925,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
 
                       {/* Asset Identity Section */}
-                      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                      <div className="card card-pad-lg">
                         <div className="flex items-center justify-between gap-3 mb-8">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm">
@@ -941,7 +941,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                               setActiveEditTruckSection('identity');
                               setEditTruckForm(selectedTruck);
                             }}
-                            className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 transition-all"
+                            className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-blue-600 transition-all"
                           >
                             <Pencil size={18} />
                           </button>
@@ -957,7 +957,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
 
                       {/* Technical Specifications Section */}
-                      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                      <div className="card card-pad-lg">
                         <div className="flex items-center justify-between gap-3 mb-8">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shadow-sm">
@@ -973,7 +973,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                               setActiveEditTruckSection('technical');
                               setEditTruckForm(selectedTruck);
                             }}
-                            className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-purple-600 transition-all"
+                            className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-purple-600 transition-all"
                           >
                             <Pencil size={18} />
                           </button>
@@ -997,7 +997,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
 
                       {/* Ownership & Mapping Section */}
-                      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                      <div className="card card-pad-lg">
                         <div className="flex items-center justify-between gap-3 mb-8">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm">
@@ -1013,7 +1013,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                               setActiveEditTruckSection('ownership');
                               setEditTruckForm(selectedTruck);
                             }}
-                            className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-emerald-600 transition-all"
+                            className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-emerald-600 transition-all"
                           >
                             <Pencil size={18} />
                           </button>
@@ -1040,7 +1040,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
 
                       {/* Logistics & Metrics Section */}
-                      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                      <div className="card card-pad-lg">
                         <div className="flex items-center justify-between gap-3 mb-8">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-sm">
@@ -1056,7 +1056,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                               setActiveEditTruckSection('logistics');
                               setEditTruckForm(selectedTruck);
                             }}
-                            className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-amber-600 transition-all"
+                            className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-amber-600 transition-all"
                           >
                             <Pencil size={18} />
                           </button>
@@ -1093,12 +1093,12 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       key="status"
-                      className="space-y-6"
+                      className="page-stack pb-10"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Maintenance Intelligence & Predictive Risk */}
                     <div className="col-span-1 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-slate-900 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-2xl">
+                      <div className="bg-slate-900 p-8 rounded-2xl relative overflow-hidden group shadow-2xl">
                          <div className="absolute top-0 right-0 p-8">
                             <Activity size={40} className="text-white/10 group-hover:scale-110 transition-transform" />
                          </div>
@@ -1139,7 +1139,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                          </div>
                       </div>
 
-                      <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm relative group overflow-hidden">
+                      <div className="card card-pad-lg relative group overflow-hidden">
                          <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-3">
                                <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg">
@@ -1157,7 +1157,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                   <button 
                                     onClick={() => setCompliancePage(p => Math.max(1, p - 1))}
                                     disabled={compliancePage === 1}
-                                    className="p-1.5 rounded-lg bg-slate-50 text-slate-400 hover:text-blue-600 disabled:opacity-20 transition-all"
+                                    className="p-1.5 rounded-lg bg-[#F5F4F0] text-slate-400 hover:text-blue-600 disabled:opacity-20 transition-all"
                                   >
                                     <ChevronLeft size={16} />
                                   </button>
@@ -1165,7 +1165,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                   <button 
                                     onClick={() => setCompliancePage(p => Math.min(Math.ceil((selectedTruck.documents?.length || 0) / 3), p + 1))}
                                     disabled={compliancePage >= Math.ceil((selectedTruck.documents?.length || 0) / 3)}
-                                    className="p-1.5 rounded-lg bg-slate-50 text-slate-400 hover:text-blue-600 disabled:opacity-20 transition-all"
+                                    className="p-1.5 rounded-lg bg-[#F5F4F0] text-slate-400 hover:text-blue-600 disabled:opacity-20 transition-all"
                                   >
                                     <ChevronRight size={16} />
                                   </button>
@@ -1186,7 +1186,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                  const isExpiringSoon = daysUntilExpiry !== null && daysUntilExpiry >= 0 && daysUntilExpiry <= 10;
                                  
                                  return (
-                                   <div key={doc.id} className={`p-4 rounded-2xl border transition-all relative overflow-hidden ${isExpired ? 'bg-red-50/50 border-red-100' : isExpiringSoon ? 'bg-orange-50/50 border-orange-100 animate-pulse' : 'bg-slate-50 border-slate-100'}`}>
+                                   <div key={doc.id} className={`p-4 rounded-2xl border transition-all relative overflow-hidden ${isExpired ? 'bg-red-50/50 border-red-100' : isExpiringSoon ? 'bg-orange-50/50 border-orange-100 animate-pulse' : 'bg-[#F5F4F0] border-slate-100'}`}>
                                       <div className="flex items-center justify-between mb-3 relative z-10">
                                          <div className="flex items-center gap-3">
                                             <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-sm ${getCategoryColor(doc.type)}`}>
@@ -1216,7 +1216,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                    </div>
                                  );
                                }) : (
-                                 <div className="py-12 text-center border-2 border-dashed border-slate-100 rounded-3xl">
+                                 <div className="py-12 text-center border-2 border-dashed border-slate-100 rounded-2xl">
                                     <FileX size={32} className="mx-auto text-slate-200 mb-3" />
                                     <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">No Documents Found</p>
                                  </div>
@@ -1227,7 +1227,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     </div>
 
                     <div className="col-span-1 lg:col-span-3">
-                       <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                       <div className="card card-pad-lg">
                           <div className="flex items-center justify-between mb-8">
                              <div>
                                 <h3 className="text-xl font-black text-slate-900 mb-1">Performance Lifecycle</h3>
@@ -1291,7 +1291,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     })}
                     
                     {/* Emergency Trigger */}
-                    <div className="bg-red-50 p-6 rounded-[2rem] border-2 border-red-100 flex flex-col justify-between group overflow-hidden relative">
+                    <div className="bg-red-50 p-6 rounded-2xl border-2 border-red-100 flex flex-col justify-between group overflow-hidden relative">
                       <AlertCircle size={80} className="absolute -bottom-4 -right-4 text-red-500/5 rotate-12 group-hover:rotate-0 transition-transform" />
                       <div>
                         <div className="w-12 h-12 bg-red-600 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-red-200">
@@ -1318,12 +1318,12 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="tyres"
-                  className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm"
+                  className="card card-pad-lg"
                 >
                   <div className="flex flex-col lg:flex-row gap-12">
                     {/* Visual Map */}
                     <div className="flex-1 max-w-xl mx-auto lg:mx-0">
-                      <div className="relative bg-slate-50 rounded-[3rem] border-4 border-slate-100 p-8 pt-16 pb-16">
+                      <div className="relative bg-[#F5F4F0] rounded-2xl border-4 border-slate-100 p-8 pt-16 pb-16">
                         {/* Cab Area */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-24 bg-slate-200 rounded-b-[2rem] border-x-2 border-b-2 border-slate-300 flex items-center justify-center">
                           <div className="text-center">
@@ -1471,7 +1471,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       <div className="flex flex-col gap-6">
                         <div className="flex items-center justify-between">
                           <div>
-                            <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">Tyre Fleet Map</h3>
+                            <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight mb-2">Tyre Fleet Map</h3>
                             <p className="text-slate-500 font-bold text-sm">Managing individual tyre lifecycle, rotation patterns, and pressure calibration.</p>
                           </div>
                           <button 
@@ -1483,13 +1483,13 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         </div>
 
                         {/* Configuration Dropdown */}
-                        <div className="p-6 bg-slate-50 border border-slate-100 rounded-[2rem]">
+                        <div className="p-6 bg-[#F5F4F0] border border-slate-100 rounded-2xl">
                           <div className="flex items-center justify-between mb-4">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Truck Configuration</label>
+                            <label className="t-label">Truck Configuration</label>
                             <Settings size={14} className="text-slate-300" />
                           </div>
                           <select 
-                            className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm font-black text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all cursor-pointer"
+                            className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm font-black text-slate-900 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all cursor-pointer"
                             value={selectedTruck.wheelConfiguration || 6}
                             onChange={(e) => onUpdateTruck({ ...selectedTruck, wheelConfiguration: parseInt(e.target.value) as any })}
                           >
@@ -1530,7 +1530,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         <div className="overflow-x-auto">
                           <table className="w-full text-left border-separate border-spacing-y-2">
                             <thead>
-                              <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4">
+                              <tr className="t-label px-4">
                                 <th className="pb-4 pl-4 font-black">Position</th>
                                 <th className="pb-4 font-black">Condition</th>
                                 <th className="pb-4 font-black">Pressure</th>
@@ -1543,7 +1543,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                 .sort((a,b) => a.position.localeCompare(b.position))
                                 .slice((tyreInventoryPage - 1) * 5, tyreInventoryPage * 5)
                               ).map(tyre => (
-                                <tr key={tyre.position} className="bg-slate-50 border border-slate-100 rounded-2xl group hover:shadow-md transition-all cursor-pointer" onClick={() => { setSelectedTyrePos(tyre.position); setActiveModal('tyre'); }}>
+                                <tr key={tyre.position} className="bg-[#F5F4F0] border border-slate-100 rounded-2xl group hover:shadow-md transition-all cursor-pointer" onClick={() => { setSelectedTyrePos(tyre.position); setActiveModal('tyre'); }}>
                                   <td className="py-4 pl-4 rounded-l-2xl font-black text-slate-900">{tyre.position}</td>
                                   <td className="py-4">
                                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
@@ -1567,21 +1567,21 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         {/* Pagination Controls */}
                         {selectedTruck.tyreDetails && selectedTruck.tyreDetails.length > 5 && (
                           <div className="flex items-center justify-between mt-6 px-2">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <p className="t-label">
                               Showing {Math.min((tyreInventoryPage - 1) * 5 + 1, selectedTruck.tyreDetails.length)}-{Math.min(tyreInventoryPage * 5, selectedTruck.tyreDetails.length)} of {selectedTruck.tyreDetails.length}
                             </p>
                             <div className="flex gap-2">
                               <button 
                                 onClick={() => setTyreInventoryPage(p => Math.max(1, p - 1))}
                                 disabled={tyreInventoryPage === 1}
-                                className="p-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all shadow-sm"
+                                className="p-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F4F0] transition-all shadow-sm"
                               >
                                 <ChevronLeft size={16} />
                               </button>
                               <button 
                                 onClick={() => setTyreInventoryPage(p => Math.min(Math.ceil((selectedTruck.tyreDetails?.length || 0) / 5), p + 1))}
                                 disabled={tyreInventoryPage >= Math.ceil((selectedTruck.tyreDetails?.length || 0) / 5)}
-                                className="p-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all shadow-sm"
+                                className="p-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F4F0] transition-all shadow-sm"
                               >
                                 <ChevronRight size={16} />
                               </button>
@@ -1600,14 +1600,14 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           <History size={24} />
                         </div>
                         <div>
-                          <h3 className="text-2xl font-black text-slate-900 tracking-tight">Tyre Rotation History</h3>
+                          <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Tyre Rotation History</h3>
                           <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">Lifecycle Swap Logs</p>
                         </div>
                       </div>
 
                       {/* Pagination Controls */}
                       {(selectedTruck.tyreRotationHistory || []).length > 4 && (
-                        <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                        <div className="flex items-center gap-4 bg-[#F5F4F0] p-2 rounded-2xl border border-slate-100">
                           <button 
                             disabled={rotationHistoryPage === 1}
                             onClick={() => setRotationHistoryPage(p => Math.max(1, p - 1))}
@@ -1615,7 +1615,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           >
                             <ChevronLeft size={16} />
                           </button>
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                          <span className="t-label">
                             Page {rotationHistoryPage} of {Math.ceil((selectedTruck.tyreRotationHistory?.length || 0) / 4)}
                           </span>
                           <button 
@@ -1634,7 +1634,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         (selectedTruck.tyreRotationHistory || [])
                           .slice((rotationHistoryPage - 1) * 4, rotationHistoryPage * 4)
                           .map(entry => (
-                          <div key={entry.id} className="p-6 rounded-[2rem] border border-slate-100 bg-slate-50/50 flex flex-col gap-4 group hover:bg-white hover:shadow-xl transition-all">
+                          <div key={entry.id} className="p-6 rounded-2xl border border-slate-100 bg-[#F5F4F0]/50 flex flex-col gap-4 group hover:bg-white hover:shadow-xl transition-all">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-5">
                                 <div className="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
@@ -1688,7 +1688,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           </div>
                         ))
                       ) : (
-                        <div className="col-span-full py-16 text-center bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
+                        <div className="col-span-full py-16 text-center bg-[#F5F4F0] rounded-2xl border-2 border-dashed border-slate-200">
                            <History size={48} className="mx-auto text-slate-200 mb-4" />
                            <p className="text-slate-400 font-black uppercase text-[10px] tracking-widest">No Rotation Records Found</p>
                         </div>
@@ -1704,13 +1704,13 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="inspection"
-                  className="space-y-6"
+                  className="page-stack pb-10"
                 >
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <div className="card card-pad-lg">
                     <div className="flex flex-col gap-6 mb-8">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="text-2xl font-black text-slate-900 tracking-tight">Daily Inspection Log (DVIR)</h3>
+                          <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Daily Inspection Log (DVIR)</h3>
                           <p className="text-slate-500 font-bold text-sm">Legal compliance checks for daily fitness verification.</p>
                         </div>
                         <button 
@@ -1722,24 +1722,24 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
 
                       {/* Filters & Search UI */}
-                      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-5 bg-slate-50 border border-slate-100 rounded-[2rem]">
+                      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-5 bg-[#F5F4F0] border border-slate-100 rounded-2xl">
                         <div className="md:col-span-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Search Log</label>
+                          <label className="t-label mb-2 block">Search Log</label>
                           <div className="relative">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                             <input 
                               type="text"
                               placeholder="Title or Inspector Name..."
-                              className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                              className="w-full bg-white border border-[#E7E5E0] rounded-xl py-2.5 pl-10 pr-4 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                               value={inspectionSearch}
                               onChange={e => { setInspectionSearch(e.target.value); setInspectionPage(1); }}
                             />
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Status</label>
+                          <label className="t-label mb-2 block">Status</label>
                           <select 
-                            className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-3 text-xs font-bold text-slate-900 outline-none cursor-pointer focus:ring-4 focus:ring-blue-500/10 transition-all"
+                            className="w-full bg-white border border-[#E7E5E0] rounded-xl py-2.5 px-3 text-xs font-bold text-slate-900 outline-none cursor-pointer focus:ring-4 focus:ring-blue-500/10 transition-all"
                             value={inspectionStatusFilter}
                             onChange={e => { setInspectionStatusFilter(e.target.value as any); setInspectionPage(1); }}
                           >
@@ -1750,19 +1750,19 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           </select>
                         </div>
                         <div>
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Insp. Date</label>
+                          <label className="t-label mb-2 block">Insp. Date</label>
                           <input 
                             type="date"
-                            className="w-full bg-white border border-slate-200 rounded-xl py-2 pl-3 pr-3 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                            className="w-full bg-white border border-[#E7E5E0] rounded-xl py-2 pl-3 pr-3 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                             value={inspectionDateFilter}
                             onChange={e => { setInspectionDateFilter(e.target.value); setInspectionPage(1); }}
                           />
                         </div>
                         <div>
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Res. Date</label>
+                          <label className="t-label mb-2 block">Res. Date</label>
                           <input 
                             type="date"
-                            className="w-full bg-white border border-slate-200 rounded-xl py-2 pl-3 pr-3 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                            className="w-full bg-white border border-[#E7E5E0] rounded-xl py-2 pl-3 pr-3 text-xs font-bold text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                             value={inspectionResDateFilter}
                             onChange={e => { setInspectionResDateFilter(e.target.value); setInspectionPage(1); }}
                           />
@@ -1790,14 +1790,14 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         return (
                           <>
                             {filteredLogs.length === 0 ? (
-                              <div className="py-20 text-center bg-slate-50 rounded-[2.5rem] border border-dashed border-slate-200">
+                              <div className="py-20 text-center bg-[#F5F4F0] rounded-2xl border border-dashed border-slate-200">
                                 <Search className="mx-auto text-slate-300 mb-4" size={40} />
                                 <p className="text-slate-500 font-bold mb-1">No inspection logs found.</p>
                                 <p className="text-slate-400 text-xs font-medium">Try adjusting your filters or search terms.</p>
                               </div>
                             ) : (
                               paginatedLogs.map(log => (
-                                <div key={log.id} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 flex flex-col gap-4 group hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all">
+                                <div key={log.id} className="p-5 rounded-2xl border border-slate-100 bg-[#F5F4F0]/50 flex flex-col gap-4 group hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all">
                                   <div className="flex items-center justify-between w-full">
                                     <div className="flex items-center gap-4">
                                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${log.overallStatus === 'PASS' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
@@ -1869,21 +1869,21 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             {/* Inspection Pagination UI */}
                             {filteredLogs.length > 10 && (
                               <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100 px-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <p className="t-label">
                                   Showing {Math.min((inspectionPage - 1) * 10 + 1, filteredLogs.length)}-{Math.min(inspectionPage * 10, filteredLogs.length)} of {filteredLogs.length} Records
                                 </p>
                                 <div className="flex gap-2">
                                   <button 
                                     onClick={() => setInspectionPage(p => Math.max(1, p - 1))}
                                     disabled={inspectionPage === 1}
-                                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
+                                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F4F0] transition-all shadow-sm flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
                                   >
                                     <ChevronLeft size={16} /> Previous
                                   </button>
                                   <button 
                                     onClick={() => setInspectionPage(p => Math.min(totalPages, p + 1))}
                                     disabled={inspectionPage >= totalPages}
-                                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
+                                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#F5F4F0] transition-all shadow-sm flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
                                   >
                                     Next <ChevronRight size={16} />
                                   </button>
@@ -1904,12 +1904,12 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="odometer"
-                  className="space-y-6"
+                  className="page-stack pb-10"
                 >
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <div className="card card-pad-lg">
                     <div className="flex items-center justify-between mb-8">
                       <div>
-                        <h3 className="text-2xl font-black text-slate-900 tracking-tight">Odometer Reading History</h3>
+                        <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Odometer Reading History</h3>
                         <p className="text-slate-500 font-bold text-sm">Chronological log of vehicle distance metrics and driver reports.</p>
                       </div>
                       <button 
@@ -1922,14 +1922,14 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
 
                     {/* Odometer Analytics Chart */}
                     {(selectedTruck.odometerHistory || []).length > 1 && (
-                      <div className="mb-10 p-6 bg-slate-50 rounded-[2rem] border border-slate-100">
+                      <div className="mb-10 p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100">
                         <div className="flex items-center justify-between mb-6 px-2">
                           <div>
                             <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Mileage Progression</p>
                             <h4 className="text-sm font-black text-slate-900">Distance over Time Analytics</h4>
                           </div>
                           <div className="text-right">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Odometer</p>
+                            <p className="t-label mb-1">Current Odometer</p>
                             <p className="text-lg font-black text-slate-900">{selectedTruck.currentOdometer.toLocaleString()} KM</p>
                           </div>
                         </div>
@@ -1994,7 +1994,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     <div className="space-y-3">
                       {(selectedTruck.odometerHistory || []).length > 0 ? (
                         (selectedTruck.odometerHistory || []).map(entry => (
-                          <div key={entry.id} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                          <div key={entry.id} className="p-5 rounded-2xl border border-slate-100 bg-[#F5F4F0]/50 flex items-center justify-between">
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600">
                                 <CircleGauge size={20} />
@@ -2032,7 +2032,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           </div>
                         ))
                       ) : (
-                        <div className="py-20 text-center bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200">
+                        <div className="py-20 text-center bg-[#F5F4F0] rounded-2xl border-2 border-dashed border-slate-200">
                            <CircleGauge size={48} className="mx-auto text-slate-300 mb-4" />
                            <p className="text-slate-500 font-black uppercase text-xs tracking-widest">No Odometer Entries</p>
                            <p className="text-slate-400 text-sm font-bold">Start logging to track vehicle wear and mileage efficiency.</p>
@@ -2049,12 +2049,12 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="breakdowns"
-                  className="space-y-6"
+                  className="page-stack pb-10"
                 >
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <div className="card card-pad-lg">
                     <div className="flex items-center justify-between mb-8">
                       <div>
-                        <h3 className="text-2xl font-black text-slate-900 tracking-tight">Breakdown History</h3>
+                        <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Breakdown History</h3>
                         <p className="text-slate-500 font-bold text-sm">Critical failure records and emergency assistance logs.</p>
                       </div>
                       <button 
@@ -2068,7 +2068,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     <div className="space-y-4">
                       {(selectedTruck.breakdownHistory || []).length > 0 ? (
                         (selectedTruck.breakdownHistory || []).map(entry => (
-                          <div key={entry.id} className={`p-6 rounded-[2rem] border ${entry.resolved ? 'border-slate-100 bg-slate-50/50' : 'border-red-100 bg-red-50/30'} flex flex-col md:flex-row md:items-center justify-between gap-6`}>
+                          <div key={entry.id} className={`p-6 rounded-2xl border ${entry.resolved ? 'border-slate-100 bg-[#F5F4F0]/50' : 'border-red-100 bg-red-50/30'} flex flex-col md:flex-row md:items-center justify-between gap-6`}>
                             <div className="flex items-start gap-5">
                               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${entry.resolved ? 'bg-white text-slate-400 border border-slate-100' : 'bg-red-600 text-white shadow-lg shadow-red-200'}`}>
                                 <ShieldAlert size={28} />
@@ -2121,7 +2121,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           </div>
                         ))
                       ) : (
-                        <div className="py-24 text-center bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+                        <div className="py-24 text-center bg-[#F5F4F0] rounded-2xl border-2 border-dashed border-slate-200">
                            <ShieldAlert size={64} className="mx-auto text-slate-200 mb-6" />
                            <p className="text-slate-500 font-black uppercase text-xs tracking-[0.2em] mb-2">No Breakdown Reports</p>
                            <p className="text-slate-400 text-sm font-bold max-w-xs mx-auto">This vehicle has maintained a flawless operational uptime record.</p>
@@ -2138,10 +2138,10 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="service_removed"
-                  className="space-y-6"
+                  className="page-stack pb-10"
                 >
                   {/* Service Overdue/Due Banner */}
-                  <div className="bg-slate-900 p-8 rounded-[2.5rem] flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative">
+                  <div className="bg-slate-900 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative">
                     <Wrench size={140} className="absolute -left-10 -bottom-10 text-white/5 -rotate-12" />
                     <div className="relative z-10">
                       <p className="text-blue-400 font-black text-[10px] uppercase tracking-[0.2em] mb-2">Predictive Maintenance</p>
@@ -2154,7 +2154,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       </div>
                     </div>
                     
-                    <div className="bg-white/5 border border-white/10 p-6 rounded-3xl backdrop-blur-md min-w-[300px]">
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur-md min-w-[300px]">
                       <div className="flex justify-between items-center mb-4">
                         <span className="text-[10px] font-black text-slate-400 uppercase">Service Progress</span>
                         <span className="text-xs font-black text-white">82%</span>
@@ -2171,11 +2171,11 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     </div>
                   </div>
 
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <div className="card card-pad-lg">
                     <h3 className="text-xl font-black text-slate-900 tracking-tight mb-6">Maintenance Lifecycle</h3>
                     <div className="space-y-4">
                       {(selectedTruck.serviceHistory || []).map(record => (
-                        <div key={record.id} className="p-6 rounded-3xl border border-slate-100 bg-slate-50/30 flex items-center justify-between">
+                        <div key={record.id} className="p-6 rounded-2xl border border-slate-100 bg-[#F5F4F0]/30 flex items-center justify-between">
                           <div className="flex items-center gap-6">
                             <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-400 border border-slate-100 shadow-sm">
                               <Wrench size={24} />
@@ -2219,7 +2219,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
 
                           <div className="text-right flex flex-col items-end gap-3">
                              <div>
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Invoice Value</p>
+                               <p className="t-label mb-1">Invoice Value</p>
                                <p className="text-xl font-black text-slate-900">₹{(record.cost || 0).toLocaleString()}</p>
                              </div>
                              <div className="flex items-center gap-2">
@@ -2249,31 +2249,31 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="financial_maint"
-                  className="space-y-6"
+                  className="page-stack pb-10"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white border border-slate-200 p-8 rounded-[2.5rem] shadow-sm flex items-center gap-6 group hover:border-green-200 transition-all">
-                       <div className="w-16 h-16 rounded-3xl bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
+                    <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm flex items-center gap-6 group hover:border-green-200 transition-all">
+                       <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
                           <CheckCircle2 size={32} />
                        </div>
                        <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Total Paid Maintenance</p>
+                          <p className="t-label leading-none mb-2">Total Paid Maintenance</p>
                           <div className="flex items-baseline gap-2">
-                             <h4 className="text-3xl font-black text-slate-900 leading-none">
+                             <h4 className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">
                                ₹{(maintenance.filter(m => m.truckId === selectedTruck.id && m.status === 'PAID').reduce((sum, m) => sum + m.amount, 0) || 0).toLocaleString()}
                              </h4>
                           </div>
                        </div>
                     </div>
 
-                    <div className="bg-white border border-slate-200 p-8 rounded-[2.5rem] shadow-sm flex items-center gap-6 group hover:border-red-200 transition-all">
-                       <div className="w-16 h-16 rounded-3xl bg-red-50 flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform">
+                    <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm flex items-center gap-6 group hover:border-red-200 transition-all">
+                       <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform">
                           <AlertCircle size={32} className="animate-pulse" />
                        </div>
                        <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Total Unpaid Liabilities</p>
+                          <p className="t-label leading-none mb-2">Total Unpaid Liabilities</p>
                           <div className="flex items-baseline gap-2">
-                             <h4 className="text-3xl font-black text-slate-900 leading-none">
+                             <h4 className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">
                                ₹{(maintenance.filter(m => m.truckId === selectedTruck.id && m.status === 'UNPAID').reduce((sum, m) => sum + m.amount, 0) || 0).toLocaleString()}
                              </h4>
                              <span className="text-xs font-bold text-red-500">
@@ -2292,13 +2292,13 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         placeholder="Search maintenance records..."
                         value={maintSearch}
                         onChange={(e) => setMaintSearch(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
+                        className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
                       />
                     </div>
                     <div className="flex gap-2">
                         <button 
                             onClick={() => setShowMaintFilters(!showMaintFilters)}
-                            className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-black transition-all ${showMaintFilters ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                            className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-black transition-all ${showMaintFilters ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white border border-slate-200 text-slate-600 hover:bg-[#F5F4F0]'}`}
                         >
                             <Filter size={18} /> Filters
                         </button>
@@ -2312,12 +2312,12 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   </div>
 
                   {showMaintFilters && (
-                    <div className="bg-slate-50 border border-slate-200 p-8 rounded-[2.5rem] animate-in slide-in-from-top-4 duration-300">
+                    <div className="bg-[#F5F4F0] border border-slate-200 p-8 rounded-2xl animate-in slide-in-from-top-4 duration-300">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Payment Status</label>
+                                <label className="t-label px-1">Payment Status</label>
                                 <select 
-                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-sm"
+                                    className="w-full px-4 py-3 bg-white border border-[#E7E5E0] rounded-xl font-bold text-sm"
                                     value={maintFilters.status}
                                     onChange={e => setMaintFilters({...maintFilters, status: e.target.value})}
                                 >
@@ -2328,9 +2328,9 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Responsible Staff</label>
+                                <label className="t-label px-1">Responsible Staff</label>
                                 <select 
-                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-sm"
+                                    className="w-full px-4 py-3 bg-white border border-[#E7E5E0] rounded-xl font-bold text-sm"
                                     value={maintFilters.employeeId}
                                     onChange={e => setMaintFilters({...maintFilters, employeeId: e.target.value})}
                                 >
@@ -2340,10 +2340,10 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Date Range</label>
+                                <label className="t-label px-1">Date Range</label>
                                 <div className="flex gap-2">
-                                    <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.startDate} onChange={e => setMaintFilters({...maintFilters, startDate: e.target.value})} />
-                                    <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.endDate} onChange={e => setMaintFilters({...maintFilters, endDate: e.target.value})} />
+                                    <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.startDate} onChange={e => setMaintFilters({...maintFilters, startDate: e.target.value})} />
+                                    <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.endDate} onChange={e => setMaintFilters({...maintFilters, endDate: e.target.value})} />
                                 </div>
                             </div>
 
@@ -2377,11 +2377,11 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     </div>
                   )}
 
-                  <div className="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm overflow-hidden">
+                  <div className="bg-white border border-[#E7E5E0] rounded-xl shadow-sm overflow-hidden">
                      <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                            <thead>
-                              <tr className="bg-slate-50/50 border-b border-slate-100">
+                              <tr className="bg-[#F5F4F0]/50 border-b border-slate-100">
                                  <th className="px-6 py-5 w-10">
                                     <input 
                                       type="checkbox" 
@@ -2394,16 +2394,16 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                       checked={selectedMaintIds.length > 0 && selectedMaintIds.length === maintenance.filter(m => m.truckId === selectedTruck.id).length}
                                     />
                                  </th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Entry Date</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Parts Replaced</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Payment Status</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Category</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Workshop / Vendor</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment Mode</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Next Due</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount (₹)</th>
-                                 <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Responsible Staff</th>
-                                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                                 <th className="px-6 py-5 t-label">Entry Date</th>
+                                 <th className="px-6 py-5 t-label">Parts Replaced</th>
+                                 <th className="px-6 py-5 t-label text-center">Payment Status</th>
+                                 <th className="px-6 py-5 t-label text-center">Category</th>
+                                 <th className="px-6 py-5 t-label">Workshop / Vendor</th>
+                                 <th className="px-6 py-5 t-label">Payment Mode</th>
+                                 <th className="px-6 py-5 t-label">Next Due</th>
+                                 <th className="px-6 py-5 t-label">Amount (₹)</th>
+                                 <th className="px-6 py-5 t-label text-right">Responsible Staff</th>
+                                  <th className="px-6 py-5 t-label text-right">Actions</th>
                               </tr>
                            </thead>
                            <tbody className="divide-y divide-slate-50">
@@ -2418,7 +2418,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                   return true;
                                 })
                                 .map(m => (
-                                <tr key={m.id} className={`hover:bg-slate-50/50 transition-colors ${selectedMaintIds.includes(m.id) ? 'bg-blue-50/30' : ''}`}>
+                                <tr key={m.id} className={`hover:bg-[#F5F4F0]/50 transition-colors ${selectedMaintIds.includes(m.id) ? 'bg-blue-50/30' : ''}`}>
                                    <td className="px-6 py-6">
                                       <input 
                                         type="checkbox" 
@@ -2519,9 +2519,9 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   key="documents"
-                  className="space-y-8"
+                  className="page-stack-lg"
                 >
-                  <div className="bg-slate-900 rounded-[3rem] p-12 text-white relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/5">
+                  <div className="bg-slate-900 rounded-2xl p-12 text-white relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/5">
                     <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-600/20 to-transparent pointer-events-none" />
                     <Files size={240} className="absolute -right-16 -bottom-16 text-white/5 rotate-12" />
                     <div className="relative z-10">
@@ -2538,7 +2538,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       {selectedDocCategory && (
                         <button 
                           onClick={() => setSelectedDocCategory(null)}
-                          className="flex items-center gap-3 bg-white/5 text-white px-8 py-5 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all border border-white/10 backdrop-blur-sm group"
+                          className="flex items-center gap-3 bg-white/5 text-white px-8 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all border border-white/10 backdrop-blur-sm group"
                         >
                           <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
                           Back to Vault
@@ -2546,7 +2546,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                       )}
                       <button 
                         onClick={() => setActiveModal('document')}
-                        className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-10 py-5 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:shadow-2xl hover:shadow-blue-500/40 transition-all group active:scale-95 border border-blue-400/30"
+                        className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:shadow-2xl hover:shadow-blue-500/40 transition-all group active:scale-95 border border-blue-400/30"
                       >
                         <Plus size={24} className="group-hover:rotate-90 transition-transform" />
                         Add New Documentation
@@ -2579,7 +2579,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                 setSelectedDocCategory(docType as any);
                                 setDocPage(1);
                               }}
-                              className="group bg-white p-6 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all text-left flex flex-col h-full transform hover:-translate-y-1"
+                              className="group card card-pad hover:shadow-xl hover:border-blue-200 transition-all text-left flex flex-col h-full transform hover:-translate-y-1"
                             >
                               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 border-2 transition-transform group-hover:scale-110 ${colorClass}`}>
                                 <Icon size={28} />
@@ -2589,7 +2589,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                 <span className={`text-[10px] font-black uppercase tracking-widest ${hasDocs ? 'text-emerald-600' : 'text-slate-400'}`}>
                                   {hasDocs ? `${docs.length} Document${docs.length !== 1 ? 's' : ''}` : 'No Records'}
                                 </span>
-                                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <div className="w-8 h-8 rounded-full bg-[#F5F4F0] flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                                   <ArrowRight size={16} />
                                 </div>
                               </div>
@@ -2603,35 +2603,35 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
                         key="category-detail"
-                        className="space-y-8"
+                        className="page-stack-lg"
                       >
-                        <div className="flex flex-col md:flex-row items-center justify-between bg-white p-8 rounded-[3rem] border border-slate-200 shadow-sm gap-6">
+                        <div className="flex flex-col md:flex-row items-center justify-between card card-pad-lg gap-6">
                           <div className="flex items-center gap-6">
-                            <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center border-2 ${getCategoryColor(selectedDocCategory)}`}>
+                            <div className={`w-20 h-20 rounded-2xl flex items-center justify-center border-2 ${getCategoryColor(selectedDocCategory)}`}>
                               {React.createElement(getCategoryIcon(selectedDocCategory), { size: 40 })}
                             </div>
                             <div>
                               <div className="flex items-center gap-3 mb-1">
                                 <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-widest">Category</span>
-                                <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{(selectedDocCategory || "").replace('_', ' ')}</h3>
+                                <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tighter">{(selectedDocCategory || "").replace('_', ' ')}</h3>
                               </div>
                               <p className="text-slate-500 font-medium">Digital repository for compliance records.</p>
                             </div>
                           </div>
                           <div className="text-right">
-                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Active Records</p>
+                             <p className="t-label mb-1">Active Records</p>
                              <p className="text-4xl font-black text-slate-900">{(selectedTruck.documents || []).filter(d => d.type === selectedDocCategory).length}</p>
                           </div>
                         </div>
 
                         {/* Search and Filters */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 bg-slate-50/50 p-4 rounded-[2rem] border border-slate-100 items-end">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 bg-[#F5F4F0]/50 p-4 rounded-2xl border border-slate-100 items-end">
                           <div className="relative">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                             <input 
                               type="text"
                               placeholder="Search..."
-                              className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                              className="w-full bg-white border border-[#E7E5E0] rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                               value={docSearch}
                               onChange={e => setDocSearch(e.target.value)}
                             />
@@ -2640,7 +2640,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           <div className="flex flex-col gap-1">
                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-2">Status</label>
                             <select 
-                              className="bg-white border border-slate-200 rounded-xl py-3 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                              className="bg-white border border-[#E7E5E0] rounded-xl py-3 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
                               value={docExpiryFilter}
                               onChange={e => setDocExpiryFilter(e.target.value as any)}
                             >
@@ -2654,7 +2654,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-2">Upload Date</label>
                             <input 
                               type="date"
-                              className="bg-white border border-slate-200 rounded-xl py-2.5 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                              className="bg-white border border-[#E7E5E0] rounded-xl py-2.5 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
                               value={docExactUploadDate}
                               onChange={e => setDocExactUploadDate(e.target.value)}
                             />
@@ -2664,7 +2664,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-2">Expiry Date</label>
                             <input 
                               type="date"
-                              className="bg-white border border-slate-200 rounded-xl py-2.5 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                              className="bg-white border border-[#E7E5E0] rounded-xl py-2.5 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
                               value={docExactExpiryDate}
                               onChange={e => setDocExactExpiryDate(e.target.value)}
                             />
@@ -2673,7 +2673,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           <div className="flex flex-col gap-1">
                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-2">Sort By</label>
                             <select 
-                              className="bg-white border border-slate-200 rounded-xl py-3 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                              className="bg-white border border-[#E7E5E0] rounded-xl py-3 px-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
                               value={docSortOrder}
                               onChange={e => setDocSortOrder(e.target.value as any)}
                             >
@@ -2753,7 +2753,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                 const isExpiringSoon = daysUntilExpiry !== null && daysUntilExpiry >= 0 && daysUntilExpiry <= 10;
 
                                 return (
-                                <div key={doc.id} className={`bg-white p-6 rounded-[2.5rem] border transition-all shadow-sm group relative overflow-hidden ${isExpired ? 'border-red-200 bg-red-50/10' : isExpiringSoon ? 'border-orange-200 bg-orange-50/10' : 'border-slate-200'}`}>
+                                <div key={doc.id} className={`bg-white p-6 rounded-2xl border transition-all shadow-sm group relative overflow-hidden ${isExpired ? 'border-red-200 bg-red-50/10' : isExpiringSoon ? 'border-orange-200 bg-orange-50/10' : 'border-slate-200'}`}>
                                   {isExpiringSoon && !isExpired && (
                                     <div className="absolute top-0 right-0 px-4 py-1 bg-orange-500 text-white text-[8px] font-black uppercase tracking-[0.2em] rounded-bl-xl z-20 animate-pulse">
                                       Expires in {daysUntilExpiry} Days
@@ -2808,21 +2808,21 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                           setEditingDoc(doc);
                                           setActiveModal('document');
                                         }}
-                                        className="p-3 rounded-2xl bg-slate-50 text-slate-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                                        className="p-3 rounded-2xl bg-[#F5F4F0] text-slate-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
                                         title="Edit document"
                                       >
                                         <Pencil size={18} />
                                       </button>
                                       <button 
                                         onClick={() => window.open(doc.fileUrl, '_blank')}
-                                        className="p-3 rounded-2xl bg-slate-50 text-slate-600 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                                        className="p-3 rounded-2xl bg-[#F5F4F0] text-slate-600 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
                                         title="Open in new window"
                                       >
                                         <ExternalLink size={18} />
                                       </button>
                                       <button 
                                         onClick={() => handleDeleteDocument(doc.id)}
-                                        className="p-3 rounded-2xl bg-slate-50 text-red-500 hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                                        className="p-3 rounded-2xl bg-[#F5F4F0] text-red-500 hover:bg-red-600 hover:text-white transition-all shadow-sm"
                                         title="Delete document"
                                       >
                                         <Trash2 size={18} />
@@ -2831,7 +2831,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                   </div>
 
                                   {doc.fileUrl && doc.fileUrl !== '#' && (
-                                    <div className="aspect-[16/10] w-full rounded-3xl overflow-hidden border border-slate-100 shadow-inner bg-slate-50 mb-6 group-hover:shadow-lg transition-all relative">
+                                    <div className="aspect-[16/10] w-full rounded-2xl overflow-hidden border border-slate-100 shadow-inner bg-[#F5F4F0] mb-6 group-hover:shadow-lg transition-all relative">
                                       {(typeof doc.fileUrl === 'string' && doc.fileUrl.startsWith('data:image')) ? (
                                         <img src={doc.fileUrl} alt="Preview" className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-1000" referrerPolicy="no-referrer" />
                                       ) : (
@@ -2867,12 +2867,12 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                               )})}
 
                               {totalPages > 1 && (
-                                <div className="col-span-full flex items-center justify-between mt-8 bg-white p-4 rounded-[2rem] border border-slate-100 shadow-sm">
+                                <div className="col-span-full flex items-center justify-between mt-8 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                                   <div className="flex items-center gap-4">
                                     <button 
                                       onClick={() => setDocPage(p => Math.max(1, p - 1))}
                                       disabled={docPage === 1}
-                                      className="flex items-center gap-2 bg-slate-50 text-slate-600 px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all border border-slate-100"
+                                      className="flex items-center gap-2 bg-[#F5F4F0] text-slate-600 px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all border border-slate-100"
                                     >
                                       <ChevronLeft size={16} /> Previous
                                     </button>
@@ -2881,7 +2881,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                         <button
                                           key={i}
                                           onClick={() => setDocPage(i + 1)}
-                                          className={`w-8 h-8 rounded-lg font-black text-[10px] transition-all ${docPage === i + 1 ? 'bg-blue-600 text-white shadow-lg' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
+                                          className={`w-8 h-8 rounded-lg font-black text-[10px] transition-all ${docPage === i + 1 ? 'bg-blue-600 text-white shadow-lg' : 'bg-[#F5F4F0] text-slate-400 hover:bg-slate-100'}`}
                                         >
                                           {i + 1}
                                         </button>
@@ -2890,7 +2890,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                     <button 
                                       onClick={() => setDocPage(p => Math.min(totalPages, p + 1))}
                                       disabled={docPage === totalPages}
-                                      className="flex items-center gap-2 bg-slate-50 text-slate-600 px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all border border-slate-100"
+                                      className="flex items-center gap-2 bg-[#F5F4F0] text-slate-600 px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 disabled:opacity-30 transition-all border border-slate-100"
                                     >
                                       Next <ChevronRight size={16} />
                                     </button>
@@ -2902,11 +2902,11 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                               )}
                               </>
                           ) : (
-                            <div className="col-span-full py-24 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[3.5rem] flex flex-col items-center justify-center text-center">
-                              <div className="w-24 h-24 bg-white rounded-[2rem] flex items-center justify-center text-slate-200 mb-8 border border-slate-100">
+                            <div className="col-span-full py-24 bg-[#F5F4F0] border-2 border-dashed border-slate-200 rounded-[3.5rem] flex flex-col items-center justify-center text-center">
+                              <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center text-slate-200 mb-8 border border-slate-100">
                                 <Files size={48} />
                               </div>
-                              <h4 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">
+                              <h4 className="text-2xl font-black text-[#1C1917] tracking-tight mb-3 tracking-tight">
                                 {docSearch || docExpiryFilter !== 'all' || docExactExpiryDate || docExactUploadDate ? 'No Results Matching Filters' : 'Empty Vault'}
                               </h4>
                               <p className="text-slate-500 font-bold max-w-sm">
@@ -2925,7 +2925,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                                     setActiveModal('document');
                                   }
                                 }}
-                                className="mt-8 px-10 py-4 bg-slate-900 text-white rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-black transition-all shadow-xl active:scale-95"
+                                className="mt-8 px-10 py-4 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-black transition-all shadow-xl active:scale-95"
                               >
                                 {docSearch || docExpiryFilter !== 'all' || docExactExpiryDate || docExactUploadDate ? 'Clear All Filters' : 'Start Digital Enrollment'}
                               </button>
@@ -2961,26 +2961,26 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
         }
       >
         {activeModal === 'resolve_inspection' && selectedInspectionLogId && (
-          <div className="space-y-6">
+          <div className="page-stack pb-10">
             <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
               <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Marking as Fixed</p>
               <p className="text-sm font-bold text-slate-900 italic">"Ensure all findings from this inspection have been rectified."</p>
             </div>
             
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Resolution Date</label>
+              <label className="t-label mb-2 block">Resolution Date</label>
               <input 
                 type="date"
-                className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                 value={resDate}
                 onChange={e => setResDate(e.target.value)}
               />
             </div>
 
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Resolution Notes / Action Taken</label>
+              <label className="t-label mb-2 block">Resolution Notes / Action Taken</label>
               <textarea 
-                className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                 rows={4}
                 placeholder="Describe what was fixed, parts replaced, or adjustments made..."
                 value={resNotes}
@@ -3100,7 +3100,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                 setActiveEditTruckSection(null);
               }
             }}
-            className="space-y-6"
+            className="page-stack pb-10"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {activeEditTruckSection === 'identity' && (
@@ -3140,9 +3140,9 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   <EditField label="Owner Name" value={editTruckForm.ownerName} onChange={v => setEditTruckForm({...editTruckForm, ownerName: v})} />
                   <EditField label="Owner Contact" value={editTruckForm.ownerContact} onChange={v => setEditTruckForm({...editTruckForm, ownerContact: v})} />
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Assigned Driver</label>
+                    <label className="t-label mb-2 block">Assigned Driver</label>
                     <select 
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                       value={editTruckForm.assignedDriverId || ''}
                       onChange={e => {
                         const driver = drivers.find(d => d.id === e.target.value);
@@ -3158,9 +3158,9 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Default Route</label>
+                    <label className="t-label mb-2 block">Default Route</label>
                     <select 
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                       value={editTruckForm.defaultRouteId || ''}
                       onChange={e => setEditTruckForm({ ...editTruckForm, defaultRouteId: e.target.value })}
                     >
@@ -3210,19 +3210,19 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              className="bg-white rounded-[3rem] w-full max-w-5xl h-[85vh] shadow-2xl relative z-10 overflow-hidden flex flex-col"
+              className="bg-white rounded-2xl w-full max-w-5xl h-[85vh] shadow-2xl relative z-10 overflow-hidden flex flex-col"
             >
-              <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-[#F5F4F0]/50">
                 <div className="flex items-center gap-4">
                   <div className={`p-4 rounded-2xl ${getCategoryColor(previewDoc.type)}`}>
                     {React.createElement(getCategoryIcon(previewDoc.type), { size: 24 })}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tight">{previewDoc.title || previewDoc.fileName}</h3>
+                    <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">{previewDoc.title || previewDoc.fileName}</h3>
                     <div className="flex items-center gap-3">
                       <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{previewDoc.documentNumber}</span>
                       <span className="w-1 h-1 rounded-full bg-slate-300" />
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Valid until: {previewDoc.expiryDate}</span>
+                      <span className="t-label">Valid until: {previewDoc.expiryDate}</span>
                     </div>
                   </div>
                 </div>
@@ -3250,9 +3250,9 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="bg-white p-20 rounded-[3rem] border border-slate-200 shadow-xl text-center max-w-md">
+                  <div className="bg-white p-20 rounded-2xl border border-slate-200 shadow-xl text-center max-w-md">
                     <Files size={80} className="mx-auto text-slate-200 mb-8" />
-                    <h4 className="text-2xl font-black text-slate-900 mb-4">Digital Container Only</h4>
+                    <h4 className="text-2xl font-black text-[#1C1917] tracking-tight mb-4">Digital Container Only</h4>
                     <p className="text-slate-500 font-bold mb-8">This document is stored as a reference record. No visual scan is available for direct preview.</p>
                     <button 
                       onClick={() => window.open(previewDoc.fileUrl, '_blank')}
@@ -3265,15 +3265,15 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
               </div>
               <div className="p-6 border-t border-slate-100 bg-white flex items-center justify-center gap-12">
                 <div className="text-center">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Upload Date</p>
+                   <p className="t-label mb-1">Upload Date</p>
                    <p className="text-sm font-black text-slate-900">{previewDoc.uploadDate}</p>
                 </div>
                 <div className="text-center">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Issue Date</p>
+                   <p className="t-label mb-1">Issue Date</p>
                    <p className="text-sm font-black text-slate-900">{previewDoc.issueDate || 'N/A'}</p>
                 </div>
                 <div className="text-center">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Expiry Date</p>
+                   <p className="t-label mb-1">Expiry Date</p>
                    <p className="text-sm font-black text-slate-900">{previewDoc.expiryDate || 'N/A'}</p>
                 </div>
               </div>
@@ -3333,7 +3333,7 @@ const HealthComponentCard: React.FC<HealthCardProps> = ({ name, comp, onUpdate }
   };
 
   return (
-    <div className={`p-6 rounded-[2.5rem] border transition-all hover:shadow-2xl hover:shadow-slate-200 group relative overflow-hidden ${
+    <div className={`p-6 rounded-2xl border transition-all hover:shadow-2xl hover:shadow-slate-200 group relative overflow-hidden ${
       comp.status === 'CRITICAL' ? 'bg-red-50/30 border-red-100' : 
       comp.status === 'WARNING' ? 'bg-orange-50/30 border-orange-100' : 'bg-white border-slate-200'
     }`}>
@@ -3348,7 +3348,7 @@ const HealthComponentCard: React.FC<HealthCardProps> = ({ name, comp, onUpdate }
         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 ${
           comp.status === 'CRITICAL' ? 'bg-red-500 text-white shadow-red-200' : 
           comp.status === 'WARNING' ? 'bg-orange-500 text-white shadow-orange-200' : 
-          'bg-slate-50 text-slate-700 shadow-slate-100'
+          'bg-[#F5F4F0] text-slate-700 shadow-slate-100'
         }`}>
           {getCompIcon(name)}
         </div>
@@ -3390,12 +3390,12 @@ const HealthComponentCard: React.FC<HealthCardProps> = ({ name, comp, onUpdate }
         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-3">Last Checked: {comp.lastChecked}</p>
       </div>
 
-      <div className="p-4 bg-slate-50/50 rounded-2xl mb-6 min-h-[60px] border border-slate-100 relative z-10">
+      <div className="p-4 bg-[#F5F4F0]/50 rounded-2xl mb-6 min-h-[60px] border border-slate-100 relative z-10">
         <p className="text-slate-600 text-sm italic font-medium leading-relaxed">"{comp.notes || 'No recent inspection notes recorded for this unit.'}"</p>
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">System Integrated</span>
+        <span className="t-label">System Integrated</span>
         <button 
           onClick={() => setIsEditing(true)}
           className="text-blue-600 font-black text-xs uppercase tracking-widest hover:translate-x-1 transition-all flex items-center gap-1"
@@ -3411,7 +3411,7 @@ const HealthComponentCard: React.FC<HealthCardProps> = ({ name, comp, onUpdate }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-white/95 backdrop-blur-sm p-6 rounded-[2rem] z-20 flex flex-col justify-between border-2 border-blue-100 shadow-2xl"
+            className="absolute inset-0 bg-white/95 backdrop-blur-sm p-6 rounded-2xl z-20 flex flex-col justify-between border-2 border-blue-100 shadow-2xl"
           >
             <div>
               <div className="flex justify-between items-center mb-6">
@@ -3421,7 +3421,7 @@ const HealthComponentCard: React.FC<HealthCardProps> = ({ name, comp, onUpdate }
 
               <div className="space-y-4">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Set Status</label>
+                  <label className="t-label mb-2 block">Set Status</label>
                   <div className="grid grid-cols-2 gap-2">
                     {['EXCELLENT', 'GOOD', 'WARNING', 'CRITICAL', 'BREAKDOWN'].map(s => (
                       <button 
@@ -3436,9 +3436,9 @@ const HealthComponentCard: React.FC<HealthCardProps> = ({ name, comp, onUpdate }
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Diagnostic Notes</label>
+                  <label className="t-label mb-2 block">Diagnostic Notes</label>
                   <textarea 
-                    className="w-full bg-slate-50 border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 transition-all outline-none"
+                    className="w-full bg-[#F5F4F0] border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 transition-all outline-none"
                     rows={3}
                     placeholder="Describe unit condition..."
                     value={localNotes}
@@ -3528,10 +3528,10 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void; title: string; chi
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-white rounded-[2.5rem] w-full max-w-xl shadow-2xl relative z-10 overflow-hidden"
+        className="bg-white rounded-2xl w-full max-w-xl shadow-2xl relative z-10 overflow-hidden"
       >
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-          <h3 className="text-2xl font-black text-slate-900 tracking-tight">{title}</h3>
+        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-[#F5F4F0]">
+          <h3 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">{title}</h3>
           <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-all text-slate-400 hover:text-slate-900">
             <X size={24} />
           </button>
@@ -3555,7 +3555,7 @@ const InspectionLogForm: React.FC<{
   const [notes, setNotes] = useState(initialData?.notes || '');
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div className="grid grid-cols-3 gap-2">
         {['PASS', 'FAIL', 'ADVISORY'].map(s => (
           <button 
@@ -3568,26 +3568,26 @@ const InspectionLogForm: React.FC<{
         ))}
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Inspection Title</label>
+        <label className="t-label mb-2 block">Inspection Title</label>
         <input 
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           placeholder="e.g. Morning Pre-trip, Weekly Brake Check..."
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Inspector Name</label>
+        <label className="t-label mb-2 block">Inspector Name</label>
         <input 
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           value={inspector}
           onChange={e => setInspector(e.target.value)}
         />
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Inspection Result Notes</label>
+        <label className="t-label mb-2 block">Inspection Result Notes</label>
         <textarea 
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           rows={3}
           placeholder="Detail any findings..."
           value={notes}
@@ -3615,9 +3615,9 @@ const TyreUpdateForm: React.FC<{
   const [lastChanged, setLastChanged] = useState(currentDetail?.lastChangedDate || new Date().toISOString().split('T')[0]);
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Tyre Condition</label>
+        <label className="t-label mb-2 block">Tyre Condition</label>
         <div className="grid grid-cols-2 gap-2">
           {['EXCELLENT', 'GOOD', 'WARNING', 'CRITICAL'].map(s => (
             <button 
@@ -3632,29 +3632,29 @@ const TyreUpdateForm: React.FC<{
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Pressure (PSI)</label>
+          <label className="t-label mb-2 block">Pressure (PSI)</label>
           <input 
             type="number"
-            className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={pressure}
             onChange={e => setPressure(e.target.value)}
           />
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Tread Depth (mm)</label>
+          <label className="t-label mb-2 block">Tread Depth (mm)</label>
           <input 
             type="number"
-            className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={tread}
             onChange={e => setTread(e.target.value)}
           />
         </div>
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Last Changed Date</label>
+        <label className="t-label mb-2 block">Last Changed Date</label>
         <input 
           type="date"
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           value={lastChanged}
           onChange={e => setLastChanged(e.target.value)}
         />
@@ -3668,10 +3668,10 @@ const TyreUpdateForm: React.FC<{
 
       {currentDetail?.pressureHistory && currentDetail.pressureHistory.length > 0 && (
         <div className="mt-8 pt-8 border-t border-slate-100">
-           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Pressure Logs (PSI)</label>
+           <label className="t-label mb-4 block">Pressure Logs (PSI)</label>
            <div className="space-y-2">
              {currentDetail.pressureHistory.slice(0, 5).map(log => (
-               <div key={log.id} className="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100">
+               <div key={log.id} className="flex justify-between items-center p-3 bg-[#F5F4F0] rounded-xl border border-slate-100">
                  <span className="text-xs font-bold text-slate-500">{log.date}</span>
                  <span className="text-sm font-black text-slate-900">{log.value} PSI</span>
                </div>
@@ -3717,9 +3717,9 @@ const DocumentForm: React.FC<{
   };
 
   return (
-    <div className="space-y-8">
+    <div className="page-stack-lg">
       {/* Vault Style Header inside pop */}
-      <div className="p-6 bg-slate-900 rounded-[2.5rem] text-white relative overflow-hidden mb-2 border border-white/5">
+      <div className="p-6 bg-slate-900 rounded-2xl text-white relative overflow-hidden mb-2 border border-white/5">
           <Files size={140} className="absolute -right-8 -bottom-8 text-white/5 rotate-12" />
           <div className="relative z-10 flex items-center gap-5">
              <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-500 rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-blue-500/20 border border-blue-400/30">
@@ -3732,7 +3732,7 @@ const DocumentForm: React.FC<{
                    <span className="w-1 h-1 rounded-full bg-slate-700" />
                    <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Registered Sync Active</span>
+                      <span className="t-label leading-none">Registered Sync Active</span>
                    </div>
                 </div>
              </div>
@@ -3743,7 +3743,7 @@ const DocumentForm: React.FC<{
         <div className="group">
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Document Title</label>
           <input 
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
             placeholder="Commercial Fitness Certificate 2024"
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -3754,7 +3754,7 @@ const DocumentForm: React.FC<{
         <div className="group">
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Document Category</label>
           <select 
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
             value={type}
             onChange={e => setType(e.target.value as any)}
           >
@@ -3766,7 +3766,7 @@ const DocumentForm: React.FC<{
         <div className="group">
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Certificate/Policy ID</label>
           <input 
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
             placeholder="AA-100293-XP"
             value={number}
             onChange={e => setNumber(e.target.value)}
@@ -3778,7 +3778,7 @@ const DocumentForm: React.FC<{
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Date of Publishing</label>
           <input 
             type="date"
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
             value={publishDate}
             onChange={e => setPublishDate(e.target.value)}
           />
@@ -3787,7 +3787,7 @@ const DocumentForm: React.FC<{
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-blue-600 transition-colors">Expiry Date</label>
           <input 
             type="date"
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-2xl p-4 text-sm font-black focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
             value={expiry}
             onChange={e => setExpiry(e.target.value)}
           />
@@ -3795,7 +3795,7 @@ const DocumentForm: React.FC<{
       </div>
 
       <div className="space-y-4">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Attachments</label>
+        <label className="t-label block">Attachments</label>
         
         <input 
           type="file" 
@@ -3808,7 +3808,7 @@ const DocumentForm: React.FC<{
 
         <div className="grid grid-cols-2 gap-4">
           {files.map((file, idx) => (
-            <div key={idx} className="relative aspect-video rounded-[2rem] border-2 border-slate-100 overflow-hidden bg-slate-50 group hover:border-blue-200 transition-all shadow-sm">
+            <div key={idx} className="relative aspect-video rounded-2xl border-2 border-slate-100 overflow-hidden bg-[#F5F4F0] group hover:border-blue-200 transition-all shadow-sm">
               {file.url.startsWith('data:image') ? (
                 <img src={file.url} alt="preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               ) : (
@@ -3832,13 +3832,13 @@ const DocumentForm: React.FC<{
           ))}
           <button 
             onClick={() => fileInputRef.current?.click()}
-            className="aspect-video border-3 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center bg-slate-50 hover:bg-blue-50 hover:border-blue-300 transition-all cursor-pointer group relative overflow-hidden"
+            className="aspect-video border-3 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center bg-[#F5F4F0] hover:bg-blue-50 hover:border-blue-300 transition-all cursor-pointer group relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-slate-300 group-hover:text-blue-500 group-hover:scale-110 transition-all mb-3">
                <Upload size={24} />
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-600 relative z-10 font-black">Click or Drag Files</p>
+            <p className="t-label group-hover:text-blue-600 relative z-10 font-black">Click or Drag Files</p>
             <p className="text-[8px] font-bold text-slate-300 uppercase tracking-widest mt-1 relative z-10 group-hover:text-blue-400">PDF or Images accepted</p>
           </button>
         </div>
@@ -3847,7 +3847,7 @@ const DocumentForm: React.FC<{
       <button 
         disabled={files.length === 0}
         onClick={() => onSave(type, number, expiry, files, title, publishDate)}
-        className="w-full bg-slate-900 disabled:bg-slate-100 disabled:text-slate-400 text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-3 group mt-8"
+        className="w-full bg-slate-900 disabled:bg-slate-100 disabled:text-slate-400 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-3 group mt-8"
       >
         <FileCheck size={20} className="group-hover:scale-110 transition-transform" />
         {initialDoc ? 'Confirm Security Update' : `Register ${files.length} Digital Asset${files.length !== 1 ? 's' : ''}`}
@@ -3865,14 +3865,14 @@ const BreakdownForm: React.FC<{
   const [cost, setCost] = useState(initialData?.cost.toString() || '');
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div className="bg-red-50 p-4 rounded-2xl border border-red-100 mb-6">
         <p className="text-red-600 text-xs font-black uppercase tracking-widest leading-relaxed">Alert: Logging a breakdown will mark this vehicle as inactive in fleet operations.</p>
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">System Failure Description</label>
+        <label className="t-label mb-2 block">System Failure Description</label>
         <textarea 
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
           rows={3}
           placeholder="E.g. Radiator leak, Transmission lock..."
           value={desc}
@@ -3880,19 +3880,19 @@ const BreakdownForm: React.FC<{
         />
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Isolation Location</label>
+        <label className="t-label mb-2 block">Isolation Location</label>
         <input 
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
           placeholder="Current GPS or Landmark"
           value={loc}
           onChange={e => setLoc(e.target.value)}
         />
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Initial Expense Recovery (₹)</label>
+        <label className="t-label mb-2 block">Initial Expense Recovery (₹)</label>
         <input 
           type="number"
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
           placeholder="Assumed repair cost"
           value={cost}
           onChange={e => setCost(e.target.value)}
@@ -3931,8 +3931,8 @@ const OdometerLogForm: React.FC<{
   };
 
   return (
-    <div className="space-y-6">
-      <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 flex items-center justify-between">
+    <div className="page-stack pb-10">
+      <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex items-center justify-between">
         <div>
           <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Current Registry</p>
           <p className="text-2xl font-black text-blue-900">{currentOdometer.toLocaleString()} KM</p>
@@ -3949,7 +3949,7 @@ const OdometerLogForm: React.FC<{
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">New Reading (KM)</label>
+          <label className="t-label mb-2 block">New Reading (KM)</label>
           <input 
             type="number"
             className={`w-full bg-white border ${error ? 'border-red-300 ring-4 ring-red-500/10' : 'border-slate-200'} rounded-xl p-4 text-lg font-black text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm`}
@@ -3961,10 +3961,10 @@ const OdometerLogForm: React.FC<{
           />
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Observation Date</label>
+          <label className="t-label mb-2 block">Observation Date</label>
           <input 
             type="date"
-            className="w-full bg-white border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
+            className="w-full bg-white border border-[#E7E5E0] rounded-xl p-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
             value={date}
             onChange={e => setDate(e.target.value)}
           />
@@ -3972,11 +3972,11 @@ const OdometerLogForm: React.FC<{
       </div>
 
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Accountable Driver</label>
+        <label className="t-label mb-2 block">Accountable Driver</label>
         <div className="relative">
           <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input 
-            className="w-full bg-white border border-slate-200 rounded-xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
+            className="w-full bg-white border border-[#E7E5E0] rounded-xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
             value={driver}
             onChange={e => setDriver(e.target.value)}
             placeholder="Identity of the driver..."
@@ -3985,9 +3985,9 @@ const OdometerLogForm: React.FC<{
       </div>
 
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Diagnostic Comments</label>
+        <label className="t-label mb-2 block">Diagnostic Comments</label>
         <textarea 
-          className="w-full bg-white border border-slate-200 rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm"
           rows={3}
           placeholder="Briefly state trip context or vehicle behavior..."
           value={notes}
@@ -4018,12 +4018,12 @@ const TyreRotationForm: React.FC<{
   const positions = ['FL', 'FR', 'ALI', 'ALO', 'ARI', 'ARO', 'BLI', 'BLO', 'BRI', 'BRO', 'CLI', 'CLO', 'CRI', 'CRO', 'S1', 'S2'];
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">From Position</label>
+          <label className="t-label mb-2 block">From Position</label>
           <select 
-            className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={from}
             onChange={e => setFrom(e.target.value)}
           >
@@ -4032,9 +4032,9 @@ const TyreRotationForm: React.FC<{
           </select>
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">To Position</label>
+          <label className="t-label mb-2 block">To Position</label>
           <select 
-            className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={to}
             onChange={e => setTo(e.target.value)}
           >
@@ -4044,18 +4044,18 @@ const TyreRotationForm: React.FC<{
         </div>
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Odometer at Rotation (KM)</label>
+        <label className="t-label mb-2 block">Odometer at Rotation (KM)</label>
         <input 
           type="number"
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           value={odometer}
           onChange={e => setOdometer(e.target.value)}
         />
       </div>
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Rotation Notes</label>
+        <label className="t-label mb-2 block">Rotation Notes</label>
         <textarea 
-          className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-white border border-[#E7E5E0] rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           rows={3}
           placeholder="Reason or additional work done..."
           value={notes}
@@ -4129,7 +4129,7 @@ const MaintenanceLogForm: React.FC<{
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="page-stack pb-10">
       <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 space-y-4">
         <div className="flex items-center justify-between">
             <label className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Service Intervals (Configurable)</label>
@@ -4168,20 +4168,20 @@ const MaintenanceLogForm: React.FC<{
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Entry Date</label>
+          <label className="t-label mb-2 block">Entry Date</label>
           <input 
             type="date"
             required
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.date}
             onChange={e => setFormData({...formData, date: e.target.value})}
           />
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Responsible Staff</label>
+          <label className="t-label mb-2 block">Responsible Staff</label>
           <select 
             required
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.employeeId}
             onChange={e => {
               const emp = employees.find(x => x.id === e.target.value);
@@ -4196,10 +4196,10 @@ const MaintenanceLogForm: React.FC<{
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Category</label>
+          <label className="t-label mb-2 block">Category</label>
           <select 
             required
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.category}
             onChange={e => setFormData({...formData, category: e.target.value as any})}
           >
@@ -4212,12 +4212,12 @@ const MaintenanceLogForm: React.FC<{
           </select>
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Workshop / Vendor</label>
+          <label className="t-label mb-2 block">Workshop / Vendor</label>
           <input 
             type="text"
             required
             placeholder="e.g. Service Center"
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.workshopName}
             onChange={e => setFormData({...formData, workshopName: e.target.value})}
           />
@@ -4226,17 +4226,17 @@ const MaintenanceLogForm: React.FC<{
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Odometer Reading (KM)</label>
+          <label className="t-label mb-2 block">Odometer Reading (KM)</label>
           <input 
             type="number"
             required
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.odometerReading}
             onChange={e => setFormData({...formData, odometerReading: parseInt(e.target.value) || 0})}
           />
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Amount (₹)</label>
+          <label className="t-label mb-2 block">Amount (₹)</label>
           <input 
             type="number"
             required
@@ -4271,9 +4271,9 @@ const MaintenanceLogForm: React.FC<{
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Payment Mode</label>
+          <label className="t-label mb-2 block">Payment Mode</label>
           <select 
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.paymentMode}
             onChange={e => setFormData({...formData, paymentMode: e.target.value as any})}
           >
@@ -4283,9 +4283,9 @@ const MaintenanceLogForm: React.FC<{
           </select>
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Linked Trip ID</label>
+          <label className="t-label mb-2 block">Linked Trip ID</label>
           <select 
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             value={formData.orderId}
             onChange={e => setFormData({...formData, orderId: e.target.value})}
           >
@@ -4296,18 +4296,18 @@ const MaintenanceLogForm: React.FC<{
       </div>
 
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Parts Replaced</label>
+        <label className="t-label mb-2 block">Parts Replaced</label>
         <input 
           type="text"
           placeholder="e.g. Oil Filter, Brake Pads, Air Filter"
-          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold"
+          className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold"
           value={partsInput}
           onChange={e => setPartsInput(e.target.value)}
         />
         <p className="text-[9px] text-slate-400 mt-1 italic">Separate parts with commas</p>
       </div>
 
-      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
+      <div className="p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-4">
         <div className="flex gap-4">
           <label className="flex items-center gap-2 cursor-pointer">
             <input 
@@ -4357,11 +4357,11 @@ const MaintenanceLogForm: React.FC<{
       </div>
 
       <div>
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Description of Work</label>
+        <label className="t-label mb-2 block">Description of Work</label>
         <textarea 
           required
           rows={3}
-          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          className="w-full bg-[#F5F4F0] border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
           value={formData.description}
           onChange={e => setFormData({...formData, description: e.target.value})}
           placeholder="What exactly was repaired or replaced?"
@@ -4370,7 +4370,7 @@ const MaintenanceLogForm: React.FC<{
 
       <button 
         type="submit"
-        className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-slate-100 hover:bg-slate-800 transition-all active:scale-95"
+        className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-sm hover:bg-slate-800 transition-all active:scale-95"
       >
         {initialData ? 'Update Maintenance Record' : 'Log Maintenance Record'}
       </button>
@@ -4386,17 +4386,17 @@ const EditField: React.FC<{
   isTextArea?: boolean;
 }> = ({ label, value, onChange, type = 'text', isTextArea = false }) => (
   <div className="space-y-2">
-    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">{label}</label>
+    <label className="t-label px-1">{label}</label>
     {isTextArea ? (
       <textarea 
-        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all min-h-[100px]"
+        className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all min-h-[100px]"
         value={value || ''}
         onChange={e => onChange(e.target.value)}
       />
     ) : (
       <input 
         type={type}
-        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+        className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all"
         value={value || ''}
         onChange={e => onChange(e.target.value)}
       />
@@ -4411,14 +4411,14 @@ const SummaryStat: React.FC<{ icon: any, label: string, value: string }> = ({ ic
     </div>
     <div>
       <p className="text-xl font-black text-slate-900 leading-none mb-1">{value}</p>
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed max-w-[100px]">{label}</p>
+      <p className="t-label leading-relaxed max-w-[100px]">{label}</p>
     </div>
   </div>
 );
 
 const TechnicalDetail: React.FC<{ label: string, value: string }> = ({ label, value }) => (
   <div>
-    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 leading-none">{label}</p>
+    <p className="t-label mb-2 leading-none">{label}</p>
     <p className="text-sm font-black text-slate-900 leading-tight">{value}</p>
   </div>
 );

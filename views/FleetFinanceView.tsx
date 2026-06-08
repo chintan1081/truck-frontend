@@ -630,10 +630,10 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack pb-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Fleet Asset Finance</h2>
+          <h2 className="text-2xl font-black text-[#1C1917] tracking-tight tracking-tight">Fleet Asset Finance</h2>
           <p className="text-slate-500 text-sm font-medium italic">Comprehensive TCO, ROI & Debt Management.</p>
         </div>
         <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto no-scrollbar">
@@ -641,7 +641,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             <button 
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-50'}`}
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-[#F5F4F0]'}`}
             >
               {tab === 'emis' ? 'Loan & EMIs' : tab}
             </button>
@@ -683,8 +683,8 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             />
           </div>
 
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mt-8">
-            <div className="p-8 border-b border-slate-100 bg-slate-50/55 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-8">
+            <div className="p-8 border-b border-slate-100 bg-[#F5F4F0]/55 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h3 className="text-lg font-black text-slate-900">Asset Loan Portfolio</h3>
                 <p className="text-xs text-slate-500 font-medium italic mt-1">Register of acquisitions, current liabilities, and forecasted completions.</p>
@@ -709,10 +709,10 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             </div>
 
             {/* Table Filters */}
-            <div className="p-8 border-b border-slate-100 bg-slate-50/20">
+            <div className="p-8 border-b border-slate-100 bg-[#F5F4F0]/20">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="space-y-2 relative z-[110]">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Filter by Truck</label>
+                  <label className="t-label px-1">Filter by Truck</label>
                   <SearchableSelect
                     value={dbFilters.truckId}
                     options={[
@@ -731,9 +731,9 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Lending Financier</label>
+                  <label className="t-label px-1">Lending Financier</label>
                   <select
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm h-[56px] focus:outline-none transition-all uppercase text-xs tracking-wider"
+                    className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm h-[56px] focus:outline-none transition-all uppercase text-xs tracking-wider"
                     value={dbFilters.bankName}
                     onChange={e => setDbFilters({ ...dbFilters, bankName: e.target.value })}
                   >
@@ -745,21 +745,21 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Installment Completed (From)</label>
+                  <label className="t-label px-1">Installment Completed (From)</label>
                   <input
                     type="date"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm h-[56px] focus:outline-none"
+                    className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm h-[56px] focus:outline-none"
                     value={dbFilters.completionStart}
                     onChange={e => setDbFilters({ ...dbFilters, completionStart: e.target.value })}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Installment Completed (To)</label>
+                  <label className="t-label px-1">Installment Completed (To)</label>
                   <div className="relative">
                     <input
                       type="date"
-                      className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm h-[56px] focus:outline-none"
+                      className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold text-sm h-[56px] focus:outline-none"
                       value={dbFilters.completionEnd}
                       onChange={e => setDbFilters({ ...dbFilters, completionEnd: e.target.value })}
                     />
@@ -772,21 +772,21 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[1500px]">
                 <thead>
-                  <tr className="border-b border-slate-100 bg-slate-50/40">
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Loan Start Date</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Loan Completed Date</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Truck</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Lending Financier</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Loan Principal</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Monthly Installment (₹)</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Total Tenure (Mos)</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center font-black">Interest Rate</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Interest</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Paid Installments</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Loan Principal left</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center font-black">Total Tenure (Mos) left</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Due Date (Day)</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Current Status</th>
+                  <tr className="border-b border-slate-100 bg-[#F5F4F0]/40">
+                    <th className="px-6 py-4 t-label">Loan Start Date</th>
+                    <th className="px-6 py-4 t-label">Loan Completed Date</th>
+                    <th className="px-6 py-4 t-label">Truck</th>
+                    <th className="px-6 py-4 t-label">Lending Financier</th>
+                    <th className="px-6 py-4 t-label text-right">Total Loan Principal</th>
+                    <th className="px-6 py-4 t-label text-right">Total Monthly Installment (₹)</th>
+                    <th className="px-6 py-4 t-label text-center">Total Tenure (Mos)</th>
+                    <th className="px-6 py-4 t-label text-center font-black">Interest Rate</th>
+                    <th className="px-6 py-4 t-label text-right">Total Interest</th>
+                    <th className="px-6 py-4 t-label text-center">Paid Installments</th>
+                    <th className="px-6 py-4 t-label text-right">Total Loan Principal left</th>
+                    <th className="px-6 py-4 t-label text-center font-black">Total Tenure (Mos) left</th>
+                    <th className="px-6 py-4 t-label text-center">Due Date (Day)</th>
+                    <th className="px-6 py-4 t-label text-center">Current Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -809,7 +809,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                       const instLeftValue = emi.status === 'CLOSED' ? 0 : emi.amount * remainingMonths;
                       
                       return (
-                        <tr key={emi.id} className="hover:bg-slate-50/50 transition-colors">
+                        <tr key={emi.id} className="hover:bg-[#F5F4F0]/50 transition-colors">
                           <td className="px-6 py-4 text-xs font-bold text-slate-900">
                             {emi.startDate ? new Date(emi.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}
                           </td>
@@ -865,22 +865,22 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
 
             {/* Table Pagination */}
             {totalDashboardPages > 1 && (
-              <div className="flex items-center justify-between px-8 py-5 bg-slate-50/50 border-t border-slate-100">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <div className="flex items-center justify-between px-8 py-5 bg-[#F5F4F0]/50 border-t border-slate-100">
+                <p className="t-label">
                   Showing entries {(dashboardPage - 1) * rowsPerPage + 1} - {Math.min(dashboardPage * rowsPerPage, filteredDbEmis.length)} of {filteredDbEmis.length}
                 </p>
                 <div className="flex gap-2">
                   <button 
                     disabled={dashboardPage === 1}
                     onClick={() => setDashboardPage(prev => Math.max(prev - 1, 1))}
-                    className="flex items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-30 transition-all shadow-sm cursor-pointer"
+                    className="flex items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-[#F5F4F0] disabled:opacity-30 transition-all shadow-sm cursor-pointer"
                   >
                     <ChevronLeft size={16} /> Prev
                   </button>
                   <button 
                     disabled={dashboardPage >= totalDashboardPages}
                     onClick={() => setDashboardPage(prev => Math.min(prev + 1, totalDashboardPages))}
-                    className="flex items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-30 transition-all shadow-sm cursor-pointer"
+                    className="flex items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-[#F5F4F0] disabled:opacity-30 transition-all shadow-sm cursor-pointer"
                   >
                     Next <ChevronRight size={16} />
                   </button>
@@ -901,7 +901,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                 placeholder="Filter by Financier or Asset #..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
               />
             </div>
             <button onClick={() => { setEditingEmiId(null); setEmiForm({ truckId: '', bankName: '', amount: 0, dueDate: 5, startDate: new Date().toISOString().split('T')[0], tenureMonths: 48, paidInstallments: 0, totalLoanAmount: 0, status: 'ACTIVE', loanType: 'FIXED' }); setIsEmiModalOpen(true); }} className="flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-black shadow-xl hover:bg-blue-700 transition-all">
@@ -916,7 +916,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                const isClosed = emi.status === 'CLOSED';
                
                return (
-                <div key={emi.id} className={`bg-white rounded-[2.5rem] border-2 p-8 shadow-sm group hover:shadow-xl transition-all flex flex-col ${isClosed ? 'border-green-100 opacity-80' : 'border-slate-100'}`}>
+                <div key={emi.id} className={`bg-white rounded-2xl border-2 p-8 shadow-sm group hover:shadow-xl transition-all flex flex-col ${isClosed ? 'border-green-100 opacity-80' : 'border-slate-100'}`}>
                    <div className="flex items-start justify-between mb-6">
                       <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm transition-all ${isClosed ? 'bg-green-50 text-green-600' : 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'}`}>
@@ -936,7 +936,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                    </div>
 
                    <div className="space-y-4 mb-8">
-                      <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                      <div className="flex justify-between t-label">
                          <span>Maturity Timeline</span>
                          <span className={isClosed ? 'text-green-600' : 'text-slate-900'}>{progress.toFixed(0)}% Repaid</span>
                       </div>
@@ -949,7 +949,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                       </div>
                    </div>
 
-                   <div className="grid grid-cols-3 gap-2 mb-8 p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                   <div className="grid grid-cols-3 gap-2 mb-8 p-4 bg-[#F5F4F0] rounded-2xl border border-slate-100 text-center">
                       <div className="text-left">
                         <p className="text-[9px] font-black text-slate-400 uppercase">Principal</p>
                         <p className="text-xs font-black text-slate-900">₹{(emi.totalLoanAmount || 0).toLocaleString()}</p>
@@ -973,8 +973,8 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
 
                    <div className="flex items-center justify-between pt-6 border-t border-slate-50 mt-auto">
                       <div className="flex gap-2">
-                        <button onClick={() => handleEditEmi(emi)} className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:text-blue-600 transition-all shadow-sm"><Edit size={16}/></button>
-                        <button onClick={() => handleDeleteEmi(emi.id)} className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:text-red-600 transition-all shadow-sm"><Trash2 size={16}/></button>
+                        <button onClick={() => handleEditEmi(emi)} className="p-2.5 bg-[#F5F4F0] text-slate-400 rounded-xl hover:text-blue-600 transition-all shadow-sm"><Edit size={16}/></button>
+                        <button onClick={() => handleDeleteEmi(emi.id)} className="p-2.5 bg-[#F5F4F0] text-slate-400 rounded-xl hover:text-red-600 transition-all shadow-sm"><Trash2 size={16}/></button>
                       </div>
                       {!isClosed && (
                         <button 
@@ -994,7 +994,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                );
              })}
              {filteredEmis.length === 0 && (
-                <div className="col-span-full py-20 text-center bg-white border-2 border-dashed border-slate-200 rounded-[3rem]">
+                <div className="col-span-full py-20 text-center bg-white border-2 border-dashed border-slate-200 rounded-2xl">
                    <DollarSign size={48} className="mx-auto text-slate-200 mb-4" />
                    <p className="text-slate-400 font-medium uppercase tracking-widest text-xs italic">No financing records detected for this search.</p>
                 </div>
@@ -1007,27 +1007,27 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
         <div className="space-y-6 animate-in slide-in-from-right-4 duration-500">
            {/* Maintenance Summary Cards */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white border border-slate-200 p-8 rounded-[2.5rem] shadow-sm flex items-center gap-6 group hover:border-green-200 transition-all">
-                 <div className="w-16 h-16 rounded-3xl bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
+              <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm flex items-center gap-6 group hover:border-green-200 transition-all">
+                 <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
                     <CheckCircle size={32} />
                  </div>
                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Payment Paid</p>
+                    <p className="t-label leading-none mb-2">Payment Paid</p>
                     <div className="flex items-baseline gap-2">
-                       <h4 className="text-3xl font-black text-slate-900 leading-none">₹{(maintStats.paidTotal || 0).toLocaleString()}</h4>
+                       <h4 className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">₹{(maintStats.paidTotal || 0).toLocaleString()}</h4>
                        <span className="text-xs font-bold text-green-500">({maintStats.paidCount} Bills)</span>
                     </div>
                  </div>
               </div>
 
-              <div className="bg-white border border-slate-200 p-8 rounded-[2.5rem] shadow-sm flex items-center gap-6 group hover:border-red-200 transition-all">
-                 <div className="w-16 h-16 rounded-3xl bg-red-50 flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform">
+              <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm flex items-center gap-6 group hover:border-red-200 transition-all">
+                 <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform">
                     <AlertCircle size={32} className="animate-pulse" />
                  </div>
                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Payment Unpaid</p>
+                    <p className="t-label leading-none mb-2">Payment Unpaid</p>
                     <div className="flex items-baseline gap-2">
-                       <h4 className="text-3xl font-black text-slate-900 leading-none">₹{(maintStats.unpaidTotal || 0).toLocaleString()}</h4>
+                       <h4 className="text-2xl font-black text-[#1C1917] tracking-tight leading-none">₹{(maintStats.unpaidTotal || 0).toLocaleString()}</h4>
                        <span className="text-xs font-bold text-red-500">({maintStats.unpaidCount} Pending)</span>
                     </div>
                  </div>
@@ -1042,13 +1042,13 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                 placeholder="Search by Truck No, Workshop, or Employee..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#E7E5E0] rounded-xl focus:ring-4 focus:ring-blue-500/10 outline-none shadow-sm transition-all font-bold"
               />
             </div>
             <div className="flex gap-2">
                 <button 
                     onClick={() => setShowFilters(!showFilters)}
-                    className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-black transition-all ${showFilters ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                    className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-black transition-all ${showFilters ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white border border-slate-200 text-slate-600 hover:bg-[#F5F4F0]'}`}
                 >
                     <Filter size={18} /> Filters
                 </button>
@@ -1059,12 +1059,12 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
           </div>
 
           {showFilters && (
-            <div className="bg-slate-50 border border-slate-200 p-8 rounded-[2.5rem] animate-in slide-in-from-top-4 duration-300">
+            <div className="bg-[#F5F4F0] border border-slate-200 p-8 rounded-2xl animate-in slide-in-from-top-4 duration-300">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Payment Status</label>
+                        <label className="t-label px-1">Payment Status</label>
                         <select 
-                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-sm"
+                            className="w-full px-4 py-3 bg-white border border-[#E7E5E0] rounded-xl font-bold text-sm"
                             value={maintFilters.status}
                             onChange={e => setMaintFilters({...maintFilters, status: e.target.value})}
                         >
@@ -1075,9 +1075,9 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Responsible Employee</label>
+                        <label className="t-label px-1">Responsible Employee</label>
                         <select 
-                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-sm"
+                            className="w-full px-4 py-3 bg-white border border-[#E7E5E0] rounded-xl font-bold text-sm"
                             value={maintFilters.employeeId}
                             onChange={e => setMaintFilters({...maintFilters, employeeId: e.target.value})}
                         >
@@ -1087,34 +1087,34 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Log Date Range</label>
+                        <label className="t-label px-1">Log Date Range</label>
                         <div className="flex gap-2">
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.startDate} onChange={e => setMaintFilters({...maintFilters, startDate: e.target.value})} />
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.endDate} onChange={e => setMaintFilters({...maintFilters, endDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.startDate} onChange={e => setMaintFilters({...maintFilters, startDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.endDate} onChange={e => setMaintFilters({...maintFilters, endDate: e.target.value})} />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Service Date Range</label>
+                        <label className="t-label px-1">Service Date Range</label>
                         <div className="flex gap-2">
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.serviceStartDate} onChange={e => setMaintFilters({...maintFilters, serviceStartDate: e.target.value})} />
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.serviceEndDate} onChange={e => setMaintFilters({...maintFilters, serviceEndDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.serviceStartDate} onChange={e => setMaintFilters({...maintFilters, serviceStartDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.serviceEndDate} onChange={e => setMaintFilters({...maintFilters, serviceEndDate: e.target.value})} />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Due Date Range</label>
+                        <label className="t-label px-1">Due Date Range</label>
                         <div className="flex gap-2">
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.dueStartDate} onChange={e => setMaintFilters({...maintFilters, dueStartDate: e.target.value})} />
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.dueEndDate} onChange={e => setMaintFilters({...maintFilters, dueEndDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.dueStartDate} onChange={e => setMaintFilters({...maintFilters, dueStartDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.dueEndDate} onChange={e => setMaintFilters({...maintFilters, dueEndDate: e.target.value})} />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Date Paid Range</label>
+                        <label className="t-label px-1">Date Paid Range</label>
                         <div className="flex gap-2">
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.paidStartDate} onChange={e => setMaintFilters({...maintFilters, paidStartDate: e.target.value})} />
-                            <input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" value={maintFilters.paidEndDate} onChange={e => setMaintFilters({...maintFilters, paidEndDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.paidStartDate} onChange={e => setMaintFilters({...maintFilters, paidStartDate: e.target.value})} />
+                            <input type="date" className="w-full px-3 py-2 bg-white border border-[#E7E5E0] rounded-xl text-xs font-bold" value={maintFilters.paidEndDate} onChange={e => setMaintFilters({...maintFilters, paidEndDate: e.target.value})} />
                         </div>
                     </div>
 
@@ -1141,22 +1141,22 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             </div>
           )}
 
-          <div className="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm overflow-hidden">
+          <div className="bg-white border border-[#E7E5E0] rounded-xl shadow-sm overflow-hidden">
              <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                    <thead>
-                      <tr className="bg-slate-50/50 border-b border-slate-100">
-                         <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Asset & Dates</th>
-                         <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Category</th>
-                         <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Repair Summary</th>
-                         <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                         <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount</th>
-                         <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                      <tr className="bg-[#F5F4F0]/50 border-b border-slate-100">
+                         <th className="px-8 py-5 t-label">Asset & Dates</th>
+                         <th className="px-8 py-5 t-label">Category</th>
+                         <th className="px-8 py-5 t-label">Repair Summary</th>
+                         <th className="px-8 py-5 t-label">Status</th>
+                         <th className="px-8 py-5 t-label">Amount</th>
+                         <th className="px-8 py-5 t-label text-right">Actions</th>
                       </tr>
                    </thead>
                    <tbody className="divide-y divide-slate-50">
                       {paginatedMaint.map(m => (
-                        <tr key={m.id} className="hover:bg-slate-50/50 transition-colors">
+                        <tr key={m.id} className="hover:bg-[#F5F4F0]/50 transition-colors">
                            <td className="px-8 py-6">
                               <p className="text-sm font-black text-slate-900">{(fleet || []).find(t => t.id === m.truckId)?.truckNumber || 'N/A'}</p>
                               <div className="flex flex-col mt-1">
@@ -1219,20 +1219,20 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                    </tbody>
                 </table>
              </div>
-             <div className="flex items-center justify-between px-8 py-4 bg-slate-50/30 border-t border-slate-100">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page {maintPage} of {totalMaintPages || 1}</p>
+             <div className="flex items-center justify-between px-8 py-4 bg-[#F5F4F0]/30 border-t border-slate-100">
+                <p className="t-label">Page {maintPage} of {totalMaintPages || 1}</p>
                 <div className="flex gap-2">
                    <button 
                      disabled={maintPage === 1}
                      onClick={() => setMaintPage(maintPage - 1)}
-                     className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
+                     className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm"
                    >
                      <ChevronLeft size={16} />
                    </button>
                    <button 
                      disabled={maintPage >= totalMaintPages}
                      onClick={() => setMaintPage(maintPage + 1)}
-                     className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
+                     className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 disabled:opacity-30 hover:bg-[#F5F4F0] transition-all shadow-sm"
                    >
                      <ChevronRight size={16} />
                    </button>
@@ -1245,10 +1245,10 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
       {/* EMI Modal */}
       {isEmiModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
-                  <h3 className="text-2xl font-black text-slate-900">{editingEmiId ? 'Update Loan Profile' : 'Enroll Asset Loan'}</h3>
+                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingEmiId ? 'Update Loan Profile' : 'Enroll Asset Loan'}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Capital Expenditure & Liability Mapping</p>
                </div>
                <button onClick={() => setIsEmiModalOpen(false)} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={24} /></button>
@@ -1256,7 +1256,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             <form onSubmit={handleEmiSubmit} className="p-10 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2 relative z-[120]">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Select Truck*</label>
+                     <label className="t-label px-1">Select Truck*</label>
                      <SearchableSelect
                         value={emiForm.truckId || ''}
                         options={fleet.map(t => ({
@@ -1271,56 +1271,56 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                      />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Lending Financier*</label>
-                     <input type="text" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={emiForm.bankName} onChange={e => setEmiForm({...emiForm, bankName: e.target.value})} placeholder="e.g. HDFC Bank, Tata Capital" />
+                     <label className="t-label px-1">Lending Financier*</label>
+                     <input type="text" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={emiForm.bankName} onChange={e => setEmiForm({...emiForm, bankName: e.target.value})} placeholder="e.g. HDFC Bank, Tata Capital" />
                   </div>
                </div>
                
                <div className="grid grid-cols-3 gap-8">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Total Loan Principal (₹)*</label>
-                     <input type="number" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-lg" value={emiForm.totalLoanAmount} onChange={e => setEmiForm({...emiForm, totalLoanAmount: Number(e.target.value)})} />
+                     <label className="t-label px-1">Total Loan Principal (₹)*</label>
+                     <input type="number" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black text-lg" value={emiForm.totalLoanAmount} onChange={e => setEmiForm({...emiForm, totalLoanAmount: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Monthly Installment (₹)*</label>
-                     <input type="number" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-lg text-blue-600" value={emiForm.amount} onChange={e => setEmiForm({...emiForm, amount: Number(e.target.value)})} />
+                     <label className="t-label px-1">Monthly Installment (₹)*</label>
+                     <input type="number" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black text-lg text-blue-600" value={emiForm.amount} onChange={e => setEmiForm({...emiForm, amount: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Interest Rate (% p.a.)*</label>
-                     <input type="number" step="0.01" min="0" max="100" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-lg text-emerald-600" value={emiForm.interestRate !== undefined ? emiForm.interestRate : ''} onChange={e => setEmiForm({...emiForm, interestRate: Number(e.target.value)})} placeholder="e.g. 10.5" />
-                  </div>
-               </div>
-
-               <div className="grid grid-cols-3 gap-8">
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Due Date (Day)*</label>
-                     <input type="number" min="1" max="31" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={emiForm.dueDate} onChange={e => setEmiForm({...emiForm, dueDate: Number(e.target.value)})} />
-                  </div>
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Total Tenure (Mos)*</label>
-                     <input type="number" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={emiForm.tenureMonths} onChange={e => setEmiForm({...emiForm, tenureMonths: Number(e.target.value)})} />
-                  </div>
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Paid Installments</label>
-                     <input type="number" min="0" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={emiForm.paidInstallments} onChange={e => setEmiForm({...emiForm, paidInstallments: Number(e.target.value)})} />
+                     <label className="t-label px-1">Interest Rate (% p.a.)*</label>
+                     <input type="number" step="0.01" min="0" max="100" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black text-lg text-emerald-600" value={emiForm.interestRate !== undefined ? emiForm.interestRate : ''} onChange={e => setEmiForm({...emiForm, interestRate: Number(e.target.value)})} placeholder="e.g. 10.5" />
                   </div>
                </div>
 
                <div className="grid grid-cols-3 gap-8">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Loan Start Date</label>
-                     <input type="date" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={emiForm.startDate} onChange={e => setEmiForm({...emiForm, startDate: e.target.value})} />
+                     <label className="t-label px-1">Due Date (Day)*</label>
+                     <input type="number" min="1" max="31" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={emiForm.dueDate} onChange={e => setEmiForm({...emiForm, dueDate: Number(e.target.value)})} />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Loan Type*</label>
-                     <select required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={emiForm.loanType || "FIXED"} onChange={e => setEmiForm({...emiForm, loanType: e.target.value as any})}>
+                     <label className="t-label px-1">Total Tenure (Mos)*</label>
+                     <input type="number" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={emiForm.tenureMonths} onChange={e => setEmiForm({...emiForm, tenureMonths: Number(e.target.value)})} />
+                  </div>
+                  <div className="space-y-2">
+                     <label className="t-label px-1">Paid Installments</label>
+                     <input type="number" min="0" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={emiForm.paidInstallments} onChange={e => setEmiForm({...emiForm, paidInstallments: Number(e.target.value)})} />
+                  </div>
+               </div>
+
+               <div className="grid grid-cols-3 gap-8">
+                  <div className="space-y-2">
+                     <label className="t-label px-1">Loan Start Date</label>
+                     <input type="date" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={emiForm.startDate} onChange={e => setEmiForm({...emiForm, startDate: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                     <label className="t-label px-1">Loan Type*</label>
+                     <select required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={emiForm.loanType || "FIXED"} onChange={e => setEmiForm({...emiForm, loanType: e.target.value as any})}>
                         <option value="FIXED">Fixed-rate loan</option>
                         <option value="REDUCING">Reducing balance loan</option>
                      </select>
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Current Status</label>
-                     <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={emiForm.status} onChange={e => setEmiForm({...emiForm, status: e.target.value as any})}>
+                     <label className="t-label px-1">Current Status</label>
+                     <select className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={emiForm.status} onChange={e => setEmiForm({...emiForm, status: e.target.value as any})}>
                         <option value="ACTIVE">Active (Collection Ongoing)</option>
                         <option value="CLOSED">Closed (Repaid)</option>
                      </select>
@@ -1340,7 +1340,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
       {/* Delete Confirmation Modal */}
       {deleteEmiTarget && (
         <div className="fixed inset-0 z-[160] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col p-8 border border-slate-100 animate-in zoom-in-95 duration-200">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col p-8 border border-slate-100 animate-in zoom-in-95 duration-200">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="w-16 h-16 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-red-600 shadow-inner overflow-hidden">
                 <Trash2 size={32} />
@@ -1375,10 +1375,10 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
       {/* Maintenance Modal */}
       {isMaintModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
                <div>
-                  <h3 className="text-2xl font-black text-slate-900">Maintenance Job Card</h3>
+                  <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">Maintenance Job Card</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Operational Expense & Asset Upkeep</p>
                </div>
                <button onClick={() => setIsMaintModalOpen(false)} className="w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={24} /></button>
@@ -1386,8 +1386,8 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
             <form onSubmit={handleMaintSubmit} className="p-10 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Log Date*</label>
-                     <input type="date" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={maintForm.date} onChange={e => setMaintForm({...maintForm, date: e.target.value})} />
+                     <label className="t-label px-1">Log Date*</label>
+                     <input type="date" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={maintForm.date} onChange={e => setMaintForm({...maintForm, date: e.target.value})} />
                   </div>
                   <div className="space-y-2">
                      <label className="text-[10px] font-black text-blue-600 uppercase tracking-widest px-1">Service Date*</label>
@@ -1396,22 +1396,22 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                </div>
                <div className="grid grid-cols-3 gap-6">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Responsible Employee*</label>
-                     <select required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm" value={maintForm.employeeId} onChange={e => setMaintForm({...maintForm, employeeId: e.target.value})}>
+                     <label className="t-label px-1">Responsible Employee*</label>
+                     <select required className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-sm" value={maintForm.employeeId} onChange={e => setMaintForm({...maintForm, employeeId: e.target.value})}>
                         <option value="">Select Staff...</option>
                         {employees.map(emp => <option key={emp.id} value={emp.id}>{emp.fullName}</option>)}
                      </select>
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Select Truck*</label>
-                     <select required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm" value={maintForm.truckId} onChange={e => setMaintForm({...maintForm, truckId: e.target.value})}>
+                     <label className="t-label px-1">Select Truck*</label>
+                     <select required className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-sm" value={maintForm.truckId} onChange={e => setMaintForm({...maintForm, truckId: e.target.value})}>
                         <option value="">Asset ID...</option>
                         {fleet.map(t => <option key={t.id} value={t.id}>{t.truckNumber}</option>)}
                      </select>
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Category*</label>
-                     <select required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm" value={maintForm.category} onChange={e => setMaintForm({...maintForm, category: e.target.value as any})}>
+                     <label className="t-label px-1">Category*</label>
+                     <select required className="w-full px-4 py-3 bg-[#F5F4F0] border border-slate-200 rounded-xl font-bold text-sm" value={maintForm.category} onChange={e => setMaintForm({...maintForm, category: e.target.value as any})}>
                         <option value="ROUTINE">Routine Service</option>
                         <option value="ENGINE">Engine / Transmission</option>
                         <option value="TYRE">Tyre Replacement</option>
@@ -1423,23 +1423,23 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                </div>
                <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Workshop / Vendor Name*</label>
-                     <input type="text" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={maintForm.workshopName} onChange={e => setMaintForm({...maintForm, workshopName: e.target.value})} placeholder="e.g. Service Center" />
+                     <label className="t-label px-1">Workshop / Vendor Name*</label>
+                     <input type="text" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={maintForm.workshopName} onChange={e => setMaintForm({...maintForm, workshopName: e.target.value})} placeholder="e.g. Service Center" />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Current Odometer (KM)*</label>
-                     <input type="number" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black" value={maintForm.odometerReading} onChange={e => setMaintForm({...maintForm, odometerReading: Number(e.target.value)})} />
+                     <label className="t-label px-1">Current Odometer (KM)*</label>
+                     <input type="number" required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black" value={maintForm.odometerReading} onChange={e => setMaintForm({...maintForm, odometerReading: Number(e.target.value)})} />
                   </div>
                </div>
-               <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 space-y-6">
+               <div className="p-6 bg-[#F5F4F0] rounded-2xl border border-slate-100 space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                      <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Bill Amount (₹)*</label>
-                        <input type="number" required className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl font-black text-lg" value={maintForm.amount} onChange={e => setMaintForm({...maintForm, amount: Number(e.target.value)})} />
+                        <label className="t-label px-1">Bill Amount (₹)*</label>
+                        <input type="number" required className="w-full px-5 py-4 bg-white border border-[#E7E5E0] rounded-xl font-black text-lg" value={maintForm.amount} onChange={e => setMaintForm({...maintForm, amount: Number(e.target.value)})} />
                      </div>
                      <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Payment Status*</label>
-                        <select required className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl font-black" value={maintForm.status} onChange={e => setMaintForm({...maintForm, status: e.target.value as any})}>
+                        <label className="t-label px-1">Payment Status*</label>
+                        <select required className="w-full px-5 py-4 bg-white border border-[#E7E5E0] rounded-xl font-black" value={maintForm.status} onChange={e => setMaintForm({...maintForm, status: e.target.value as any})}>
                            <option value="PAID">Paid</option>
                            <option value="UNPAID">Unpaid</option>
                         </select>
@@ -1460,8 +1460,8 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                   </div>
                </div>
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Repair Description*</label>
-                  <textarea rows={2} required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold" value={maintForm.description} onChange={e => setMaintForm({...maintForm, description: e.target.value})} placeholder="Detailed summary of work done..." />
+                  <label className="t-label px-1">Repair Description*</label>
+                  <textarea rows={2} required className="w-full px-5 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={maintForm.description} onChange={e => setMaintForm({...maintForm, description: e.target.value})} placeholder="Detailed summary of work done..." />
                </div>
                <button type="submit" className="w-full py-5 bg-amber-600 text-white rounded-2xl font-black shadow-2xl hover:bg-amber-700 transition-all uppercase tracking-widest text-xs">Post Repair Ledger</button>
             </form>
@@ -1487,7 +1487,7 @@ const StatCard: React.FC<{
     red: 'bg-red-50 text-red-600 border-red-100'
   };
   return (
-    <div className={`p-6 bg-white rounded-[2.5rem] border-2 shadow-sm ${colors[color]} flex flex-col gap-4 group hover:-translate-y-1 transition-all cursor-default relative overflow-hidden ${highlighted ? 'ring-4 ring-amber-400/40 border-amber-400 scale-[1.03]' : ''}`}>
+    <div className={`p-6 bg-white rounded-2xl border-2 shadow-sm ${colors[color]} flex flex-col gap-4 group hover:-translate-y-1 transition-all cursor-default relative overflow-hidden ${highlighted ? 'ring-4 ring-amber-400/40 border-amber-400 scale-[1.03]' : ''}`}>
        <div className="flex items-center justify-between">
           <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner ${colors[color]}`}>
              <Icon size={20} />
@@ -1495,7 +1495,7 @@ const StatCard: React.FC<{
        </div>
        <div>
           <div className="flex items-center gap-1.5">
-             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+             <p className="t-label">{label}</p>
              {highlighted && (
                 <span className="text-[8px] font-black bg-amber-500 text-white px-2 py-0.5 rounded-full uppercase tracking-widest animate-pulse scale-90">
                    Filtered
