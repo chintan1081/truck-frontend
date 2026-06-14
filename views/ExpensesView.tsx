@@ -899,7 +899,7 @@ const ExpensesView: React.FC<ExpensesViewProps> = ({
                   <History size={14} /> Audit Trail & Logs
                 </h4>
                 <div className="space-y-4 relative before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
-                  {selectedExpense.history.map((entry, idx) => (
+                  {(selectedExpense.history || []).map((entry, idx) => (
                     <div key={idx} className="relative pl-7">
                       <div
                         className={`absolute left-0 top-1 w-3.5 h-3.5 rounded-full border-2 border-white shadow-sm ${

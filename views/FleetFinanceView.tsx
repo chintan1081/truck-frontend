@@ -1179,7 +1179,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                            <td className="px-8 py-6">
                               <p className="text-sm font-bold text-slate-800">{m.description}</p>
                               <div className="flex gap-1 mt-1.5 overflow-hidden">
-                                 {m.partsReplaced.map((p, i) => (
+                                 {(m.partsReplaced || []).map((p, i) => (
                                     <span key={i} className="text-[8px] font-black bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded uppercase whitespace-nowrap">{p}</span>
                                  ))}
                               </div>

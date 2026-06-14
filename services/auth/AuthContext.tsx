@@ -51,14 +51,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setStatus('unauthenticated');
         return;
       }
-      const current = await fetchCurrentUser();
-      if (cancelled) return;
-      if (current) {
-        setUser(current);
-        setStatus('authenticated');
-      } else {
-        logoutApi();
-        setStatus('unauthenticated');
+      try {
+        const current = await fetchCurrentUser();
+        if (cancelled) return;
+        if (current) {
+          setUser(current);
+          setStatus('authenticated');
+        } else {
+          // Token rejected by the server — clear it.
+          logoutApi();
+          setStatus('unauthenticated');
+        }
+      } catch {
+        // Network/server hiccup: keep the token so a refresh can restore the
+        // session once connectivity returns, but show the login screen for now.
+        if (!cancelled) setStatus('unauthenticated');
       }
     })();
     return () => {
@@ -79,8 +86,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const refreshUser = useCallback(async () => {
-    const current = await fetchCurrentUser();
-    if (current) setUser(current);
+    try {
+      const current = await fetchCurrentUser();
+      if (current) setUser(current);
+    } catch {
+      // Transient failure — keep the current user state.
+    }
   }, []);
 
   const value = useMemo<AuthContextValue>(

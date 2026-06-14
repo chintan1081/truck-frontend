@@ -39,7 +39,15 @@ interface SettingsViewProps {
 }
 
 const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings, currentUser }) => {
-  const { errors: fe, validate, clearField, clearAll } = useFormErrors();
+  const { errors: fe, validate, validateField, isValid, clearField, clearAll } = useFormErrors();
+
+  // Validation rules for the bank-account form, derived from current state.
+  const bankRules = () => ({
+    bankName: { value: newBank.bankName, label: 'Bank Name' },
+    accountHolderName: { value: newBank.accountHolderName, label: 'Account Holder Name' },
+    accountNo: { value: newBank.accountNo, label: 'Account Number', type: 'accountNumber' as const },
+    ifscCode: { value: newBank.ifscCode, label: 'IFSC Code', type: 'ifsc' as const },
+  });
   const { refreshUser } = useAuth();
   const [photoUploading, setPhotoUploading] = useState(false);
   const [newService, setNewService] = useState('');
@@ -94,12 +102,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
   };
 
   const handleAddBank = () => {
-    const ok = validate({
-      bankName: { value: newBank.bankName, label: 'Bank Name' },
-      accountHolderName: { value: newBank.accountHolderName, label: 'Account Holder Name' },
-      accountNo: { value: newBank.accountNo, label: 'Account Number' },
-      ifscCode: { value: newBank.ifscCode, label: 'IFSC Code' },
-    });
+    const ok = validate(bankRules());
     if (!ok) return;
     
     const currentBanks = settings.bankDetails || [];
@@ -538,7 +541,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                         <input
                           type="text"
                           value={newBank.bankName || ''}
-                          onChange={e => { setNewBank({ ...newBank, bankName: e.target.value }); clearField('bankName'); }}
+                          onChange={e => { setNewBank({ ...newBank, bankName: e.target.value }); validateField('bankName', { value: e.target.value, label: 'Bank Name' }); }}
                           placeholder="e.g. HDFC Bank"
                           className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none border ${fe['bankName'] ? 'bg-red-50 border-red-300' : 'bg-white border-slate-200'}`}
                         />
@@ -552,7 +555,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                         <input
                           type="text"
                           value={newBank.accountHolderName || ''}
-                          onChange={e => { setNewBank({ ...newBank, accountHolderName: e.target.value }); clearField('accountHolderName'); }}
+                          onChange={e => { setNewBank({ ...newBank, accountHolderName: e.target.value }); validateField('accountHolderName', { value: e.target.value, label: 'Account Holder Name' }); }}
                           placeholder="Name as per Passbook"
                           className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none border ${fe['accountHolderName'] ? 'bg-red-50 border-red-300' : 'bg-white border-slate-200'}`}
                         />
@@ -566,7 +569,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                         <input
                           type="text"
                           value={newBank.accountNo || ''}
-                          onChange={e => { setNewBank({ ...newBank, accountNo: e.target.value }); clearField('accountNo'); }}
+                          onChange={e => { setNewBank({ ...newBank, accountNo: e.target.value }); validateField('accountNo', { value: e.target.value, label: 'Account Number', type: 'accountNumber' }); }}
                           placeholder="0000 0000 0000"
                           className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none font-mono border ${fe['accountNo'] ? 'bg-red-50 border-red-300' : 'bg-white border-slate-200'}`}
                         />
@@ -580,7 +583,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                         <input
                           type="text"
                           value={newBank.ifscCode || ''}
-                          onChange={e => { setNewBank({ ...newBank, ifscCode: e.target.value }); clearField('ifscCode'); }}
+                          onChange={e => { setNewBank({ ...newBank, ifscCode: e.target.value }); validateField('ifscCode', { value: e.target.value, label: 'IFSC Code', type: 'ifsc' }); }}
                           placeholder="HDFC0000123"
                           className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none font-mono border ${fe['ifscCode'] ? 'bg-red-50 border-red-300' : 'bg-white border-slate-200'}`}
                         />
@@ -601,9 +604,10 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
                       </div>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={handleAddBank}
-                    className="w-full mt-6 py-3 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
+                    disabled={!isValid(bankRules())}
+                    className="w-full mt-6 py-3 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
                   >
                     <PlusCircle size={18} /> {editingBankId ? 'Update Bank Account' : 'Save Bank Account'}
                   </button>

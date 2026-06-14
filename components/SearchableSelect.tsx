@@ -40,7 +40,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
 
   const filteredOptions = useMemo(() =>
     options.filter(opt =>
-      opt.label.toLowerCase().includes(search.toLowerCase()) ||
+      (opt.label ?? '').toLowerCase().includes(search.toLowerCase()) ||
       (opt.sub ?? '').toLowerCase().includes(search.toLowerCase())
     ),
     [options, search]
@@ -106,7 +106,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           <span className={`text-[11px] font-black uppercase tracking-wider truncate ${
             selectedOption ? 'text-slate-800' : 'text-slate-400'
           }`}>
-            {selectedOption ? selectedOption.label.replace(/_/g, ' ') : (placeholder ?? 'Select...')}
+            {selectedOption ? (selectedOption.label ?? '').replace(/_/g, ' ') : (placeholder ?? 'Select...')}
           </span>
         </div>
         <ChevronDown
@@ -177,7 +177,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                       <p className={`text-[11px] font-black uppercase tracking-tight leading-tight ${
                         isSelected ? 'text-blue-700' : 'text-slate-700'
                       }`}>
-                        {opt.label.replace(/_/g, ' ')}
+                        {(opt.label ?? '').replace(/_/g, ' ')}
                         {opt.disabled && <span className="ml-1.5 text-[9px] font-bold text-slate-400 normal-case tracking-normal">disabled</span>}
                       </p>
                       {opt.sub && (

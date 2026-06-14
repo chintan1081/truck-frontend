@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { api, setAuthToken, getAuthToken, API_BASE } from './client';
+import { api, setAuthToken, getAuthToken, API_BASE, ApiError } from './client';
 import { safeStorage } from '@/lib/storage';
 
 /**
@@ -49,13 +49,18 @@ export async function register(input: RegisterInput): Promise<AuthResult> {
   return result;
 }
 
-/** Validates the stored token and returns the current user, or null if invalid. */
+/**
+ * Validates the stored token and returns the current user, or null if the token
+ * is definitively invalid (401/403). Network or server errors are re-thrown so
+ * callers can avoid wiping a token that may still be valid.
+ */
 export async function fetchCurrentUser(): Promise<AuthUser | null> {
   try {
     const { user } = await api.get<{ user: AuthUser }>('/auth/me');
     return user;
-  } catch {
-    return null;
+  } catch (err) {
+    if (err instanceof ApiError && (err.status === 401 || err.status === 403)) return null;
+    throw err;
   }
 }
 

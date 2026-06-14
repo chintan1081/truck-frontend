@@ -189,7 +189,18 @@ const OrdersView: React.FC<OrdersViewProps> = ({
   const [materialFilter, setMaterialFilter] = useState("ALL");
   const [routeFilter, setRouteFilter] = useState("ALL");
 
-  const { errors: fe, validate, clearField, clearAll } = useFormErrors();
+  const { errors: fe, validate, validateField, isValid, clearField, clearAll } = useFormErrors();
+
+  // Validation rules for the order form, derived from current form state. Shared
+  // by live per-field checks, the submit-button enablement, and submit.
+  const orderRules = (fd: typeof formData = formData) => ({
+    clientName:   { value: fd.clientName, label: 'Client Name' },
+    projectSite:  { value: fd.projectSite, label: 'Project Site' },
+    quantity:     { value: fd.quantity, label: 'Quantity', type: 'positiveNumber' as const },
+    ratePerMT:    { value: fd.ratePerMT, label: 'Rate per MT', type: 'positiveNumber' as const },
+    pickupDate:   { value: fd.pickupDate, label: 'Pickup Date' },
+    deliveryDate: { value: fd.deliveryDate, label: 'Delivery Date' },
+  });
   const [dateError, setDateError] = useState<string | null>(null);
   const [isDispatching, setIsDispatching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -549,14 +560,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      clientName: { value: formData.clientName, label: 'Client Name' },
-      projectSite: { value: formData.projectSite, label: 'Project Site' },
-      quantity: { value: formData.quantity, label: 'Quantity' },
-      ratePerMT: { value: formData.ratePerMT, label: 'Rate per MT' },
-      pickupDate: { value: formData.pickupDate, label: 'Pickup Date' },
-      deliveryDate: { value: formData.deliveryDate, label: 'Delivery Date' },
-    });
+    const ok = validate(orderRules());
     if (!ok) return;
     if (formData.pickupDate && formData.deliveryDate) {
       if (new Date(formData.deliveryDate) < new Date(formData.pickupDate)) {
@@ -2225,7 +2229,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     onChange={(val) => {
                       const client = clients.find(c => c.id === val);
                       setFormData({ ...formData, clientName: client?.name ?? "" });
-                      clearField('clientName');
+                      validateField('clientName', { value: client?.name ?? "", label: 'Client Name' });
                     }}
                     options={clients.map((c) => ({
                       value: c.id,
@@ -2245,7 +2249,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     onChange={(val) => {
                       const site = sites.find(s => s.id === val);
                       setFormData({ ...formData, projectSite: site?.name ?? "" });
-                      clearField('projectSite');
+                      validateField('projectSite', { value: site?.name ?? "", label: 'Project Site' });
                     }}
                     options={sites.map((s) => ({
                       value: s.id,
@@ -2484,7 +2488,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     className={`w-full px-5 py-3.5 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-black text-slate-900 border ${fe['quantity'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     placeholder="0.00"
                     value={formData.quantity ?? ""}
-                    onChange={(e) => { setFormData({ ...formData, quantity: Number(e.target.value) }); clearField('quantity'); }}
+                    onChange={(e) => { setFormData({ ...formData, quantity: Number(e.target.value) }); validateField('quantity', { value: Number(e.target.value), label: 'Quantity', type: 'positiveNumber' }); }}
                   />
                   {fe['quantity'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['quantity']}</p>}
                 </div>
@@ -2497,7 +2501,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     className={`w-full px-5 py-3.5 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-black text-slate-900 border ${fe['ratePerMT'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     placeholder="0"
                     value={formData.ratePerMT ?? ""}
-                    onChange={(e) => { setFormData({ ...formData, ratePerMT: Number(e.target.value) }); clearField('ratePerMT'); }}
+                    onChange={(e) => { setFormData({ ...formData, ratePerMT: Number(e.target.value) }); validateField('ratePerMT', { value: Number(e.target.value), label: 'Rate per MT', type: 'positiveNumber' }); }}
                   />
                   {fe['ratePerMT'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['ratePerMT']}</p>}
                 </div>
@@ -2586,7 +2590,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     type="date"
                     className={`w-full px-5 py-3.5 rounded-2xl outline-none font-bold text-slate-900 border ${fe['pickupDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     value={formData.pickupDate ?? ""}
-                    onChange={(e) => { setFormData({ ...formData, pickupDate: e.target.value }); clearField('pickupDate'); }}
+                    onChange={(e) => { setFormData({ ...formData, pickupDate: e.target.value }); validateField('pickupDate', { value: e.target.value, label: 'Pickup Date' }); }}
                   />
                   {fe['pickupDate'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['pickupDate']}</p>}
                 </div>
@@ -2598,7 +2602,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     type="date"
                     className={`w-full px-5 py-3.5 rounded-2xl outline-none font-bold text-slate-900 border ${fe['deliveryDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                     value={formData.deliveryDate ?? ""}
-                    onChange={(e) => { setFormData({ ...formData, deliveryDate: e.target.value }); clearField('deliveryDate'); }}
+                    onChange={(e) => { setFormData({ ...formData, deliveryDate: e.target.value }); validateField('deliveryDate', { value: e.target.value, label: 'Delivery Date' }); }}
                   />
                   {fe['deliveryDate'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['deliveryDate']}</p>}
                 </div>
@@ -2719,7 +2723,8 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all"
+                  disabled={!isValid(orderRules())}
+                  className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   {editingOrder ? "Update Order" : "Create Order"}
                 </button>

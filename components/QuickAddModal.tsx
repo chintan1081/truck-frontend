@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Loader2, Plus } from 'lucide-react';
 import { api } from '../services/api/client';
+import { useFormErrors, FieldRule } from '../hooks/useFormErrors';
 
 export type QuickAddEntityType = 'client' | 'site' | 'broker' | 'route' | 'driver' | 'truck';
 
@@ -20,20 +21,24 @@ const ENTITY_CONFIG: Record<QuickAddEntityType, { label: string; endpoint: strin
   truck:   { label: 'Truck',   endpoint: 'fleet' },
 };
 
-const inputCls = `w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl outline-none
-  focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 transition-all
-  font-semibold text-sm text-slate-800 placeholder:text-slate-400`;
+const baseInputCls = `w-full px-4 py-3 bg-slate-50 border rounded-2xl outline-none
+  focus:ring-4 transition-all font-semibold text-sm text-slate-800 placeholder:text-slate-400`;
+
+const okInputCls = `${baseInputCls} border-slate-200 focus:ring-blue-500/10 focus:border-blue-400`;
+const errInputCls = `${baseInputCls} border-red-300 focus:ring-red-500/10 focus:border-red-400`;
 
 const labelCls = 'block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1';
 
 const Field: React.FC<{
   label: string;
   required?: boolean;
+  error?: string;
   children: React.ReactNode;
-}> = ({ label, required, children }) => (
+}> = ({ label, required, error, children }) => (
   <div>
     <label className={labelCls}>{label}{required && <span className="text-red-400 ml-0.5">*</span>}</label>
     {children}
+    {error && <p className="mt-1 text-[11px] font-bold text-red-500">{error}</p>}
   </div>
 );
 
@@ -46,6 +51,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
   const config = ENTITY_CONFIG[entityType];
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { errors, validate, validateField, isValid } = useFormErrors();
 
   // ---- Client ----
   const [client, setClient] = useState({
@@ -83,8 +89,79 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
     isMaintenanceMode: false,
   });
 
+  /**
+   * Declarative validation rules for the active entity, derived from current
+   * state. Required fields have no `optional`; format-checked fields carry a
+   * `type`. Used for live per-field feedback, submit-button enablement, and the
+   * final submit-time check.
+   */
+  const buildRules = (): Record<string, FieldRule> => {
+    switch (entityType) {
+      case 'client':
+        return {
+          name:      { value: client.name, label: 'Name' },
+          phone:     { value: client.phone, label: 'Phone', type: 'phone' },
+          city:      { value: client.city, label: 'City' },
+          gstNumber: { value: client.gstNumber, label: 'GST Number', type: 'gst', optional: true },
+          email:     { value: client.email, label: 'Email', type: 'email', optional: true },
+        };
+      case 'site':
+        return {
+          name:     { value: site.name, label: 'Site Name' },
+          type:     { value: site.type, label: 'Type' },
+          city:     { value: site.city, label: 'City' },
+          location: { value: site.location, label: 'Location / Address' },
+          pincode:  { value: site.pincode, label: 'Pincode', type: 'pincode', optional: true },
+        };
+      case 'broker':
+        return {
+          name:           { value: broker.name, label: 'Name' },
+          phone:          { value: broker.phone, label: 'Phone', type: 'phone' },
+          email:          { value: broker.email, label: 'Email', type: 'email', optional: true },
+          whatsappNumber: { value: broker.whatsappNumber, label: 'WhatsApp', type: 'phone', optional: true },
+          upiId:          { value: broker.upiId, label: 'UPI ID', type: 'upi', optional: true },
+        };
+      case 'route':
+        return {
+          source:      { value: route.source, label: 'Source' },
+          destination: { value: route.destination, label: 'Destination' },
+          distanceKm:  { value: route.distanceKm, label: 'Distance (KM)', type: 'positiveNumber' },
+        };
+      case 'driver':
+        return {
+          name:           { value: driver.name, label: 'Full Name' },
+          phoneNumber:    { value: driver.phoneNumber, label: 'Phone', type: 'phone' },
+          whatsappNumber: { value: driver.whatsappNumber, label: 'WhatsApp', type: 'phone', optional: true },
+          licenseExpiry:  { value: driver.licenseExpiry, label: 'License Expiry' },
+          upiId:          { value: driver.upiId, label: 'UPI ID', type: 'upi', optional: true },
+        };
+      case 'truck':
+      default:
+        return {
+          truckNumber:  { value: truck.truckNumber, label: 'Truck Number' },
+          driverName:   { value: truck.driverName, label: 'Driver Name' },
+          ownerContact: { value: truck.ownerContact, label: 'Owner Contact', type: 'phone', optional: true },
+          dieselLimit:  { value: truck.dieselLimit, label: 'Diesel Limit', type: 'number', min: 0, optional: true },
+        };
+    }
+  };
+
+  const rules = buildRules();
+
+  /** Updates one field in the active entity's state and re-validates it live. */
+  const update = <T extends object>(
+    setter: React.Dispatch<React.SetStateAction<T>>,
+    field: keyof T & string,
+    value: any,
+    extra?: Partial<T>
+  ) => {
+    setter(prev => ({ ...prev, [field]: value, ...(extra || {}) }));
+    if (rules[field]) validateField(field, { ...rules[field], value });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate(rules)) return; // block submit until every rule passes
     setSaving(true);
     setError(null);
     try {
@@ -105,120 +182,122 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
     }
   };
 
+  const cls = (field: string) => (errors[field] ? errInputCls : okInputCls);
+
   const renderForm = () => {
     if (entityType === 'client') return (
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Name" required>
-          <input className={inputCls} value={client.name} onChange={e => setClient({ ...client, name: e.target.value })} placeholder="Client name" required />
+        <Field label="Name" required error={errors.name}>
+          <input className={cls('name')} value={client.name} onChange={e => update(setClient, 'name', e.target.value)} placeholder="Client name" />
         </Field>
-        <Field label="Phone" required>
-          <input className={inputCls} value={client.phone} onChange={e => setClient({ ...client, phone: e.target.value })} placeholder="+91 98765 43210" required />
+        <Field label="Phone" required error={errors.phone}>
+          <input className={cls('phone')} value={client.phone} onChange={e => update(setClient, 'phone', e.target.value)} placeholder="+91 98765 43210" />
         </Field>
-        <Field label="City" required>
-          <input className={inputCls} value={client.city} onChange={e => setClient({ ...client, city: e.target.value })} placeholder="City" required />
+        <Field label="City" required error={errors.city}>
+          <input className={cls('city')} value={client.city} onChange={e => update(setClient, 'city', e.target.value)} placeholder="City" />
         </Field>
         <Field label="State">
-          <input className={inputCls} value={client.state} onChange={e => setClient({ ...client, state: e.target.value })} placeholder="State" />
+          <input className={okInputCls} value={client.state} onChange={e => setClient({ ...client, state: e.target.value })} placeholder="State" />
         </Field>
-        <Field label="GST Number">
-          <input className={inputCls} value={client.gstNumber} onChange={e => setClient({ ...client, gstNumber: e.target.value })} placeholder="27AAPFU0939F1ZV" />
+        <Field label="GST Number" error={errors.gstNumber}>
+          <input className={cls('gstNumber')} value={client.gstNumber} onChange={e => update(setClient, 'gstNumber', e.target.value)} placeholder="27AAPFU0939F1ZV" />
         </Field>
         <Field label="Contact Person">
-          <input className={inputCls} value={client.contactPerson} onChange={e => setClient({ ...client, contactPerson: e.target.value })} placeholder="Contact name" />
+          <input className={okInputCls} value={client.contactPerson} onChange={e => setClient({ ...client, contactPerson: e.target.value })} placeholder="Contact name" />
         </Field>
-        <Field label="Email">
-          <input className={inputCls} type="email" value={client.email} onChange={e => setClient({ ...client, email: e.target.value })} placeholder="email@company.com" />
+        <Field label="Email" error={errors.email}>
+          <input className={cls('email')} type="email" value={client.email} onChange={e => update(setClient, 'email', e.target.value)} placeholder="email@company.com" />
         </Field>
         <Field label="Address">
-          <input className={inputCls} value={client.address} onChange={e => setClient({ ...client, address: e.target.value })} placeholder="Street address" />
+          <input className={okInputCls} value={client.address} onChange={e => setClient({ ...client, address: e.target.value })} placeholder="Street address" />
         </Field>
       </div>
     );
 
     if (entityType === 'site') return (
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Site Name" required>
-          <input className={inputCls} value={site.name} onChange={e => setSite({ ...site, name: e.target.value })} placeholder="Site name" required />
+        <Field label="Site Name" required error={errors.name}>
+          <input className={cls('name')} value={site.name} onChange={e => update(setSite, 'name', e.target.value)} placeholder="Site name" />
         </Field>
-        <Field label="Type" required>
-          <select className={inputCls} value={site.type} onChange={e => setSite({ ...site, type: e.target.value })} required>
+        <Field label="Type" required error={errors.type}>
+          <select className={cls('type')} value={site.type} onChange={e => update(setSite, 'type', e.target.value)}>
             <option value="TPS">Thermal Power Station (TPS)</option>
             <option value="CLIENT_SITE">Client Site</option>
             <option value="PLANT">Plant</option>
             <option value="DEPOT">Depot</option>
           </select>
         </Field>
-        <Field label="City" required>
-          <input className={inputCls} value={site.city} onChange={e => setSite({ ...site, city: e.target.value })} placeholder="City" required />
+        <Field label="City" required error={errors.city}>
+          <input className={cls('city')} value={site.city} onChange={e => update(setSite, 'city', e.target.value)} placeholder="City" />
         </Field>
         <Field label="State">
-          <input className={inputCls} value={site.state} onChange={e => setSite({ ...site, state: e.target.value })} placeholder="State" />
+          <input className={okInputCls} value={site.state} onChange={e => setSite({ ...site, state: e.target.value })} placeholder="State" />
         </Field>
-        <Field label="Location / Address" required>
-          <input className={inputCls} value={site.location} onChange={e => setSite({ ...site, location: e.target.value })} placeholder="Full address or landmark" required />
+        <Field label="Location / Address" required error={errors.location}>
+          <input className={cls('location')} value={site.location} onChange={e => update(setSite, 'location', e.target.value)} placeholder="Full address or landmark" />
         </Field>
-        <Field label="Pincode">
-          <input className={inputCls} value={site.pincode} onChange={e => setSite({ ...site, pincode: e.target.value })} placeholder="400001" />
+        <Field label="Pincode" error={errors.pincode}>
+          <input className={cls('pincode')} value={site.pincode} onChange={e => update(setSite, 'pincode', e.target.value)} placeholder="400001" />
         </Field>
       </div>
     );
 
     if (entityType === 'broker') return (
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Name" required>
-          <input className={inputCls} value={broker.name} onChange={e => setBroker({ ...broker, name: e.target.value })} placeholder="Broker name" required />
+        <Field label="Name" required error={errors.name}>
+          <input className={cls('name')} value={broker.name} onChange={e => update(setBroker, 'name', e.target.value)} placeholder="Broker name" />
         </Field>
-        <Field label="Phone" required>
-          <input className={inputCls} value={broker.phone} onChange={e => setBroker({ ...broker, phone: e.target.value })} placeholder="+91 98765 43210" required />
+        <Field label="Phone" required error={errors.phone}>
+          <input className={cls('phone')} value={broker.phone} onChange={e => update(setBroker, 'phone', e.target.value)} placeholder="+91 98765 43210" />
         </Field>
-        <Field label="Email">
-          <input className={inputCls} type="email" value={broker.email} onChange={e => setBroker({ ...broker, email: e.target.value })} placeholder="broker@email.com" />
+        <Field label="Email" error={errors.email}>
+          <input className={cls('email')} type="email" value={broker.email} onChange={e => update(setBroker, 'email', e.target.value)} placeholder="broker@email.com" />
         </Field>
-        <Field label="WhatsApp">
-          <input className={inputCls} value={broker.whatsappNumber} onChange={e => setBroker({ ...broker, whatsappNumber: e.target.value })} placeholder="+91 98765 43210" />
+        <Field label="WhatsApp" error={errors.whatsappNumber}>
+          <input className={cls('whatsappNumber')} value={broker.whatsappNumber} onChange={e => update(setBroker, 'whatsappNumber', e.target.value)} placeholder="+91 98765 43210" />
         </Field>
         <Field label="Address">
-          <input className={inputCls} value={broker.address} onChange={e => setBroker({ ...broker, address: e.target.value })} placeholder="Address" />
+          <input className={okInputCls} value={broker.address} onChange={e => setBroker({ ...broker, address: e.target.value })} placeholder="Address" />
         </Field>
-        <Field label="UPI ID">
-          <input className={inputCls} value={broker.upiId} onChange={e => setBroker({ ...broker, upiId: e.target.value })} placeholder="name@upi" />
+        <Field label="UPI ID" error={errors.upiId}>
+          <input className={cls('upiId')} value={broker.upiId} onChange={e => update(setBroker, 'upiId', e.target.value)} placeholder="name@upi" />
         </Field>
       </div>
     );
 
     if (entityType === 'route') return (
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Source (From)" required>
-          <input className={inputCls} value={route.source} onChange={e => setRoute({ ...route, source: e.target.value })} placeholder="e.g. Korba TPS" required />
+        <Field label="Source (From)" required error={errors.source}>
+          <input className={cls('source')} value={route.source} onChange={e => update(setRoute, 'source', e.target.value)} placeholder="e.g. Korba TPS" />
         </Field>
-        <Field label="Destination (To)" required>
-          <input className={inputCls} value={route.destination} onChange={e => setRoute({ ...route, destination: e.target.value })} placeholder="e.g. Raipur Client Site" required />
+        <Field label="Destination (To)" required error={errors.destination}>
+          <input className={cls('destination')} value={route.destination} onChange={e => update(setRoute, 'destination', e.target.value)} placeholder="e.g. Raipur Client Site" />
         </Field>
-        <Field label="Distance (KM)" required>
-          <input className={inputCls} type="number" min={1} value={route.distanceKm} onChange={e => setRoute({ ...route, distanceKm: e.target.value })} placeholder="250" required />
+        <Field label="Distance (KM)" required error={errors.distanceKm}>
+          <input className={cls('distanceKm')} type="number" min={1} value={route.distanceKm} onChange={e => update(setRoute, 'distanceKm', e.target.value)} placeholder="250" />
         </Field>
       </div>
     );
 
     if (entityType === 'driver') return (
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Full Name" required>
-          <input className={inputCls} value={driver.name} onChange={e => setDriver({ ...driver, name: e.target.value })} placeholder="Driver name" required />
+        <Field label="Full Name" required error={errors.name}>
+          <input className={cls('name')} value={driver.name} onChange={e => update(setDriver, 'name', e.target.value)} placeholder="Driver name" />
         </Field>
-        <Field label="Phone" required>
-          <input className={inputCls} value={driver.phoneNumber} onChange={e => setDriver({ ...driver, phoneNumber: e.target.value })} placeholder="+91 98765 43210" required />
+        <Field label="Phone" required error={errors.phoneNumber}>
+          <input className={cls('phoneNumber')} value={driver.phoneNumber} onChange={e => update(setDriver, 'phoneNumber', e.target.value)} placeholder="+91 98765 43210" />
         </Field>
-        <Field label="WhatsApp">
-          <input className={inputCls} value={driver.whatsappNumber} onChange={e => setDriver({ ...driver, whatsappNumber: e.target.value })} placeholder="+91 98765 43210" />
+        <Field label="WhatsApp" error={errors.whatsappNumber}>
+          <input className={cls('whatsappNumber')} value={driver.whatsappNumber} onChange={e => update(setDriver, 'whatsappNumber', e.target.value)} placeholder="+91 98765 43210" />
         </Field>
-        <Field label="License Expiry" required>
-          <input className={inputCls} type="date" value={driver.licenseExpiry} onChange={e => setDriver({ ...driver, licenseExpiry: e.target.value })} required />
+        <Field label="License Expiry" required error={errors.licenseExpiry}>
+          <input className={cls('licenseExpiry')} type="date" value={driver.licenseExpiry} onChange={e => update(setDriver, 'licenseExpiry', e.target.value)} />
         </Field>
         <Field label="Address">
-          <input className={inputCls} value={driver.address} onChange={e => setDriver({ ...driver, address: e.target.value })} placeholder="Residential address" />
+          <input className={okInputCls} value={driver.address} onChange={e => setDriver({ ...driver, address: e.target.value })} placeholder="Residential address" />
         </Field>
-        <Field label="UPI ID">
-          <input className={inputCls} value={driver.upiId} onChange={e => setDriver({ ...driver, upiId: e.target.value })} placeholder="name@upi" />
+        <Field label="UPI ID" error={errors.upiId}>
+          <input className={cls('upiId')} value={driver.upiId} onChange={e => update(setDriver, 'upiId', e.target.value)} placeholder="name@upi" />
         </Field>
       </div>
     );
@@ -226,33 +305,35 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
     // truck
     return (
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Truck Number" required>
-          <input className={inputCls} value={truck.truckNumber} onChange={e => setTruck({ ...truck, truckNumber: e.target.value, name: e.target.value, plateNumber: e.target.value })} placeholder="MH 12 AB 1234" required />
+        <Field label="Truck Number" required error={errors.truckNumber}>
+          <input className={cls('truckNumber')} value={truck.truckNumber} onChange={e => update(setTruck, 'truckNumber', e.target.value, { name: e.target.value, plateNumber: e.target.value })} placeholder="MH 12 AB 1234" />
         </Field>
-        <Field label="Driver Name" required>
-          <input className={inputCls} value={truck.driverName} onChange={e => setTruck({ ...truck, driverName: e.target.value })} placeholder="Assigned driver" required />
+        <Field label="Driver Name" required error={errors.driverName}>
+          <input className={cls('driverName')} value={truck.driverName} onChange={e => update(setTruck, 'driverName', e.target.value)} placeholder="Assigned driver" />
         </Field>
         <Field label="Owner Name">
-          <input className={inputCls} value={truck.ownerName} onChange={e => setTruck({ ...truck, ownerName: e.target.value })} placeholder="Owner name" />
+          <input className={okInputCls} value={truck.ownerName} onChange={e => setTruck({ ...truck, ownerName: e.target.value })} placeholder="Owner name" />
         </Field>
-        <Field label="Owner Contact">
-          <input className={inputCls} value={truck.ownerContact} onChange={e => setTruck({ ...truck, ownerContact: e.target.value })} placeholder="+91 98765 43210" />
+        <Field label="Owner Contact" error={errors.ownerContact}>
+          <input className={cls('ownerContact')} value={truck.ownerContact} onChange={e => update(setTruck, 'ownerContact', e.target.value)} placeholder="+91 98765 43210" />
         </Field>
         <Field label="Model">
-          <input className={inputCls} value={truck.modelNumber} onChange={e => setTruck({ ...truck, modelNumber: e.target.value, description: e.target.value })} placeholder="TATA 2518 / Ashok Leyland" />
+          <input className={okInputCls} value={truck.modelNumber} onChange={e => setTruck({ ...truck, modelNumber: e.target.value, description: e.target.value })} placeholder="TATA 2518 / Ashok Leyland" />
         </Field>
-        <Field label="Diesel Limit (L/day)">
-          <input className={inputCls} type="number" min={0} value={truck.dieselLimit} onChange={e => setTruck({ ...truck, dieselLimit: Number(e.target.value) })} />
+        <Field label="Diesel Limit (L/day)" error={errors.dieselLimit}>
+          <input className={cls('dieselLimit')} type="number" min={0} value={truck.dieselLimit} onChange={e => update(setTruck, 'dieselLimit', Number(e.target.value))} />
         </Field>
         <Field label="Insurance Expiry">
-          <input className={inputCls} type="date" value={truck.insuranceExpiry} onChange={e => setTruck({ ...truck, insuranceExpiry: e.target.value })} />
+          <input className={okInputCls} type="date" value={truck.insuranceExpiry} onChange={e => setTruck({ ...truck, insuranceExpiry: e.target.value })} />
         </Field>
         <Field label="RC Expiry">
-          <input className={inputCls} type="date" value={truck.rcExpiry} onChange={e => setTruck({ ...truck, rcExpiry: e.target.value })} />
+          <input className={okInputCls} type="date" value={truck.rcExpiry} onChange={e => setTruck({ ...truck, rcExpiry: e.target.value })} />
         </Field>
       </div>
     );
   };
+
+  const formValid = isValid(rules);
 
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
@@ -278,7 +359,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
         </div>
 
         {/* Body */}
-        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col flex-1 overflow-hidden">
           <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
             {renderForm()}
             {error && (
@@ -299,8 +380,8 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
             </button>
             <button
               type="submit"
-              disabled={saving}
-              className="flex-1 py-3 bg-amber-500 text-white rounded-2xl font-black text-sm shadow-md shadow-amber-300/30 hover:bg-amber-600 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
+              disabled={saving || !formValid}
+              className="flex-1 py-3 bg-amber-500 text-white rounded-2xl font-black text-sm shadow-md shadow-amber-300/30 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} strokeWidth={3} />}
               {saving ? 'Saving...' : `Add ${config.label}`}

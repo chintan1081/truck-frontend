@@ -147,7 +147,16 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
   onUpdateEmployees,
   onUpdateDrivers
 }) => {
-  const { errors: fe, validate, clearField, clearAll } = useFormErrors();
+  const { errors: fe, validate, validateField, isValid, clearField, clearAll } = useFormErrors();
+
+  // Validation rules for the leave-request form, derived from current state.
+  const leaveRules = () => ({
+    leaveCategory: { value: leaveCategory, label: 'Request Category' },
+    leavePersonnelId: { value: leavePersonnelId, label: 'Personnel Reference' },
+    leaveStartDate: { value: leaveStartDate, label: 'Start Date' },
+    leaveEndDate: { value: leaveEndDate, label: 'End Date' },
+    leaveReason: { value: leaveReason, label: 'Justification' },
+  });
   const [activeTab, setActiveTab] = useState<'roster' | 'attendance' | 'leaves' | 'performance'>('roster');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<'ALL' | 'DRIVER' | 'EMPLOYEE'>('ALL');
@@ -348,13 +357,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
   };
 
   const handleSubmitLeave = () => {
-    const ok = validate({
-      leaveCategory: { value: leaveCategory, label: 'Request Category' },
-      leavePersonnelId: { value: leavePersonnelId, label: 'Personnel Reference' },
-      leaveStartDate: { value: leaveStartDate, label: 'Start Date' },
-      leaveEndDate: { value: leaveEndDate, label: 'End Date' },
-      leaveReason: { value: leaveReason, label: 'Justification' },
-    });
+    const ok = validate(leaveRules());
     if (!ok) return;
 
     const newRequest: LeaveRequest = {
@@ -2350,7 +2353,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                             <label className="t-label ml-1">Request Category*</label>
                             <select
                                value={leaveCategory}
-                               onChange={(e) => { setLeaveCategory(e.target.value); clearField('leaveCategory'); }}
+                               onChange={(e) => { setLeaveCategory(e.target.value); validateField('leaveCategory', { value: e.target.value, label: 'Request Category' }); }}
                                className={`w-full px-5 py-3 border-2 rounded-2xl text-sm font-black text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all uppercase tracking-tight ${fe['leaveCategory'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                             >
                                <option value="">{leaveMode === 'LEAVE' ? 'Select Leave Category' : 'Select Duty Type'}</option>
@@ -2378,7 +2381,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                <select
                                   id="personnel-select"
                                   value={leavePersonnelId}
-                                  onChange={(e) => { setLeavePersonnelId(e.target.value); clearField('leavePersonnelId'); }}
+                                  onChange={(e) => { setLeavePersonnelId(e.target.value); validateField('leavePersonnelId', { value: e.target.value, label: 'Personnel Reference' }); }}
                                   className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none cursor-pointer border ${fe['leavePersonnelId'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                >
                               <option value="">{personnelSearch ? `Search Results (${fullPersonnelList.filter(p => 
@@ -2409,7 +2412,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                <input
                                   type="date"
                                   value={leaveStartDate}
-                                  onChange={(e) => { setLeaveStartDate(e.target.value); clearField('leaveStartDate'); }}
+                                  onChange={(e) => { setLeaveStartDate(e.target.value); validateField('leaveStartDate', { value: e.target.value, label: 'Start Date' }); }}
                                   className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all border ${fe['leaveStartDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                />
                                {fe['leaveStartDate'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveStartDate']}</p>}
@@ -2419,7 +2422,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                                <input
                                   type="date"
                                   value={leaveEndDate}
-                                  onChange={(e) => { setLeaveEndDate(e.target.value); clearField('leaveEndDate'); }}
+                                  onChange={(e) => { setLeaveEndDate(e.target.value); validateField('leaveEndDate', { value: e.target.value, label: 'End Date' }); }}
                                   className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all border ${fe['leaveEndDate'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                />
                                {fe['leaveEndDate'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveEndDate']}</p>}
@@ -2429,15 +2432,16 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                             <label className="t-label ml-1">Operational Justification*</label>
                             <textarea
                                value={leaveReason}
-                               onChange={(e) => { setLeaveReason(e.target.value); clearField('leaveReason'); }}
+                               onChange={(e) => { setLeaveReason(e.target.value); validateField('leaveReason', { value: e.target.value, label: 'Justification' }); }}
                                className={`w-full px-5 py-3 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 transition-all h-24 resize-none border ${fe['leaveReason'] ? 'bg-red-50 border-red-300' : 'bg-[#F5F4F0] border-slate-200'}`}
                                placeholder={leaveMode === 'LEAVE' ? 'Reason for absence...' : 'Objective of the assignment...'}
                             />
                             {fe['leaveReason'] && <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe['leaveReason']}</p>}
                          </div>
-                         <button 
+                         <button
                             onClick={handleSubmitLeave}
-                            className={`w-full py-4 mt-4 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all ${leaveMode === 'LEAVE' ? 'bg-amber-600 shadow-amber-200' : 'bg-blue-600 shadow-blue-200'}`}
+                            disabled={!isValid(leaveRules())}
+                            className={`w-full py-4 mt-4 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${leaveMode === 'LEAVE' ? 'bg-amber-600 shadow-amber-200' : 'bg-blue-600 shadow-blue-200'}`}
                          >
                             {leaveMode === 'LEAVE' ? 'Submit Leave Request' : 'Commit Duty Allocation'}
                          </button>

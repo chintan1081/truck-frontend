@@ -299,7 +299,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const [isFuelSiteModalOpen, setIsFuelSiteModalOpen] = useState(false);
 
-  const { errors: fe, validate, clearField, clearAll } = useFormErrors();
+  const { errors: fe, validate, validateField, isValid, clearField, clearAll } = useFormErrors();
 
   // Returns red-highlighted input className when field has an error
   const fieldCls = (base: string, field: string) =>
@@ -308,6 +308,107 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   // Renders the error message tag below a field
   const fieldErr = (field: string) =>
     fe[field] ? <p className="text-xs font-bold text-red-500 mt-1 px-1">{fe[field]}</p> : null;
+
+  // ── Validation rule sets (one per entity form) ──────────────────────────────
+  // Each is derived from current form state so the same definition powers live
+  // per-field checks, submit-button enablement, and the final submit-time check.
+  const employeeRules = (f = employeeForm) => ({
+    fullName: { value: f.fullName, label: 'Full Name', type: 'text' as const },
+    phoneNumber: { value: f.phoneNumber, label: 'Phone Number', type: 'phone' as const },
+    whatsappNumber: { value: f.whatsappNumber, label: 'WhatsApp Number', type: 'phone' as const },
+    address: { value: f.address, label: 'Address', type: 'text' as const },
+    joinDate: { value: f.joinDate, label: 'Join Date' },
+    email: { value: f.email, label: 'Email', type: 'email' as const, optional: true },
+    empBankName: { value: f.bankAccountDetails?.bankName, label: 'Bank Name', type: 'text' as const },
+    empAccountNumber: { value: f.bankAccountDetails?.accountNumber, label: 'Account Number', type: 'accountNumber' as const },
+    empIfscCode: { value: f.bankAccountDetails?.ifscCode, label: 'IFSC Code', type: 'ifsc' as const },
+    empUpiId: { value: f.bankAccountDetails?.upiId, label: 'UPI ID', type: 'upi' as const },
+  });
+  const clientRules = (f = clientForm) => ({
+    name: { value: f.name, label: 'Business Name', type: 'text' as const },
+    gstNumber: { value: f.gstNumber, label: 'GST Number', type: 'gst' as const },
+    address: { value: f.address, label: 'Billing Address', type: 'text' as const },
+    city: { value: f.city, label: 'City', type: 'text' as const },
+    state: { value: f.state, label: 'State', type: 'text' as const },
+    pincode: { value: f.pincode, label: 'Pincode', type: 'pincode' as const },
+    email: { value: f.email, label: 'Contact Email', type: 'email' as const },
+    phone: { value: f.phone, label: 'Contact Phone', type: 'phone' as const },
+  });
+  const siteRules = (f = siteForm) => ({
+    name: { value: f.name, label: 'Site Name', type: 'text' as const },
+    location: { value: f.location, label: 'Location Address', type: 'text' as const },
+    city: { value: f.city, label: 'City', type: 'text' as const },
+    state: { value: f.state, label: 'State', type: 'text' as const },
+    pincode: { value: f.pincode, label: 'Pincode', type: 'pincode' as const },
+    gstNumber: { value: f.gstNumber, label: 'GST Number', type: 'gst' as const, optional: true },
+    contactPhone: { value: f.contactPhone, label: 'Contact Phone', type: 'phone' as const, optional: true },
+    siteEmail: { value: f.email, label: 'Contact Email', type: 'email' as const, optional: true },
+  });
+  const brokerRules = (f = brokerForm) => ({
+    name: { value: f.name, label: 'Broker Name', type: 'text' as const },
+    email: { value: f.email, label: 'Email Address', type: 'email' as const },
+    phone: { value: f.phone, label: 'Phone Number', type: 'phone' as const },
+    whatsappNumber: { value: f.whatsappNumber, label: 'WhatsApp Number', type: 'phone' as const },
+    address: { value: f.address, label: 'Address', type: 'text' as const },
+    brkUpiId: { value: f.upiId, label: 'UPI ID', type: 'upi' as const, optional: true },
+    brkIfscCode: { value: f.bankDetails?.ifscCode, label: 'IFSC Code', type: 'ifsc' as const, optional: true },
+    brkAccountNumber: { value: f.bankDetails?.accountNumber, label: 'Account Number', type: 'accountNumber' as const, optional: true },
+  });
+  const routeRules = (f = routeForm) => ({
+    source: { value: f.source, label: 'Loading Station' },
+    destination: { value: f.destination, label: 'Destination' },
+    distanceKm: { value: f.distanceKm, label: 'Distance (km)', type: 'positiveNumber' as const },
+  });
+  const bankRules = (f = bankForm) => ({
+    bankName: { value: f.bankName, label: 'Bank Name', type: 'text' as const },
+    accountNumber: { value: f.accountNumber, label: 'Account Number', type: 'accountNumber' as const },
+    ifscCode: { value: f.ifscCode, label: 'IFSC Code', type: 'ifsc' as const },
+    managerEmail: { value: f.managerEmail, label: 'Manager Email', type: 'email' as const, optional: true },
+    managerPhone: { value: f.managerPhone, label: 'Manager Phone', type: 'phone' as const, optional: true },
+    managerWhatsapp: { value: f.managerWhatsapp, label: 'Manager WhatsApp', type: 'phone' as const, optional: true },
+  });
+  const itemProductRules = (f = itemProductForm) => ({
+    productName: { value: f.productName, label: 'Product Name', type: 'text' as const },
+    hsnSacCode: { value: f.hsnSacCode, label: 'HSN/SAC Code', type: 'text' as const },
+    gstRate: { value: f.gstRate, label: 'GST Rate', type: 'number' as const, min: 0, max: 100, optional: true },
+  });
+  const fuelSiteRules = (f = fuelSiteForm) => ({
+    companyName: { value: f.companyName, label: 'Company Name', type: 'text' as const },
+    ownerName: { value: f.ownerName, label: 'Owner Name', type: 'text' as const },
+    phoneNumber: { value: f.phoneNumber, label: 'Phone Number', type: 'phone' as const },
+    address: { value: f.address, label: 'Address', type: 'text' as const },
+    bankName: { value: f.bankName, label: 'Bank Name', type: 'text' as const },
+    accountNumber: { value: f.accountNumber, label: 'Account Number', type: 'accountNumber' as const },
+    ifscCode: { value: f.ifscCode, label: 'IFSC Code', type: 'ifsc' as const },
+    fsWhatsapp: { value: f.whatsappNumber, label: 'WhatsApp Number', type: 'phone' as const, optional: true },
+    contactEmail: { value: f.contactEmail, label: 'Contact Email', type: 'email' as const, optional: true },
+    gstNumber: { value: f.gstNumber, label: 'GST Number', type: 'gst' as const, optional: true },
+    upiId: { value: f.upiId, label: 'UPI ID', type: 'upi' as const, optional: true },
+    googleMapLink: { value: f.googleMapLink, label: 'Google Map Link', type: 'url' as const, optional: true },
+  });
+  const driverRules = (f = driverForm) => ({
+    name: { value: f.name, label: 'Full Name', type: 'text' as const },
+    phoneNumber: { value: f.phoneNumber, label: 'Phone Number', type: 'phone' as const },
+    whatsappNumber: { value: f.whatsappNumber, label: 'WhatsApp Number', type: 'phone' as const },
+    licenseExpiry: { value: f.licenseExpiry, label: 'License Expiry' },
+    address: { value: f.address, label: 'Address', type: 'text' as const },
+    bankName: { value: f.bankName, label: 'Bank Name', type: 'text' as const },
+    upiId: { value: f.upiId, label: 'UPI ID', type: 'upi' as const },
+    drvEmail: { value: f.email, label: 'Email', type: 'email' as const, optional: true },
+    drvIfscCode: { value: f.ifscCode, label: 'IFSC Code', type: 'ifsc' as const, optional: true },
+    drvAccountNumber: { value: f.accountNumber, label: 'Account Number', type: 'accountNumber' as const, optional: true },
+    experienceYears: { value: f.experienceYears, label: 'Experience (Years)', type: 'number' as const, min: 0, max: 60, optional: true },
+  });
+  const truckRules = (f = truckForm) => ({
+    name: { value: f.name, label: 'Truck Name', type: 'text' as const },
+    truckNumber: { value: f.truckNumber || f.plateNumber, label: 'Truck Number', type: 'text' as const },
+    ownerName: { value: f.ownerName, label: 'Owner Name', type: 'text' as const },
+    ownerContact: { value: f.ownerContact, label: 'Owner Contact', type: 'phone' as const },
+    mileage: { value: f.mileage, label: 'Mileage (KM/L)', type: 'positiveNumber' as const, optional: true },
+    dieselLimit: { value: f.dieselLimit, label: 'Diesel Limit (L)', type: 'positiveNumber' as const, optional: true },
+    currentOdometer: { value: f.currentOdometer, label: 'Odometer (KM)', type: 'number' as const, min: 0, optional: true },
+    driverScore: { value: f.driverScore, label: 'Driver Score', type: 'number' as const, min: 0, max: 100, optional: true },
+  });
 
   const handleOpenModal = (type: typeof activeSubTab, item?: any) => {
     setEditingItem(item || null);
@@ -334,18 +435,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleEmployeeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      fullName: { value: employeeForm.fullName, label: 'Full Name', type: 'text' },
-      phoneNumber: { value: employeeForm.phoneNumber, label: 'Phone Number', type: 'phone' },
-      whatsappNumber: { value: employeeForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone' },
-      address: { value: employeeForm.address, label: 'Address', type: 'text' },
-      joinDate: { value: employeeForm.joinDate, label: 'Join Date' },
-      email: { value: employeeForm.email, label: 'Email', type: 'email', optional: true },
-      empBankName: { value: employeeForm.bankAccountDetails?.bankName, label: 'Bank Name', type: 'text' },
-      empAccountNumber: { value: employeeForm.bankAccountDetails?.accountNumber, label: 'Account Number', type: 'accountNumber' },
-      empIfscCode: { value: employeeForm.bankAccountDetails?.ifscCode, label: 'IFSC Code', type: 'ifsc' },
-      empUpiId: { value: employeeForm.bankAccountDetails?.upiId, label: 'UPI ID', type: 'upi' },
-    });
+    const ok = validate(employeeRules());
     if (!ok) return;
     const finalTrackingId = employeeForm.trackingId || `EMP-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -358,16 +448,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleClientSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      name: { value: clientForm.name, label: 'Business Name', type: 'text' },
-      gstNumber: { value: clientForm.gstNumber, label: 'GST Number', type: 'gst' },
-      address: { value: clientForm.address, label: 'Billing Address', type: 'text' },
-      city: { value: clientForm.city, label: 'City', type: 'text' },
-      state: { value: clientForm.state, label: 'State', type: 'text' },
-      pincode: { value: clientForm.pincode, label: 'Pincode', type: 'pincode' },
-      email: { value: clientForm.email, label: 'Contact Email', type: 'email' },
-      phone: { value: clientForm.phone, label: 'Contact Phone', type: 'phone' },
-    });
+    const ok = validate(clientRules());
     if (!ok) return;
     const finalTrackingId = clientForm.trackingId || `CLNT-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -380,16 +461,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleSiteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      name: { value: siteForm.name, label: 'Site Name', type: 'text' },
-      location: { value: siteForm.location, label: 'Location Address', type: 'text' },
-      city: { value: siteForm.city, label: 'City', type: 'text' },
-      state: { value: siteForm.state, label: 'State', type: 'text' },
-      pincode: { value: siteForm.pincode, label: 'Pincode', type: 'pincode' },
-      gstNumber: { value: siteForm.gstNumber, label: 'GST Number', type: 'gst', optional: true },
-      contactPhone: { value: siteForm.contactPhone, label: 'Contact Phone', type: 'phone', optional: true },
-      siteEmail: { value: siteForm.email, label: 'Contact Email', type: 'email', optional: true },
-    });
+    const ok = validate(siteRules());
     if (!ok) return;
     const finalTrackingId = siteForm.trackingId || `SITE-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -402,16 +474,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleBrokerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      name: { value: brokerForm.name, label: 'Broker Name', type: 'text' },
-      email: { value: brokerForm.email, label: 'Email Address', type: 'email' },
-      phone: { value: brokerForm.phone, label: 'Phone Number', type: 'phone' },
-      whatsappNumber: { value: brokerForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone' },
-      address: { value: brokerForm.address, label: 'Address', type: 'text' },
-      brkUpiId: { value: brokerForm.upiId, label: 'UPI ID', type: 'upi', optional: true },
-      brkIfscCode: { value: brokerForm.bankDetails?.ifscCode, label: 'IFSC Code', type: 'ifsc', optional: true },
-      brkAccountNumber: { value: brokerForm.bankDetails?.accountNumber, label: 'Account Number', type: 'accountNumber', optional: true },
-    });
+    const ok = validate(brokerRules());
     if (!ok) return;
     const finalTrackingId = brokerForm.trackingId || `BKR-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -424,11 +487,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleRouteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      source: { value: routeForm.source, label: 'Loading Station' },
-      destination: { value: routeForm.destination, label: 'Destination' },
-      distanceKm: { value: routeForm.distanceKm, label: 'Distance (km)', type: 'positiveNumber' },
-    });
+    const ok = validate(routeRules());
     if (!ok) return;
     const finalTrackingId = routeForm.trackingId || `RT-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -441,14 +500,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleBankSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      bankName: { value: bankForm.bankName, label: 'Bank Name', type: 'text' },
-      accountNumber: { value: bankForm.accountNumber, label: 'Account Number', type: 'accountNumber' },
-      ifscCode: { value: bankForm.ifscCode, label: 'IFSC Code', type: 'ifsc' },
-      managerEmail: { value: bankForm.managerEmail, label: 'Manager Email', type: 'email', optional: true },
-      managerPhone: { value: bankForm.managerPhone, label: 'Manager Phone', type: 'phone', optional: true },
-      managerWhatsapp: { value: bankForm.managerWhatsapp, label: 'Manager WhatsApp', type: 'phone', optional: true },
-    });
+    const ok = validate(bankRules());
     if (!ok) return;
     const finalTrackingId = bankForm.trackingId || `BANK-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -461,11 +513,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleItemProductSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      productName: { value: itemProductForm.productName, label: 'Product Name', type: 'text' },
-      hsnSacCode: { value: itemProductForm.hsnSacCode, label: 'HSN/SAC Code', type: 'text' },
-      gstRate: { value: itemProductForm.gstRate, label: 'GST Rate', type: 'number', min: 0, max: 100, optional: true },
-    });
+    const ok = validate(itemProductRules());
     if (!ok) return;
     const finalTrackingId = itemProductForm.trackingId || `PROD-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -495,20 +543,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
   const handleFuelSiteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = validate({
-      companyName: { value: fuelSiteForm.companyName, label: 'Company Name', type: 'text' },
-      ownerName: { value: fuelSiteForm.ownerName, label: 'Owner Name', type: 'text' },
-      phoneNumber: { value: fuelSiteForm.phoneNumber, label: 'Phone Number', type: 'phone' },
-      address: { value: fuelSiteForm.address, label: 'Address', type: 'text' },
-      bankName: { value: fuelSiteForm.bankName, label: 'Bank Name', type: 'text' },
-      accountNumber: { value: fuelSiteForm.accountNumber, label: 'Account Number', type: 'accountNumber' },
-      ifscCode: { value: fuelSiteForm.ifscCode, label: 'IFSC Code', type: 'ifsc' },
-      fsWhatsapp: { value: fuelSiteForm.whatsappNumber, label: 'WhatsApp Number', type: 'phone', optional: true },
-      contactEmail: { value: fuelSiteForm.contactEmail, label: 'Contact Email', type: 'email', optional: true },
-      gstNumber: { value: fuelSiteForm.gstNumber, label: 'GST Number', type: 'gst', optional: true },
-      upiId: { value: fuelSiteForm.upiId, label: 'UPI ID', type: 'upi', optional: true },
-      googleMapLink: { value: fuelSiteForm.googleMapLink, label: 'Google Map Link', type: 'url', optional: true },
-    });
+    const ok = validate(fuelSiteRules());
     if (!ok) return;
     const finalTrackingId = fuelSiteForm.trackingId || `FUEL-${Date.now().toString().slice(-6)}`;
     if (editingItem) {
@@ -1275,7 +1310,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Bank Record' : 'Add Bank Record'}</h3>
               <button onClick={() => { setIsBankModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleBankSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleBankSubmit} onBlur={() => validate(bankRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -1364,7 +1399,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Description</label>
                   <textarea className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" rows={2} value={bankForm.description ?? ''} onChange={e => setBankForm({...bankForm, description: e.target.value})} placeholder="Transaction notes..." />
                </div>
-               <button type="submit" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all">Save Bank Account</button>
+               <button type="submit" disabled={!isValid(bankRules())} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Bank Account</button>
             </form>
           </div>
         </div>
@@ -1378,7 +1413,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Employee' : 'Add New Employee'}</h3>
               <button onClick={() => { setIsEmployeeModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleEmployeeSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleEmployeeSubmit} onBlur={() => validate(employeeRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -1452,7 +1487,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   </div>
                </div>
                
-               <button type="submit" className="w-full py-4 bg-purple-600 text-white rounded-2xl font-black shadow-xl hover:bg-purple-700 transition-all">Save Employee Profile</button>
+               <button type="submit" disabled={!isValid(employeeRules())} className="w-full py-4 bg-purple-600 text-white rounded-2xl font-black shadow-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Employee Profile</button>
             </form>
           </div>
         </div>
@@ -1466,7 +1501,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Driver' : 'Add New Driver'}</h3>
               <button onClick={() => { setIsDriverModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleDriverSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleDriverSubmit} onBlur={() => validate(driverRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -1572,7 +1607,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                    </div>
                  </div>
                </div>
-               <button type="submit" className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black shadow-xl hover:bg-indigo-700 transition-all">Save Driver Record</button>
+               <button type="submit" disabled={!isValid(driverRules())} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black shadow-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Driver Record</button>
             </form>
           </div>
         </div>
@@ -1586,7 +1621,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Client Profile' : 'Register Client'}</h3>
               <button onClick={() => { setIsClientModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleClientSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleClientSubmit} onBlur={() => validate(clientRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -1643,7 +1678,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   {fieldErr('phone')}
                 </div>
                </div>
-               <button type="submit" className="w-full py-4 bg-green-600 text-white rounded-2xl font-black shadow-xl hover:bg-green-700 transition-all">Save Client Account</button>
+               <button type="submit" disabled={!isValid(clientRules())} className="w-full py-4 bg-green-600 text-white rounded-2xl font-black shadow-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Client Account</button>
             </form>
           </div>
         </div>
@@ -1657,7 +1692,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Site/Station' : 'Add Station/Site'}</h3>
               <button onClick={() => { setIsSiteModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleSiteSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleSiteSubmit} onBlur={() => validate(siteRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
                   <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={siteForm.trackingId ?? ''} onChange={e => setSiteForm({...siteForm, trackingId: e.target.value})} placeholder="e.g. STN-001" />
@@ -1720,7 +1755,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                    <input type="email" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={siteForm.email ?? ''} onChange={e => setSiteForm({...siteForm, email: e.target.value})} />
                  </div>
                </div>
-               <button type="submit" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all">Confirm Site Details</button>
+               <button type="submit" disabled={!isValid(siteRules())} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed transition-all">Confirm Site Details</button>
             </form>
           </div>
         </div>
@@ -1734,7 +1769,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Broker' : 'Add New Broker'}</h3>
               <button onClick={() => { setIsBrokerModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleBrokerSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleBrokerSubmit} onBlur={() => validate(brokerRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -1792,7 +1827,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                     </div>
                   </div>
                </div>
-               <button type="submit" className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl hover:bg-blue-700 transition-all">Save Broker Record</button>
+               <button type="submit" disabled={!isValid(brokerRules())} className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Broker Record</button>
             </form>
           </div>
         </div>
@@ -1806,7 +1841,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Route' : 'Create New Route'}</h3>
               <button onClick={() => { setIsRouteModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleRouteSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleRouteSubmit} onBlur={() => validate(routeRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
                   <input type="text" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={routeForm.trackingId ?? ''} onChange={e => setRouteForm({...routeForm, trackingId: e.target.value})} placeholder="e.g. RT-001" />
@@ -1908,7 +1943,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   </div>
                </div>
 
-               <button type="submit" className="w-full py-4 bg-orange-600 text-white rounded-2xl font-black shadow-xl hover:bg-orange-700 transition-all">Save Route Configuration</button>
+               <button type="submit" disabled={!isValid(routeRules())} className="w-full py-4 bg-orange-600 text-white rounded-2xl font-black shadow-xl hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Route Configuration</button>
             </form>
           </div>
         </div>
@@ -1933,7 +1968,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               </button>
             </div>
             
-            <form onSubmit={handleTruckSubmit} noValidate className="p-8 space-y-8 overflow-y-auto">
+            <form onSubmit={handleTruckSubmit} onBlur={() => validate(truckRules())} noValidate className="p-8 space-y-8 overflow-y-auto">
               {/* Section: Asset Identity */}
               <div className="space-y-4">
                 <h4 className="flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest border-b border-blue-50 pb-2">
@@ -2299,7 +2334,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
 
               <div className="pt-8 flex gap-4 sticky bottom-0 bg-white">
                 <button type="button" onClick={() => setIsTruckModalOpen(false)} className="flex-1 px-6 py-4 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-[#F5F4F0] transition-all">Discard</button>
-                <button type="submit" className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                <button type="submit" disabled={!isValid(truckRules())} className="flex-1 px-6 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-md shadow-blue-500/20 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2">
                   <CheckCircle2 size={20} />
                   {editingItem ? 'Update Asset' : 'Register Asset'}
                 </button>
@@ -2317,7 +2352,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Product' : 'Add New Product'}</h3>
               <button onClick={() => { setIsItemProductModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleItemProductSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleItemProductSubmit} onBlur={() => validate(itemProductRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -2390,7 +2425,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   )}
                 </div>
 
-                <button type="submit" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black transition-all">Save Product</button>
+                <button type="submit" disabled={!isValid(itemProductRules())} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Product</button>
             </form>
           </div>
         </div>
@@ -2404,7 +2439,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Fuel Site' : 'Add Fuel Site Details'}</h3>
               <button onClick={() => { setIsFuelSiteModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
-            <form onSubmit={handleFuelSiteSubmit} noValidate className="p-8 space-y-6 overflow-y-auto">
+            <form onSubmit={handleFuelSiteSubmit} onBlur={() => validate(fuelSiteRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Tracking ID</label>
@@ -2508,7 +2543,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                    </div>
                  </div>
                </div>
-               <button type="submit" className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black shadow-xl hover:bg-rose-700 transition-all">Save Details</button>
+               <button type="submit" disabled={!isValid(fuelSiteRules())} className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black shadow-xl hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Details</button>
             </form>
           </div>
         </div>

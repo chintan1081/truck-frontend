@@ -170,7 +170,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
   const billingPayments = useMemo(() => {
     const list: any[] = [];
     props.invoices.forEach((inv) => {
-      inv.payments.forEach((p) => {
+      (inv.payments || []).forEach((p) => {
         list.push({
           ...p,
           invoiceId: inv.id,
@@ -806,13 +806,13 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
     const manualResources = props.paymentRecords.filter(r => r.type === 'RECEIVE' && !r.poolId);
     const manualTotal = manualResources.reduce((sum, r) => sum + r.amount, 0);
     const billingTotal = props.invoices.reduce((sum, inv) => 
-      sum + inv.payments.reduce((pSum, p) => pSum + p.amount, 0), 0);
+      sum + (inv.payments || []).reduce((pSum, p) => pSum + p.amount, 0), 0);
     const bankTotal = props.bankTransactions.filter(t => t.type === 'RECEIVE_MONEY').reduce((sum, t) => sum + t.amount, 0);
 
     return {
       chart: [
         { name: 'Manual Receipts', value: manualTotal, count: manualResources.length },
-        { name: 'Billing Invoices', value: billingTotal, count: props.invoices.reduce((sum, inv) => sum + inv.payments.length, 0) },
+        { name: 'Billing Invoices', value: billingTotal, count: props.invoices.reduce((sum, inv) => sum + (inv.payments || []).length, 0) },
         { name: 'Bank Deposits', value: bankTotal, count: props.bankTransactions.filter(t => t.type === 'RECEIVE_MONEY').length }
       ],
       manualTotal,

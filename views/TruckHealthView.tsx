@@ -2192,7 +2192,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           <div className="max-w-xs">
                              <p className="text-xs text-slate-600 font-medium leading-relaxed italic">"{record.description}"</p>
                              <div className="flex flex-wrap gap-2 mt-2">
-                                {record.partsReplaced.map(p => (
+                                {(record.partsReplaced || []).map(p => (
                                   <span key={p} className="text-[9px] font-black bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md uppercase tracking-wider">{p}</span>
                                 ))}
                              </div>

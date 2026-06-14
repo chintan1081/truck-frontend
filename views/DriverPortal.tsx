@@ -53,11 +53,14 @@ interface DriverPortalProps {
   orders: Order[];
   routes: Route[];
   settings: AppSettings;
+  fleet?: Truck[];
+  sites?: { id: string; name: string; type: string }[];
   onAddExpense: (exp: Expense) => void;
   onUpdateOrder?: (order: Order) => void;
+  onAddOrder?: (order: Order) => void;
 }
 
-const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, onAddExpense, onUpdateOrder }) => {
+const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, fleet, sites, onAddExpense, onUpdateOrder, onAddOrder }) => {
   const [activeTab, setActiveTab] = useState<'home' | 'routes' | 'dispatch' | 'wallet' | 'support' | 'additional' | 'health'>('home');
   const [isScanning, setIsScanning] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
@@ -70,8 +73,9 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, o
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  // Simulated driver context
-  const myTruck = MOCK_TRUCKS[0]; // GJ-01-AX-1234
+  // Driver context: first real truck from the fleet; mock only as a demo fallback.
+  const myTruck = (fleet && fleet.length > 0 ? fleet[0] : MOCK_TRUCKS[0]);
+  const siteOptions = (sites && sites.length > 0 ? sites : MOCK_SITES);
   
   const myAssignedOrders = useMemo(() => 
     orders.filter(o => o.assignedTruckId === myTruck.id), 
@@ -102,7 +106,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, o
 
   const selectedRoute = useMemo(() => routes.find(r => r.id === dispatchForm.routeId), [dispatchForm.routeId, routes]);
   const calculatedDiesel = useMemo(() => {
-    if (selectedRoute && myTruck) return (selectedRoute.distanceKm / myTruck.mileage).toFixed(2);
+    if (selectedRoute && myTruck && myTruck.mileage > 0) return (selectedRoute.distanceKm / myTruck.mileage).toFixed(2);
     return 0;
   }, [selectedRoute, myTruck]);
 
@@ -123,8 +127,8 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, o
 
   const handleDispatch = () => {
     if (!dispatchForm.siteId || !dispatchForm.routeId) return;
-    const site = MOCK_SITES.find(s => s.id === dispatchForm.siteId);
-    
+    const site = siteOptions.find(s => s.id === dispatchForm.siteId);
+
     const newOrder: Order = {
       id: `DRV-SELF-${Date.now().toString().slice(-4)}`,
       clientName: 'Self Assigned',
@@ -142,11 +146,13 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, o
       estimatedDiesel: Number(calculatedDiesel)
     };
     
-    if (onUpdateOrder) {
-      // In a real app, this would be onAddOrder, but we use what we have
+    if (onAddOrder) {
+      onAddOrder(newOrder);
       alert("New trip self-assigned and route locked!");
-      setIsDispatchModalOpen(false);
+    } else {
+      alert("Self-dispatch is not available right now. Please contact your dispatcher.");
     }
+    setIsDispatchModalOpen(false);
   };
 
   const handlePickUp = () => {
@@ -677,7 +683,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, o
                          <div className="grid grid-cols-2 gap-3">
                             <div className={`p-4 rounded-2xl border transition-all ${isNightMode ? 'bg-slate-950/50 border-slate-800' : 'bg-[#F5F4F0]/50 border-slate-100'}`}>
                                <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Current ODO</p>
-                               <p className="text-sm font-black">{myTruck.currentOdometer.toLocaleString()} KM</p>
+                               <p className="text-sm font-black">{(myTruck.currentOdometer ?? 0).toLocaleString()} KM</p>
                             </div>
                             <div className={`p-4 rounded-2xl border transition-all ${isNightMode ? 'bg-slate-950/50 border-slate-800' : 'bg-[#F5F4F0]/50 border-slate-100'}`}>
                                <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Maint. Due</p>
@@ -920,7 +926,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, o
                          <label className="t-label px-1">Delivery Site*</label>
                          <select className="w-full px-6 py-4 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-black text-sm" value={dispatchForm.siteId} onChange={e => setDispatchForm({...dispatchForm, siteId: e.target.value})}>
                             <option value="">Choose Hub...</option>
-                            {MOCK_SITES.filter(s => s.type === 'CLIENT_SITE').map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                            {(siteOptions.some(s => s.type === 'CLIENT_SITE') ? siteOptions.filter(s => s.type === 'CLIENT_SITE') : siteOptions).map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                          </select>
                       </div>
                       <div className="space-y-3">

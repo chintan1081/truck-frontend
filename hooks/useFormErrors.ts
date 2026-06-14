@@ -55,56 +55,75 @@ const FORMAT_MESSAGES: Partial<Record<FieldType, string>> = {
   accountNumber: 'Enter a valid bank account number (9–18 digits)',
 };
 
+/**
+ * Validates a single rule and returns an error message, or null when valid.
+ * Pure — does not touch React state, so it can be used both for live feedback
+ * and for computing whether a form is submittable.
+ */
+export function checkRule({ value, label, type, optional, min, max }: FieldRule): string | null {
+  const strVal = value === undefined || value === null ? '' : String(value).trim();
+  const isEmpty = strVal === '';
+
+  // Required check
+  if (isEmpty) {
+    return optional ? null : `${label} is required`;
+  }
+
+  // Numeric checks
+  if (type === 'number' || type === 'positiveNumber') {
+    const num = Number(strVal);
+    if (isNaN(num)) return `${label} must be a number`;
+    if (type === 'positiveNumber' && num <= 0) return `${label} must be greater than 0`;
+    if (min !== undefined && num < min) return `${label} must be at least ${min}`;
+    if (max !== undefined && num > max) return `${label} must be at most ${max}`;
+    return null;
+  }
+
+  // Pattern checks (case-insensitive normalise for GST/IFSC)
+  if (type && type !== 'text' && PATTERNS[type]) {
+    const testVal = type === 'gst' || type === 'ifsc' ? strVal.toUpperCase() : strVal;
+    if (!PATTERNS[type]!.test(testVal)) {
+      return FORMAT_MESSAGES[type] ?? `Invalid ${label}`;
+    }
+  }
+
+  return null;
+}
+
+function computeErrors(rules: Rules): Errors {
+  const next: Errors = {};
+  for (const [key, rule] of Object.entries(rules)) {
+    const msg = checkRule(rule);
+    if (msg) next[key] = msg;
+  }
+  return next;
+}
+
 export function useFormErrors() {
   const [errors, setErrors] = useState<Errors>({});
 
+  /** Full-form check used on submit: records every error and returns validity. */
   function validate(rules: Rules): boolean {
-    const next: Errors = {};
-
-    for (const [key, { value, label, type, optional, min, max }] of Object.entries(rules)) {
-      const strVal = value === undefined || value === null ? '' : String(value).trim();
-      const isEmpty = strVal === '';
-
-      // Required check
-      if (isEmpty) {
-        if (!optional) next[key] = `${label} is required`;
-        continue; // no further checks on empty value
-      }
-
-      // Numeric checks
-      if (type === 'number' || type === 'positiveNumber') {
-        const num = Number(strVal);
-        if (isNaN(num)) {
-          next[key] = `${label} must be a number`;
-          continue;
-        }
-        if (type === 'positiveNumber' && num <= 0) {
-          next[key] = `${label} must be greater than 0`;
-          continue;
-        }
-        if (min !== undefined && num < min) {
-          next[key] = `${label} must be at least ${min}`;
-          continue;
-        }
-        if (max !== undefined && num > max) {
-          next[key] = `${label} must be at most ${max}`;
-          continue;
-        }
-        continue;
-      }
-
-      // Pattern checks (case-insensitive normalise for GST/IFSC)
-      if (type && type !== 'text' && PATTERNS[type]) {
-        const testVal = type === 'gst' || type === 'ifsc' ? strVal.toUpperCase() : strVal;
-        if (!PATTERNS[type]!.test(testVal)) {
-          next[key] = FORMAT_MESSAGES[type] ?? `Invalid ${label}`;
-          continue;
-        }
-      }
-    }
-
+    const next = computeErrors(rules);
     setErrors(next);
     return Object.keys(next).length === 0;
+  }
+
+  /** Live per-field check used on change/blur for instant inline feedback. */
+  function validateField(field: string, rule: FieldRule) {
+    const msg = checkRule(rule);
+    setErrors(prev => {
+      if (prev[field] === (msg ?? undefined)) return prev;
+      const next = { ...prev };
+      if (msg) next[field] = msg;
+      else delete next[field];
+      return next;
+    });
+  }
+
+  /** Pure validity check (no state change) — use to enable/disable the submit button. */
+  function isValid(rules: Rules): boolean {
+    return Object.keys(computeErrors(rules)).length === 0;
   }
 
   function clearField(field: string) {
@@ -120,5 +139,5 @@ export function useFormErrors() {
     setErrors({});
   }
 
-  return { errors, validate, clearField, clearAll };
+  return { errors, validate, validateField, isValid, clearField, clearAll };
 }

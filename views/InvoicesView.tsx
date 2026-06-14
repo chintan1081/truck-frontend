@@ -504,7 +504,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
         inv.invoiceNumber.toLowerCase().includes(q) ||
         inv.clientName.toLowerCase().includes(q) ||
         inv.clientGst.toLowerCase().includes(q) ||
-        inv.orderIds.some(id => id.toLowerCase().includes(q)) ||
+        (inv.orderIds || []).some(id => id.toLowerCase().includes(q)) ||
         (inv.poNumber || '').toLowerCase().includes(q) ||
         (inv.soNumber || '').toLowerCase().includes(q) ||
         orderSearchString.includes(q);
@@ -550,7 +550,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
       if (formData.id && inv.id === formData.id) return;
       
       if (inv.status !== InvoiceStatus.CANCELLED) {
-        inv.orderIds.forEach(id => blocked.add(id));
+        (inv.orderIds || []).forEach(id => blocked.add(id));
       }
     });
     return blocked;
@@ -789,7 +789,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
     });
 
     if (isFullyPaid) {
-      selectedInvoice.orderIds.forEach(oid => {
+      (selectedInvoice.orderIds || []).forEach(oid => {
         const order = orders.find(o => o.id === oid);
         if (order) onUpdateOrder({ ...order, status: TripStatus.PAID });
       });
@@ -824,7 +824,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
       }]
     });
 
-    inv.orderIds.forEach(oid => {
+    (inv.orderIds || []).forEach(oid => {
       const order = orders.find(o => o.id === oid);
       if (order) onUpdateOrder({ ...order, status: TripStatus.PAID });
     });
@@ -936,7 +936,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
     // Create a faster lookup for order-to-invoice mapping for accurate tax/code logic
     const orderToInvoiceMap = new Map();
     filteredInvoices.forEach(inv => {
-      inv.orderIds.forEach(id => orderToInvoiceMap.set(id, inv));
+      (inv.orderIds || []).forEach(id => orderToInvoiceMap.set(id, inv));
     });
 
     const allOrderIds = filteredInvoices.flatMap(inv => inv.orderIds);
@@ -1709,7 +1709,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 </div>
                 <div className="p-3 bg-white rounded-2xl border border-slate-100 flex flex-col justify-center shadow-sm">
                    <span className="text-[9px] font-black text-slate-400 uppercase mb-1">Orders</span>
-                   <span className="text-xs font-black text-slate-900">{inv.orderIds.length} Linked</span>
+                   <span className="text-xs font-black text-slate-900">{(inv.orderIds || []).length} Linked</span>
                 </div>
                 <div className="p-3 bg-white rounded-2xl border border-slate-100 flex flex-col justify-center shadow-sm">
                    <span className="text-[9px] font-black text-slate-400 uppercase mb-1">Collection</span>
@@ -2826,7 +2826,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-slate-50">
-                                {selectedInvoice!.payments.map((p) => (
+                                {(selectedInvoice!.payments || []).map((p) => (
                                   <tr key={p.id} className="hover:bg-[#F5F4F0]/50 transition-all">
                                     <td className="px-6 py-4 text-xs font-bold text-slate-900">{new Date(p.date).toLocaleDateString('en-GB')}</td>
                                     <td className="px-6 py-4 text-xs font-black text-blue-600">{p.mode}</td>
@@ -2867,7 +2867,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                   {/* Vertical Timeline Line */}
                   <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-slate-100" />
 
-                  {selectedInvoice.history.map((entry, idx) => (
+                  {(selectedInvoice.history || []).map((entry, idx) => (
                     <div key={idx} className="relative flex items-start gap-6 group">
                       <div className={`w-12 h-12 rounded-full border-4 border-white shadow-sm flex items-center justify-center shrink-0 z-10 transition-all ${
                         entry.action === 'PAID' ? 'bg-green-500 text-white' : 

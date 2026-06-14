@@ -282,7 +282,9 @@ const FleetView: React.FC<FleetViewProps> = ({
     if (!order || !route) return;
 
     setIsDispatching(true);
-    const estimatedDiesel = Number((route.distanceKm / truckToAssign.mileage).toFixed(2));
+    const estimatedDiesel = truckToAssign.mileage > 0
+      ? Number((route.distanceKm / truckToAssign.mileage).toFixed(2))
+      : 0;
 
     const updatedOrder: Order = {
       ...order,
