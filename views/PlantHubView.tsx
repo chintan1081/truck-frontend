@@ -51,6 +51,7 @@ import {
 import { PlantAdvance, PlantAdvancePoolEntry, StationRate, Site, Order, Truck, ExpenseCategory, ExpenseStatus, Employee, Bank } from '../types';
 
 import { SearchableSelect } from '../components/SearchableSelect';
+import { QuickAddModal, QuickAddEntityType } from '../components/QuickAddModal';
 
 interface PlantHubViewProps {
   advances: PlantAdvance[];
@@ -70,15 +71,20 @@ interface PlantHubViewProps {
   onAddStationRate?: (rate: StationRate) => void;
   onUpdateStationRate?: (rate: StationRate) => void;
   onDeleteStationRate?: (id: string) => void;
+  onAddTruck?: (truck: Truck) => void;
+  onAddSite?: (site: Site) => void;
 }
 
-const PlantHubView: React.FC<PlantHubViewProps> = ({ 
+const PlantHubView: React.FC<PlantHubViewProps> = ({
   advances, pool, sites, orders, trucks, employees, banks, onAddAdvance, onUpdateAdvance, onDeleteAdvance, onAddPoolEntry, onUpdatePoolEntry, onDeletePoolEntry,
   stationRates = [],
   onAddStationRate = () => {},
   onUpdateStationRate = () => {},
-  onDeleteStationRate = () => {}
+  onDeleteStationRate = () => {},
+  onAddTruck,
+  onAddSite,
 }) => {
+  const [quickAdd, setQuickAdd] = useState<{ type: QuickAddEntityType; initialName: string } | null>(null);
   const [isPoolModalOpen, setIsPoolModalOpen] = useState(false);
   const [editingPoolEntry, setEditingPoolEntry] = useState<PlantAdvancePoolEntry | null>(null);
   const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
@@ -1263,11 +1269,13 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                     onChange={v => setPoolForm({...poolForm, bankId: v})}
                  />
 
-                 <SearchableSelect 
+                 <SearchableSelect
                     label="Source Account / Entity (TPS Station)*"
                     value={poolForm.stationId || ''}
                     placeholder="Select TPS Station..."
                     options={stations.map(s => ({ value: s.id, label: s.name, sub: s.location }))}
+                    onCreateNew={name => setQuickAdd({ type: 'site', initialName: name })}
+                    createNewLabel="Add TPS Station"
                     onChange={v => setPoolForm({...poolForm, stationId: v})}
                  />
                  
@@ -1324,11 +1332,13 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
             </div>
             
             <form onSubmit={handleAdvanceSubmit} className="p-10 space-y-8 overflow-y-auto no-scrollbar flex-1">
-               <SearchableSelect 
+               <SearchableSelect
                   label="Source Thermal Power Station*"
                   value={advForm.stationId || ''}
                   placeholder="Select loading point..."
                   options={stations.map(s => ({ value: s.id, label: s.name, sub: s.location }))}
+                  onCreateNew={name => setQuickAdd({ type: 'site', initialName: name })}
+                  createNewLabel="Add TPS Station"
                   onChange={v => {
                     const presetRate = stationRates.find(r => r.stationId === v)?.rate;
                     const qty = advForm.quantity || 0;
@@ -1374,11 +1384,13 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                         }
                      }}
                   />
-                  <SearchableSelect 
+                  <SearchableSelect
                      label="Assigned Asset (Truck)*"
                      value={advForm.truckId || ''}
                      placeholder="Map Truck..."
                      options={trucks.map(t => ({ value: t.id, label: t.truckNumber, sub: t.driverName }))}
+                     onCreateNew={name => setQuickAdd({ type: 'truck', initialName: name })}
+                     createNewLabel="Add Truck"
                      onChange={v => setAdvForm({...advForm, truckId: v})}
                   />
                </div>
@@ -1524,6 +1536,19 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
               </form>
            </div>
         </div>
+      )}
+
+      {quickAdd && (
+        <QuickAddModal
+          entityType={quickAdd.type}
+          initialName={quickAdd.initialName}
+          onClose={() => setQuickAdd(null)}
+          onCreated={(entity) => {
+            if (quickAdd.type === 'truck' && onAddTruck) onAddTruck(entity);
+            else if (quickAdd.type === 'site' && onAddSite) onAddSite(entity);
+            setQuickAdd(null);
+          }}
+        />
       )}
     </div>
   );

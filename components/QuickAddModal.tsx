@@ -3,7 +3,7 @@ import { X, Loader2, Plus } from 'lucide-react';
 import { api } from '../services/api/client';
 import { useFormErrors, FieldRule } from '../hooks/useFormErrors';
 
-export type QuickAddEntityType = 'client' | 'site' | 'broker' | 'route' | 'driver' | 'truck';
+export type QuickAddEntityType = 'client' | 'site' | 'broker' | 'route' | 'driver' | 'truck' | 'fuelSite';
 
 interface QuickAddModalProps {
   entityType: QuickAddEntityType;
@@ -13,12 +13,13 @@ interface QuickAddModalProps {
 }
 
 const ENTITY_CONFIG: Record<QuickAddEntityType, { label: string; endpoint: string }> = {
-  client:  { label: 'Client',  endpoint: 'clients' },
-  site:    { label: 'Site',    endpoint: 'sites' },
-  broker:  { label: 'Broker',  endpoint: 'brokers' },
-  route:   { label: 'Route',   endpoint: 'routes' },
-  driver:  { label: 'Driver',  endpoint: 'drivers' },
-  truck:   { label: 'Truck',   endpoint: 'fleet' },
+  client:   { label: 'Client',       endpoint: 'clients' },
+  site:     { label: 'Site',         endpoint: 'sites' },
+  broker:   { label: 'Broker',       endpoint: 'brokers' },
+  route:    { label: 'Route',        endpoint: 'routes' },
+  driver:   { label: 'Driver',       endpoint: 'drivers' },
+  truck:    { label: 'Truck',        endpoint: 'fleet' },
+  fuelSite: { label: 'Fuel Station', endpoint: 'fuel-sites' },
 };
 
 const baseInputCls = `w-full px-4 py-3 bg-slate-50 border rounded-2xl outline-none
@@ -89,6 +90,13 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
     isMaintenanceMode: false,
   });
 
+  // ---- Fuel Site ----
+  const [fuelSite, setFuelSite] = useState({
+    companyName: initialName, ownerName: '', phoneNumber: '', contactEmail: '',
+    whatsappNumber: '', gstNumber: '', address: '', accountNumber: '',
+    ifscCode: '', bankName: '', upiId: '',
+  });
+
   /**
    * Declarative validation rules for the active entity, derived from current
    * state. Required fields have no `optional`; format-checked fields carry a
@@ -136,12 +144,21 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
           upiId:          { value: driver.upiId, label: 'UPI ID', type: 'upi', optional: true },
         };
       case 'truck':
-      default:
         return {
           truckNumber:  { value: truck.truckNumber, label: 'Truck Number' },
           driverName:   { value: truck.driverName, label: 'Driver Name' },
+          rcExpiry:     { value: truck.rcExpiry, label: 'RC Expiry' },
           ownerContact: { value: truck.ownerContact, label: 'Owner Contact', type: 'phone', optional: true },
           dieselLimit:  { value: truck.dieselLimit, label: 'Diesel Limit', type: 'number', min: 0, optional: true },
+        };
+      case 'fuelSite':
+      default:
+        return {
+          companyName:  { value: fuelSite.companyName, label: 'Station Name' },
+          phoneNumber:  { value: fuelSite.phoneNumber, label: 'Phone', type: 'phone' },
+          address:      { value: fuelSite.address, label: 'Address' },
+          upiId:        { value: fuelSite.upiId, label: 'UPI ID', type: 'upi', optional: true },
+          contactEmail: { value: fuelSite.contactEmail, label: 'Email', type: 'email', optional: true },
         };
     }
   };
@@ -171,6 +188,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
       else if (entityType === 'broker') payload = broker;
       else if (entityType === 'route') payload = { ...route, distanceKm: Number(route.distanceKm) };
       else if (entityType === 'driver') payload = driver;
+      else if (entityType === 'fuelSite') payload = fuelSite;
       else payload = truck;
 
       const created = await api.post(config.endpoint, payload);
@@ -326,8 +344,32 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
         <Field label="Insurance Expiry">
           <input className={okInputCls} type="date" value={truck.insuranceExpiry} onChange={e => setTruck({ ...truck, insuranceExpiry: e.target.value })} />
         </Field>
-        <Field label="RC Expiry">
-          <input className={okInputCls} type="date" value={truck.rcExpiry} onChange={e => setTruck({ ...truck, rcExpiry: e.target.value })} />
+        <Field label="RC Expiry" required error={errors.rcExpiry}>
+          <input className={cls('rcExpiry')} type="date" value={truck.rcExpiry} onChange={e => update(setTruck, 'rcExpiry', e.target.value)} />
+        </Field>
+      </div>
+    );
+
+    // fuelSite (default)
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        <Field label="Station Name" required error={errors.companyName} >
+          <input className={cls('companyName')} value={fuelSite.companyName} onChange={e => update(setFuelSite, 'companyName', e.target.value)} placeholder="e.g. HP Fuel Station" />
+        </Field>
+        <Field label="Phone" required error={errors.phoneNumber}>
+          <input className={cls('phoneNumber')} value={fuelSite.phoneNumber} onChange={e => update(setFuelSite, 'phoneNumber', e.target.value)} placeholder="+91 98765 43210" />
+        </Field>
+        <Field label="Address" required error={errors.address}>
+          <input className={cls('address')} value={fuelSite.address} onChange={e => update(setFuelSite, 'address', e.target.value)} placeholder="Street address" />
+        </Field>
+        <Field label="Owner Name">
+          <input className={okInputCls} value={fuelSite.ownerName} onChange={e => setFuelSite({ ...fuelSite, ownerName: e.target.value })} placeholder="Owner name" />
+        </Field>
+        <Field label="UPI ID" error={errors.upiId}>
+          <input className={cls('upiId')} value={fuelSite.upiId} onChange={e => update(setFuelSite, 'upiId', e.target.value)} placeholder="name@upi" />
+        </Field>
+        <Field label="Email" error={errors.contactEmail}>
+          <input className={cls('contactEmail')} type="email" value={fuelSite.contactEmail} onChange={e => update(setFuelSite, 'contactEmail', e.target.value)} placeholder="station@email.com" />
         </Field>
       </div>
     );

@@ -31,6 +31,7 @@ import {
   Trash2
 } from 'lucide-react';
 import { FuelSite, FuelTransaction, Truck as TruckType, Driver, Expense, ExpenseCategory, ExpenseStatus, Order, Client, Site, Bank } from '../types';
+import { QuickAddModal, QuickAddEntityType } from '../components/QuickAddModal';
 import { 
   BarChart, 
   Bar, 
@@ -61,20 +62,27 @@ interface FuelManagementViewProps {
   banks?: Bank[];
   onUpdateFuelTransactions: (transactions: FuelTransaction[]) => void;
   onAddExpense: (expense: Expense) => void;
+  onAddTruck?: (truck: TruckType) => void;
+  onAddDriver?: (driver: Driver) => void;
+  onAddFuelSite?: (site: FuelSite) => void;
 }
 
-const FuelManagementView: React.FC<FuelManagementViewProps> = ({ 
-  fuelSites, 
-  fuelTransactions, 
-  trucks, 
+const FuelManagementView: React.FC<FuelManagementViewProps> = ({
+  fuelSites,
+  fuelTransactions,
+  trucks,
   drivers,
   orders,
   clients,
   sites,
   banks = [],
   onUpdateFuelTransactions,
-  onAddExpense
+  onAddExpense,
+  onAddTruck,
+  onAddDriver,
+  onAddFuelSite,
 }) => {
+  const [quickAdd, setQuickAdd] = useState<{ type: QuickAddEntityType; initialName: string } | null>(null);
   const [activeTab, setActiveTab] = useState<'site' | 'reports' | 'account'>('site');
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
@@ -1869,7 +1877,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
       )}
 
       {/* Fuel Slip Modal */}
-      <FuelSlipModal 
+      <FuelSlipModal
         isOpen={showSlipModal}
         onClose={() => {
           setShowSlipModal(false);
@@ -1877,6 +1885,20 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
         }}
         transaction={slipTxn}
       />
+
+      {quickAdd && (
+        <QuickAddModal
+          entityType={quickAdd.type}
+          initialName={quickAdd.initialName}
+          onClose={() => setQuickAdd(null)}
+          onCreated={(entity) => {
+            if (quickAdd.type === 'truck' && onAddTruck) onAddTruck(entity);
+            else if (quickAdd.type === 'driver' && onAddDriver) onAddDriver(entity);
+            else if (quickAdd.type === 'fuelSite' && onAddFuelSite) onAddFuelSite(entity);
+            setQuickAdd(null);
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -2292,6 +2314,8 @@ const FuelLogModal: React.FC<{
                     placeholder="Select Truck..."
                     value={form.truckId}
                     options={vehicleOptions}
+                    onCreateNew={name => setQuickAdd({ type: 'truck', initialName: name })}
+                    createNewLabel="Add Truck"
                     onChange={val => {
                       const selectedTruck = trucks.find(t => t.id === val);
                       let autoDriverId = selectedTruck?.assignedDriverId || "";
@@ -2302,7 +2326,7 @@ const FuelLogModal: React.FC<{
                         }
                       }
                       setForm({
-                        ...form, 
+                        ...form,
                         truckId: val,
                         odometerReading: selectedTruck ? selectedTruck.currentOdometer.toString() : form.odometerReading,
                         driverId: autoDriverId || form.driverId
@@ -2317,6 +2341,8 @@ const FuelLogModal: React.FC<{
                     placeholder="Select Driver..."
                     value={form.driverId}
                     options={driverOptions}
+                    onCreateNew={name => setQuickAdd({ type: 'driver', initialName: name })}
+                    createNewLabel="Add Driver"
                     onChange={val => setForm({...form, driverId: val})}
                   />
                </div>
@@ -2330,6 +2356,8 @@ const FuelLogModal: React.FC<{
                     placeholder="Select Station..."
                     value={form.siteId}
                     options={fuelStationOptions}
+                    onCreateNew={name => setQuickAdd({ type: 'fuelSite', initialName: name })}
+                    createNewLabel="Add Fuel Station"
                     onChange={val => setForm({...form, siteId: val})}
                   />
                </div>
@@ -2530,8 +2558,8 @@ const FuelLogModal: React.FC<{
               >
                 DISCARD
               </button>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-2xl text-sm font-black shadow-md shadow-blue-500/20 hover:-translate-y-1 transition-all"
               >
                 {isEditing ? 'UPDATE RECORD' : 'RECORD FUEL PURCHASE'}

@@ -154,6 +154,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
   const [rotationHistoryPage, setRotationHistoryPage] = useState(1);
   const [activeEditTruckSection, setActiveEditTruckSection] = useState<'identity' | 'technical' | 'ownership' | 'logistics' | null>(null);
   const [editTruckForm, setEditTruckForm] = useState<Partial<Truck>>({});
+  const [editTruckErrors, setEditTruckErrors] = useState<Record<string, string>>({});
   const [inspectionPage, setInspectionPage] = useState(1);
   const [inspectionSearch, setInspectionSearch] = useState('');
   const [inspectionStatusFilter, setInspectionStatusFilter] = useState<'ALL' | 'PASS' | 'FAIL' | 'ADVISORY'>('ALL');
@@ -897,6 +898,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                           onClick={() => {
                             setActiveEditTruckSection('identity');
                             setEditTruckForm(selectedTruck);
+                            setEditTruckErrors({});
                           }}
                           className="absolute top-4 right-4 p-2 bg-[#F5F4F0] text-slate-400 hover:text-blue-600 rounded-xl opacity-0 group-hover/top:opacity-100 transition-all border border-slate-100"
                         >
@@ -972,6 +974,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             onClick={() => {
                               setActiveEditTruckSection('technical');
                               setEditTruckForm(selectedTruck);
+                              setEditTruckErrors({});
                             }}
                             className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-purple-600 transition-all"
                           >
@@ -1012,6 +1015,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             onClick={() => {
                               setActiveEditTruckSection('ownership');
                               setEditTruckForm(selectedTruck);
+                              setEditTruckErrors({});
                             }}
                             className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-emerald-600 transition-all"
                           >
@@ -1055,6 +1059,7 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                             onClick={() => {
                               setActiveEditTruckSection('logistics');
                               setEditTruckForm(selectedTruck);
+                              setEditTruckErrors({});
                             }}
                             className="p-2 hover:bg-[#F5F4F0] rounded-xl text-slate-400 hover:text-amber-600 transition-all"
                           >
@@ -3081,8 +3086,8 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
       </Modal>
 
       <Modal 
-        isOpen={!!activeEditTruckSection} 
-        onClose={() => setActiveEditTruckSection(null)}
+        isOpen={!!activeEditTruckSection}
+        onClose={() => { setActiveEditTruckSection(null); setEditTruckErrors({}); }}
         title={
           activeEditTruckSection === 'identity' ? 'Edit Asset Identity' :
           activeEditTruckSection === 'technical' ? 'Edit Technical Specifications' :
@@ -3091,14 +3096,17 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
         }
       >
         {activeEditTruckSection && (
-          <form 
+          <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (selectedTruckId) {
-                const updatedTruck = { ...selectedTruck, ...editTruckForm } as Truck;
-                onUpdateTruck(updatedTruck);
-                setActiveEditTruckSection(null);
-              }
+              if (!selectedTruckId) return;
+              const updatedTruck = { ...selectedTruck, ...editTruckForm } as Truck;
+              const errs: Record<string, string> = {};
+              if (!updatedTruck.rcExpiry) errs.rcExpiry = 'RC Expiry is required before saving.';
+              if (Object.keys(errs).length) { setEditTruckErrors(errs); return; }
+              setEditTruckErrors({});
+              onUpdateTruck(updatedTruck);
+              setActiveEditTruckSection(null);
             }}
             className="page-stack pb-10"
           >
@@ -3110,6 +3118,16 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
                   <EditField label="Truck Number" value={editTruckForm.truckNumber} onChange={v => setEditTruckForm({...editTruckForm, truckNumber: v})} />
                   <EditField label="Model Number" value={editTruckForm.modelNumber} onChange={v => setEditTruckForm({...editTruckForm, modelNumber: v})} />
                   <EditField label="Tracking ID" value={editTruckForm.trackingId} onChange={v => setEditTruckForm({...editTruckForm, trackingId: v})} />
+                  <div>
+                    <label className="t-label mb-2 block">RC Expiry <span className="text-red-500">*</span></label>
+                    <input
+                      type="date"
+                      value={editTruckForm.rcExpiry || ''}
+                      onChange={e => { setEditTruckForm({...editTruckForm, rcExpiry: e.target.value}); setEditTruckErrors(prev => { const n = {...prev}; delete n.rcExpiry; return n; }); }}
+                      className={`w-full bg-[#F5F4F0] border rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none transition-all ${editTruckErrors.rcExpiry ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                    />
+                    {editTruckErrors.rcExpiry && <p className="mt-1 text-xs text-red-500 font-bold">{editTruckErrors.rcExpiry}</p>}
+                  </div>
                   <div className="md:col-span-2">
                     <EditField label="Description" value={editTruckForm.description} onChange={v => setEditTruckForm({...editTruckForm, description: v})} isTextArea />
                   </div>
