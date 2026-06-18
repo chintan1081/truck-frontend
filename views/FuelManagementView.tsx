@@ -1713,6 +1713,7 @@ const FuelManagementView: React.FC<FuelManagementViewProps> = ({
         clients={clients}
         customerSites={sites}
         banks={banks}
+        onQuickAdd={(type, initialName) => setQuickAdd({ type, initialName })}
       />
 
       {/* Bulk Payment Modal */}
@@ -2233,7 +2234,8 @@ const FuelLogModal: React.FC<{
   clients: Client[];
   customerSites: Site[];
   banks?: Bank[];
-}> = ({ isOpen, isEditing, onClose, onSubmit, form, setForm, sites, trucks, drivers, orders, clients, customerSites, banks = [] }) => {
+  onQuickAdd?: (type: QuickAddEntityType, initialName: string) => void;
+}> = ({ isOpen, isEditing, onClose, onSubmit, form, setForm, sites, trucks, drivers, orders, clients, customerSites, banks = [], onQuickAdd }) => {
   if (!isOpen) return null;
 
   // Searchable Options
@@ -2314,7 +2316,7 @@ const FuelLogModal: React.FC<{
                     placeholder="Select Truck..."
                     value={form.truckId}
                     options={vehicleOptions}
-                    onCreateNew={name => setQuickAdd({ type: 'truck', initialName: name })}
+                    onCreateNew={name => onQuickAdd?.('truck', name)}
                     createNewLabel="Add Truck"
                     onChange={val => {
                       const selectedTruck = trucks.find(t => t.id === val);
@@ -2341,7 +2343,7 @@ const FuelLogModal: React.FC<{
                     placeholder="Select Driver..."
                     value={form.driverId}
                     options={driverOptions}
-                    onCreateNew={name => setQuickAdd({ type: 'driver', initialName: name })}
+                    onCreateNew={name => onQuickAdd?.('driver', name)}
                     createNewLabel="Add Driver"
                     onChange={val => setForm({...form, driverId: val})}
                   />
@@ -2356,7 +2358,7 @@ const FuelLogModal: React.FC<{
                     placeholder="Select Station..."
                     value={form.siteId}
                     options={fuelStationOptions}
-                    onCreateNew={name => setQuickAdd({ type: 'fuelSite', initialName: name })}
+                    onCreateNew={name => onQuickAdd?.('fuelSite', name)}
                     createNewLabel="Add Fuel Station"
                     onChange={val => setForm({...form, siteId: val})}
                   />

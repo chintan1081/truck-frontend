@@ -370,6 +370,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const itemProductRules = (f = itemProductForm) => ({
     productName: { value: f.productName, label: 'Product Name', type: 'text' as const },
     hsnSacCode: { value: f.hsnSacCode, label: 'HSN/SAC Code', type: 'text' as const },
+    productColour: { value: f.productColour, label: 'Product Colour', type: 'text' as const },
     gstRate: { value: f.gstRate, label: 'GST Rate', type: 'number' as const, min: 0, max: 100, optional: true },
   });
   const fuelSiteRules = (f = fuelSiteForm) => ({
@@ -2373,13 +2374,15 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">GST Rate (%)</label>
-                    <input type="number" className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={itemProductForm.gstRate ?? 0} onChange={e => setItemProductForm({...itemProductForm, gstRate: Number(e.target.value)})} placeholder="e.g. 18" />
+                    <input type="number" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'gstRate')} value={itemProductForm.gstRate ?? 0} onChange={e => { setItemProductForm({...itemProductForm, gstRate: Number(e.target.value)}); clearField('gstRate'); }} placeholder="e.g. 18" />
+                    {fieldErr('gstRate')}
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Product Colour*</label>
-                  <input type="text" required className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold" value={itemProductForm.productColour ?? ''} onChange={e => setItemProductForm({...itemProductForm, productColour: e.target.value})} placeholder="e.g. Grey, White, #808080" />
+                  <input type="text" className={fieldCls("w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold", 'productColour')} value={itemProductForm.productColour ?? ''} onChange={e => { setItemProductForm({...itemProductForm, productColour: e.target.value}); clearField('productColour'); }} placeholder="e.g. Grey, White, #808080" />
+                  {fieldErr('productColour')}
                 </div>
 
                 <div className="space-y-4">
