@@ -135,7 +135,15 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
 
   const handleOpenEdit = (salary: DriverSalary) => {
     setEditingId(salary.id);
-    setFormData(salary);
+    setFormData({
+      ...salary,
+      baseRate: Number(salary.baseRate) || 0,
+      presentDays: Number(salary.presentDays) || 0,
+      bonus: Number(salary.bonus) || 0,
+      deductions: Number(salary.deductions) || 0,
+      advanceAdjusted: Number(salary.advanceAdjusted) || 0,
+      totalAmount: Number(salary.totalAmount) || 0,
+    });
     setIsModalOpen(true);
   };
 

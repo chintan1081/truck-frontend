@@ -626,7 +626,20 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   };
 
   const handleEdit = (inv: Invoice) => {
-    setFormData(inv);
+    setFormData({
+      ...inv,
+      subTotal: Number(inv.subTotal) || 0,
+      gstRate: Number(inv.gstRate) || 0,
+      gstAmount: Number(inv.gstAmount) || 0,
+      tdsAmount: Number(inv.tdsAmount) || 0,
+      discountAmount: Number(inv.discountAmount) || 0,
+      tcsRate: Number(inv.tcsRate) || 0,
+      tcsAmount: Number(inv.tcsAmount) || 0,
+      roundOff: Number(inv.roundOff) || 0,
+      autoRoundOff: Number(inv.autoRoundOff) || 0,
+      totalAmount: Number(inv.totalAmount) || 0,
+      paidAmount: Number(inv.paidAmount) || 0,
+    });
     setActiveFormTab('client');
     setIsModalOpen(true);
   };
@@ -2172,7 +2185,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                       setFormData({
                                          ...formData,
                                          sacCode: product.hsnSacCode || formData.sacCode,
-                                         gstRate: product.gstRate || formData.gstRate
+                                         gstRate: Number(product.gstRate) || formData.gstRate
                                       });
                                    }
                                 }}

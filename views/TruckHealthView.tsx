@@ -3101,9 +3101,6 @@ const TruckHealthView: React.FC<TruckHealthViewProps> = ({
               e.preventDefault();
               if (!selectedTruckId) return;
               const updatedTruck = { ...selectedTruck, ...editTruckForm } as Truck;
-              const errs: Record<string, string> = {};
-              if (!updatedTruck.rcExpiry) errs.rcExpiry = 'RC Expiry is required before saving.';
-              if (Object.keys(errs).length) { setEditTruckErrors(errs); return; }
               setEditTruckErrors({});
               onUpdateTruck(updatedTruck);
               setActiveEditTruckSection(null);

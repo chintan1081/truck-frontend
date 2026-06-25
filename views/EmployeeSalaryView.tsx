@@ -101,7 +101,14 @@ const EmployeeSalaryView: React.FC<EmployeeSalaryViewProps> = ({ employees, empl
 
   const handleOpenEdit = (salary: EmployeeSalary) => {
     setEditingId(salary.id);
-    setFormData(salary);
+    setFormData({
+      ...salary,
+      baseAmount: Number(salary.baseAmount) || 0,
+      bonus: Number(salary.bonus) || 0,
+      deductions: Number(salary.deductions) || 0,
+      advanceAdjusted: Number(salary.advanceAdjusted) || 0,
+      netAmount: Number(salary.netAmount) || 0,
+    });
     setIsModalOpen(true);
   };
 

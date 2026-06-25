@@ -370,10 +370,6 @@ const App: React.FC = () => {
 
   const handleUpdateTrucks = makeListSyncSetter<Truck>("fleet", fleet, "T");
   const handleUpdateSingleTruck = async (truck: Truck) => {
-    if (!truck.rcExpiry) {
-      setOpError("RC Expiry is required. Please update the truck's RC Expiry date before saving.");
-      return;
-    }
     try {
       await apiCall(`fleet/${truck.id}`, "PUT", truck);
       await reloadData();

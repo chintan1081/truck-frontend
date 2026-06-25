@@ -533,7 +533,17 @@ const OrdersView: React.FC<OrdersViewProps> = ({
   const handleOpenEdit = (order: Order) => {
     setEditingOrder(order);
     setDateError(null);
-    setFormData(order);
+    setFormData({
+      ...order,
+      quantity: Number(order.quantity) || 0,
+      ratePerMT: Number(order.ratePerMT) || 0,
+      gstRate: Number(order.gstRate) || 0,
+      totalKm: Number(order.totalKm) || 0,
+      estimatedDiesel: Number(order.estimatedDiesel) || 0,
+      dieselRatePerLiter: Number(order.dieselRatePerLiter) || 0,
+      brokerCommissionPerMT: Number(order.brokerCommissionPerMT) || 0,
+      totalBrokerCommission: Number(order.totalBrokerCommission) || 0,
+    });
     setIsModalOpen(true);
     setActiveMenu(null);
   };
@@ -2279,7 +2289,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                           materialName: prod.productName,
                           itemCode: prod.trackingId,
                           hsnSacCode: prod.hsnSacCode,
-                          gstRate: prod.gstRate,
+                          gstRate: Number(prod.gstRate) || 0,
                           services: prod.services || [],
                         });
                       } else {

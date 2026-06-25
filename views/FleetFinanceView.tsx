@@ -319,7 +319,12 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
   };
 
   const handleEditEmi = (emi: TruckEMI) => {
-    setEmiForm(emi);
+    setEmiForm({
+      ...emi,
+      amount: Number(emi.amount) || 0,
+      totalLoanAmount: Number(emi.totalLoanAmount) || 0,
+      interestRate: Number(emi.interestRate) || 0,
+    });
     setEditingEmiId(emi.id);
     setIsEmiModalOpen(true);
   };
@@ -1202,7 +1207,7 @@ const FleetFinanceView: React.FC<FleetFinanceViewProps> = ({
                            </td>
                            <td className="px-8 py-6 text-right">
                               <div className="flex items-center justify-end gap-2">
-                                 <button onClick={() => { setMaintForm(m); setIsMaintModalOpen(true); }} className="p-2 text-slate-300 hover:text-blue-600 transition-colors"><Edit size={18}/></button>
+                                 <button onClick={() => { setMaintForm({ ...m, amount: Number(m.amount) || 0, odometerReading: Number(m.odometerReading) || 0 }); setIsMaintModalOpen(true); }} className="p-2 text-slate-300 hover:text-blue-600 transition-colors"><Edit size={18}/></button>
                                  <button onClick={() => onUpdateMaintenance(maintenance.filter(x => x.id !== m.id))} className="p-2 text-slate-300 hover:text-red-600 transition-colors"><Trash2 size={18}/></button>
                               </div>
                            </td>

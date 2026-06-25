@@ -629,15 +629,15 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                                        orderId: adv.orderId,
                                        truckId: adv.truckId,
                                        stationId: adv.stationId,
-                                       amount: adv.amount,
+                                       amount: Number(adv.amount) || 0,
                                        date: adv.date,
                                        paymentMode: adv.paymentMode,
                                        referenceNo: adv.referenceNo,
                                        status: adv.status,
                                        isPriority: adv.isPriority || false,
                                        notes: adv.notes || '',
-                                       quantity: adv.quantity,
-                                       rate: adv.rate
+                                       quantity: adv.quantity != null ? Number(adv.quantity) : undefined,
+                                       rate: adv.rate != null ? Number(adv.rate) : undefined,
                                      });
                                      setIsAdvanceModalOpen(true);
                                    }} 
@@ -1024,7 +1024,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                                        stationId: entry.stationId,
                                        employeeId: entry.employeeId,
                                        employeeName: entry.employeeName,
-                                       amount: entry.amount,
+                                       amount: Number(entry.amount) || 0,
                                        date: entry.date,
                                        referenceNo: entry.referenceNo,
                                        notes: entry.notes || '',
@@ -1192,7 +1192,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                                          setEditingRate(rate);
                                          setRateForm({
                                            stationId: rate.stationId,
-                                           rate: rate.rate,
+                                           rate: rate.rate != null ? Number(rate.rate) : undefined,
                                            notes: rate.notes
                                          });
                                          setIsRateModalOpen(true);

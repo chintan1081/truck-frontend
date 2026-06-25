@@ -147,7 +147,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
         return {
           truckNumber:  { value: truck.truckNumber, label: 'Truck Number' },
           driverName:   { value: truck.driverName, label: 'Driver Name' },
-          rcExpiry:     { value: truck.rcExpiry, label: 'RC Expiry' },
+          rcExpiry:     { value: truck.rcExpiry, label: 'RC Expiry', optional: true },
           ownerContact: { value: truck.ownerContact, label: 'Owner Contact', type: 'phone', optional: true },
           dieselLimit:  { value: truck.dieselLimit, label: 'Diesel Limit', type: 'number', min: 0, optional: true },
         };
