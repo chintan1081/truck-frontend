@@ -7,10 +7,15 @@ export default defineConfig(() => {
     return {
       plugins: [react(), tailwindcss()],
       build: {
-        // Emit the SPA into server/public/. This folder is committed to the
+        // Normally emit the SPA into server/public/, which is committed to the
         // server-only deploy repo and served statically by Express in prod
         // (Render does not build the frontend). Rebuild + recommit after FE changes.
-        outDir: path.resolve(__dirname, '../server/public'),
+        // On Vercel (process.env.VERCEL is set by their build image) there is no
+        // sibling server/ directory to write into, so emit to the standard
+        // dist/ folder instead, matching frontend/vercel.json's outputDirectory.
+        outDir: process.env.VERCEL
+          ? 'dist'
+          : path.resolve(__dirname, '../server/public'),
         emptyOutDir: true,
       },
       resolve: {
