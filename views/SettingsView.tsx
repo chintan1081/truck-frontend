@@ -31,6 +31,7 @@ import { AppSettings, BankDetail } from '../types';
 import { useFormErrors } from '../hooks/useFormErrors';
 import { uploadProfilePhoto } from '../services/api/auth';
 import { useAuth } from '../services/auth/AuthContext';
+import { useToast } from '../components/Toast';
 
 interface SettingsViewProps {
   settings: AppSettings;
@@ -39,6 +40,7 @@ interface SettingsViewProps {
 }
 
 const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings, currentUser }) => {
+  const { toast } = useToast();
   const { errors: fe, validate, validateField, isValid, clearField, clearAll } = useFormErrors();
 
   // Validation rules for the bank-account form, derived from current state.
@@ -78,7 +80,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      alert("File size should be less than 2MB");
+      toast('File size should be less than 2MB', 'error');
       return;
     }
 
@@ -162,7 +164,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 2 * 1024 * 1024) {
-      alert('File size should be less than 2MB');
+      toast('File size should be less than 2MB', 'error');
       return;
     }
     setPhotoUploading(true);
@@ -170,7 +172,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ settings, onUpdateSettings,
       await uploadProfilePhoto(file);
       await refreshUser();
     } catch {
-      alert('Failed to upload profile photo. Please try again.');
+      toast('Failed to upload profile photo. Please try again.', 'error');
     } finally {
       setPhotoUploading(false);
       e.target.value = '';

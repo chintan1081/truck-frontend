@@ -6,12 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "node dist/server.cjs",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit && tsc --noEmit --project server/tsconfig.json",
-    "migration:generate": "npm run migration:generate --prefix server",
-    "migration:run": "npm run migration:run --prefix server",
-    "migration:revert": "npm run migration:revert --prefix server"
+    "type-check": "tsc --noEmit",
+    "migration:generate": "npm run migration:generate --prefix ../server",
+    "migration:run": "npm run migration:run --prefix ../server",
+    "migration:revert": "npm run migration:revert --prefix ../server"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",
@@ -19,7 +18,7 @@
     "axios": "^1.16.1",
     "date-fns": "^4.1.0",
     "flyash-logistics-server": "file:../server",
-    "html2canvas": "^1.4.1",
+    "html2canvas": "npm:html2canvas-pro@^2.2.0",
     "html2pdf.js": "^0.14.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
@@ -33,7 +32,8 @@
     "reflect-metadata": "^0.2.2"
   },
   "overrides": {
-    "node-domexception": "file:./shims/node-domexception"
+    "node-domexception": "file:./shims/node-domexception",
+    "html2canvas": "npm:html2canvas-pro@^2.2.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",

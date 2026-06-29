@@ -51,6 +51,7 @@ import {
 import { PlantAdvance, PlantAdvancePoolEntry, StationRate, Site, Order, Truck, ExpenseCategory, ExpenseStatus, Employee, Bank } from '../types';
 
 import { SearchableSelect } from '../components/SearchableSelect';
+import { useToast } from '../components/Toast';
 import { QuickAddModal, QuickAddEntityType } from '../components/QuickAddModal';
 
 interface PlantHubViewProps {
@@ -96,6 +97,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
     rate: undefined,
     notes: ''
   });
+  const { toast } = useToast();
   const [activeViewTab, setActiveViewTab] = useState<'DASHBOARD' | 'LEDGER' | 'USAGE' | 'POOL' | 'RATE'>('DASHBOARD');
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -304,7 +306,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
   const handlePoolSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!poolForm.stationId) { alert("Please select a station."); return; }
+    if (!poolForm.stationId) { toast('Please select a station.', 'warning'); return; }
     
     // Find employee name if employeeId is set
     const empName = poolForm.employeeId ? employees.find(e => e.id === poolForm.employeeId)?.fullName : '';
@@ -341,8 +343,8 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
   const handleRateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!rateForm.stationId) { alert("Please select a thermal power station."); return; }
-    if (!rateForm.rate || rateForm.rate <= 0) { alert("Please enter a valid rate."); return; }
+    if (!rateForm.stationId) { toast('Please select a thermal power station.', 'warning'); return; }
+    if (!rateForm.rate || rateForm.rate <= 0) { toast('Please enter a valid rate.', 'warning'); return; }
 
     const isExisting = stationRates?.some(r => r.stationId === rateForm.stationId);
 
@@ -380,7 +382,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
 
   const handleAdvanceSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!advForm.stationId) { alert("Please select a station."); return; }
+    if (!advForm.stationId) { toast('Please select a station.', 'warning'); return; }
     
     // Total utilization for this station (excluding the one being edited if applicable)
     const existingTotalUtilized = advances
@@ -391,7 +393,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
     const availableBalance = totalLifetime - existingTotalUtilized;
 
     if ((advForm.amount || 0) > availableBalance) {
-      alert(`Validation Error: Requested amount (₹${advForm.amount?.toLocaleString()}) exceeds available balance for this station (₹${(availableBalance || 0).toLocaleString()}).`);
+      toast(`Validation Error: Requested amount (₹${advForm.amount?.toLocaleString()}) exceeds available balance for this station (₹${(availableBalance || 0).toLocaleString()}).`, 'error');
       return;
     }
     
@@ -979,7 +981,7 @@ const PlantHubView: React.FC<PlantHubViewProps> = ({
                        return (
                         <tr key={entry.id} className="hover:bg-[#F5F4F0]/50 transition-colors group">
                           <td className="px-6 py-6">
-                             <p className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg border border-blue-100 inline-block font-mono">{entry.id}</p>
+                             <p className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg border border-blue-100 inline-block font-mono">#{entry.entryNumber ?? '—'}</p>
                           </td>
                           <td className="px-6 py-6">
                               <span className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-tighter border ${entry.transactionType === 'PAID' ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-emerald-50 text-emerald-600 border-emerald-100'}`}>

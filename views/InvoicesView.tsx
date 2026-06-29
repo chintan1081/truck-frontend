@@ -45,10 +45,12 @@ import {
   Truck as TruckIcon,
   RotateCcw,
   SlidersHorizontal,
+  Loader2,
 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { Invoice, InvoiceStatus, Client, Order, TripStatus, PaymentEntry, Site, ItemProduct, Truck, Driver, Bank } from '../types';
 import { SearchableSelect } from '../components/SearchableSelect';
+import { useToast } from '../components/Toast';
 
 interface InvoicesViewProps {
   invoices: Invoice[];
@@ -290,8 +292,9 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   onUpdateClient
 }) => {
   const [activeTab, setActiveTab] = useState<'ALL' | 'DRAFT' | 'SENT' | 'PARTIAL' | 'PAID' | 'OVERDUE' | 'CANCELLED'>('ALL');
-  const [billingSubTab, setBillingSubTab] = useState<'SITES' | 'CLIENTS'>('SITES');
+  const [billingSubTab, setBillingSubTab] = useState<'SITES' | 'CLIENTS'>('CLIENTS');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { toast } = useToast();
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isBulkExportModalOpen, setIsBulkExportModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
@@ -315,6 +318,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   const [selectedInvoiceIds, setSelectedInvoiceIds] = useState<string[]>([]);
   const [isBulkPrint, setIsBulkPrint] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [clientSearchQuery, setClientSearchQuery] = useState('');
   const [shipmentSearchQuery, setShipmentSearchQuery] = useState('');
@@ -681,7 +685,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.clientId || formData.orderIds?.length === 0) {
-      alert("Required: Client and at least one trip.");
+      toast('Required: Client and at least one trip.', 'warning');
       return;
     }
 
@@ -844,6 +848,8 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   };
 
   const handleDownloadInvoice = (inv: Invoice) => {
+    if (isGeneratingPdf) return;
+
     onUpdateInvoice({
       ...inv,
       history: [...inv.history, {
@@ -853,19 +859,22 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
         note: 'PDF Invoice generated and downloaded.'
       }]
     });
-    
+
     // Set view to preview mode for the selected invoice
     setIsBulkPrint(false);
     setSelectedInvoice(inv);
     setDetailTab('preview');
     setIsDetailOpen(true);
-    
+
     // Increased delay to ensure all assets (fonts, images) are fully rendered in the DOM
+    setIsGeneratingPdf(true);
     setTimeout(async () => {
       try {
         await generatePerfectPDF('printable-invoice', `Invoice_${inv.invoiceNumber}.pdf`);
       } catch {
         setPdfError('Could not export the invoice. Please close and try again.');
+      } finally {
+        setIsGeneratingPdf(false);
       }
     }, 2000);
   };
@@ -886,10 +895,14 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
   };
 
   const executeBulkDownload = async () => {
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
     try {
       await generatePerfectPDF('printable-invoice', `Batch_Invoices_${new Date().getTime()}.pdf`);
     } catch {
       setPdfError('Could not export the batch invoices. Please try again.');
+    } finally {
+      setIsGeneratingPdf(false);
     }
   };
 
@@ -934,7 +947,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
         note: 'E-mail payment reminder sent to client.'
       }]
     });
-    alert("Payment reminder sent successfully.");
+    toast('Payment reminder sent successfully.', 'success');
   };
 
   // Helper inside component to render common content
@@ -983,10 +996,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 <div className="w-20 h-20 flex items-center justify-center border-2 border-slate-100 rounded-2xl p-1 bg-[#F5F4F0]/50 overflow-hidden shadow-inner">
                   {settings?.companyLogo ? (
                     <img 
-                      src={settings.companyLogo} 
-                      alt="Company Logo" 
-                      className="w-full h-full object-contain mix-blend-multiply" 
+                      src={settings.companyLogo}
+                      alt="Company Logo"
+                      className="w-full h-full object-contain mix-blend-multiply"
                       referrerPolicy="no-referrer"
+                      crossOrigin="anonymous"
                     />
                   ) : (
                     <div className="relative w-full h-full flex items-center justify-center font-black text-slate-300 italic">
@@ -1359,13 +1373,15 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 </div>
              </div>
              <div className="flex items-center gap-3 bg-[#F5F4F0] p-1.5 rounded-xl border border-slate-100">
-               <button 
+               {/* Station & Site Aging tab removed
+               <button
                  onClick={() => setBillingSubTab('SITES')}
                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all ${billingSubTab === 'SITES' ? 'bg-white text-blue-600 shadow-md ring-1 ring-slate-200/50' : 'text-slate-400 hover:text-slate-600'}`}
                >
                  <MapPin size={14} /> Station & Site Aging
                </button>
-               <button 
+               */}
+               <button
                  onClick={() => setBillingSubTab('CLIENTS')}
                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all ${billingSubTab === 'CLIENTS' ? 'bg-white text-blue-600 shadow-md ring-1 ring-slate-200/50' : 'text-slate-400 hover:text-slate-600'}`}
                >
@@ -1375,6 +1391,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
          </div>
 
          {billingSubTab === 'SITES' ? (
+           /* Station & Site Aging tab content removed
            <div className="page-stack pb-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-300">
                  {sites.slice(0, 8).map(site => (
@@ -1399,7 +1416,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                  )}
               </div>
               <div className="flex justify-end">
-                <button 
+                <button
                   onClick={() => setIsFullView('SITES')}
                   className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 text-blue-600 rounded-xl font-black text-[10px] uppercase hover:bg-blue-600 hover:text-white transition-all shadow-sm"
                 >
@@ -1407,6 +1424,8 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                 </button>
               </div>
            </div>
+           */
+           null
          ) : (
            <div className="space-y-6 animate-in fade-in duration-300">
               <div className="relative">
@@ -1792,7 +1811,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
              <div className="flex items-center justify-between pt-6 border-t border-slate-100 mt-auto relative">
                 <div className="flex gap-1">
-                   <button onClick={() => handleDownloadInvoice(inv)} className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm" title="Download PDF"><Download size={18}/></button>
+                   <button onClick={() => handleDownloadInvoice(inv)} disabled={isGeneratingPdf} className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed" title="Download PDF">{isGeneratingPdf ? <Loader2 size={18} className="animate-spin" /> : <Download size={18}/>}</button>
                    <button onClick={() => handleEdit(inv)} className="p-2.5 bg-[#F5F4F0] text-slate-400 rounded-xl hover:bg-slate-900 hover:text-white transition-all" title="Edit"><Edit size={18}/></button>
                    <button onClick={() => handleAddPaymentClick(inv)} disabled={inv.status === InvoiceStatus.CANCELLED} className={`p-2.5 rounded-xl transition-all ${inv.status === InvoiceStatus.CANCELLED ? 'bg-slate-100 text-slate-300 cursor-not-allowed opacity-50' : 'bg-green-50 text-green-600 hover:bg-green-600 hover:text-white shadow-md'}`} title={inv.status === InvoiceStatus.CANCELLED ? "Cannot add payment to cancelled invoice" : "Add Billing Record"}><IndianRupee size={18}/></button>
                    <button onClick={() => handleMarkAsPaid(inv)} disabled={inv.status === InvoiceStatus.CANCELLED} className={`p-2.5 rounded-xl transition-all ${inv.status === InvoiceStatus.CANCELLED ? 'bg-slate-100 text-slate-300 cursor-not-allowed opacity-50' : 'bg-[#F5F4F0] text-slate-400 hover:bg-blue-600 hover:text-white'}`} title={inv.status === InvoiceStatus.CANCELLED ? "Cannot mark cancelled invoice as paid" : "Mark as Paid"}><Check size={18}/></button>
@@ -2127,7 +2146,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                               />
                               <div className="flex-1">
                                  <div className="flex justify-between items-center">
-                                    <p className="text-sm font-black text-slate-900">{o.id}</p>
+                                    <p className="text-sm font-black text-slate-900">Order #{o.orderNumber ?? '—'}</p>
                                     <span className="text-[10px] font-black text-blue-600">{o.quantity} MT</span>
                                  </div>
                                  <div className="flex flex-col gap-0.5 mt-1">
@@ -2316,11 +2335,11 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                       onClick={(e) => {
                         e.preventDefault();
                         if (activeFormTab === 'trips' && (!formData.orderIds || formData.orderIds.length === 0)) {
-                           alert("Please select at least one shipment to proceed.");
+                           toast('Please select at least one shipment to proceed.', 'warning');
                            return;
                         }
                         if (activeFormTab === 'client' && !formData.clientId) {
-                           alert("Please select a client to proceed.");
+                           toast('Please select a client to proceed.', 'warning');
                            return;
                         }
                         setActiveFormTab(activeFormTab === 'client' ? 'trips' : 'tax');
@@ -2506,7 +2525,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                       {isBulkPrint ? 'Bulk Invoices PDF' : detailTab === 'preview' ? 'Invoice Preview' : 'Audit History'}
                     </h3>
                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">
-                       {isBulkPrint ? `${selectedInvoiceIds.length} Selected Invoices` : `Ref ID: ${selectedInvoice?.id}`}
+                       {isBulkPrint ? `${selectedInvoiceIds.length} Selected Invoices` : `INV: ${selectedInvoice?.invoiceNumber}`}
                     </p>
                   </div>
                 </div>
@@ -2536,10 +2555,10 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
 
                 <div className="flex gap-2">
                     {isBulkPrint ? (
-                      <button onClick={executeBulkDownload} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm" title="Download Bulk PDF"><Download size={20}/></button>
+                      <button onClick={executeBulkDownload} disabled={isGeneratingPdf} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed" title="Download Bulk PDF">{isGeneratingPdf ? <Loader2 size={20} className="animate-spin" /> : <Download size={20}/>}</button>
                     ) : (
                      selectedInvoice && (
-                       <button onClick={() => handleDownloadInvoice(selectedInvoice)} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm" title="Download PDF"><Download size={20}/></button>
+                       <button onClick={() => handleDownloadInvoice(selectedInvoice)} disabled={isGeneratingPdf} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed" title="Download PDF">{isGeneratingPdf ? <Loader2 size={20} className="animate-spin" /> : <Download size={20}/>}</button>
                      )
                    )}
                    <button onClick={() => window.print()} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-[#F5F4F0] transition-all shadow-sm" title="Print Invoices"><Printer size={20}/></button>
@@ -2601,12 +2620,13 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                               </select>
                             </div>
 
-                            <button 
+                            <button
                               onClick={executeBulkDownload}
-                              className="flex items-center gap-3 bg-slate-900 hover:bg-black text-white px-8 py-3 rounded-xl font-black text-sm transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-200"
+                              disabled={isGeneratingPdf}
+                              className="flex items-center gap-3 bg-slate-900 hover:bg-black text-white px-8 py-3 rounded-xl font-black text-sm transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-200 disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                              <Download size={18} />
-                              PROCESS BATCH
+                              {isGeneratingPdf ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
+                              {isGeneratingPdf ? 'PROCESSING…' : 'PROCESS BATCH'}
                             </button>
                           </div>
                         )}
@@ -2629,11 +2649,12 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                                 </div>
                                 <div className="w-20 h-20 flex items-center justify-center border-2 border-slate-100 rounded-2xl p-1 bg-[#F5F4F0]/50 overflow-hidden shadow-inner">
                                   {settings?.companyLogo ? (
-                                    <img 
-                                      src={settings.companyLogo} 
-                                      alt="Company Logo" 
-                                      className="w-full h-full object-contain mix-blend-multiply" 
+                                    <img
+                                      src={settings.companyLogo}
+                                      alt="Company Logo"
+                                      className="w-full h-full object-contain mix-blend-multiply"
                                       referrerPolicy="no-referrer"
+                                      crossOrigin="anonymous"
                                     />
                                   ) : (
                                     <div className="relative w-full h-full flex items-center justify-center font-black text-slate-300 italic">
@@ -2988,7 +3009,7 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                            });
 
                            if (filtered.length === 0) {
-                             alert("No invoices found for the selected criteria.");
+                             toast('No invoices found for the selected criteria.', 'warning');
                              return;
                            }
                            setIsPreviewModalOpen(true);
@@ -3006,29 +3027,22 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                            });
 
                            if (filtered.length === 0) {
-                             alert("No invoices found for the selected criteria.");
+                             setPdfError("No invoices found for the selected criteria.");
                              return;
                            }
+                           if (isGeneratingPdf) return;
 
-                           generatePerfectPDF('bulk-invoice-export-template', `Bulk-Invoices-${bulkExportData.clientId}-${bulkExportData.startDate}-to-${bulkExportData.endDate}.pdf`).catch(() => {
-                             setPdfError('Could not export invoices. Please try again.');
-                           });
-                           /*
-                           if (!element) return;
-
-                           const opt = {
-                             margin: 0,
-                             filename: `Bulk-Invoices-${bulkExportData.clientId}-${bulkExportData.startDate}-to-${bulkExportData.endDate}.pdf`,
-                             image: { type: 'jpeg' as const, quality: 0.98 },
-                             html2canvas: { scale: 2, useCORS: true, logging: false },
-                             jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
-                           };
-
-                           */
+                           setIsGeneratingPdf(true);
+                           generatePerfectPDF('bulk-invoice-export-template', `Bulk-Invoices-${bulkExportData.clientId}-${bulkExportData.startDate}-to-${bulkExportData.endDate}.pdf`)
+                             .catch(() => {
+                               setPdfError('Could not export invoices. Please try again.');
+                             })
+                             .finally(() => setIsGeneratingPdf(false));
                          }}
-                         className="py-4 bg-blue-600 text-white rounded-xl font-black uppercase tracking-widest shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3"
+                         disabled={isGeneratingPdf}
+                         className="py-4 bg-blue-600 text-white rounded-xl font-black uppercase tracking-widest shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
                        >
-                          <Download size={20} /> Download
+                          {isGeneratingPdf ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />} {isGeneratingPdf ? 'Generating…' : 'Download'}
                        </button>
                     </div>
                     <p className="text-[10px] text-center text-slate-400 font-bold uppercase">
@@ -3082,24 +3096,19 @@ const InvoicesView: React.FC<InvoicesViewProps> = ({
                  <div className="flex gap-2">
                     <button
                       onClick={() => {
-                         generatePerfectPDF('bulk-invoice-export-template', `Bulk-Invoices-${bulkExportData.clientId}-${bulkExportData.startDate}-to-${bulkExportData.endDate}.pdf`).catch(() => {
-                           setPdfError('Could not export invoices. Please try again.');
-                         });
-                         /*
-                        if (!element) return;
-                        const opt = {
-                          margin: 0,
-                          filename: `Bulk-Invoices-${bulkExportData.clientId}-${bulkExportData.startDate}-to-${bulkExportData.endDate}.pdf`,
-                          image: { type: 'jpeg' as const, quality: 0.98 },
-                          html2canvas: { scale: 2, useCORS: true, logging: false },
-                          jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
-                        };
-                         */
+                         if (isGeneratingPdf) return;
+                         setIsGeneratingPdf(true);
+                         generatePerfectPDF('bulk-invoice-export-template', `Bulk-Invoices-${bulkExportData.clientId}-${bulkExportData.startDate}-to-${bulkExportData.endDate}.pdf`)
+                           .catch(() => {
+                             setPdfError('Could not export invoices. Please try again.');
+                           })
+                           .finally(() => setIsGeneratingPdf(false));
                       }}
-                      className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm"
+                      disabled={isGeneratingPdf}
+                      className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-indigo-50 text-indigo-600 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
                       title="Download PDF"
                     >
-                       <Download size={20} />
+                       {isGeneratingPdf ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
                     </button>
                     <button onClick={() => window.print()} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:bg-[#F5F4F0] transition-all shadow-sm" title="Print"><Printer size={20}/></button>
                     <button onClick={() => setIsPreviewModalOpen(false)} className="p-3 bg-white border border-[#E7E5E0] rounded-xl hover:rotate-90 transition-all shadow-sm" title="Close">

@@ -36,9 +36,12 @@ import {
   Navigation,
   ChevronDown,
   Percent,
-  Cog
+  Cog,
+  Lock,
+  Loader2
 } from 'lucide-react';
 import { Truck, Driver, Client, Site, Order, Broker, Route, Bank, Employee, ItemProduct, FuelSite } from '../types';
+import { api, ApiError } from '@/services/api/client';
 
 interface ResourcesViewProps {
   trucks: Truck[];
@@ -97,6 +100,13 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
   const [routeSearchQuery, setRouteSearchQuery] = useState('');
   const [isRouteDropdownOpen, setIsRouteDropdownOpen] = useState(false);
   const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
+  const [portalAccessDriver, setPortalAccessDriver] = useState<Driver | null>(null);
+  const [portalPassword, setPortalPassword] = useState('');
+  const [portalSaving, setPortalSaving] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
+  const [driverLoginPassword, setDriverLoginPassword] = useState('');
+  const [driverLoginError, setDriverLoginError] = useState<string | null>(null);
+  const [driverSubmitting, setDriverSubmitting] = useState(false);
   const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
   const [isClientModalOpen, setIsClientModalOpen] = useState(false);
   const [isSiteModalOpen, setIsSiteModalOpen] = useState(false);
@@ -423,7 +433,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       setIsRouteDropdownOpen(false);
       setIsTruckModalOpen(true); 
     }
-    if (type === 'drivers') { setDriverForm(item || initialDriverForm); setIsDriverModalOpen(true); }
+    if (type === 'drivers') { setDriverForm(item || initialDriverForm); setDriverLoginPassword(''); setDriverLoginError(null); setIsDriverModalOpen(true); }
     if (type === 'employees') { setEmployeeForm(item || initialEmployeeForm); setIsEmployeeModalOpen(true); }
     if (type === 'clients') { setClientForm(item || initialClientForm); setIsClientModalOpen(true); }
     if (type === 'sites') { setSiteForm(item || initialSiteForm); setIsSiteModalOpen(true); }
@@ -432,6 +442,32 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
     if (type === 'banks') { setBankForm(item || initialBankForm); setIsBankModalOpen(true); }
     if (type === 'item-products') { setItemProductForm(item || initialItemProductForm); setIsItemProductModalOpen(true); }
     if (type === 'fuel-sites') { setFuelSiteForm(item || initialFuelSiteForm); setIsFuelSiteModalOpen(true); }
+  };
+
+  const handleOpenPortalAccess = (driver: Driver) => {
+    setPortalAccessDriver(driver);
+    setPortalPassword('');
+    setPortalError(null);
+  };
+
+  const handleSetPortalPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!portalAccessDriver) return;
+    if (portalPassword.length < 4) {
+      setPortalError('Password must be at least 4 characters.');
+      return;
+    }
+    setPortalSaving(true);
+    setPortalError(null);
+    try {
+      await api.post(`drivers/${portalAccessDriver.id}/portal-password`, { password: portalPassword });
+      onUpdateDrivers(drivers.map(d => d.id === portalAccessDriver.id ? { ...d, portalAccessEnabled: true } : d));
+      setPortalAccessDriver(null);
+    } catch (err) {
+      setPortalError(err instanceof ApiError ? err.message : 'Failed to set password. Please try again.');
+    } finally {
+      setPortalSaving(false);
+    }
   };
 
   const handleEmployeeSubmit = (e: React.FormEvent) => {
@@ -555,7 +591,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
     setIsFuelSiteModalOpen(false);
   };
 
-  const handleDriverSubmit = (e: React.FormEvent) => {
+  const handleDriverSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = validate({
       name: { value: driverForm.name, label: 'Full Name', type: 'text' },
@@ -571,25 +607,49 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
       experienceYears: { value: driverForm.experienceYears, label: 'Experience (Years)', type: 'number', min: 0, max: 60, optional: true },
     });
     if (!ok) return;
+    if (driverLoginPassword && driverLoginPassword.length < 4) {
+      setDriverLoginError('Password must be at least 4 characters.');
+      return;
+    }
+    setDriverLoginError(null);
     const finalTrackingId = driverForm.trackingId || `DRV-${Date.now().toString().slice(-6)}`;
-    
+
     // Combine bank fields into bankDetails string for backward compatibility
-    const combinedBankDetails = driverForm.bankName && driverForm.accountNumber 
+    const combinedBankDetails = driverForm.bankName && driverForm.accountNumber
       ? `${driverForm.bankName} A/c ${driverForm.accountNumber}`
       : driverForm.bankDetails || '';
-      
+
     const updatedForm = {
       ...driverForm,
       bankDetails: combinedBankDetails,
       trackingId: finalTrackingId
     };
 
-    if (editingItem) {
-      onUpdateDrivers(drivers.map(d => d.id === editingItem.id ? { ...d, ...updatedForm } as Driver : d));
-    } else {
-      onUpdateDrivers([...drivers, { ...updatedForm, id: `D-${Date.now()}` } as Driver]);
+    setDriverSubmitting(true);
+    try {
+      if (editingItem) {
+        await onUpdateDrivers(drivers.map(d => d.id === editingItem.id ? { ...d, ...updatedForm } as Driver : d));
+        if (driverLoginPassword) {
+          await api.post(`drivers/${editingItem.id}/portal-password`, { password: driverLoginPassword });
+        }
+      } else {
+        await onUpdateDrivers([...drivers, { ...updatedForm, id: `D-${Date.now()}` } as Driver]);
+        if (driverLoginPassword) {
+          const list = await api.get<{ data: Driver[] }>('drivers');
+          const created = list.data
+            .filter(d => d.phoneNumber === updatedForm.phoneNumber)
+            .sort((a, b) => (b.id > a.id ? 1 : -1))[0];
+          if (created) {
+            await api.post(`drivers/${created.id}/portal-password`, { password: driverLoginPassword });
+          }
+        }
+      }
+      setIsDriverModalOpen(false);
+    } catch (err) {
+      setDriverLoginError(err instanceof ApiError ? err.message : 'Failed to save login credentials. Please try again.');
+    } finally {
+      setDriverSubmitting(false);
     }
-    setIsDriverModalOpen(false);
   };
 
   const handleTruckSubmit = (e: React.FormEvent) => {
@@ -861,6 +921,20 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                   <p className="text-xs font-black text-slate-900">{driver.joinDate || 'N/A'}</p>
               </div>
             </div>
+
+            <button
+              onClick={() => handleOpenPortalAccess(driver)}
+              className={`w-full mt-3 flex items-center justify-between p-3 rounded-2xl border text-xs font-bold transition-colors ${
+                driver.portalAccessEnabled
+                  ? 'bg-emerald-50 border-emerald-100 text-emerald-700 hover:bg-emerald-100'
+                  : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100'
+              }`}
+            >
+              <span className="flex items-center gap-1.5"><Lock size={13} /> Truck Driver Portal</span>
+              <span className="font-black uppercase tracking-wide text-[10px]">
+                {driver.portalAccessEnabled ? 'Enabled · Reset' : 'Set Password'}
+              </span>
+            </button>
 
             {(driver.bankName || driver.accountNumber || driver.ifscCode || driver.upiId) && (
               <div className="mt-3 p-3 bg-indigo-50/30 rounded-2xl border border-indigo-50 space-y-1.5">
@@ -1500,7 +1574,7 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
           <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-[#F5F4F0]/50">
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{editingItem ? 'Edit Driver' : 'Add New Driver'}</h3>
-              <button onClick={() => { setIsDriverModalOpen(false); clearAll(); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
+              <button onClick={() => { setIsDriverModalOpen(false); clearAll(); setDriverLoginPassword(''); setDriverLoginError(null); }} className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleDriverSubmit} onBlur={() => validate(driverRules())} noValidate className="p-8 space-y-6 overflow-y-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -1608,7 +1682,34 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                    </div>
                  </div>
                </div>
-               <button type="submit" disabled={!isValid(driverRules())} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black shadow-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Driver Record</button>
+               <div className="bg-[#F5F4F0] p-6 rounded-2xl border border-slate-200/60 space-y-4 col-span-full">
+                 <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                   <Lock size={14} className="text-blue-600" /> Truck Driver Portal Login
+                 </h4>
+                 <p className="text-xs font-semibold text-slate-500">
+                   Sets the password the driver uses to sign in at <span className="font-mono">/truck</span> with phone number <span className="font-black text-slate-900">{driverForm.phoneNumber || '—'}</span>.
+                   {editingItem && (
+                     <span className={`ml-1 font-black ${editingItem.portalAccessEnabled ? 'text-emerald-600' : 'text-slate-400'}`}>
+                       {editingItem.portalAccessEnabled ? '(Login already enabled — leave blank to keep it unchanged)' : '(Login not set up yet)'}
+                     </span>
+                   )}
+                 </p>
+                 <div className="space-y-2">
+                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">{editingItem ? 'New Password' : 'Set Password'}</label>
+                   <input
+                     type="password"
+                     minLength={4}
+                     className="w-full px-5 py-3.5 bg-white border border-[#E7E5E0] rounded-xl font-bold focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                     value={driverLoginPassword}
+                     onChange={e => { setDriverLoginPassword(e.target.value); setDriverLoginError(null); }}
+                     placeholder="Min. 4 characters (optional)"
+                   />
+                   {driverLoginError && (
+                     <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{driverLoginError}</div>
+                   )}
+                 </div>
+               </div>
+               <button type="submit" disabled={!isValid(driverRules()) || driverSubmitting} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black shadow-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">{driverSubmitting ? 'Saving…' : 'Save Driver Record'}</button>
             </form>
           </div>
         </div>
@@ -2547,6 +2648,42 @@ const ResourcesView: React.FC<ResourcesViewProps> = ({
                  </div>
                </div>
                <button type="submit" disabled={!isValid(fuelSiteRules())} className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black shadow-xl hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Save Details</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {portalAccessDriver && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-black text-[#1C1917] tracking-tight">Truck Driver Portal Access</h3>
+              <button onClick={() => setPortalAccessDriver(null)} className="w-9 h-9 flex items-center justify-center bg-[#F5F4F0] text-slate-400 rounded-full hover:rotate-90 transition-all"><X size={18} /></button>
+            </div>
+            <p className="text-xs font-semibold text-slate-500 mb-4">
+              Set a password for <span className="font-black text-slate-900">{portalAccessDriver.name}</span> ({portalAccessDriver.phoneNumber}) to sign in at <span className="font-mono">/truck</span> and accept/reject assigned routes.
+            </p>
+            <form onSubmit={handleSetPortalPassword} className="space-y-3">
+              <input
+                type="password"
+                autoFocus
+                minLength={4}
+                value={portalPassword}
+                onChange={e => setPortalPassword(e.target.value)}
+                placeholder="Min. 4 characters"
+                className="w-full px-5 py-3.5 bg-[#F5F4F0] border border-slate-200 rounded-2xl font-bold outline-none focus:border-blue-400"
+              />
+              {portalError && (
+                <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{portalError}</div>
+              )}
+              <button
+                type="submit"
+                disabled={portalSaving}
+                className="w-full flex items-center justify-center gap-2 py-3.5 bg-blue-600 text-white rounded-2xl font-black shadow-md hover:bg-blue-700 disabled:opacity-60 transition-all"
+              >
+                {portalSaving && <Loader2 size={16} className="animate-spin" />}
+                {portalSaving ? 'Saving…' : 'Save Password'}
+              </button>
             </form>
           </div>
         </div>

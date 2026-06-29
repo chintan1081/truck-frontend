@@ -68,6 +68,7 @@ import {
   AlertCircle as LucideAlertCircle
 } from 'lucide-react';
 import { useFormErrors } from '../hooks/useFormErrors';
+import { useToast } from '../components/Toast';
 
 interface EmployeeManagementViewProps {
   employees: Employee[];
@@ -157,6 +158,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
     leaveEndDate: { value: leaveEndDate, label: 'End Date' },
     leaveReason: { value: leaveReason, label: 'Justification' },
   });
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<'roster' | 'attendance' | 'leaves' | 'performance'>('roster');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<'ALL' | 'DRIVER' | 'EMPLOYEE'>('ALL');
@@ -2551,7 +2553,7 @@ const EmployeeManagementView: React.FC<EmployeeManagementViewProps> = ({
                               setLogSafety(Math.min(100, Math.round((latest?.safetyCompliance || 95) + 2)));
                               setLogTiming(Math.min(100, Math.round((latest?.loadCycleTiming || 90) + 3)));
                               setLogRating(5);
-                              alert('Metrics optimized from previous session benchmarks');
+                              toast('Metrics optimized from previous session benchmarks', 'success');
                            }}
                            className="flex-1 py-3 px-4 border-2 border-emerald-100 bg-emerald-50 text-emerald-700 rounded-2xl font-black text-[9px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-100 transition-all shadow-sm"
                         >

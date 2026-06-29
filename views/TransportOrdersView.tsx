@@ -685,7 +685,7 @@ const TransportOrdersView: React.FC<TransportOrdersViewProps> = ({ orders, onUpd
                 return (
                   <tr key={order.id} className="hover:bg-[#F5F4F0]/30 transition-colors group text-[11px]">
                     <td className="px-4 py-6">
-                      <p className="font-black text-blue-600 font-mono tracking-tighter">#{order.id.slice(-6)}</p>
+                      <p className="font-black text-blue-600 font-mono tracking-tighter">#{order.orderNumber ?? '—'}</p>
                     </td>
                     <td className="px-4 py-6 font-bold text-slate-600">
                       {order.pickupDate}

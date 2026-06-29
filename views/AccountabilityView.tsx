@@ -644,7 +644,11 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
         const matchesMode = filters.paymentMode === "ALL" || item.mode === filters.paymentMode;
         const matchesAmt = item.amount >= filters.minAmount && item.amount <= filters.maxAmount;
         const matchesType = filters.entity === "ALL" || item.type === filters.entity;
-        const matchesCategory = filters.category === "ALL" || item.category === filters.category;
+        const matchesCategory =
+          filters.category === "ALL" ||
+          item.category === filters.category ||
+          (filters.category === "DIESEL" &&
+            item.raw?.category === ExpenseCategory.DIESEL);
 
         const date = new Date(item.date);
         const start = filters.startDate ? new Date(filters.startDate) : null;
@@ -926,7 +930,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               "EMP_PAYROLL",
               "EXPENSES",
               "PLANT_ADVANCES",
-              "BANK",
+              // "BANK", -- hidden from nav per request; tab content kept for later use
               "PAYMENTS",
               "AUDIT",
             ] as const
@@ -937,7 +941,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
               className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all capitalize whitespace-nowrap ${activeTab === tab ? "bg-slate-900 text-white shadow-lg" : "text-slate-500 hover:bg-[#F5F4F0]"}`}
             >
               {tab === "PAYMENTS"
-                ? "Methods"
+                ? "Bank"
                 : tab === "LEDGER"
                   ? "Cash Flow"
                   : tab === "EMP_PAYROLL"
@@ -1169,6 +1173,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
                     <option value="ALL">All Categories</option>
                     <option value="BILLING">Billing Inflow</option>
                     <option value="EXPENSE">Operational OpEx</option>
+                    <option value="DIESEL">Diesel / Fuel</option>
                     <option value="PAYROLL">Payroll / Salaries</option>
                     <option value="MAINTENANCE">Maintenance</option>
                     <option value="BANK_TRANSFER">Manual Adjustments</option>
@@ -2207,7 +2212,7 @@ const AccountabilityView: React.FC<AccountabilityViewProps> = (props) => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl font-black text-[#1C1917] tracking-tight uppercase tracking-tighter">
-                Accountability Hub • Methods
+                Accountability Hub • Bank
               </h3>
               <p className="text-slate-500 text-xs font-medium">
                 Verified cash and bank movement registry.

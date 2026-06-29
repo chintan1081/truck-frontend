@@ -28,11 +28,13 @@ import {
   MessageCircle,
   ShieldCheck,
   // Added missing Clock import from lucide-react
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 import { Driver, DriverSalary, AppSettings, Bank } from '../types';
 import html2pdf from 'html2pdf.js';
 import { sendSalarySlipWhatsApp } from '../services/notificationService';
+import { useToast } from '../components/Toast';
 
 interface SalaryViewProps {
   drivers: Driver[];
@@ -45,6 +47,7 @@ interface SalaryViewProps {
 }
 
 const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, banks = [], onAddSalary, onUpdateSalary, onDeleteSalary }) => {
+  const { toast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSlipOpen, setIsSlipOpen] = useState(false);
   const [selectedSlip, setSelectedSlip] = useState<DriverSalary | null>(null);
@@ -54,6 +57,8 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isSharing, setIsSharing] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   const slipRef = useRef<HTMLDivElement>(null);
 
@@ -163,9 +168,9 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
     window.print();
   };
 
-  const handleDownload = () => {
-    if (!slipRef.current) return;
-    
+  const handleDownload = async () => {
+    if (!slipRef.current || isDownloading) return;
+
     const element = slipRef.current;
     const opt = {
       margin: 1,
@@ -175,7 +180,15 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
       jsPDF: { unit: 'in' as const, format: 'letter', orientation: 'portrait' as const }
     };
 
-    html2pdf().set(opt).from(element).save();
+    setIsDownloading(true);
+    setDownloadError(null);
+    try {
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
+      setDownloadError('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleWhatsAppShare = (salary: DriverSalary) => {
@@ -183,7 +196,7 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
     const phone = driver?.whatsappNumber || driver?.phoneNumber || '';
     
     if (!phone) {
-      alert("No contact number found for this driver.");
+      toast('No contact number found for this driver.', 'error');
       return;
     }
 
@@ -197,7 +210,7 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.driverId) {
-      alert("Please select a driver.");
+      toast('Please select a driver.', 'warning');
       return;
     }
 
@@ -385,7 +398,7 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
                 <div id="printable-slip" ref={slipRef} className="bg-white p-10 rounded-2xl shadow-sm border border-slate-200 mx-auto max-w-md print:shadow-none print:border-none print:p-0">
                   <div className="flex items-center justify-between mb-8">
                      {settings.companyLogo ? (
-                       <img src={settings.companyLogo} alt="Logo" className="w-16 h-16 object-contain rounded-2xl" referrerPolicy="no-referrer" />
+                       <img src={settings.companyLogo} alt="Logo" className="w-16 h-16 object-contain rounded-2xl" referrerPolicy="no-referrer" crossOrigin="anonymous" />
                      ) : (
                        <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black shadow-lg shadow-blue-100 rotate-3">FA</div>
                      )}
@@ -457,9 +470,11 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
                   <div className="p-3 bg-white rounded-xl shadow-sm text-slate-500 group-hover:text-blue-600 transition-colors"><Printer size={20}/></div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Print Slip</span>
                </button>
-               <button onClick={handleDownload} className="flex flex-col items-center gap-2 p-4 bg-[#F5F4F0] border border-slate-100 rounded-2xl hover:bg-slate-100 transition-all group">
-                  <div className="p-3 bg-white rounded-xl shadow-sm text-slate-500 group-hover:text-blue-600 transition-colors"><Download size={20}/></div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Download</span>
+               <button onClick={handleDownload} disabled={isDownloading} className="flex flex-col items-center gap-2 p-4 bg-[#F5F4F0] border border-slate-100 rounded-2xl hover:bg-slate-100 transition-all group disabled:opacity-60 disabled:cursor-not-allowed">
+                  <div className="p-3 bg-white rounded-xl shadow-sm text-slate-500 group-hover:text-blue-600 transition-colors">
+                     {isDownloading ? <Loader2 size={20} className="animate-spin"/> : <Download size={20}/>}
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{isDownloading ? 'Generating…' : 'Download'}</span>
                </button>
                <button 
                   onClick={() => handleWhatsAppShare(selectedSlip)}
@@ -472,6 +487,11 @@ const SalaryView: React.FC<SalaryViewProps> = ({ drivers, salaries, settings, ba
                   <span className="text-[10px] font-black uppercase tracking-widest text-green-600">Send WhatsApp</span>
                </button>
             </div>
+            {downloadError && (
+              <div className="px-8 pb-6 -mt-2 no-print">
+                <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{downloadError}</div>
+              </div>
+            )}
           </div>
         </div>
       )}

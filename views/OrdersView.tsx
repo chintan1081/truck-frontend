@@ -55,6 +55,7 @@ import {
 import { SearchableSelect } from "../components/SearchableSelect";
 import { QuickAddModal, QuickAddEntityType } from "../components/QuickAddModal";
 import { useFormErrors } from '../hooks/useFormErrors';
+import { useToast } from '../components/Toast';
 import {
   sendDriverWhatsAppNotification,
   sendAppNotification,
@@ -158,6 +159,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
   onAddDriver,
   onAddTruck,
 }) => {
+  const { toast, confirm: showConfirm } = useToast();
   const [quickAdd, setQuickAdd] = useState<{ type: QuickAddEntityType; initialName: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
@@ -168,11 +170,15 @@ const OrdersView: React.FC<OrdersViewProps> = ({
     startDate: new Date(new Date().setDate(1)).toISOString().split("T")[0], // 1st of current month
     endDate: new Date().toISOString().split("T")[0],
   });
+  const [isBulkExporting, setIsBulkExporting] = useState(false);
+  const [bulkExportError, setBulkExportError] = useState<string | null>(null);
   const [selectedOrderForChallan, setSelectedOrderForChallan] =
     useState<Order | null>(null);
   const [challanType, setChallanType] = useState<"TRANSPORTER" | "DELIVERY">(
     "TRANSPORTER",
   );
+  const [isDownloadingChallan, setIsDownloadingChallan] = useState(false);
+  const [challanError, setChallanError] = useState<string | null>(null);
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [assigningOrder, setAssigningOrder] = useState<Order | null>(null);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -623,7 +629,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
     // LOGIC 2: Maintenance Lock (Extra Security)
     if (selectedTruck.isMaintenanceMode || selectedTruck.status === 'MAINTENANCE') {
-      alert(`Critical Error: Asset ${selectedTruck.truckNumber} is currently under maintenance and cannot be dispatched.`);
+      toast(`Critical Error: Asset ${selectedTruck.truckNumber} is currently under maintenance and cannot be dispatched.`, 'error');
       return;
     }
 
@@ -671,7 +677,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
         } else {
           // If they cancel, we still advance but warn them? 
           // User asked for logic, prompt is a good way to ensure data.
-          alert("Warning: DC Number is missing for this picked-up order.");
+          toast('Warning: DC Number is missing for this picked-up order.', 'warning');
         }
       }
 
@@ -680,17 +686,50 @@ const OrdersView: React.FC<OrdersViewProps> = ({
   };
 
   const handlePrintChallan = () => {
-    window.print();
+    const el = document.getElementById('printable-challan');
+    if (!el) return;
+
+    // Collect all stylesheets from the current page
+    const styleLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+      .map((l) => `<link rel="stylesheet" href="${(l as HTMLLinkElement).href}">`)
+      .join('\n');
+    const inlineStyles = Array.from(document.querySelectorAll('style'))
+      .map((s) => `<style>${s.innerHTML}</style>`)
+      .join('\n');
+
+    const win = window.open('', '_blank', 'width=900,height=700');
+    if (!win) return;
+    win.document.write(`<!DOCTYPE html><html><head>
+      <meta charset="utf-8">
+      <title>Challan</title>
+      ${styleLinks}
+      ${inlineStyles}
+      <style>
+        * { box-sizing: border-box; }
+        body { background: white; margin: 0; padding: 0; }
+        @page { size: A4; margin: 0; }
+      </style>
+    </head><body style="display:flex;justify-content:center;">
+      <div style="width:210mm;min-height:296mm;padding:10mm;color:#000;font-family:sans-serif;box-sizing:border-box;">
+        ${el.innerHTML}
+      </div>
+    </body></html>`);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { win.print(); win.close(); }, 600);
   };
 
-  const handleDownloadPDF = () => {
-    if (!selectedOrderForChallan) return;
+  const handleDownloadPDF = async () => {
+    if (!selectedOrderForChallan || isDownloadingChallan) return;
     const element = document.getElementById("printable-challan");
-    if (!element) return;
+    if (!element) {
+      setChallanError("Could not find the challan to download. Please reopen it and try again.");
+      return;
+    }
 
     const opt = {
       margin: 0,
-      filename: `${challanType === "TRANSPORTER" ? "Transporter" : "Delivery"}-Challan-${selectedOrderForChallan.id}.pdf`,
+      filename: `${challanType === "TRANSPORTER" ? "Transporter" : "Delivery"}-Challan-${selectedOrderForChallan.orderNumber ?? selectedOrderForChallan.id}.pdf`,
       image: { type: "jpeg" as const, quality: 1.0 },
       html2canvas: {
         scale: 3,
@@ -709,7 +748,15 @@ const OrdersView: React.FC<OrdersViewProps> = ({
       pagebreak: { mode: "avoid-all" },
     };
 
-    html2pdf().set(opt).from(element).save();
+    setIsDownloadingChallan(true);
+    setChallanError(null);
+    try {
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
+      setChallanError("Failed to generate the challan PDF. Please try again.");
+    } finally {
+      setIsDownloadingChallan(false);
+    }
   };
 
   const handleWhatsAppChallan = (order: Order) => {
@@ -728,31 +775,6 @@ const OrdersView: React.FC<OrdersViewProps> = ({
 
   return (
     <div className="page-stack pb-10">
-      {/* CSS for print mode */}
-      <style>{`
-        @media print {
-          body * { visibility: hidden; }
-          #printable-challan, #printable-challan * { visibility: visible !important; }
-          #printable-challan {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 210mm !important;
-            height: 297mm !important;
-            margin: 0 !important;
-            padding: 10mm !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: white !important;
-            overflow: hidden !important;
-          }
-          .no-print { display: none !important; }
-          @page {
-            size: A4;
-            margin: 0;
-          }
-        }
-      `}</style>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -999,7 +1021,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="font-bold text-slate-900 text-lg leading-none">
-                            {order.id}
+                            Order #{order.orderNumber ?? '—'}
                           </h3>
                           {order.materialName && (
                             <div className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-lg text-[9px] font-black uppercase tracking-widest border border-blue-100">
@@ -1375,8 +1397,12 @@ const OrdersView: React.FC<OrdersViewProps> = ({
               </div>
 
               <div className="pt-4 flex flex-col gap-3">
+                {bulkExportError && (
+                  <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{bulkExportError}</div>
+                )}
                 <button
-                  onClick={() => {
+                  disabled={isBulkExporting}
+                  onClick={async () => {
                     const filtered = orders.filter((o) => {
                       const matchesClient =
                         bulkExportData.clientId === "ALL" ||
@@ -1389,14 +1415,17 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     });
 
                     if (filtered.length === 0) {
-                      alert("No orders found for the selected criteria.");
+                      setBulkExportError("No orders found for the selected criteria.");
                       return;
                     }
 
                     const element = document.getElementById(
                       "bulk-export-pdf-template",
                     );
-                    if (!element) return;
+                    if (!element) {
+                      setBulkExportError("Could not build the export template. Please try again.");
+                      return;
+                    }
 
                     const opt = {
                       margin: 0,
@@ -1410,12 +1439,20 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       },
                     };
 
-                    html2pdf().from(element).set(opt).save();
+                    setIsBulkExporting(true);
+                    setBulkExportError(null);
+                    try {
+                      await html2pdf().from(element).set(opt).save();
+                    } catch (err) {
+                      setBulkExportError("Failed to generate the bulk export PDF. Please try again.");
+                    } finally {
+                      setIsBulkExporting(false);
+                    }
                   }}
-                  className="w-full py-4 bg-blue-600 text-white rounded-xl font-black uppercase tracking-widest shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3"
+                  className="w-full py-4 bg-blue-600 text-white rounded-xl font-black uppercase tracking-widest shadow-md shadow-blue-500/20 hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Download size={20} />
-                  Generate Bulk PDF
+                  {isBulkExporting ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
+                  {isBulkExporting ? 'Generating…' : 'Generate Bulk PDF'}
                 </button>
                 <p className="text-[10px] text-center text-slate-400 font-bold uppercase">
                   {
@@ -1511,6 +1548,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       {settings.companyLogo ? (
                         <img
                           src={settings.companyLogo}
+                          crossOrigin="anonymous"
                           className="w-full object-contain"
                         />
                       ) : (
@@ -1748,17 +1786,18 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 {challanType} CHALLAN
               </h3>
               <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black rounded-lg border border-blue-100">
-                REF: {selectedOrderForChallan.id}
+                REF: Order #{selectedOrderForChallan.orderNumber ?? '—'}
               </span>
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={handleDownloadPDF}
-                className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 flex items-center gap-2 px-6"
+                disabled={isDownloadingChallan}
+                className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 flex items-center gap-2 px-6 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Download size={18} />
+                {isDownloadingChallan ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
                 <span className="text-xs font-black uppercase tracking-widest leading-none">
-                  Download PDF
+                  {isDownloadingChallan ? 'Generating…' : 'Download PDF'}
                 </span>
               </button>
               <button
@@ -1778,6 +1817,12 @@ const OrdersView: React.FC<OrdersViewProps> = ({
               </button>
             </div>
           </div>
+
+          {challanError && (
+            <div className="px-6 pt-4 bg-white border-b border-slate-200 no-print">
+              <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{challanError}</div>
+            </div>
+          )}
 
           <div className="flex-1 overflow-y-auto bg-slate-200/50 p-4 sm:p-8 no-print">
             <div
@@ -1817,6 +1862,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       <img
                         src={settings.companyLogo}
                         alt="Logo"
+                        crossOrigin="anonymous"
                         className="w-full h-full object-contain"
                       />
                     ) : (
@@ -2804,7 +2850,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                     ...trucks.filter(t => t.status === 'AVAILABLE' && !t.isMaintenanceMode).map((t) => ({
                       value: t.id,
                       label: t.truckNumber,
-                      sub: t.driverName ? `Driver: ${t.driverName}` : 'No Driver Assigned'
+                      sub: t.driverName && t.driverName !== 'Unassigned' ? `Driver: ${t.driverName}` : 'No Driver Assigned'
                     })),
                     ...trucks.filter(t => t.isMaintenanceMode).map((t) => ({
                       value: t.id,
@@ -2827,7 +2873,7 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                 <SearchableSelect
                   label="Select Route (TPS → Client)"
                   value={assignmentData.routeId ?? ""}
-                  onChange={(routeId) => {
+                  onChange={async (routeId) => {
                     const route = routes.find(r => r.id === routeId);
                     setAssignmentData({
                       ...assignmentData,
@@ -2839,8 +2885,9 @@ const OrdersView: React.FC<OrdersViewProps> = ({
                       const travelDays = Math.ceil(route.distanceKm / 400); // Assume 400km per day for transit safety
                       const suggestedDate = new Date();
                       suggestedDate.setDate(suggestedDate.getDate() + travelDays);
-                      
-                      if (window.confirm(`Suggested Delivery Date based on ${route.distanceKm}KM is ${suggestedDate.toISOString().split('T')[0]}. Update order?`)) {
+
+                      const ok = await showConfirm({ message: `Suggested Delivery Date based on ${route.distanceKm}KM is ${suggestedDate.toISOString().split('T')[0]}. Update order?`, confirmLabel: 'Update' });
+                      if (ok) {
                         onUpdateOrder({
                           ...assigningOrder,
                           deliveryDate: suggestedDate.toISOString().split('T')[0]

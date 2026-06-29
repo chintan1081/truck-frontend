@@ -30,6 +30,7 @@ import {
 import { Truck, Expense, Invoice, Employee, MaintenanceExpense, InvoiceStatus } from '../types';
 import { api } from '../services/api/client';
 import { safeStorage, safeJSONParse } from '../lib/storage';
+import { useToast } from '../components/Toast';
 import { jsPDF } from 'jspdf';
 import { 
   ResponsiveContainer, 
@@ -92,6 +93,7 @@ export default function MarketplaceView({
   maintenance = [],
   onAddInvoice
 }: MarketplaceViewProps) {
+  const { toast } = useToast();
   // Sub-tab state for when activeApp is null (Browse vs Billing Sync)
   const [marketplaceTab, setMarketplaceTab] = useState<'browse' | 'sync'>('browse');
 
@@ -593,12 +595,12 @@ Greetings! I am **Logigpt**, your intelligent transportation copilot. Here is a 
 
   const handleBillingSync = () => {
     if (totalUnsyncedAddonCost <= 0) {
-      alert("No unsynced addon usage costs found to reconcile.");
+      toast('No unsynced addon usage costs found to reconcile.', 'info');
       return;
     }
 
     if (!onAddInvoice) {
-      alert("Billing connection offline. Cannot sync with Billing Hub.");
+      toast('Billing connection offline. Cannot sync with Billing Hub.', 'error');
       return;
     }
 

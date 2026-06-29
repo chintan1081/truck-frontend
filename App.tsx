@@ -10,6 +10,7 @@ import {
 import Layout from './components/Layout';
 import LoginScreen from './components/LoginScreen';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastProvider } from './components/Toast';
 import { useAuth } from './services/auth/AuthContext';
 import { apiRequest, ApiError } from './services/api/client';
 import Dashboard from './views/Dashboard';
@@ -28,7 +29,7 @@ import InvoicesView from './views/InvoicesView';
 import AccountabilityView from './views/AccountabilityView';
 import DriverPortal from './views/DriverPortal';
 import ReportsView from './views/ReportsView';
-import MarketplaceView from './views/MarketplaceView';
+// import MarketplaceView from './views/MarketplaceView';
 import SupportView from './views/SupportView';
 import SettingsView from './views/SettingsView';
 
@@ -205,7 +206,7 @@ const AppRoutes: React.FC<AppState & AppHandlers> = (props) => {
         <Route path="/accountability" element={<AccountabilityView maintenance={maintenance} invoices={invoices} expenses={expenses} trucks={fleet} salaries={salaries} employeeSalaries={employeeSalaries} plantAdvances={plantAdvances} plantPool={plantAdvancePool} sites={sites} drivers={drivers} employees={employees} orders={orders} banks={banks} bankTransactions={bankTransactions} paymentRecords={paymentRecords} activeRole={activeRole} settings={settings} onAddExpense={(e) => handleUpdateExpenses(prev => [e, ...prev])} onUpdateExpense={(e) => handleUpdateExpenses(prev => prev.map(x => x.id === e.id ? e : x))} onDeleteExpense={(id) => handleUpdateExpenses(prev => prev.filter(e => e.id !== id))} onAddSalary={handleAddSalary} onUpdateSalary={handleUpdateSalary} onDeleteSalary={handleDeleteSalary} onAddEmployeeSalary={handleAddEmployeeSalary} onUpdateEmployeeSalary={handleUpdateEmployeeSalary} onDeleteEmployeeSalary={handleDeleteEmployeeSalary} onAddBankTransaction={(t) => handleUpdateBankTransactions(prev => [t, ...prev])} onUpdateBankTransaction={(t) => handleUpdateBankTransactions(prev => prev.map(x => x.id === t.id ? t : x))} onDeleteBankTransaction={(id) => handleUpdateBankTransactions(prev => prev.filter(t => t.id !== id))} onAddPaymentRecord={(r) => handleUpdatePaymentRecords(prev => [r, ...prev])} onUpdatePaymentRecord={(r) => handleUpdatePaymentRecords(prev => prev.map(x => x.id === r.id ? r : x))} onDeletePaymentRecord={(id) => handleUpdatePaymentRecords(prev => prev.filter(r => r.id !== id))} onUpdateInvoice={(i) => handleUpdateInvoices(prev => prev.map(x => x.id === i.id ? i : x))} />} />
         <Route path="/driver-portal" element={<DriverPortal orders={orders} routes={routes} settings={settings} fleet={fleet} sites={sites} onAddExpense={(e) => handleUpdateExpenses(prev => [e, ...prev])} onUpdateOrder={handleUpdateOrder} onAddOrder={handleAddOrder} />} />
         <Route path="/reports" element={<ReportsView orders={orders} expenses={expenses} salaries={salaries} invoices={invoices} emis={emis} maintenance={maintenance} fleet={fleet} clients={clients} brokers={brokers} plantAdvances={plantAdvances} pool={plantAdvancePool} sites={sites} />} />
-        <Route path="/marketplace" element={<MarketplaceView fleet={fleet} expenses={expenses} invoices={invoices} drivers={drivers} employees={employees} maintenance={maintenance} onAddInvoice={(i) => handleUpdateInvoices(prev => [i, ...prev])} />} />
+        {/* <Route path="/marketplace" element={<MarketplaceView fleet={fleet} expenses={expenses} invoices={invoices} drivers={drivers} employees={employees} maintenance={maintenance} onAddInvoice={(i) => handleUpdateInvoices(prev => [i, ...prev])} />} /> */}
         <Route path="/support" element={<SupportView />} />
         <Route path="/settings" element={<SettingsView settings={settings} onUpdateSettings={handleUpdateSettings} currentUser={user} />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
@@ -488,9 +489,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
-      <AppRoutes {...allState} {...allHandlers} />
-    </Router>
+    <ToastProvider>
+      <Router>
+        <AppRoutes {...allState} {...allHandlers} />
+      </Router>
+    </ToastProvider>
   );
 };
 

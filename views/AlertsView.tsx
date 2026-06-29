@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Truck as TruckType, CustomAlert, AlertCategory, AlertUrgency } from '../types';
 import { SearchableSelect } from '../components/SearchableSelect';
+import { useToast } from '../components/Toast';
 
 interface AlertsViewProps {
   fleet: TruckType[];
@@ -50,6 +51,7 @@ const CATEGORY_ICONS: Record<AlertCategory, any> = {
 };
 
 const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert, onUpdateAlert, onDeleteAlert, onUpdateFleet }) => {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<'AUTO' | 'CUSTOM'>('AUTO');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedTruckId, setSelectedTruckId] = useState<string>('ALL');
@@ -214,7 +216,7 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
           return t;
         });
         onUpdateFleet(updatedFleet);
-        window.alert(`Record updated for ${alertItem.truckNum}. Document is now compliant.`);
+        toast(`Record updated for ${alertItem.truckNum}. Document is now compliant.`, 'success');
       }
     } else if (alertItem.category === AlertCategory.MAINTENANCE) {
       const updatedFleet = fleet.map(t => {
@@ -224,7 +226,7 @@ const AlertsView: React.FC<AlertsViewProps> = ({ fleet, customAlerts, onAddAlert
         return t;
       });
       onUpdateFleet(updatedFleet);
-      window.alert(`Service log updated for ${alertItem.truckNum}. Schedule reset.`);
+      toast(`Service log updated for ${alertItem.truckNum}. Schedule reset.`, 'success');
     }
   };
 

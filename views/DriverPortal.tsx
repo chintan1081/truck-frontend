@@ -48,6 +48,7 @@ import {
 import { Order, Expense, ExpenseCategory, ExpenseStatus, AppSettings, TripStatus, Truck, Route } from '../types';
 import { MOCK_TRUCKS, MOCK_SITES } from '../constants';
 import { parseDieselBill } from '../services/geminiService';
+import { useToast } from '../components/Toast';
 
 interface DriverPortalProps {
   orders: Order[];
@@ -61,6 +62,7 @@ interface DriverPortalProps {
 }
 
 const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, fleet, sites, onAddExpense, onUpdateOrder, onAddOrder }) => {
+  const { toast, confirm: showConfirm } = useToast();
   const [activeTab, setActiveTab] = useState<'home' | 'routes' | 'dispatch' | 'wallet' | 'support' | 'additional' | 'health'>('home');
   const [isScanning, setIsScanning] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
@@ -119,10 +121,9 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
   }, [dieselForm.liters, currentTrip]);
 
   // Feature: SOS Function
-  const handleSOS = () => {
-    if (confirm("SEND EMERGENCY ALERT TO CONTROL TOWER? GPS Coordinates will be sent immediately.")) {
-      alert("SOS SENT. Dispatcher and Police notified. Help is on the way.");
-    }
+  const handleSOS = async () => {
+    const ok = await showConfirm({ title: 'Emergency', message: 'SEND EMERGENCY ALERT TO CONTROL TOWER? GPS Coordinates will be sent immediately.', confirmLabel: 'Send SOS', danger: true });
+    if (ok) toast('SOS SENT. Dispatcher and Police notified. Help is on the way.', 'error');
   };
 
   const handleDispatch = () => {
@@ -148,9 +149,9 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
     
     if (onAddOrder) {
       onAddOrder(newOrder);
-      alert("New trip self-assigned and route locked!");
+      toast('New trip self-assigned and route locked!', 'success');
     } else {
-      alert("Self-dispatch is not available right now. Please contact your dispatcher.");
+      toast('Self-dispatch is not available right now. Please contact your dispatcher.', 'warning');
     }
     setIsDispatchModalOpen(false);
   };
@@ -162,7 +163,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
       status: TripStatus.PICKED
     };
     onUpdateOrder(updatedOrder);
-    alert("Fly Ash Picked Up! Trip status updated to PICKED.");
+    toast('Fly Ash Picked Up! Trip status updated to PICKED.', 'success');
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,11 +204,9 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
   };
 
   return (
-    <div className={`min-h-screen -m-8 transition-colors duration-500 ${isNightMode ? 'bg-slate-950 text-slate-100' : 'bg-[#F5F4F0] text-slate-900'}`}>
-      <div className="max-w-md mx-auto pb-32">
-        
-        {/* TOP STATUS BAR */}
-        <div className={`p-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-md border-b transition-all ${isNightMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200'}`}>
+    <div className={`-m-6 min-h-full flex flex-col transition-colors duration-500 ${isNightMode ? 'bg-slate-950 text-slate-100' : 'bg-[#F5F4F0] text-slate-900'}`}>
+      {/* TOP STATUS BAR */}
+      <div className={`px-6 py-4 flex items-center justify-between sticky top-0 z-30 border-b transition-all ${isNightMode ? 'bg-slate-950/95 border-slate-800' : 'bg-white/95 border-slate-200'}`}>
            <div className="flex items-center gap-3">
               <button 
                 onClick={() => setIsMenuOpen(true)}
@@ -232,7 +231,8 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
         </div>
 
         {/* TAB CONTENT */}
-        <div className="p-6 space-y-6">
+        <div className="flex-1">
+        <div className="max-w-md mx-auto p-6 space-y-6 pb-24">
                       {activeTab === 'home' && (
              <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
                 {/* Driver Identity Card */}
@@ -319,7 +319,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
                         <div className="p-6 bg-blue-600 text-white flex justify-between items-center">
                            <div>
                               <p className="text-[9px] font-black uppercase tracking-widest opacity-70">Current Trip ID</p>
-                              <h4 className="text-xl font-black">{currentTrip.id}</h4>
+                              <h4 className="text-xl font-black">Order #{currentTrip.orderNumber ?? '—'}</h4>
                            </div>
                            <div className="flex gap-2">
                               <button onClick={() => window.open(`tel:919876543210`)} className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20"><Phone size={18}/></button>
@@ -377,7 +377,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
 
                            {/* Feature 4: Hazard & SOS */}
                            <div className="flex gap-2">
-                              <button onClick={() => alert("Hazard Reported")} className="flex-1 py-2 bg-red-50 text-red-600 rounded-lg text-[9px] font-black uppercase border border-red-100">Report Hazard</button>
+                              <button onClick={() => toast('Hazard Reported', 'warning')} className="flex-1 py-2 bg-red-50 text-red-600 rounded-lg text-[9px] font-black uppercase border border-red-100">Report Hazard</button>
                               <button onClick={handleSOS} className="flex-1 py-2 bg-red-600 text-white rounded-lg text-[9px] font-black uppercase shadow-lg">SOS Emergency</button>
                            </div>
                         </div>
@@ -402,7 +402,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
                                 <div>
                                    <div className="flex items-center gap-2 mb-1">
                                       <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[8px] font-black rounded uppercase">Assigned</span>
-                                      <p className="t-label leading-none">ID: {trip.id}</p>
+                                      <p className="t-label leading-none">Order #{trip.orderNumber ?? '—'}</p>
                                    </div>
                                    <h4 className="text-lg font-black">{trip.projectSite}</h4>
                                 </div>
@@ -424,7 +424,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
                                 </div>
                              </div>
 
-                             <button onClick={() => alert("This trip is scheduled after your active route.")} className="w-full py-3 bg-indigo-50 text-indigo-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">View Schedule</button>
+                             <button onClick={() => toast('This trip is scheduled after your active route.', 'info')} className="w-full py-3 bg-indigo-50 text-indigo-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">View Schedule</button>
                           </div>
                         ))}
                      </div>
@@ -467,7 +467,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
 
                              {/* Feature 6: Accept/Reject */}
                              <div className="flex gap-3">
-                                <button onClick={() => alert("Trip Requested from Pool")} className="flex-1 py-3 bg-slate-900 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg">Request Load</button>
+                                <button onClick={() => toast('Trip Requested from Pool', 'success')} className="flex-1 py-3 bg-slate-900 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg">Request Load</button>
                              </div>
                           </div>
                         ))}
@@ -538,7 +538,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
                       )}
                    </div>
 
-                   <form onSubmit={(e) => { e.preventDefault(); alert("Diesel logged. Waiting for Admin verification."); setActiveTab('home'); }} className="page-stack pb-10">
+                   <form onSubmit={(e) => { e.preventDefault(); toast('Diesel logged. Waiting for Admin verification.', 'success'); setActiveTab('home'); }} className="page-stack pb-10">
                       <input type="file" accept="image/*" capture="environment" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
                       
                       <button 
@@ -868,9 +868,10 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
              </div>
            )}
         </div>
+        </div>
 
         {/* BOTTOM NAV BAR */}
-        <div className={`fixed bottom-0 left-0 right-0 p-4 border-t z-50 flex items-center justify-center backdrop-blur-xl transition-all ${isNightMode ? 'bg-slate-950/90 border-slate-800' : 'bg-white/90 border-slate-100'}`}>
+        <div className={`sticky bottom-0 z-30 p-4 border-t flex items-center justify-center transition-all ${isNightMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-100'}`}>
            <div className={`flex items-center gap-1 p-1.5 rounded-2xl shadow-2xl ${isNightMode ? 'bg-slate-900 border border-slate-800' : 'bg-[#F5F4F0]'}`}>
               <NavBtn active={activeTab === 'home'} icon={Maximize} label="Home" onClick={() => setActiveTab('home')} night={isNightMode} />
               <NavBtn active={activeTab === 'routes'} icon={Navigation} label="Routes" onClick={() => setActiveTab('routes')} night={isNightMode} />
@@ -993,7 +994,7 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
                   };
                   onUpdateOrder(updatedOrder);
                   setShowPodModal(false);
-                  alert("Trip status updated to DELIVERED. Digital records archived.");
+                  toast('Trip status updated to DELIVERED. Digital records archived.', 'success');
                 }} className="w-full py-5 bg-green-600 text-white font-black rounded-2xl shadow-xl shadow-green-100 hover:bg-green-700 active:scale-95 transition-all">Submit Delivery Packet</button>
              </div>
           </div>
@@ -1032,8 +1033,8 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
                    
                    <div className="pt-8 mb-4">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-4 mb-4">System</p>
-                      <MenuLink icon={Settings} label="App Settings" active={false} onClick={() => { alert("Settings loaded"); setIsMenuOpen(false); }} night={isNightMode} />
-                      <MenuLink icon={LogOut} label="Log Out" active={false} onClick={() => confirm("Log out of Driver Portal?")} night={isNightMode} />
+                      <MenuLink icon={Settings} label="App Settings" active={false} onClick={() => { toast('Settings coming soon.', 'info'); setIsMenuOpen(false); }} night={isNightMode} />
+                      <MenuLink icon={LogOut} label="Log Out" active={false} onClick={async () => { const ok = await showConfirm({ message: 'Log out of Driver Portal?', confirmLabel: 'Log Out' }); if (ok) setIsMenuOpen(false); }} night={isNightMode} />
                    </div>
                 </div>
 
@@ -1050,7 +1051,6 @@ const DriverPortal: React.FC<DriverPortalProps> = ({ orders, routes, settings, f
           </div>
         )}
 
-      </div>
     </div>
   );
 };

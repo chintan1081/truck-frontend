@@ -71,6 +71,7 @@ export interface CustomAlert {
 
 export interface PlantAdvancePoolEntry {
   id: string;
+  entryNumber?: number;
   stationId: string; // Linked to a specific TPS
   employeeId?: string;
   employeeName?: string;
@@ -282,6 +283,7 @@ export interface Site {
 
 export interface Order {
   id: string;
+  orderNumber?: number;
   clientName: string;
   projectSite: string;
   quantity: number;
@@ -317,6 +319,7 @@ export interface Order {
   assignedTruckNumber?: string;
   driverName?: string;
   driverPhone?: string;
+  driverAcceptanceStatus?: 'PENDING' | 'ACCEPTED' | 'REJECTED';
 }
 
 export interface Driver {
@@ -339,6 +342,7 @@ export interface Driver {
   isOnline: boolean;
   lastLogin?: string;
   documents?: WorkforceDocument[];
+  portalAccessEnabled?: boolean;
 }
 
 export interface DriverSalary {

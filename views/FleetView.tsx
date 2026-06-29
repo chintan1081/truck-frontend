@@ -71,6 +71,7 @@ import {
 } from '../types';
 import { sendDriverWhatsAppNotification, sendAppNotification } from '../services/notificationService';
 import { calculateHealthScore } from '../lib/healthUtils';
+import { useToast } from '../components/Toast';
 
 interface FleetViewProps {
   fleet: Truck[];
@@ -103,6 +104,7 @@ const FleetView: React.FC<FleetViewProps> = ({
   sites = [],
   clients = []
 }) => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'AVAILABLE' | 'ON_TRIP' | 'MAINTENANCE'>('ALL');
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
@@ -253,7 +255,7 @@ const FleetView: React.FC<FleetViewProps> = ({
           maintenanceReason: undefined,
           nextServiceDate: undefined
         });
-        alert("Truck returned to Available fleet.");
+        toast('Truck returned to Available fleet.', 'success');
       }
     } else {
       setSelectedTruck(truck);
@@ -271,7 +273,7 @@ const FleetView: React.FC<FleetViewProps> = ({
       nextServiceDate: maintenanceData.nextServiceDate
     });
     setIsMaintenanceModalOpen(false);
-    alert("Truck marked for Maintenance.");
+    toast('Truck marked for Maintenance.', 'warning');
   };
 
   const confirmAssignment = async () => {
@@ -711,7 +713,7 @@ const FleetView: React.FC<FleetViewProps> = ({
                    <div>
                       <h3 className="text-2xl font-black text-[#1C1917] tracking-tight">{selectedTruck.truckNumber}</h3>
                       <div className="flex items-center gap-3 mt-1">
-                         <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Full Dossier • Fleet Asset #{selectedTruck.id.slice(-4)}</p>
+                         <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Full Dossier • Fleet Asset #{selectedTruck.trackingId || selectedTruck.truckNumber}</p>
                          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-md border border-emerald-100">
                             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                             <span className="text-[9px] font-black uppercase tracking-widest text-emerald-700">Live Vault Sync</span>

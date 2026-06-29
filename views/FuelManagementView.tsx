@@ -28,7 +28,8 @@ import {
   CheckCircle2,
   AlertCircle,
   Edit,
-  Trash2
+  Trash2,
+  Loader2
 } from 'lucide-react';
 import { FuelSite, FuelTransaction, Truck as TruckType, Driver, Expense, ExpenseCategory, ExpenseStatus, Order, Client, Site, Bank } from '../types';
 import { QuickAddModal, QuickAddEntityType } from '../components/QuickAddModal';
@@ -1910,14 +1911,17 @@ const FuelSlipModal: React.FC<{
   transaction: FuelTransaction | null;
 }> = ({ isOpen, onClose, transaction }) => {
   const [downloadError, setDownloadError] = React.useState<string | null>(null);
+  const [isDownloading, setIsDownloading] = React.useState(false);
 
   if (!isOpen || !transaction) return null;
 
   const handleDownload = async () => {
+    if (isDownloading) return;
     setDownloadError(null);
     const element = document.getElementById('fuel-slip-content');
     if (!element) return;
 
+    setIsDownloading(true);
     try {
       // Create a temporary clone to ensure consistent width during capture
       const clone = element.cloneNode(true) as HTMLElement;
@@ -1967,6 +1971,8 @@ const FuelSlipModal: React.FC<{
     } catch (error) {
       console.error('Error generating PDF:', error);
       setDownloadError('Could not generate the PDF. Please try again or use the print option.');
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -2180,10 +2186,11 @@ const FuelSlipModal: React.FC<{
             </button>
             <button
               onClick={handleDownload}
-              className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-2xl text-sm font-black shadow-md shadow-blue-500/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"
+              disabled={isDownloading}
+              className="flex-[2] px-8 py-4 bg-blue-600 text-white rounded-2xl text-sm font-black shadow-md shadow-blue-500/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <Download size={18} />
-              Export PDF
+              {isDownloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
+              {isDownloading ? 'Generating…' : 'Export PDF'}
             </button>
          </div>
       </div>
@@ -2242,7 +2249,7 @@ const FuelLogModal: React.FC<{
   const vehicleOptions = trucks.map(t => ({
     value: t.id,
     label: `${t.truckNumber} (${t.modelNumber})`,
-    sub: t.driverName ? `Assigned: ${t.driverName}` : 'No driver default'
+    sub: t.driverName && t.driverName !== 'Unassigned' ? `Assigned: ${t.driverName}` : 'No driver assigned'
   }));
 
   const driverOptions = drivers.map(d => ({

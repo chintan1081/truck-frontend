@@ -249,7 +249,9 @@ const ExpensesView: React.FC<ExpensesViewProps> = ({
     setFormData({
       ...exp,
       amount: Number(exp.amount) || 0,
-    });
+      liters: exp.liters != null ? Number(exp.liters) : undefined,
+      rate: exp.rate != null ? Number(exp.rate) : undefined,
+    } as any);
     setIsEditing(true);
     setIsModalOpen(true);
   };
